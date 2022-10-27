@@ -4,7 +4,7 @@ namespace DO;
     {
     private readonly int Id { get; }
     public string Name { get; set; }
-    public int Price { get; set; }
+    public double Price { get; set; }
     public int InStock { get; set; }
     public eCategory Category { get; set; }
     public override string ToString() => $@"
