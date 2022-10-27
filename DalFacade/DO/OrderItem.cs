@@ -1,5 +1,5 @@
 ﻿
 namespace DO;
-    public struct OrderItem
-    {
-    }
+public struct OrderItem
+{
+}

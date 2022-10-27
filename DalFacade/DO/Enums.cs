@@ -1,6 +1,12 @@
 ﻿
 namespace DO;
-    internal class Enums
-    {
-    }
+public enum eCategory
+{
+    Siddur,
+    Tehillim,
+    Shabbat,
+    Chaggim,
+    Others
+}
+
 
