@@ -13,7 +13,12 @@ namespace DO;
             Price = price;
             Amount = amount;
         }
-    }
+    public override string ToString() => $@"
+            product ID: {ProductId}
+            order ID: {OrderId}
+            price: {Price}
+            amount: {Amount} ";
+     }
 
 
 
