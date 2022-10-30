@@ -2,22 +2,22 @@
 namespace DO;
     public struct OrderItem
     {
-        public int ProductId { get; }
-        public int OrderId { get; }
-        public float Price { get; set; }
-        public int Amount { get; set; }
-        public OrderItem(int productId , int orderId ,float price , int amount)
+        public int productId { get; }
+        public int orderId { get; }
+        public float price { get; set; }
+        public int amount { get; set; }
+        public OrderItem(int _productId , int _orderId ,float _price , int _amount)
         {
-            ProductId = productId;
-            OrderId = orderId;
-            Price = price;
-            Amount = amount;
+            productId = _productId;
+            orderId = _orderId;
+            price = _price;
+            amount = _amount;
         }
     public override string ToString() => $@"
-            product ID: {ProductId}
-            order ID: {OrderId}
-            price: {Price}
-            amount: {Amount} ";
+            product ID: {productId}
+            order ID: {orderId}
+            price: {price}
+            amount: {amount} ";
      }
 
 
