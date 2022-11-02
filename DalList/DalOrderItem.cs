@@ -18,7 +18,7 @@ internal class DalOrderItem
 
     public static OrderItem ReadOrderItem(int id)
     {
-        for (int i = 0; i <= DataSource.Config.orderItemArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].id == id)
                 return DataSource.orderItemArr[i];
@@ -28,7 +28,7 @@ internal class DalOrderItem
 
     public static OrderItem ReadOrderItem(int pId,int oId)
     {
-        for (int i = 0; i <= DataSource.Config.orderItemArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if ((DataSource.orderItemArr[i].productId == pId) &&(DataSource.orderItemArr[i].orderId == oId))
                 return DataSource.orderItemArr[i];
@@ -72,7 +72,7 @@ internal class DalOrderItem
 
     public static OrderItem UpdateOrderItem(OrderItem orderItem)
     {
-        for (int i = 0; i <= DataSource.Config.orderItemArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].id == orderItem.id)
             {
@@ -84,7 +84,7 @@ internal class DalOrderItem
 
     public static void DeleteOrderItem(int id)
     {
-        for (int i = 0; i <= DataSource.Config.orderItemArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].id == id)
             {

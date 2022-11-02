@@ -17,7 +17,7 @@ namespace Dal;
 
     public static Product ReadProduct(int id)
     {
-        for (int i = 0; i <= DataSource.Config.productArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
             if (DataSource.productArr[i].id == id)
                 return DataSource.productArr[i];
@@ -37,7 +37,7 @@ namespace Dal;
 
     public static Product UpdateProduct(Product product)
     {
-        for (int i = 0; i <= DataSource.Config.productArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
             if (DataSource.productArr[i].id == product.id)
             {
@@ -49,7 +49,7 @@ namespace Dal;
 
     public static void DeleteProduct(int id)
     {
-        for (int i = 0; i <= DataSource.Config.productArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
             if (DataSource.productArr[i].id == id)
             {

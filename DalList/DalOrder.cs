@@ -16,7 +16,7 @@ internal class DalOrder
 
     public static Order ReadOrder(int id)
     {
-        for(int i=0; i<= DataSource.Config.orderArrIdx; i++)
+        for(int i=0; i < DataSource.Config.orderArrIdx; i++)
         {
             if (DataSource.orderArr[i].id == id)
                 return DataSource.orderArr[i];
@@ -36,7 +36,7 @@ internal class DalOrder
 
     public static Order UpdateOrder(Order order)
     {
-        for (int i = 0; i <= DataSource.Config.orderArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
             if (DataSource.orderArr[i].id == order.id)
             {
@@ -48,7 +48,7 @@ internal class DalOrder
 
     public static void DeleteOrder(int id)
     {
-        for (int i = 0; i <= DataSource.Config.orderArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
             if (DataSource.orderArr[i].id == id)
             {
