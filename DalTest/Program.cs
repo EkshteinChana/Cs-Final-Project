@@ -7,7 +7,7 @@ using Dal;
 using DO;
 char choice;
 
-//Order functions
+//=========================== Order functions
 void addOrder()
 {
     string oCustomerName, oCustomerEmail, oCustomerAddress;
@@ -16,7 +16,7 @@ void addOrder()
     TimeSpan daysUntillShip, daysUntilDelivery;
     Random rnd = new Random();
 
-    Console.WriteLine("Enter your details:\n name-");
+    Console.WriteLine("\nEnter your details:\n name-");
     oCustomerName = Console.ReadLine();
     Console.WriteLine("email-");
     oCustomerEmail = Console.ReadLine();
@@ -34,6 +34,65 @@ void addOrder()
     Order newOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
     DalOrder.CreateOrder(newOrder);
 }
+
+void watchOrder()
+{
+    Console.WriteLine("\nEnter the order ID for watching: ");
+    int oId = Convert.ToInt32(Console.ReadLine());
+    Order tmpOrder = DalOrder.ReadOrder(oId);
+    Console.WriteLine(tmpOrder+"\n");
+}
+
+void watchOrderList()
+{
+   
+    DalOrder.ReadOrder();
+}
+
+void updateOrder()
+{
+    Console.WriteLine("\nEnter the order id you want to update: ");
+
+}
+
+//==================================== Product functions
+void addProduct()
+{
+    string name;
+    int category ;
+    int inStock;
+    double price;
+
+    Console.WriteLine("Enter the product details:\n name-");
+    name = Console.ReadLine();
+    Console.WriteLine("category-");
+    category = Convert.ToInt32(Console.ReadLine();
+    Console.WriteLine("price-");
+    price = Convert.ToDouble(Console.ReadLine());
+    Console.WriteLine("inStock-");
+    inStock = Convert.ToInt32(Console.ReadLine());
+
+    bool notExists;
+    int id;
+    do      //Rand id and make sure is unique in the array 
+    {
+        notExists = true;
+        Random rnd = new Random();
+        id = rnd.Next(100000, 1000000);
+        for (int j = 0; j < DataSource.Config.productArrIdx; j++)
+        {
+            if (DataSource.productArr[j].id == id)
+            {
+                notExists = false;
+                break;
+            }
+        }
+    } while (!notExists);
+    Product newProduct = new Product(id, name, price, inStock, category);
+    DalProduct.CreateProduct(newProduct);
+}
+
+//==================================== Menue
 void menue(string type)
 {
     string specialOptions = ".";
@@ -52,6 +111,7 @@ void menue(string type)
             e for deleting an {type} from the {type}s list
             {specialOptions}
             ");
+    
     choice = Console.ReadKey().KeyChar;
     if (type == "order")
     {
@@ -61,8 +121,15 @@ void menue(string type)
                 addOrder();
                 break;
             case 'b':
-
+                watchOrder();
                 break;
+            case 'c':
+                watchOrderList();
+                break;
+            case 'd':
+                updateOrder();
+                break;
+
 
         }
     }
@@ -70,6 +137,8 @@ void menue(string type)
 
 void main()
 {
+
+    //DataSource.s_intilize();
     bool toContinue = true;
     while (toContinue)
     {
@@ -93,7 +162,7 @@ void main()
         }
         catch( Exception errMsg)
         {
-            Console.WriteLine(errMsg+"\n");
+            Console.WriteLine(errMsg.Message+"\n");
         }
     
     }

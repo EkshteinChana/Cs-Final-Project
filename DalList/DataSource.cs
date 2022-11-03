@@ -4,12 +4,12 @@ using DO;
 namespace Dal;
 public static class DataSource
 {
-    internal const int MaxOrder = 100;
-    internal const int MaxProduct = 50;
-    internal const int MaxOrderItem = 200;
-    internal static Order[] orderArr = new Order[MaxOrder];
-    internal static Product[] productArr = new Product[MaxProduct];
-    internal static OrderItem[] orderItemArr = new OrderItem[MaxOrderItem];
+    public const int MaxOrder = 100;
+    public const int MaxProduct = 50;
+    public const int MaxOrderItem = 200;
+    public static Order[] orderArr = new Order[MaxOrder];
+    public static Product[] productArr = new Product[MaxProduct];
+    public static OrderItem[] orderItemArr = new OrderItem[MaxOrderItem];
 
     public static class Config
     {
@@ -178,7 +178,6 @@ public static class DataSource
                         }
                     } while (exist);
                 productId = productArr[pIdx].id;
-                price = productArr[pIdx].price;
                 int amountOfProduct= rnd.Next(1, 10);
                 if(amountOfProduct<= productArr[pIdx].inStock)
                 {
@@ -189,6 +188,7 @@ public static class DataSource
                     amount = productArr[pIdx].inStock;
                 }
                 productArr[pIdx].inStock -= amount;
+                price = amount * productArr[pIdx].price; 
                 OrderItem orderItem = new OrderItem(id,productId, orderId, price, amount);
                 orderItemArr[Config.orderItemArrIdx++] = orderItem;
             }                 
