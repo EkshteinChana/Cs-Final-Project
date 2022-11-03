@@ -9,6 +9,7 @@ public struct OrderItem
     public int amount { get; set; }
     
     public override string ToString() => $@"
+            ID: {id}
             product ID: {productId}
             order ID: {orderId}
             price: {price}

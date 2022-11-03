@@ -14,14 +14,15 @@ void addOrder()
     int numDays, oId;
     DateTime oDate, shipDate, deliveryDate;
     TimeSpan daysUntillShip, daysUntilDelivery;
-
     Random rnd = new Random();
+
     Console.WriteLine("Enter your details:\n name-");
     oCustomerName = Console.ReadLine();
     Console.WriteLine("email-");
     oCustomerEmail = Console.ReadLine();
     Console.WriteLine("address-");
     oCustomerAddress = Console.ReadLine();
+
     oId = DataSource.Config.MaxOrderId;
     oDate = DateTime.Now;
     numDays = rnd.Next(1, 5);
@@ -30,9 +31,8 @@ void addOrder()
     numDays = rnd.Next(3, 8);
     daysUntilDelivery = TimeSpan.FromDays(numDays);
     deliveryDate = shipDate + daysUntilDelivery;
-    //id, string _customerName, string _customerEmail, string _customerAddress, DateTime _orderDate,DateTime _shipDate, DateTime _deliveryDate)
-    Order tmpOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, );
-
+    Order newOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
+    DalOrder.CreateOrder(newOrder);
 }
 void menue(string type)
 {
@@ -46,8 +46,8 @@ void menue(string type)
     Console.WriteLine($@"
             Choose the following action:
             a for adding an {type},
-            b for display an {type},
-            c for display the {type}s list,
+            b for watching an {type},
+            c for watching the {type}s list,
             d for updating an {type},
             e for deleting an {type} from the {type}s list
             {specialOptions}
@@ -60,6 +60,9 @@ void menue(string type)
             case 'a':   // add
                 addOrder();
                 break;
+            case 'b':
+
+                break;
 
         }
     }
@@ -70,21 +73,29 @@ void main()
     bool toContinue = true;
     while (toContinue)
     {
-        Console.WriteLine(" Press 0 to exit,\n" +
+        try
+        {
+            Console.WriteLine(" Press 0 to exit,\n" +
             " 1 to check the orders list,\n " +
             " 2 to check the products list,\n" +
             " 3 to check the orders items list. ");
-        choice = Console.ReadKey().KeyChar;
-        switch (choice)
-        {
-            case '0':
-                toContinue = false;
-                break;
-            case '1':
-                menue("order");
-                break;
+            choice = Console.ReadKey().KeyChar;
+            switch (choice)
+            {
+                case '0':
+                    toContinue = false;
+                    break;
+                case '1':
+                    menue("order");
+                    break;
 
+            }
         }
+        catch( Exception errMsg)
+        {
+            Console.WriteLine(errMsg+"\n");
+        }
+    
     }
 }
 
