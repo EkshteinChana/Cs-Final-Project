@@ -2,7 +2,7 @@
 
 namespace Dal;
 
-internal class DalOrder
+public static class DalOrder
 {
     public static int CreateOrder(Order order)
     {
@@ -26,8 +26,8 @@ internal class DalOrder
 
     public static Order[] ReadOrder()
     {
-        Order[] tmpOrderArr = new Order[DataSource.orderArr.Length];
-        for (int i = 0; i < DataSource.orderArr.Length; i++)
+        Order[] tmpOrderArr = new Order[DataSource.Config.orderArrIdx];
+        for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
             tmpOrderArr[i] = DataSource.orderArr[i];               
         }

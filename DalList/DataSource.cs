@@ -2,7 +2,7 @@
 using DO;
 
 namespace Dal;
-internal static class DataSource
+public static class DataSource
 {
     internal const int MaxOrder = 100;
     internal const int MaxProduct = 50;
@@ -11,7 +11,7 @@ internal static class DataSource
     internal static Product[] productArr = new Product[MaxProduct];
     internal static OrderItem[] orderItemArr = new OrderItem[MaxOrderItem];
 
-    internal static class Config
+    public static class Config
     {
         internal static int productArrIdx = 0;
         internal static int orderItemArrIdx = 0;
@@ -154,7 +154,7 @@ internal static class DataSource
         double price;
         int amount;
 
-        for (int i = 0; i < orderArr.Length; i++) // Create 1-4 orderItems for each order
+        for (int i = 0; i < Config.orderArrIdx; i++) // Create 1-4 orderItems for each order
         {
             Random rnd = new Random();
             int sumDifProducts = rnd.Next(1, 5); // the sum of the different typs products in the order
@@ -167,7 +167,7 @@ internal static class DataSource
                 do
                 {
                     exist = false;
-                    pIdx = rnd.Next(0, productArr.Length);  // pIdx is the location in the Products array
+                    pIdx = rnd.Next(0, Config.productArrIdx);  // pIdx is the location in the Products array
                     int pBarcode = productArr[pIdx].id; 
                         for (int k = 0; k < j ; k++)
                         {

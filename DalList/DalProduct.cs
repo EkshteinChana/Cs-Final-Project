@@ -2,7 +2,7 @@
 
 namespace Dal;
 
-  internal class DalProduct
+public static class DalProduct
     {
 
     public static int CreateProduct(Product product)
@@ -27,8 +27,8 @@ namespace Dal;
 
     public static Product[] ReadProduct()
     {
-        Product[] tmpProductArr = new Product[DataSource.productArr.Length];
-        for (int i = 0; i < DataSource.productArr.Length; i++)
+        Product[] tmpProductArr = new Product[DataSource.Config.productArrIdx];
+        for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
             tmpProductArr[i] = DataSource.productArr[i];
         }

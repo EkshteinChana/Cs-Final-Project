@@ -3,7 +3,7 @@ using DO;
 
 namespace Dal;
 
-internal class DalOrderItem
+ public static class DalOrderItem
 {
 
     public static int CreateOrderItem(OrderItem orderItem)
@@ -38,8 +38,8 @@ internal class DalOrderItem
 
     public static OrderItem[] ReadOrderItem()
     {
-        OrderItem[] tmpOrderItemArr = new OrderItem[DataSource.orderItemArr.Length];
-        for (int i = 0; i < DataSource.orderItemArr.Length; i++)
+        OrderItem[] tmpOrderItemArr = new OrderItem[DataSource.Config.orderItemArrIdx];
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             tmpOrderItemArr[i] = DataSource.orderItemArr[i];
         }
@@ -50,7 +50,7 @@ internal class DalOrderItem
     {       
         ///?????????????????????
         int j = 0;
-        for (int i = 0; i < DataSource.orderItemArr.Length; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].orderId == oId)
                 j++;
@@ -62,7 +62,7 @@ internal class DalOrderItem
         OrderItem[] tmpOrderItemArr = new OrderItem[j];
         ///?????????????????????
         j = 0;
-        for (int i = 0; i < DataSource.orderItemArr.Length; i++)
+        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].orderId == oId)
                 tmpOrderItemArr[j++] = DataSource.orderItemArr[i];
