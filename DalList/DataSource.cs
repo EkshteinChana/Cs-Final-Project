@@ -13,9 +13,9 @@ public static class DataSource
 
     public static class Config
     {
-        internal static int productArrIdx = 0;
-        internal static int orderItemArrIdx = 0;
-        internal static int orderArrIdx = 0;
+        public static int productArrIdx = 0;
+        public static int orderItemArrIdx = 0;
+        public static int orderArrIdx = 0;
 
         private static int maxOrderItemId = 1;
         public static int MaxOrderItemId { get { return maxOrderItemId++; } }

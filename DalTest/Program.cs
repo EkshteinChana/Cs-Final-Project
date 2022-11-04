@@ -40,36 +40,79 @@ void watchOrder()
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
     Order tmpOrder = DalOrder.ReadOrder(oId);
-    Console.WriteLine(tmpOrder+"\n");
+    Console.WriteLine(tmpOrder + "\n");
 }
 
 void watchOrderList()
 {
-   
-    DalOrder.ReadOrder();
+    int size = DataSource.Config.orderArrIdx;
+    Order[] ordList = new Order[size];
+    ordList = DalOrder.ReadOrder();
+    for (int i = 0; i < size; i++)
+    {
+        Console.WriteLine("\n" + ordList[i]);
+    }
 }
 
 void updateOrder()
 {
-    Console.WriteLine("\nEnter the order id you want to update: ");
+    string oCustomerName, oCustomerEmail, oCustomerAddress;
+    DateTime oDate, shipDate, deliveryDate;
+    int numDays, oId;
 
+    Console.WriteLine("\nEnter the order id you want to update: ");
+    oId = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\nEnter your details:\n name- ");
+    oCustomerName = Console.ReadLine();
+    Console.WriteLine("\nemail- ");
+    oCustomerEmail = Console.ReadLine();
+    Console.WriteLine("\naddress- ");
+    oCustomerAddress = Console.ReadLine();
+    oDate = DataSource.orderArr[oId].orderDate;
+    Console.WriteLine("\nEnter the order shipping date: ");
+    bool correctInput = false;
+    correctInput = DateTime.TryParse(Console.ReadLine(), out shipDate);
+    if (!correctInput)
+    {
+        throw new Exception("\nYou have entered an incorrect shipDate.");
+    }
+    Console.WriteLine("\nEnter the order delivering date: ");
+    correctInput = DateTime.TryParse(Console.ReadLine(), out deliveryDate);
+    if (!correctInput)
+    {
+        throw new Exception("\nYou have entered an incorrect deliveryDate.");
+    }
+    Order tmpOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
+    DalOrder.UpdateOrder(tmpOrder);
+}
+
+void deleteOrder()
+{
+    Console.WriteLine("\nEnter the ID of the order you want to delete: ");
+    int oId = Convert.ToInt32(Console.ReadLine());
+    DalOrder.DeleteOrder(oId);
+}
+
+void watchAllItemsInOrd()
+{
+    Console.WriteLine();
 }
 
 //==================================== Product functions
 void addProduct()
 {
     string name;
-    int category ;
+    int category;
     int inStock;
     double price;
 
     Console.WriteLine("Enter the product details:\n name-");
     name = Console.ReadLine();
-    Console.WriteLine("category-");
-    category = Convert.ToInt32(Console.ReadLine();
-    Console.WriteLine("price-");
+    Console.WriteLine("\ncategory- ");
+    category = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\nprice- ");
     price = Convert.ToDouble(Console.ReadLine());
-    Console.WriteLine("inStock-");
+    Console.WriteLine("\ninStock- ");
     inStock = Convert.ToInt32(Console.ReadLine());
 
     bool notExists;
@@ -88,7 +131,7 @@ void addProduct()
             }
         }
     } while (!notExists);
-    Product newProduct = new Product(id, name, price, inStock, category);
+    Product newProduct = new Product(id, name, price, inStock, (eCategory)category);
     DalProduct.CreateProduct(newProduct);
 }
 
@@ -96,11 +139,11 @@ void addProduct()
 void menue(string type)
 {
     string specialOptions = ".";
-    if (type == "order item") { specialOptions = "f for display all the items of existing orders. "; };
+    if (type == "order item") { specialOptions = "f for watching all the items of existing orders. "; };
     if (type == "order")
     {
-        specialOptions = "f for display all the items in the order " +
-                         "g for display a specific item of the order.";
+        specialOptions = "f for watching all the items in the order " +
+                         "g for watching a specific item of the order.";
     }
     Console.WriteLine($@"
             Choose the following action:
@@ -111,7 +154,7 @@ void menue(string type)
             e for deleting an {type} from the {type}s list
             {specialOptions}
             ");
-    
+
     choice = Console.ReadKey().KeyChar;
     if (type == "order")
     {
@@ -129,8 +172,14 @@ void menue(string type)
             case 'd':
                 updateOrder();
                 break;
-
-
+            case 'e':
+                deleteOrder();
+                break;
+            case 'f':
+                watchAllItemsInOrd();
+                break;
+            case 'g':
+                break;
         }
     }
 }
@@ -160,11 +209,11 @@ void main()
 
             }
         }
-        catch( Exception errMsg)
+        catch (Exception errMsg)
         {
-            Console.WriteLine(errMsg.Message+"\n");
+            Console.WriteLine(errMsg.Message + "\n");
         }
-    
+
     }
 }
 
