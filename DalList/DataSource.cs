@@ -2,7 +2,7 @@
 using DO;
 
 namespace Dal;
-public static class DataSource
+public class DataSource
 {
     public const int MaxOrder = 100;
     public const int MaxProduct = 50;
@@ -114,13 +114,13 @@ public static class DataSource
             Random rnd = new Random();
             int idx = rnd.Next(0,5);  // Rand who will be the customer of the current order
             (oCustomerName, oCustomerEmail, oCustomerAddress) = CustomerDetails[idx];
-            rnd = new Random();//??
+            rnd = new Random();
             int numDays = rnd.Next(20, 30);
-            TimeSpan daysBefore = TimeSpan.FromDays(numDays);//????
+            TimeSpan daysBefore = TimeSpan.FromDays(numDays);
             oOrderDate = DateTime.Now - daysBefore;
             if (i%10<8)  // 80% have ship date
             {
-                numDays = rnd.Next(1, 5);//??
+                numDays = rnd.Next(1, 5);
                 TimeSpan daysUntillShip = TimeSpan.FromDays(numDays);
                 oShipDate = oOrderDate + daysUntillShip;
                 if (i % 10 < 6)// 60% from them have delivery date

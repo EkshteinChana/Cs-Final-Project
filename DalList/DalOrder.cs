@@ -6,7 +6,7 @@ public static class DalOrder
 {
     public static int CreateOrder(Order order)
     {
-        if(DataSource.Config.orderArrIdx== DataSource.MaxOrder)
+        if (DataSource.Config.orderArrIdx == DataSource.MaxOrder)
         {
             throw new Exception("The order set is full, it is not possible to add an order");
         }
@@ -16,12 +16,12 @@ public static class DalOrder
 
     public static Order ReadOrder(int id)
     {
-        for(int i=0; i < DataSource.Config.orderArrIdx; i++)
+        for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
             if (DataSource.orderArr[i].id == id)
                 return DataSource.orderArr[i];
         }
-            throw new Exception("No order exists with this ID ");    
+        throw new Exception("No order exists with this ID ");
     }
 
     public static Order[] ReadOrder()
@@ -29,21 +29,26 @@ public static class DalOrder
         Order[] tmpOrderArr = new Order[DataSource.Config.orderArrIdx];
         for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
-            tmpOrderArr[i] = DataSource.orderArr[i];               
+            tmpOrderArr[i] = DataSource.orderArr[i];
         }
         return tmpOrderArr;
     }
 
-    public static Order UpdateOrder(Order order)
+    public static void UpdateOrder(Order order)
     {
-        for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
+        int i;
+        for (i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
             if (DataSource.orderArr[i].id == order.id)
             {
                 DataSource.orderArr[i] = order;
-            }               
+                return;
+            }
         }
-        throw new Exception("No order exists with this ID ");
+        if (i == DataSource.Config.orderArrIdx)
+        {
+            throw new Exception("No order exists with this ID ");
+        }
     }
 
     public static void DeleteOrder(int id)
@@ -52,13 +57,13 @@ public static class DalOrder
         {
             if (DataSource.orderArr[i].id == id)
             {
-                DataSource.orderArr[i] = DataSource.orderArr[DataSource.Config.orderArrIdx];
+                DataSource.orderArr[i] = DataSource.orderArr[DataSource.Config.orderArrIdx-1];
                 DataSource.Config.orderArrIdx -= 1;
-                break;
+                return;
             }
         }
         throw new Exception("No order exists with this ID ");
     }
 
-}   
+}
 

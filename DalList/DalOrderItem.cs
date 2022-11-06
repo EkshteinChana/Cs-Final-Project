@@ -67,16 +67,21 @@ namespace Dal;
         return tmpOrderItemArr;
     }
 
-    public static OrderItem UpdateOrderItem(OrderItem orderItem)
+    public static void UpdateOrderItem(OrderItem orderItem)
     {
-        for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
+        int i;
+        for (i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
             if (DataSource.orderItemArr[i].id == orderItem.id)
             {
                 DataSource.orderItemArr[i] = orderItem;
+                return;
             }
         }
-        throw new Exception("No orderItem exists with this ID ");
+        if (i == DataSource.Config.orderArrIdx)
+        {
+            throw new Exception("No orderItem exists with this ID ");
+        }
     }
 
     public static void DeleteOrderItem(int id)
@@ -85,9 +90,9 @@ namespace Dal;
         {
             if (DataSource.orderItemArr[i].id == id)
             {
-                DataSource.orderItemArr[i] = DataSource.orderItemArr[DataSource.Config.orderItemArrIdx];
+                DataSource.orderItemArr[i] = DataSource.orderItemArr[DataSource.Config.orderItemArrIdx-1];
                 DataSource.Config.orderItemArrIdx -= 1;
-                break;
+                return;
             }
         }
         throw new Exception("No orderItem exists with this ID ");

@@ -12,7 +12,7 @@ public struct OrderItem
             ID: {id}
             product ID: {productId}
             order ID: {orderId}
-            price: {price}
+            price*amount: {price}
             amount: {amount} ";
 
     public OrderItem(int _id, int _productId, int _orderId, double _price, int _amount)

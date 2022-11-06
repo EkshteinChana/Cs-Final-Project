@@ -8,6 +8,7 @@ using DO;
 using System.Xml.Linq;
 
 char choice;
+DataSource ds=new DataSource();
 
 //=========================== Order functions
 void addOrder()
@@ -15,9 +16,6 @@ void addOrder()
     string oCustomerName, oCustomerEmail, oCustomerAddress;
     int numDays, oId;
     DateTime oDate, shipDate, deliveryDate;
-    TimeSpan daysUntillShip, daysUntilDelivery;
-    Random rnd = new Random();
-
     Console.WriteLine("\nEnter your details:\n name-");
     oCustomerName = Console.ReadLine();
     Console.WriteLine("email-");
@@ -27,12 +25,8 @@ void addOrder()
 
     oId = DataSource.Config.MaxOrderId;
     oDate = DateTime.Now;
-    numDays = rnd.Next(1, 5);
-    daysUntillShip = TimeSpan.FromDays(numDays);
-    shipDate = oDate + daysUntillShip;
-    numDays = rnd.Next(3, 8);
-    daysUntilDelivery = TimeSpan.FromDays(numDays);
-    deliveryDate = shipDate + daysUntilDelivery;
+    shipDate = DateTime.MinValue;
+    deliveryDate = DateTime.MinValue;
     Order newOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
     DalOrder.CreateOrder(newOrder);
 }
@@ -50,40 +44,47 @@ void watchOrderList()
     int size = DataSource.Config.orderArrIdx;
     Order[] ordList = new Order[size];
     ordList = DalOrder.ReadOrder();
-    for (int i = 0; i < size; i++)
+    foreach (Order order in ordList)
     {
-        Console.WriteLine("\n" + ordList[i]);
+        Console.WriteLine(order);
     }
 }
 
 void updateOrder()
 {
-    string oCustomerName, oCustomerEmail, oCustomerAddress;
+    string oCustomerName, oCustomerEmail, oCustomerAddress, shipDateS, deliveryDateS;
     DateTime oDate, shipDate, deliveryDate;
     int numDays, oId;
 
     Console.WriteLine("\nEnter the order id you want to update: ");
     oId = Convert.ToInt32(Console.ReadLine());
+    Order tmpOrd = DalOrder.ReadOrder(oId);
+    Console.WriteLine(tmpOrd + "\n");
     Console.WriteLine("\nEnter your details:\n name- ");
     oCustomerName = Console.ReadLine();
     Console.WriteLine("\nemail- ");
     oCustomerEmail = Console.ReadLine();
     Console.WriteLine("\naddress- ");
     oCustomerAddress = Console.ReadLine();
-    oDate = DataSource.orderArr[oId].orderDate;
+    oDate = tmpOrd.orderDate;
     Console.WriteLine("\nEnter the order shipping date: ");
+
     bool correctInput = false;
-    correctInput = DateTime.TryParse(Console.ReadLine(), out shipDate);
+    shipDateS= Console.ReadLine();
+    correctInput = DateTime.TryParse(shipDateS, out shipDate);
     if (!correctInput)
     {
         throw new Exception("\nYou have entered an incorrect shipDate.");
     }
+
     Console.WriteLine("\nEnter the order delivering date: ");
-    correctInput = DateTime.TryParse(Console.ReadLine(), out deliveryDate);
+    deliveryDateS = Console.ReadLine();
+    correctInput = DateTime.TryParse(deliveryDateS, out deliveryDate);
     if (!correctInput)
     {
         throw new Exception("\nYou have entered an incorrect deliveryDate.");
     }
+
     Order tmpOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
     DalOrder.UpdateOrder(tmpOrder);
 }
@@ -99,11 +100,10 @@ void watchAllItemsInOrd()
 {
     Console.WriteLine("Enter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    int size = DalOrderItem.ReadOrderItemByOrderId(oId).Length;
-    OrderItem[] itemsInOrder = new OrderItem[size];
-    for (int i = 0; i < size; i++)
+    OrderItem[] itemsInOrder = DalOrderItem.ReadOrderItemByOrderId(oId);
+    foreach (OrderItem oItem in itemsInOrder)
     {
-        Console.WriteLine("\n" + itemsInOrder[i]);
+        Console.WriteLine(oItem);
     }
 }
 
@@ -152,6 +152,8 @@ void updateProduct()
 
     Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
     id = Convert.ToInt32(Console.ReadLine());
+    Product tmpProd = DalProduct.ReadProduct(id);
+    Console.WriteLine(tmpProd + "\n");
     Console.WriteLine("\nname- ");
     name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
@@ -177,9 +179,9 @@ void watchProductList()
     int size = DataSource.Config.productArrIdx;
     Product[] productList = new Product[size];
     productList = DalProduct.ReadProduct();
-    for (int i = 0; i < size; i++)
+    foreach (Product product in productList)
     {
-        Console.WriteLine("\n" + productList[i]);
+        Console.WriteLine(product);
     }
 }
 
@@ -244,6 +246,8 @@ void updateOrderItem()
     bool correct;
     Console.WriteLine("\nEnter the orderItem's details you want to update:\n id- ");
     id = Convert.ToInt32(Console.ReadLine());
+    OrderItem tmpOrdItem = DalOrderItem.ReadOrderItem(id);
+    Console.WriteLine(tmpOrdItem + "\n");
     do
     {
         correct = false;
@@ -295,9 +299,9 @@ void watchOrderItemList()
     int size = DataSource.Config.orderItemArrIdx;
     OrderItem[] orderItemList = new OrderItem[size];
     orderItemList = DalOrderItem.ReadOrderItem();
-    for (int i = 0; i < size; i++)
+    foreach (OrderItem orderItem in orderItemList)
     {
-        Console.WriteLine("\n" + orderItemList[i]);
+        Console.WriteLine(orderItem);
     }
 }
 

@@ -3,7 +3,7 @@
 namespace Dal;
 
 public static class DalProduct
-    {
+{
 
     public static int CreateProduct(Product product)
     {
@@ -35,16 +35,21 @@ public static class DalProduct
         return tmpProductArr;
     }
 
-    public static Product UpdateProduct(Product product)
+    public static void UpdateProduct(Product product)
     {
-        for (int i = 0; i < DataSource.Config.productArrIdx; i++)
+        int i;
+        for (i = 0; i < DataSource.Config.productArrIdx; i++)
         {
             if (DataSource.productArr[i].id == product.id)
             {
                 DataSource.productArr[i] = product;
+                return;
             }
         }
-        throw new Exception("No product exists with this ID ");
+        if (i == DataSource.Config.orderArrIdx)
+        {
+            throw new Exception("No product exists with this ID ");
+        }
     }
 
     public static void DeleteProduct(int id)
@@ -53,9 +58,9 @@ public static class DalProduct
         {
             if (DataSource.productArr[i].id == id)
             {
-                DataSource.productArr[i] = DataSource.productArr[DataSource.Config.productArrIdx];
+                DataSource.productArr[i] = DataSource.productArr[DataSource.Config.productArrIdx-1];
                 DataSource.Config.productArrIdx -= 1;
-                break;
+                return;
             }
         }
         throw new Exception("No product exists with this ID ");
