@@ -333,8 +333,7 @@ void menue(string type)
     }
     if (type == "order")
     {
-        specialOptions = "f for watching all the items in the order " +
-                         "g for watching a specific item of the order.";
+        specialOptions = "f for watching all the items in the order \n g for watching a specific item of the order." ;
     }
     Console.WriteLine($@"
             Choose the following action:
