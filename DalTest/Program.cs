@@ -5,6 +5,8 @@
 
 using Dal;
 using DO;
+using System.Xml.Linq;
+
 char choice;
 
 //=========================== Order functions
@@ -95,7 +97,14 @@ void deleteOrder()
 
 void watchAllItemsInOrd()
 {
-    Console.WriteLine();
+    Console.WriteLine("Enter the order ID you want to watch: ");
+    int oId = Convert.ToInt32(Console.ReadLine());
+    int size = DalOrderItem.ReadOrderItemByOrderId(oId).Length;
+    OrderItem[] itemsInOrder = new OrderItem[size];
+    for (int i = 0; i < size; i++)
+    {
+        Console.WriteLine("\n" + itemsInOrder[i]);
+    }
 }
 
 //==================================== Product functions
@@ -135,11 +144,189 @@ void addProduct()
     DalProduct.CreateProduct(newProduct);
 }
 
+void updateProduct()
+{
+    string name;
+    int id, category, inStock;
+    double price;
+
+    Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
+    id = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\nname- ");
+    name = Console.ReadLine();
+    Console.WriteLine("\ncategory- ");
+    category = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\ninStock- ");
+    inStock = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\nprice- ");
+    price = Convert.ToDouble(Console.ReadLine());
+    Product tmpProduct = new Product(id, name, price, inStock, (eCategory)category);
+    DalProduct.UpdateProduct(tmpProduct);
+}
+
+void watchProduct()
+{
+    Console.WriteLine("\nEnter the product ID for watching: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+    Product tmpProduct = DalProduct.ReadProduct(id);
+    Console.WriteLine(tmpProduct + "\n");
+}
+
+void watchProductList()
+{
+    int size = DataSource.Config.productArrIdx;
+    Product[] productList = new Product[size];
+    productList = DalProduct.ReadProduct();
+    for (int i = 0; i < size; i++)
+    {
+        Console.WriteLine("\n" + productList[i]);
+    }
+}
+
+void deleteProduct()
+{
+    Console.WriteLine("\nEnter the ID of the product you want to delete: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+    DalProduct.DeleteProduct(id);
+}
+
+
+//=============================================OrderItem functions
+void addOrderItem()
+{
+    int id, productId, orderId, amount, productIdxInArr = -1;
+    double price;
+    bool correct;
+    Console.WriteLine("Enter OrderItem details:");
+    do
+    {
+        correct = false;
+        Console.WriteLine("productId-");
+        productId = Convert.ToInt32(Console.ReadLine());
+        for (int j = 0; j < DataSource.Config.productArrIdx; j++)//checking that this productId exists 
+        {
+            if (DataSource.productArr[j].id == productId)
+            {
+                correct = true;
+                productIdxInArr = j;
+            }
+        }
+        if (!correct)
+            Console.WriteLine("this productId doesn't exist");
+    } while (!correct);
+    do
+    {
+        correct = false;
+        Console.WriteLine("orderId-");
+        orderId = Convert.ToInt32(Console.ReadLine());
+        for (int j = 0; j < DataSource.Config.orderArrIdx; j++)//checking that this orderId exists 
+        {
+            if (DataSource.orderArr[j].id == orderId)
+            {
+                correct = true;
+            }
+        }
+        if (!correct)
+            Console.WriteLine("this orderId doesn't exist");
+    } while (!correct);
+    Console.WriteLine("amount-");
+    amount = Convert.ToInt32(Console.ReadLine());
+    price = (DataSource.productArr[productIdxInArr].price) * amount;
+    id = DataSource.Config.MaxOrderItemId;
+    OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
+    DalOrderItem.CreateOrderItem(newOrderItem);
+}
+
+void updateOrderItem()
+{
+    int id, productId, orderId, amount, productIdxInArr = -1;
+    double price;
+    bool correct;
+    Console.WriteLine("\nEnter the orderItem's details you want to update:\n id- ");
+    id = Convert.ToInt32(Console.ReadLine());
+    do
+    {
+        correct = false;
+        Console.WriteLine("productId-");
+        productId = Convert.ToInt32(Console.ReadLine());
+        for (int j = 0; j < DataSource.Config.productArrIdx; j++)//checking that this productId exists 
+        {
+            if (DataSource.productArr[j].id == productId)
+            {
+                correct = true;
+                productIdxInArr = j;
+            }
+        }
+        if (!correct)
+            Console.WriteLine("this productId doesn't exist");
+    } while (!correct);
+    do
+    {
+        correct = false;
+        Console.WriteLine("orderId-");
+        orderId = Convert.ToInt32(Console.ReadLine());
+        for (int j = 0; j < DataSource.Config.orderArrIdx; j++)//checking that this orderId exists 
+        {
+            if (DataSource.orderArr[j].id == orderId)
+            {
+                correct = true;
+            }
+        }
+        if (!correct)
+            Console.WriteLine("this orderId doesn't exist");
+    } while (!correct);
+    Console.WriteLine("amount-");
+    amount = Convert.ToInt32(Console.ReadLine());
+    price = (DataSource.productArr[productIdxInArr].price) * amount;
+    OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
+    DalOrderItem.UpdateOrderItem(newOrderItem);
+}
+
+void watchOrderItem()
+{
+    Console.WriteLine("\nEnter the orderItem ID for watching: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+    OrderItem tmpOrderItem = DalOrderItem.ReadOrderItem(id);
+    Console.WriteLine(tmpOrderItem + "\n");
+}
+
+void watchOrderItemList()
+{
+    int size = DataSource.Config.orderItemArrIdx;
+    OrderItem[] orderItemList = new OrderItem[size];
+    orderItemList = DalOrderItem.ReadOrderItem();
+    for (int i = 0; i < size; i++)
+    {
+        Console.WriteLine("\n" + orderItemList[i]);
+    }
+}
+
+void deleteOrderItem()
+{
+    Console.WriteLine("\nEnter the ID of the orderItem you want to delete: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+    DalOrderItem.DeleteOrderItem(id);
+}
+
+void watchOrderItemByOrderIdProductId()
+{
+    Console.WriteLine("\nEnter the order ID : ");
+    int oId = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\nEnter the product ID : ");
+    int pId = Convert.ToInt32(Console.ReadLine());
+    OrderItem tmpOrderItem = DalOrderItem.ReadOrderItem(pId, oId);
+    Console.WriteLine(tmpOrderItem + "\n");
+}
+
+
 //==================================== Menue
 void menue(string type)
 {
     string specialOptions = ".";
-    if (type == "order item") { specialOptions = "f for watching all the items of existing orders. "; };
+    if (type == "orderItem")
+    {
+        specialOptions = "f for watching a specific item of a specific order.";
+    }
     if (type == "order")
     {
         specialOptions = "f for watching all the items in the order " +
@@ -179,6 +366,58 @@ void menue(string type)
                 watchAllItemsInOrd();
                 break;
             case 'g':
+                watchOrderItemByOrderIdProductId();
+                break;
+        }
+    }
+    if (type == "product")
+    {
+        switch (choice)
+        {
+            case 'a':   // add
+                addProduct();
+                break;
+            case 'b':
+                watchProduct();
+                break;
+            case 'c':
+                watchProductList();
+                break;
+            case 'd':
+                updateProduct();
+                break;
+            case 'e':
+                deleteProduct();
+                break;
+            case 'f':
+                break;
+            case 'g':
+                break;
+        }
+    }
+    if (type == "orderItem")
+    {
+        switch (choice)
+        {
+            case 'a':   // add
+                addOrderItem();
+                break;
+            case 'b':
+                watchOrderItem();
+                break;
+            case 'c':
+                watchOrderItemList();
+                break;
+            case 'd':
+                updateOrderItem();
+                break;
+            case 'e':
+                deleteOrderItem();
+                break;
+            case 'f':
+                watchOrderItemByOrderIdProductId();
+                break;
+            case 'g':
                 break;
         }
     }
@@ -205,6 +444,12 @@ void main()
                     break;
                 case '1':
                     menue("order");
+                    break;
+                case '2':
+                    menue("product");
+                    break;
+                case '3':
+                    menue("orderItem");
                     break;
 
             }

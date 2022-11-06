@@ -47,7 +47,6 @@ namespace Dal;
 
     public static OrderItem[] ReadOrderItemByOrderId(int oId)
     {       
-        ///?????????????????????
         int j = 0;
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
@@ -59,7 +58,6 @@ namespace Dal;
             throw new Exception("No orderItems exist with this order ID");
         }
         OrderItem[] tmpOrderItemArr = new OrderItem[j];
-        ///?????????????????????
         j = 0;
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
