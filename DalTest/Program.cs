@@ -329,11 +329,13 @@ void menue(string type)
     string specialOptions = ".";
     if (type == "orderItem")
     {
-        specialOptions = "f for watching a specific item of a specific order.";
+        specialOptions = $@"f for watching all items in a specific order 
+            g for watching a specific item of a specific order.";
     }
     if (type == "order")
     {
-        specialOptions = "f for watching all the items in the order \n g for watching a specific item of the order." ;
+        specialOptions = $@"f for watching all the items in the order
+            g for watching a specific item of the order." ;
     }
     Console.WriteLine($@"
             Choose the following action:
@@ -418,9 +420,10 @@ void menue(string type)
                 deleteOrderItem();
                 break;
             case 'f':
-                watchOrderItemByOrderIdProductId();
+                watchAllItemsInOrd();
                 break;
             case 'g':
+                watchOrderItemByOrderIdProductId();
                 break;
         }
     }
@@ -428,8 +431,6 @@ void menue(string type)
 
 void main()
 {
-
-    //DataSource.s_intilize();
     bool toContinue = true;
     while (toContinue)
     {
@@ -454,14 +455,12 @@ void main()
                 case '3':
                     menue("orderItem");
                     break;
-
             }
         }
         catch (Exception errMsg)
         {
             Console.WriteLine(errMsg.Message + "\n");
         }
-
     }
 }
 
