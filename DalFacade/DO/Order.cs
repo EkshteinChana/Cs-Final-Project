@@ -2,32 +2,32 @@
 namespace DO;
 public struct Order
 {
-    public readonly int id { get; }
-    public string customerName { get; set; }
-    public string customerEmail { get; set; }
-    public string customerAddress { get; set; }
-    public DateTime orderDate { get; set; }
-    public DateTime shipDate { get; set; }
-    public DateTime deliveryDate { get; set; }
+    public readonly int Id { get; }
+    public string CustomerName { get; set; }
+    public string CustomerEmail { get; set; }
+    public string CustomerAddress { get; set; }
+    public DateTime OrderDate { get; set; }
+    public DateTime ShipDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
     
     public override string ToString() => $@"
-        order ID: {id},
-        customerName: {customerName},
-        customerEmail: {customerEmail},
-        customerAddress: {customerAddress},
-    	orderDate: {orderDate},
-    	shipDate: {shipDate},
-    	deliveryDate: {deliveryDate}
+        order ID: {Id},
+        customerName: {CustomerName},
+        customerEmail: {CustomerEmail},
+        customerAddress: {CustomerAddress},
+    	orderDate: {OrderDate},
+    	shipDate: {ShipDate},
+    	deliveryDate: {DeliveryDate}
         ";
 
     public Order(int _id, string _customerName, string _customerEmail, string _customerAddress, DateTime _orderDate,DateTime _shipDate, DateTime _deliveryDate)
     {
-        id = _id;
-        customerName = _customerName;
-        customerEmail = _customerEmail;
-        customerAddress = _customerAddress;
-        orderDate = _orderDate;
-        shipDate = _shipDate;
-        deliveryDate = _deliveryDate;
+        Id = _id;
+        CustomerName = _customerName;
+        CustomerEmail = _customerEmail;
+        CustomerAddress = _customerAddress;
+        OrderDate = _orderDate;
+        ShipDate = _shipDate;
+        DeliveryDate = _deliveryDate;
     }
 }

@@ -2,7 +2,7 @@
 namespace DO;
 public struct OrderItem
 {
-    public readonly int id { get; }
+    public readonly int Id { get; }
     public int productId { get; }
     public int orderId { get; }
     public double price { get; set; }
