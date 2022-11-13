@@ -66,7 +66,7 @@ void UpdateOrder()
     oCustomerEmail = Console.ReadLine();
     Console.WriteLine("\naddress- ");
     oCustomerAddress = Console.ReadLine();
-    oDate = tmpOrd.orderDate;
+    oDate = tmpOrd.OrderDate;
     Console.WriteLine("\nEnter the order shipping date: ");
 
     bool correctInput = false;
@@ -133,7 +133,7 @@ void AddProduct()
         id = rnd.Next(100000, 1000000);
         for (int j = 0; j < DataSource.Config.productArrIdx; j++)
         {
-            if (DataSource.productArr[j].id == id)
+            if (DataSource.productArr[j].Id == id)
             {
                 notExists = false;
                 break;
@@ -207,7 +207,7 @@ void AddOrderItem()
         productId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.Config.productArrIdx; j++)//checking that this productId exists 
         {
-            if (DataSource.productArr[j].id == productId)
+            if (DataSource.productArr[j].Id == productId)
             {
                 correct = true;
                 productIdxInArr = j;
@@ -223,7 +223,7 @@ void AddOrderItem()
         orderId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.Config.orderArrIdx; j++)//checking that this orderId exists 
         {
-            if (DataSource.orderArr[j].id == orderId)
+            if (DataSource.orderArr[j].Id == orderId)
             {
                 correct = true;
             }
@@ -233,7 +233,7 @@ void AddOrderItem()
     } while (!correct);
     Console.WriteLine("amount-");
     amount = Convert.ToInt32(Console.ReadLine());
-    price = (DataSource.productArr[productIdxInArr].price) * amount;
+    price = (DataSource.productArr[productIdxInArr].Price) * amount;
     id = DataSource.Config.MaxOrderItemId;
     OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
     DalOrderItem.CreateOrderItem(newOrderItem);
@@ -255,7 +255,7 @@ void UpdateOrderItem()
         productId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.Config.productArrIdx; j++)//checking that this productId exists 
         {
-            if (DataSource.productArr[j].id == productId)
+            if (DataSource.productArr[j].Id == productId)
             {
                 correct = true;
                 productIdxInArr = j;
@@ -271,7 +271,7 @@ void UpdateOrderItem()
         orderId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.Config.orderArrIdx; j++)//checking that this orderId exists 
         {
-            if (DataSource.orderArr[j].id == orderId)
+            if (DataSource.orderArr[j].Id == orderId)
             {
                 correct = true;
             }
@@ -281,7 +281,7 @@ void UpdateOrderItem()
     } while (!correct);
     Console.WriteLine("amount-");
     amount = Convert.ToInt32(Console.ReadLine());
-    price = (DataSource.productArr[productIdxInArr].price) * amount;
+    price = (DataSource.productArr[productIdxInArr].Price) * amount;
     OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
     DalOrderItem.UpdateOrderItem(newOrderItem);
 }

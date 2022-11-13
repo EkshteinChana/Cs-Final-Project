@@ -3,25 +3,25 @@ namespace DO;
 public struct OrderItem
 {
     public readonly int Id { get; }
-    public int productId { get; }
-    public int orderId { get; }
-    public double price { get; set; }
-    public int amount { get; set; }
+    public int ProductId { get; }
+    public int OrderId { get; }
+    public double Price { get; set; }
+    public int Amount { get; set; }
     
     public override string ToString() => $@"
-            ID: {id}
-            product ID: {productId}
-            order ID: {orderId}
-            price*amount: {price}
-            amount: {amount} ";
+            ID: {Id}
+            product ID: {ProductId}
+            order ID: {OrderId}
+            price*amount: {Price}
+            amount: {Amount} ";
 
     public OrderItem(int _id, int _productId, int _orderId, double _price, int _amount)
     {
-        id = _id;
-        productId = _productId;
-        orderId = _orderId;
-        price = _price;
-        amount = _amount;
+        Id = _id;
+        ProductId = _productId;
+        OrderId = _orderId;
+        Price = _price;
+        Amount = _amount;
     }
 }
 
