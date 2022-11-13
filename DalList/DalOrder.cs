@@ -11,14 +11,14 @@ public static class DalOrder
             throw new Exception("The order set is full, it is not possible to add an order");
         }
         DataSource.orderArr[DataSource.Config.orderArrIdx++] = order;
-        return order.id;
+        return order.Id;
     }
 
     public static Order ReadOrder(int id)
     {
         for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
-            if (DataSource.orderArr[i].id == id)
+            if (DataSource.orderArr[i].Id == id)
                 return DataSource.orderArr[i];
         }
         throw new Exception("No order exists with this ID ");
@@ -39,7 +39,7 @@ public static class DalOrder
         int i;
         for (i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
-            if (DataSource.orderArr[i].id == order.id)
+            if (DataSource.orderArr[i].Id == order.Id)
             {
                 DataSource.orderArr[i] = order;
                 return;
@@ -55,7 +55,7 @@ public static class DalOrder
     {
         for (int i = 0; i < DataSource.Config.orderArrIdx; i++)
         {
-            if (DataSource.orderArr[i].id == id)
+            if (DataSource.orderArr[i].Id == id)
             {
                 DataSource.orderArr[i] = DataSource.orderArr[DataSource.Config.orderArrIdx-1];
                 DataSource.Config.orderArrIdx -= 1;

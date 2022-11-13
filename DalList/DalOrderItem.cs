@@ -12,14 +12,14 @@ namespace Dal;
             throw new Exception("The orderItem set is full, it is not possible to add an orderItem");
         }
         DataSource.orderItemArr[DataSource.Config.orderItemArrIdx++] = orderItem;
-        return orderItem.id;
+        return orderItem.Id;
     }
 
     public static OrderItem ReadOrderItem(int id)
     {
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if (DataSource.orderItemArr[i].id == id)
+            if (DataSource.orderItemArr[i].Id == id)
                 return DataSource.orderItemArr[i];
         }
         throw new Exception("No orderItem exists with this ID ");
@@ -29,7 +29,7 @@ namespace Dal;
     {
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if ((DataSource.orderItemArr[i].productId == pId) &&(DataSource.orderItemArr[i].orderId == oId))
+            if ((DataSource.orderItemArr[i].ProductId == pId) &&(DataSource.orderItemArr[i].orderId == oId))
                 return DataSource.orderItemArr[i];
         }
         throw new Exception("No orderItem exists with this product ID and order ID");
@@ -50,7 +50,7 @@ namespace Dal;
         int j = 0;
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if (DataSource.orderItemArr[i].orderId == oId)
+            if (DataSource.orderItemArr[i].OrderId == oId)
                 j++;
         }    
         if(j==0)
@@ -61,7 +61,7 @@ namespace Dal;
         j = 0;
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if (DataSource.orderItemArr[i].orderId == oId)
+            if (DataSource.orderItemArr[i].OrderId == oId)
                 tmpOrderItemArr[j++] = DataSource.orderItemArr[i];
         }
         return tmpOrderItemArr;
@@ -72,7 +72,7 @@ namespace Dal;
         int i;
         for (i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if (DataSource.orderItemArr[i].id == orderItem.id)
+            if (DataSource.orderItemArr[i].Id == orderItem.Id)
             {
                 DataSource.orderItemArr[i] = orderItem;
                 return;
@@ -88,7 +88,7 @@ namespace Dal;
     {
         for (int i = 0; i < DataSource.Config.orderItemArrIdx; i++)
         {
-            if (DataSource.orderItemArr[i].id == id)
+            if (DataSource.orderItemArr[i].Id == id)
             {
                 DataSource.orderItemArr[i] = DataSource.orderItemArr[DataSource.Config.orderItemArrIdx-1];
                 DataSource.Config.orderItemArrIdx -= 1;

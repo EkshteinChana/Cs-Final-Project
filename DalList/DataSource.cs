@@ -7,21 +7,21 @@ public class DataSource
     public const int MaxOrder = 100;
     public const int MaxProduct = 50;
     public const int MaxOrderItem = 200;
-    public static Order[] orderArr = new Order[MaxOrder];
-    public static Product[] productArr = new Product[MaxProduct];
-    public static OrderItem[] orderItemArr = new OrderItem[MaxOrderItem];
+    public static Order[] OrderArr = new Order[MaxOrder];
+    public static Product[] ProductArr = new Product[MaxProduct];
+    public static OrderItem[] OrderItemArr = new OrderItem[MaxOrderItem];
 
     public static class Config
     {
-        public static int productArrIdx = 0;
-        public static int orderItemArrIdx = 0;
-        public static int orderArrIdx = 0;
+        public static int ProductArrIdx = 0;
+        public static int OrderItemArrIdx = 0;
+        public static int OrderArrIdx = 0;
 
-        private static int maxOrderItemId = 1;
-        public static int MaxOrderItemId { get { return maxOrderItemId++; } }
+        private static int s_maxOrderItemId = 1;
+        public static int MaxOrderItemId { get { return s_maxOrderItemId++; } }
  
-        private static int maxOrderId = 1;
-        public static int MaxOrderId { get { return maxOrderId++; } }
+        private static int s_maxOrderId = 1;
+        public static int MaxOrderId { get { return s_maxOrderId++; } }
     }
 
     static DataSource()
@@ -66,9 +66,9 @@ public class DataSource
                 notExists = true;
                 Random rnd = new Random();
                 pId = rnd.Next(100000, 1000000);
-                for (int j = 0; j < Config.productArrIdx; j++)
+                for (int j = 0; j < Config.ProductArrIdx; j++)
                 {
-                    if (productArr[j].id == pId)
+                    if (ProductArr[j].Id == pId)
                     {
                         notExists = false;
                         break;
@@ -85,7 +85,7 @@ public class DataSource
                 pInStock = rnd.Next(1, 500);
             }
             Product product = new Product(pId, pName, pPrice, pInStock, pCategory);
-            productArr[Config.productArrIdx++] = product;
+            ProductArr[Config.ProductArrIdx++] = product;
         }
     }
 
@@ -141,7 +141,7 @@ public class DataSource
             }
             
             Order order = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oOrderDate, oShipDate, oDeliveryDate);
-            orderArr[Config.orderArrIdx++] = order;
+            OrderArr[Config.OrderArrIdx++] = order;
         }
     }
 
@@ -154,43 +154,43 @@ public class DataSource
         double price;
         int amount;
 
-        for (int i = 0; i < Config.orderArrIdx; i++) // Create 1-4 orderItems for each order
+        for (int i = 0; i < Config.OrderArrIdx; i++) // Create 1-4 orderItems for each order
         {
             Random rnd = new Random();
             int sumDifProducts = rnd.Next(1, 5); // the sum of the different typs products in the order
             for(int j=0;j< sumDifProducts; j++)
             {
                 id = Config.MaxOrderItemId;
-                orderId = orderArr[i].id;
+                orderId = OrderArr[i].Id;
                 bool exist;
                 int pIdx;
                 do
                 {
                     exist = false;
-                    pIdx = rnd.Next(0, Config.productArrIdx);  // pIdx is the location in the Products array
-                    int pBarcode = productArr[pIdx].id; 
+                    pIdx = rnd.Next(0, Config.ProductArrIdx);  // pIdx is the location in the Products array
+                    int pBarcode = ProductArr[pIdx].Id; 
                         for (int k = 0; k < j ; k++)
                         {
-                            if(orderItemArr[Config.orderItemArrIdx - k - 1 ].productId == pBarcode)
+                            if(OrderItemArr[Config.OrderItemArrIdx - k - 1 ].ProductId == pBarcode)
                             {
                                 exist = true;
                             }
                         }
                     } while (exist);
-                productId = productArr[pIdx].id;
+                productId = ProductArr[pIdx].Id;
                 int amountOfProduct= rnd.Next(1, 10);
-                if(amountOfProduct<= productArr[pIdx].inStock)
+                if(amountOfProduct<= ProductArr[pIdx].InStock)
                 {
                     amount = amountOfProduct; // The amount of each product
                 }
                 else
                 {
-                    amount = productArr[pIdx].inStock;
+                    amount = ProductArr[pIdx].InStock;
                 }
-                productArr[pIdx].inStock -= amount;
-                price = amount * productArr[pIdx].price; 
+                ProductArr[pIdx].InStock -= amount;
+                price = amount * ProductArr[pIdx].Price; 
                 OrderItem orderItem = new OrderItem(id,productId, orderId, price, amount);
-                orderItemArr[Config.orderItemArrIdx++] = orderItem;
+                OrderItemArr[Config.OrderItemArrIdx++] = orderItem;
             }                 
         }
     }

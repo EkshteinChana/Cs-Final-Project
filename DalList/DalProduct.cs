@@ -12,14 +12,14 @@ public static class DalProduct
             throw new Exception("The product set is full, it is not possible to add an product");
         }
         DataSource.productArr[DataSource.Config.productArrIdx++] = product;
-        return product.id;
+        return product.Id;
     }
 
     public static Product ReadProduct(int id)
     {
         for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
-            if (DataSource.productArr[i].id == id)
+            if (DataSource.productArr[i].Id == id)
                 return DataSource.productArr[i];
         }
         throw new Exception("No product exists with this ID ");
@@ -40,7 +40,7 @@ public static class DalProduct
         int i;
         for (i = 0; i < DataSource.Config.productArrIdx; i++)
         {
-            if (DataSource.productArr[i].id == product.id)
+            if (DataSource.productArr[i].Id == product.Id)
             {
                 DataSource.productArr[i] = product;
                 return;
@@ -56,7 +56,7 @@ public static class DalProduct
     {
         for (int i = 0; i < DataSource.Config.productArrIdx; i++)
         {
-            if (DataSource.productArr[i].id == id)
+            if (DataSource.productArr[i].Id == id)
             {
                 DataSource.productArr[i] = DataSource.productArr[DataSource.Config.productArrIdx-1];
                 DataSource.Config.productArrIdx -= 1;
