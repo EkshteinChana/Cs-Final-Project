@@ -17,8 +17,8 @@ public static class DalOrder
         //    if (DataSource.orderArr[i].Id == id)
         //        return DataSource.orderArr[i];
         //}
-        Order order = DataSource.OrderArr.Where(order => order.Id == id).First();
-        if (order.Equals(null))
+        Order order = DataSource.OrderArr.Where(order => order.Id == id).FirstOrDefault();
+        if (order.Equals(default(Order)))
         {
             throw new Exception("No order exists with this ID");
         }
@@ -61,8 +61,8 @@ public static class DalOrder
 
     public static void DeleteOrder(int id)
     {
-        Order order = DataSource.OrderArr.Where(order => order.Id == id).First();
-        if (order.Equals(null))
+        Order order = DataSource.OrderArr.Where(order => order.Id == id).FirstOrDefault();
+        if (order.Equals(default(Order)))
         {
             throw new Exception("No order exists with this ID");
         }

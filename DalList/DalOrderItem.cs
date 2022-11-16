@@ -18,8 +18,8 @@ public static class DalOrderItem
 
     public static OrderItem ReadOrderItem(int id)
     {
-        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.Id == id).First();
-        if (orderItem.Equals(null))
+        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.Id == id).FirstOrDefault();
+        if (orderItem.Equals(default(OrderItem)))
         {
             throw new Exception("No orderItem exists with this ID ");
         }
@@ -34,8 +34,8 @@ public static class DalOrderItem
 
     public static OrderItem ReadOrderItem(int pId, int oId)
     {
-        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).First();
-        if (orderItem.Equals(null))
+        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
+        if (orderItem.Equals(default(OrderItem)))
         {
             throw new Exception("No orderItem exists with this product ID and order ID");
         }
@@ -94,8 +94,8 @@ public static class DalOrderItem
 
     public static void UpdateOrderItem(OrderItem orderItem)
     {
-        OrderItem originalOrderItem = DataSource.OrderItemArr.Where(originalOrderItem => originalOrderItem.Id == orderItem.Id).First();
-        if (originalOrderItem.Equals(null))
+        OrderItem originalOrderItem = DataSource.OrderItemArr.Where(originalOrderItem => originalOrderItem.Id == orderItem.Id).FirstOrDefault();
+        if (originalOrderItem.Equals(default(OrderItem)))
         {
             throw new Exception("No orderItem exists with this ID");
         }
@@ -118,8 +118,8 @@ public static class DalOrderItem
 
     public static void DeleteOrderItem(int id)
     {
-        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.Id == id).First();
-        if (orderItem.Equals(null))
+        OrderItem orderItem = DataSource.OrderItemArr.Where(orderItem => orderItem.Id == id).FirstOrDefault();
+        if (orderItem.Equals(default(OrderItem)))
         {
             throw new Exception("No orderItem exists with this ID");
         }

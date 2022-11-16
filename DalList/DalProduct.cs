@@ -18,8 +18,8 @@ public static class DalProduct
 
     public static Product ReadProduct(int id)
     {
-        Product product = DataSource.ProductArr.Where(product => product.Id == id).First();
-        if (product.Equals(null))
+        Product product = DataSource.ProductArr.Where(product => product.Id == id).FirstOrDefault();
+        if (product.Equals(default(Product)))
         {
             throw new Exception("No product exists with this ID ");
         }
@@ -48,8 +48,8 @@ public static class DalProduct
 
     public static void UpdateProduct(Product product)
     {
-        Product originalProduct = DataSource.ProductArr.Where(originalProduct => originalProduct.Id == product.Id).First();
-        if (originalProduct.Equals(null))
+        Product originalProduct = DataSource.ProductArr.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
+        if (originalProduct.Equals(default(Product)))
         {
             throw new Exception("No product exists with this ID ");
         }
@@ -72,8 +72,8 @@ public static class DalProduct
 
     public static void DeleteProduct(int id)
     {
-        Product product = DataSource.ProductArr.Where(product => product.Id == id).First();
-        if (product.Equals(null))
+        Product product = DataSource.ProductArr.Where(product => product.Id == id).FirstOrDefault();
+        if (product.Equals(default(Product)))
         {
             throw new Exception("No product exists with this ID ");
         }
