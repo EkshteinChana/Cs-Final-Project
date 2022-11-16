@@ -4,21 +4,11 @@ using DO;
 namespace Dal;
 public class DataSource
 {
-    //public const int MaxOrder = 100;
-    //public const int MaxProduct = 50;
-    //public const int MaxOrderItem = 200;
-    //public static Order[] OrderArr = new Order[MaxOrder];
-    //public static Product[] ProductArr = new Product[MaxProduct];
-    //public static OrderItem[] OrderItemArr = new OrderItem[MaxOrderItem];
     public static List<Order> OrderArr = new List<Order>();
     public static List<Product> ProductArr = new List<Product>();
     public static List<OrderItem> OrderItemArr = new List<OrderItem>();
     public static class Config
     {
-        //public static int ProductArrIdx = 0;
-        //public static int OrderItemArrIdx = 0;
-        //public static int OrderArrIdx = 0;
-
         private static int s_maxOrderItemId = 1;
         public static int MaxOrderItemId { get { return s_maxOrderItemId++; } }
  
@@ -189,9 +179,9 @@ public class DataSource
                 {
                     amount = ProductArr[pIdx].InStock;
                 }
-              
-                //ProductArr[pIdx].InStock -= amount;
-                // public static List<Product> ProductArr = new List<Product>();
+                Product product = ProductArr[pIdx];
+                product.InStock -= amount;
+                ProductArr[pIdx]=product;               
                 price = amount * ProductArr[pIdx].Price; 
                 OrderItem orderItem = new OrderItem(id,productId, orderId, price, amount);
                 OrderItemArr.Add(orderItem);
