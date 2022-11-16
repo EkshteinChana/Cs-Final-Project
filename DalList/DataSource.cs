@@ -4,18 +4,20 @@ using DO;
 namespace Dal;
 public class DataSource
 {
-    public const int MaxOrder = 100;
-    public const int MaxProduct = 50;
-    public const int MaxOrderItem = 200;
-    public static Order[] OrderArr = new Order[MaxOrder];
-    public static Product[] ProductArr = new Product[MaxProduct];
-    public static OrderItem[] OrderItemArr = new OrderItem[MaxOrderItem];
-
+    //public const int MaxOrder = 100;
+    //public const int MaxProduct = 50;
+    //public const int MaxOrderItem = 200;
+    //public static Order[] OrderArr = new Order[MaxOrder];
+    //public static Product[] ProductArr = new Product[MaxProduct];
+    //public static OrderItem[] OrderItemArr = new OrderItem[MaxOrderItem];
+    public static List<Order> OrderArr = new List<Order>();
+    public static List<Product> ProductArr = new List<Product>();
+    public static List<OrderItem> OrderItemArr = new List<OrderItem>();
     public static class Config
     {
-        public static int ProductArrIdx = 0;
-        public static int OrderItemArrIdx = 0;
-        public static int OrderArrIdx = 0;
+        //public static int ProductArrIdx = 0;
+        //public static int OrderItemArrIdx = 0;
+        //public static int OrderArrIdx = 0;
 
         private static int s_maxOrderItemId = 1;
         public static int MaxOrderItemId { get { return s_maxOrderItemId++; } }
@@ -66,7 +68,7 @@ public class DataSource
                 notExists = true;
                 Random rnd = new Random();
                 pId = rnd.Next(100000, 1000000);
-                for (int j = 0; j < Config.ProductArrIdx; j++)
+                for (int j = 0; j < ProductArr.Count; j++)
                 {
                     if (ProductArr[j].Id == pId)
                     {
@@ -85,7 +87,7 @@ public class DataSource
                 pInStock = rnd.Next(1, 500);
             }
             Product product = new Product(pId, pName, pPrice, pInStock, pCategory);
-            ProductArr[Config.ProductArrIdx++] = product;
+            ProductArr.Add(product);
         }
     }
 
@@ -141,7 +143,7 @@ public class DataSource
             }
             
             Order order = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oOrderDate, oShipDate, oDeliveryDate);
-            OrderArr[Config.OrderArrIdx++] = order;
+            OrderArr.Add(order);
         }
     }
 
@@ -154,7 +156,7 @@ public class DataSource
         double price;
         int amount;
 
-        for (int i = 0; i < Config.OrderArrIdx; i++) // Create 1-4 orderItems for each order
+        for (int i = 0; i < OrderArr.Count; i++) // Create 1-4 orderItems for each order
         {
             Random rnd = new Random();
             int sumDifProducts = rnd.Next(1, 5); // the sum of the different typs products in the order
@@ -167,11 +169,11 @@ public class DataSource
                 do
                 {
                     exist = false;
-                    pIdx = rnd.Next(0, Config.ProductArrIdx);  // pIdx is the location in the Products array
+                    pIdx = rnd.Next(0,ProductArr.Count);  // pIdx is the location in the Products array
                     int pBarcode = ProductArr[pIdx].Id; 
                         for (int k = 0; k < j ; k++)
                         {
-                            if(OrderItemArr[Config.OrderItemArrIdx - k - 1 ].ProductId == pBarcode)
+                            if(OrderItemArr[OrderItemArr.Count - k - 1 ].ProductId == pBarcode)
                             {
                                 exist = true;
                             }
@@ -187,10 +189,13 @@ public class DataSource
                 {
                     amount = ProductArr[pIdx].InStock;
                 }
-                ProductArr[pIdx].InStock -= amount;
+              
+                //ProductArr[pIdx].InStock -= amount;
+                // public static List<Product> ProductArr = new List<Product>();
                 price = amount * ProductArr[pIdx].Price; 
                 OrderItem orderItem = new OrderItem(id,productId, orderId, price, amount);
-                OrderItemArr[Config.OrderItemArrIdx++] = orderItem;
+                OrderItemArr.Add(orderItem);
+                
             }                 
         }
     }

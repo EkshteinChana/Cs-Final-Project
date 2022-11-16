@@ -41,7 +41,7 @@ void WatchOrder()
 
 void WatchOrderList()
 {
-    int size = DataSource.Config.OrderArrIdx;
+    int size = DataSource.OrderArr.Count;
     Order[] ordList = new Order[size];
     ordList = DalOrder.ReadOrder();
     foreach (Order order in ordList)
@@ -131,7 +131,7 @@ void AddProduct()
         notExists = true;
         Random rnd = new Random();
         id = rnd.Next(100000, 1000000);
-        for (int j = 0; j < DataSource.Config.ProductArrIdx; j++)
+        for (int j = 0; j < DataSource.ProductArr.Count; j++)
         {
             if (DataSource.ProductArr[j].Id == id)
             {
@@ -176,7 +176,7 @@ void WatchProduct()
 
 void WatchProductList()
 {
-    int size = DataSource.Config.ProductArrIdx;
+    int size = DataSource.ProductArr.Count;
     Product[] productList = new Product[size];
     productList = DalProduct.ReadProduct();
     foreach (Product product in productList)
@@ -205,7 +205,7 @@ void AddOrderItem()
         correct = false;
         Console.WriteLine("productId-");
         productId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.Config.ProductArrIdx; j++)//checking that this productId exists 
+        for (int j = 0; j < DataSource.ProductArr.Count; j++)//checking that this productId exists 
         {
             if (DataSource.ProductArr[j].Id == productId)
             {
@@ -221,7 +221,7 @@ void AddOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         orderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.Config.OrderArrIdx; j++)//checking that this orderId exists 
+        for (int j = 0; j < DataSource.OrderArr.Count; j++)//checking that this orderId exists 
         {
             if (DataSource.OrderArr[j].Id == orderId)
             {
@@ -253,7 +253,7 @@ void UpdateOrderItem()
         correct = false;
         Console.WriteLine("productId-");
         productId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.Config.ProductArrIdx; j++)//checking that this productId exists 
+        for (int j = 0; j < DataSource.ProductArr.Count; j++)//checking that this productId exists 
         {
             if (DataSource.ProductArr[j].Id == productId)
             {
@@ -269,7 +269,7 @@ void UpdateOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         orderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.Config.OrderArrIdx; j++)//checking that this orderId exists 
+        for (int j = 0; j < DataSource.OrderArr.Count; j++)//checking that this orderId exists 
         {
             if (DataSource.OrderArr[j].Id == orderId)
             {
@@ -296,7 +296,7 @@ void WatchOrderItem()
 
 void WatchOrderItemList()
 {
-    int size = DataSource.Config.OrderItemArrIdx;
+    int size = DataSource.OrderItemArr.Count;
     OrderItem[] orderItemList = new OrderItem[size];
     orderItemList = DalOrderItem.ReadOrderItem();
     foreach (OrderItem orderItem in orderItemList)
