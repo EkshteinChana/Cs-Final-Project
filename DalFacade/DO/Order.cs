@@ -2,7 +2,7 @@
 namespace DO;
 public struct Order
 {
-    public readonly int Id { get; }
+    public int Id { get; set; }
     public string CustomerName { get; set; }
     public string CustomerEmail { get; set; }
     public string CustomerAddress { get; set; }
@@ -19,15 +19,4 @@ public struct Order
     	shipDate: {ShipDate},
     	deliveryDate: {DeliveryDate}
         ";
-
-    public Order(int _id, string _customerName, string _customerEmail, string _customerAddress, DateTime _orderDate,DateTime _shipDate, DateTime _deliveryDate)
-    {
-        Id = _id;
-        CustomerName = _customerName;
-        CustomerEmail = _customerEmail;
-        CustomerAddress = _customerAddress;
-        OrderDate = _orderDate;
-        ShipDate = _shipDate;
-        DeliveryDate = _deliveryDate;
-    }
 }

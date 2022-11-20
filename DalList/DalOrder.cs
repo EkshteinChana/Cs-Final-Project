@@ -1,52 +1,66 @@
 ﻿using DO;
+using DalApi;
 
 namespace Dal;
-
-public static class DalOrder
+/// <summary>
+/// This class implements the CRUD on the database functions for each order.
+/// </summary>
+internal class DalOrder : IOrder
 {
-    public static int CreateOrder(Order order)
-    {      
-        DataSource.OrderArr.Add(order);
+    /// <summary>
+    /// A function to add a new oder to the database.
+    /// </summary>
+    public int Create(Order order)
+    {
+        DataSource.OrderList.Add(order);
         return order.Id;
     }
-
-    public static Order ReadOrder(int id)
+    /// <summary>
+    /// A function to delete an oder from the database.
+    /// </summary>
+    public void Delete(int id)
     {
-        Order order = DataSource.OrderArr.Where(order => order.Id == id).FirstOrDefault();
+        Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
+        if (order.Equals(default(Order)))
+        {
+            throw new 
+           // throw new Exception("No order exists with this ID");
+        }
+        DataSource.OrderList.Remove(order);
+    }
+    /// <summary>
+    /// A function to get the information about specific oder from the database by ID.
+    /// </summary>
+    public Order Read(int id)
+    {
+        Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
         if (order.Equals(default(Order)))
         {
             throw new Exception("No order exists with this ID");
         }
         return order;
     }
-
-    public static Order[] ReadOrder()
+    /// <summary> 
+    ///A function to get the information about all the orders in the database.
+    /// </summary>
+    public IEnumerable<Order> Read()
     {
-        Order[] tmpOrderArr = new Order[DataSource.OrderArr.Count];
-        DataSource.OrderArr.CopyTo(tmpOrderArr);
-        return tmpOrderArr;
+        List<Order> tmpOrderList = new List<Order> (DataSource.OrderList.Count);
+        tmpOrderList = DataSource.OrderList;
+        return tmpOrderList;
     }
 
-    public static void UpdateOrder(Order order)
+    /// <summary> 
+    ///A function to get the information about all the orders in the database.
+    /// </summary>
+    public void Update(Order order)
     {
-        Order originalOrder = DataSource.OrderArr.Where(originalOrder => originalOrder.Id == order.Id).FirstOrDefault();
+        Order originalOrder = DataSource.OrderList.Where(originalOrder => originalOrder.Id == order.Id).FirstOrDefault();
         if (originalOrder.Equals(default(Order)))
         {
             throw new Exception("No order exists with this ID");
         }
-        DataSource.OrderArr.Remove(originalOrder);
-        DataSource.OrderArr.Add(order);
+        DataSource.OrderList.Remove(originalOrder);
+        DataSource.OrderList.Add(order);
     }
-
-    public static void DeleteOrder(int id)
-    {
-        Order order = DataSource.OrderArr.Where(order => order.Id == id).FirstOrDefault();
-        if (order.Equals(default(Order)))
-        {
-            throw new Exception("No order exists with this ID");
-        }
-        DataSource.OrderArr.Remove(order);
-    }
-
 }
-

@@ -1,12 +1,14 @@
-﻿
-using DO;
+﻿using DO;
 
 namespace Dal;
+/// <summary>
+/// This class 
+/// </summary>
 public class DataSource
 {
-    public static List<Order> OrderArr = new List<Order>();
-    public static List<Product> ProductArr = new List<Product>();
-    public static List<OrderItem> OrderItemArr = new List<OrderItem>();
+    public static List<Order> OrderList = new List<Order>();
+    public static List<Product> ProductList = new List<Product>();
+    public static List<OrderItem> OrderItemList = new List<OrderItem>();
     public static class Config
     {
         private static int s_maxOrderItemId = 1;
@@ -23,13 +25,13 @@ public class DataSource
 
     private static void s_Initialize()
     {
-        CreateProductArr();
-        CreateOrderArr();
-        CreateOrderItemArr();
+        CreateProductList();
+        CreateOrderList();
+        CreateOrderItemList();
     }
 
 
-    private static void CreateProductArr()
+    private static void CreateProductList()
     {
         // Temp help array 
         (string, eCategory, double)[] prodNameCategoryPrice = 
@@ -45,22 +47,17 @@ public class DataSource
             ("An artistic matchbox for Shabbos", eCategory.Shabbat,144)};
 
         bool notExists;
-        int pId;
-        string pName;
-        double pPrice;
-        int pInStock;
-        eCategory pCategory;
-        
         for (int i = 0; i < 10; i++)
         {
+            Product tmpProd = new Product();
             do      //Rand id and make sure is unique in the array 
             {
                 notExists = true;
                 Random rnd = new Random();
-                pId = rnd.Next(100000, 1000000);
-                for (int j = 0; j < ProductArr.Count; j++)
+                tmpProd.Id = rnd.Next(100000, 1000000);
+                for (int j = 0; j < ProductList.Count; j++)
                 {
-                    if (ProductArr[j].Id == pId)
+                    if (ProductList[j].Id == tmpProd.Id)
                     {
                         notExists = false;
                         break;
@@ -68,124 +65,107 @@ public class DataSource
                 }
             } while (!notExists);
 
-            (pName, pCategory, pPrice) = prodNameCategoryPrice[i];
+            (tmpProd.Name, tmpProd.category, tmpProd.Price) = prodNameCategoryPrice[i];
             if (i % 20 == 0)
-                pInStock = 0;
+                tmpProd.InStock = 0;
             else
             {
                 Random rnd = new Random();
-                pInStock = rnd.Next(1, 500);
+                tmpProd.InStock = rnd.Next(1, 500);
             }
-            Product product = new Product(pId, pName, pPrice, pInStock, pCategory);
-            ProductArr.Add(product);
+            ProductList.Add(tmpProd);
         }
     }
 
 
-    private static void CreateOrderArr()
+    private static void CreateOrderList()
     {
-
         (string, string, string)[] CustomerDetails = new (string, string, string)[5]
            {("Shimon Cohen","shimon66@gmail.com", "Shaulzon 66" ),
             ("Daniel Levi","levi05276@gmail.com", "Sorotskin 16"),
             ("Reuven Katz","reuvenkatz123@gmail.com","Idelson 24" ),
             ("Mordechai Rabinowitz","Rabinowitz678@gmail.com", "Franc 12"),
             ("Sarah Klein","klein424@gmail.com", "Gulak 424")};
- 
-        int oId;
-        string oCustomerName;
-        string oCustomerEmail;
-        string oCustomerAddress;
-        DateTime oOrderDate;
-        DateTime oShipDate;
-        DateTime oDeliveryDate;
 
         for (int i = 0; i < 20; i++)
         {
-            oId = Config.MaxOrderId;
+            Order tmpOrd = new Order();
+            tmpOrd.Id = Config.MaxOrderId;
             Random rnd = new Random();
             int idx = rnd.Next(0,5);  // Rand who will be the customer of the current order
-            (oCustomerName, oCustomerEmail, oCustomerAddress) = CustomerDetails[idx];
+            (tmpOrd.CustomerName, tmpOrd.CustomerEmail, tmpOrd.CustomerAddress) = CustomerDetails[idx];
             rnd = new Random();
             int numDays = rnd.Next(20, 30);
             TimeSpan daysBefore = TimeSpan.FromDays(numDays);
-            oOrderDate = DateTime.Now - daysBefore;
+            tmpOrd.OrderDate = DateTime.Now - daysBefore;
             if (i%10<8)  // 80% have ship date
             {
                 numDays = rnd.Next(1, 5);
                 TimeSpan daysUntillShip = TimeSpan.FromDays(numDays);
-                oShipDate = oOrderDate + daysUntillShip;
+                tmpOrd.ShipDate = tmpOrd.OrderDate + daysUntillShip;
                 if (i % 10 < 6)// 60% from them have delivery date
                 {
                     numDays = rnd.Next(3, 8);
                     TimeSpan daysUntilDelivery = TimeSpan.FromDays(numDays);
-                    oDeliveryDate = oShipDate + daysUntilDelivery;
+                    tmpOrd.DeliveryDate = tmpOrd.ShipDate + daysUntilDelivery;
                 }
                 else
                 {
-                    oDeliveryDate = DateTime.MinValue;
+                    tmpOrd.DeliveryDate = DateTime.MinValue;
                 }
             }
             else
             {
-                oDeliveryDate = DateTime.MinValue;
-                oShipDate = DateTime.MinValue;
+                tmpOrd.DeliveryDate = DateTime.MinValue;
+                tmpOrd.ShipDate = DateTime.MinValue;
             }
-            
-            Order order = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oOrderDate, oShipDate, oDeliveryDate);
-            OrderArr.Add(order);
+            OrderList.Add(tmpOrd);
         }
     }
 
-    private static void CreateOrderItemArr()
+    private static void CreateOrderItemList()
     {
-
-        int id;
-        int productId;
-        int orderId;
-        double price;
         int amount;
-
-        for (int i = 0; i < OrderArr.Count; i++) // Create 1-4 orderItems for each order
+        for (int i = 0; i < OrderList.Count; i++) // Create 1-4 orderItems for each order
         {
+            OrderItem tmpOrdItem = new OrderItem();
             Random rnd = new Random();
             int sumDifProducts = rnd.Next(1, 5); // the sum of the different typs products in the order
             for(int j=0;j< sumDifProducts; j++)
             {
-                id = Config.MaxOrderItemId;
-                orderId = OrderArr[i].Id;
+                tmpOrdItem.Id = Config.MaxOrderItemId;
+                tmpOrdItem.OrderId = OrderList[i].Id;
                 bool exist;
                 int pIdx;
                 do
                 {
                     exist = false;
-                    pIdx = rnd.Next(0,ProductArr.Count);  // pIdx is the location in the Products array
-                    int pBarcode = ProductArr[pIdx].Id; 
+                    pIdx = rnd.Next(0,ProductList.Count);  // pIdx is the location in the Products array
+                    int pBarcode = ProductList[pIdx].Id; 
                         for (int k = 0; k < j ; k++)
                         {
-                            if(OrderItemArr[OrderItemArr.Count - k - 1 ].ProductId == pBarcode)
+                            if(OrderItemList[OrderItemList.Count - k - 1 ].ProductId == pBarcode)
                             {
                                 exist = true;
                             }
                         }
                     } while (exist);
-                productId = ProductArr[pIdx].Id;
+                tmpOrdItem.ProductId = ProductList[pIdx].Id;
                 int amountOfProduct= rnd.Next(1, 10);
-                if(amountOfProduct<= ProductArr[pIdx].InStock)
+                if(amountOfProduct<= ProductList[pIdx].InStock)
                 {
                     amount = amountOfProduct; // The amount of each product
                 }
                 else
                 {
-                    amount = ProductArr[pIdx].InStock;
+                    amount = ProductList[pIdx].InStock;
                 }
-                Product product = ProductArr[pIdx];
+                Product product = ProductList[pIdx];
                 product.InStock -= amount;
-                ProductArr[pIdx]=product;               
-                price = amount * ProductArr[pIdx].Price; 
-                OrderItem orderItem = new OrderItem(id,productId, orderId, price, amount);
-                OrderItemArr.Add(orderItem);
-                
+                ProductList[pIdx]=product;
+                tmpOrdItem.Price = amount * ProductList[pIdx].Price;
+                tmpOrdItem.Amount = amount; 
+                OrderItemList.Add(tmpOrdItem);                
             }                 
         }
     }

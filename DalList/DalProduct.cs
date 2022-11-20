@@ -1,52 +1,65 @@
 ﻿using DO;
+using DalApi;
 
 namespace Dal;
-
-public static class DalProduct
+/// <summary>
+/// This class implements the CRUD on the database functions for each product in the store.
+/// </summary>
+public class DalProduct : IProduct
 {
-    public static int CreateProduct(Product product)
+    /// <summary>
+    /// A function to add a new product to the database.
+    /// </summary>
+    public int Create(Product product)
     {
-        DataSource.ProductArr.Add(product);
+        DataSource.ProductList.Add(product);
         return product.Id;
     }
-
-    public static Product ReadProduct(int id)
+    /// <summary>
+    /// A function to delete a product from the database.
+    /// </summary>
+    public void Delete(int id)
     {
-        Product product = DataSource.ProductArr.Where(product => product.Id == id).FirstOrDefault();
+        Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
         if (product.Equals(default(Product)))
         {
-            throw new Exception("No product exists with this ID ");
+            throw new IdNotExist();
+        }
+        DataSource.ProductList.Remove(product);
+    }
+    /// <summary>
+    ///  A function to get the information about specific product in the database by ID.
+    /// </summary>
+    public Product Read(int id)
+    {
+        Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
+        if (product.Equals(default(Product)))
+        {
+            throw new IdNotExist();
         }
         return product;
     }
-
-    public static Product[] ReadProduct()
+    /// <summary>
+    ///  A function to get the information about all the products in the database.
+    /// </summary>
+    public IEnumerable<Product> Read()
     {
-        Product[] tmpProductArr = new Product[DataSource.ProductArr.Count];
-        DataSource.ProductArr.CopyTo(tmpProductArr);
-        return tmpProductArr;
+        List<Product> tmpProductList = new List<Product>(DataSource.ProductList.Count);
+        tmpProductList = DataSource.ProductList;
+        return tmpProductList;
     }
-
-    public static void UpdateProduct(Product product)
+    /// <summary>
+    ///  A function to update a specific product in the database. 
+    /// </summary>
+    public void Update(Product product)
     {
-        Product originalProduct = DataSource.ProductArr.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
+        Product originalProduct = DataSource.ProductList.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
         if (originalProduct.Equals(default(Product)))
         {
-            throw new Exception("No product exists with this ID ");
+            throw new IdNotExist();
         }
-        DataSource.ProductArr.Remove(originalProduct);
-        DataSource.ProductArr.Add(product);
+        DataSource.ProductList.Remove(originalProduct);
+        DataSource.ProductList.Add(product);
     }
-
-    public static void DeleteProduct(int id)
-    {
-        Product product = DataSource.ProductArr.Where(product => product.Id == id).FirstOrDefault();
-        if (product.Equals(default(Product)))
-        {
-            throw new Exception("No product exists with this ID ");
-        }
-        DataSource.ProductArr.Remove(product);
-    }
-
 }
 

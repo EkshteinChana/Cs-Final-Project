@@ -1,8 +1,9 @@
 ﻿using DO;
 
-namespace DalApi
+namespace DalApi;
+
+public interface IOrder : ICrud<Order>
 {
-    public interface IOrder : ICrud<Order>
-    {
-    }
+
+
 }
