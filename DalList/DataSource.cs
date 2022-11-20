@@ -2,13 +2,16 @@
 
 namespace Dal;
 /// <summary>
-/// This class 
+/// This class initializes the entity data lists.
 /// </summary>
 public class DataSource
 {
     public static List<Order> OrderList = new List<Order>();
     public static List<Product> ProductList = new List<Product>();
     public static List<OrderItem> OrderItemList = new List<OrderItem>();
+    /// <summary>
+    /// This class contains an ID for all the data entities.
+    /// </summary>
     public static class Config
     {
         private static int s_maxOrderItemId = 1;
@@ -22,7 +25,9 @@ public class DataSource
     {
         s_Initialize();
     }
-
+    /// <summary>
+    /// This is the main function in DataSource, here we call the functions to initialize the data entities.
+    /// </summary>
     private static void s_Initialize()
     {
         CreateProductList();
@@ -30,7 +35,9 @@ public class DataSource
         CreateOrderItemList();
     }
 
-
+    /// <summary>
+    /// A function to initialize the products list in the database
+    /// </summary>
     private static void CreateProductList()
     {
         // Temp help array 
@@ -77,7 +84,9 @@ public class DataSource
         }
     }
 
-
+    /// <summary>
+    /// A function to initialize the orders list in the database
+    /// </summary>
     private static void CreateOrderList()
     {
         (string, string, string)[] CustomerDetails = new (string, string, string)[5]
@@ -122,7 +131,9 @@ public class DataSource
             OrderList.Add(tmpOrd);
         }
     }
-
+    /// <summary>
+    /// A function to initialize the items in order list in the database
+    /// </summary>
     private static void CreateOrderItemList()
     {
         int amount;
