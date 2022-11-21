@@ -12,39 +12,40 @@ namespace BlApi;
 public interface IProduct
 {
     /// <summary>
-    /// Product list request for manager screen
+    /// A function to read the list of products for manager screen
     /// </summary>
     /// <returns>An IEnumerable of ProductForList</returns>
     public IEnumerable<ProductForList> ReadProdsManager();
     /// <summary>
-    /// Catalog request for Customer screen
+    /// A function to read the list of products (catalog)
+    /// for customer screen
     /// </summary>
     /// <returns>An IEnumerable of ProductItem</returns>
     public IEnumerable<ProductItem> ReadProdsCustomer();
     // <summary>
-    /// Product details request by productId
+    /// A function to read details of a product by productId
     /// for manager screen
     /// </summary>
     /// <returns>Product</returns>
     public Product ReadProdManager(int Id);
     // <summary>
-    /// Product details request by productId
+    /// A function to read details of a product by productId
     /// for customer screen
     /// </summary>
     /// <returns>Product</returns>
     public Product ReadProdCustomer(int Id);
     // <summary>
-    /// Adding Product (for customer screen)
+    /// A function to add a product (for customer screen)
     /// </summary>
     /// <returns>void</returns>
     public void CreateProd(Product prod);
     // <summary>
-    /// Deleting Product (for customer screen)
+    /// A function to delete a product (for customer screen)
     /// </summary>
     /// <returns>void</returns>
     public void DeleteProd(int Id);
     // <summary>
-    /// Updating Product (for customer screen)
+    /// A function to update a Product (for customer screen)
     /// </summary>
     /// <returns>void</returns>
     public void UpdateProd(Product prod);
