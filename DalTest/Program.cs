@@ -1,106 +1,116 @@
 ﻿/// <summary>
-/// Stage 1 by Ozer Ester 214255705 and Ekshtein Chana 213868631
+/// C# project Stage 2 
+/// by Ozer Ester 214255705 and Ekshtein Chana 213868631
 /// </summary>
-/// 
+
 
 using Dal;
 using DO;
-using System.Xml.Linq;
 
+//=========================== Generic variables
 char choice;
 DataSource ds = new DataSource();
+DalList dalList = new DalList();
+
 
 //=========================== Order functions
+/// <summary>
+/// A function that receives details from the user about the new order and sends them to the function for adding an order.
+/// </summary>
 void AddOrder()
 {
-    string oCustomerName, oCustomerEmail, oCustomerAddress;
-    int numDays, oId;
-    DateTime oDate, shipDate, deliveryDate;
+    Order newOrder = new Order();
     Console.WriteLine("\nEnter your details:\n name-");
-    oCustomerName = Console.ReadLine();
-    Console.WriteLine("email-");
-    oCustomerEmail = Console.ReadLine();
-    Console.WriteLine("address-");
-    oCustomerAddress = Console.ReadLine();
+    newOrder.CustomerName = Console.ReadLine();
+    Console.WriteLine("\nemail-");
+    newOrder.CustomerEmail = Console.ReadLine();
+    Console.WriteLine("\naddress-");
+    newOrder.CustomerAddress = Console.ReadLine();
 
-    oId = DataSource.Config.MaxOrderId;
-    oDate = DateTime.Now;
-    shipDate = DateTime.MinValue;
-    deliveryDate = DateTime.MinValue;
-    Order newOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
-    DalOrder.Create(newOrder);
+    newOrder.Id = DataSource.Config.MaxOrderId;
+    newOrder.OrderDate = DateTime.Now;
+    newOrder.ShipDate = DateTime.MinValue;
+    newOrder.DeliveryDate = DateTime.MinValue;
+    dalList.order.Create(newOrder);
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying order data, and sends them to the function to do so.
+/// </summary>
 void WatchOrder()
 {
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    Order tmpOrder = DalOrder.Read(oId);
-    Console.WriteLine(tmpOrder + "\n");
+     dalList.order.Read(oId);
+    Console.WriteLine( dalList.order + "\n");
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying the data of all orders, and sends them to the function that will do it.
+/// </summary>
 void WatchOrderList()
 {
     int size = DataSource.OrderList.Count;
-    Order[] ordList = new Order[size];
-    ordList = DalOrder.Read();
+    IEnumerable<Order> ordList = new List<Order>(size);
+    ordList =  dalList.order.Read();
     foreach (Order order in ordList)
     {
         Console.WriteLine(order);
     }
 }
-
+/// <summary>
+/// A function that receives details from the user for updating an order, and sends them to the function that will do it.
+/// </summary>
 void UpdateOrder()
 {
-    string oCustomerName, oCustomerEmail, oCustomerAddress, shipDateS, deliveryDateS;
     DateTime oDate, shipDate, deliveryDate;
-    int numDays, oId;
+    Order tmpOrder = new Order();
 
     Console.WriteLine("\nEnter the order id you want to update: ");
-    oId = Convert.ToInt32(Console.ReadLine());
-    Order tmpOrd = DalOrder.ReadOrder(oId);
-    Console.WriteLine(tmpOrd + "\n");
+    tmpOrder.Id = Convert.ToInt32(Console.ReadLine());
+    Order srcOrd =  dalList.order.Read(tmpOrder.Id);
+    Console.WriteLine(srcOrd + "\n");
     Console.WriteLine("\nEnter your details:\n name- ");
-    oCustomerName = Console.ReadLine();
+    tmpOrder.CustomerName = Console.ReadLine();
     Console.WriteLine("\nemail- ");
-    oCustomerEmail = Console.ReadLine();
+    tmpOrder.CustomerEmail = Console.ReadLine();
     Console.WriteLine("\naddress- ");
-    oCustomerAddress = Console.ReadLine();
-    oDate = tmpOrd.OrderDate;
+    tmpOrder.CustomerAddress = Console.ReadLine();
+    oDate = srcOrd.OrderDate;
     Console.WriteLine("\nEnter the order shipping date: ");
 
     bool correctInput = false;
-    shipDateS= Console.ReadLine();
-    correctInput = DateTime.TryParse(shipDateS, out shipDate);
+    correctInput = DateTime.TryParse(Console.ReadLine(), out shipDate);
     if (!correctInput)
     {
         throw new Exception("\nYou have entered an incorrect shipDate.");
     }
-
+    tmpOrder.ShipDate = shipDate;
     Console.WriteLine("\nEnter the order delivering date: ");
-    deliveryDateS = Console.ReadLine();
-    correctInput = DateTime.TryParse(deliveryDateS, out deliveryDate);
+    correctInput = DateTime.TryParse(Console.ReadLine(), out deliveryDate);
     if (!correctInput)
     {
         throw new Exception("\nYou have entered an incorrect deliveryDate.");
     }
+    tmpOrder.DeliveryDate = deliveryDate;
 
-    Order tmpOrder = new Order(oId, oCustomerName, oCustomerEmail, oCustomerAddress, oDate, shipDate, deliveryDate);
-    DalOrder.Update(tmpOrder);
+     dalList.order.Update(tmpOrder);
 }
-
+/// <summary>
+/// A function that receives details from the user for deleting an order, and sends them to the function that will do it.
+/// </summary>
 void DeleteOrder()
 {
     Console.WriteLine("\nEnter the ID of the order you want to delete: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    DalOrder.Delete(oId);
+     dalList.order.Delete(oId);
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying all the items in a specific order, and sends them to the function that will do it.
+/// </summary>
 void WatchAllItemsInOrd()
 {
-    Console.WriteLine("Enter the order ID you want to watch: ");
+    Console.WriteLine("\nEnter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    OrderItem[] itemsInOrder = DalOrderItem.ReadOrderItemByOrderId(oId);
+    IEnumerable<OrderItem> itemsInOrder =  dalList.orderItem.ReadOrderItemByOrderId(oId);
     foreach (OrderItem oItem in itemsInOrder)
     {
         Console.WriteLine(oItem);
@@ -108,21 +118,21 @@ void WatchAllItemsInOrd()
 }
 
 //==================================== Product functions
+/// <summary>
+/// A function that receives details from the user about the new product and sends them to the function for adding an product.
+/// </summary>
 void AddProduct()
 {
-    string name;
-    int category;
-    int inStock;
-    double price;
+    Product newProduct = new Product();
 
     Console.WriteLine("Enter the product details:\n name-");
-    name = Console.ReadLine();
+    newProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    category = Convert.ToInt32(Console.ReadLine());
+    newProduct.category = (eCategory)Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
-    price = Convert.ToDouble(Console.ReadLine());
+    newProduct.Price = Convert.ToDouble(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
-    inStock = Convert.ToInt32(Console.ReadLine());
+    newProduct.InStock = Convert.ToInt32(Console.ReadLine());
 
     bool notExists;
     int id;
@@ -140,74 +150,82 @@ void AddProduct()
             }
         }
     } while (!notExists);
-    Product newProduct = new Product(id, name, price, inStock, (eCategory)category);
-    DalProduct.CreateProduct(newProduct);
+    newProduct.Id = id;
+     dalList.product.Create(newProduct);
 }
-
+/// <summary>
+/// A function that receives details from the user for updating an product, and sends them to the function that will do it.
+/// </summary>.
 void UpdateProduct()
 {
-    string name;
-    int id, category, inStock;
-    double price;
+    Product tmpProduct = new Product();
 
     Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
-    id = Convert.ToInt32(Console.ReadLine());
-    Product tmpProd = DalProduct.ReadProduct(id);
-    Console.WriteLine(tmpProd + "\n");
+    tmpProduct.Id = Convert.ToInt32(Console.ReadLine());
+    Product srcProd =  dalList.product.Read(tmpProduct.Id);
+    Console.WriteLine(srcProd + "\n");
     Console.WriteLine("\nname- ");
-    name = Console.ReadLine();
+    tmpProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    category = Convert.ToInt32(Console.ReadLine());
+    tmpProduct.category = (eCategory)Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
-    inStock = Convert.ToInt32(Console.ReadLine());
+    tmpProduct.InStock = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
-    price = Convert.ToDouble(Console.ReadLine());
-    Product tmpProduct = new Product(id, name, price, inStock, (eCategory)category);
-    DalProduct.UpdateProduct(tmpProduct);
+    tmpProduct.Price = Convert.ToDouble(Console.ReadLine());
+     dalList.product.Update(tmpProduct);
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying product data, and sends them to the function to do so.
+/// </summary>
 void WatchProduct()
 {
     Console.WriteLine("\nEnter the product ID for watching: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    Product tmpProduct = DalProduct.ReadProduct(id);
+    Product tmpProduct =  dalList.product.Read(id);
     Console.WriteLine(tmpProduct + "\n");
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying the data of all products, and sends them to the function that will do it.
+/// </summary>
 void WatchProductList()
 {
     int size = DataSource.ProductList.Count;
-    Product[] productList = new Product[size];
-    productList = DalProduct.ReadProduct();
+    IEnumerable<Product> productList = new Product[size];
+    productList =  dalList.product.Read();
     foreach (Product product in productList)
     {
         Console.WriteLine(product);
     }
 }
-
+/// <summary>
+/// A function that receives details from the user for deleting a product, and sends them to the function that will do it.
+/// </summary>
 void DeleteProduct()
 {
     Console.WriteLine("\nEnter the ID of the product you want to delete: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    DalProduct.DeleteProduct(id);
+     dalList.product.Delete(id);
 }
 
 
-//=============================================OrderItem functions
+//============================================= OrderItem functions
+/// <summary>
+/// A function that receives details from the user about the new item in order and sends them to the function for adding an item to an existing or new order.
+/// </summary>
 void AddOrderItem()
 {
-    int id, productId, orderId, amount, productIdxInList = -1;
-    double price;
+    OrderItem newOrderItem = new OrderItem();
+   int productIdxInList = -1;
     bool correct;
     Console.WriteLine("Enter OrderItem details:");
     do
     {
         correct = false;
         Console.WriteLine("productId-");
-        productId = Convert.ToInt32(Console.ReadLine());
+        newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.ProductList.Count; j++)//checking that this productId exists 
         {
-            if (DataSource.ProductList[j].Id == productId)
+            if (DataSource.ProductList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -220,10 +238,10 @@ void AddOrderItem()
     {
         correct = false;
         Console.WriteLine("orderId-");
-        orderId = Convert.ToInt32(Console.ReadLine());
+        newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.OrderList.Count; j++)//checking that this orderId exists 
         {
-            if (DataSource.OrderList[j].Id == orderId)
+            if (DataSource.OrderList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -232,30 +250,31 @@ void AddOrderItem()
             Console.WriteLine("this orderId doesn't exist");
     } while (!correct);
     Console.WriteLine("amount-");
-    amount = Convert.ToInt32(Console.ReadLine());
-    price = (DataSource.ProductList[productIdxInList].Price) * amount;
-    id = DataSource.Config.MaxOrderItemId;
-    OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
-    DalOrderItem.CreateOrderItem(newOrderItem);
+    newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
+    newOrderItem.Price = (DataSource.ProductList[productIdxInList].Price) * newOrderItem.Amount;
+    newOrderItem.Id = DataSource.Config.MaxOrderItemId;
+     dalList.orderItem.Create(newOrderItem);
 }
-
+/// <summary>
+/// A function that receives details from the user for updating an item (by ID) in the order, and sends them to the function that will do it.
+/// </summary>
 void UpdateOrderItem()
 {
-    int id, productId, orderId, amount, productIdxInList = -1;
-    double price;
+    OrderItem newOrderItem = new OrderItem();
+    int productIdxInList = -1;
     bool correct;
     Console.WriteLine("\nEnter the orderItem's details you want to update:\n id- ");
-    id = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrdItem = DalOrderItem.ReadOrderItem(id);
+    newOrderItem.Id = Convert.ToInt32(Console.ReadLine());
+    OrderItem tmpOrdItem =  dalList.orderItem.Read(newOrderItem.Id);
     Console.WriteLine(tmpOrdItem + "\n");
     do
     {
         correct = false;
         Console.WriteLine("productId-");
-        productId = Convert.ToInt32(Console.ReadLine());
+        newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.ProductList.Count; j++)//checking that this productId exists 
         {
-            if (DataSource.ProductList[j].Id == productId)
+            if (DataSource.ProductList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -268,10 +287,10 @@ void UpdateOrderItem()
     {
         correct = false;
         Console.WriteLine("orderId-");
-        orderId = Convert.ToInt32(Console.ReadLine());
+        newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
         for (int j = 0; j < DataSource.OrderList.Count; j++)//checking that this orderId exists 
         {
-            if (DataSource.OrderList[j].Id == orderId)
+            if (DataSource.OrderList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -280,50 +299,62 @@ void UpdateOrderItem()
             Console.WriteLine("this orderId doesn't exist");
     } while (!correct);
     Console.WriteLine("amount-");
-    amount = Convert.ToInt32(Console.ReadLine());
-    price = (DataSource.ProductList[productIdxInList].Price) * amount;
-    OrderItem newOrderItem = new OrderItem(id, productId, orderId, price, amount);
-    DalOrderItem.UpdateOrderItem(newOrderItem);
+    newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
+    newOrderItem.Price = (DataSource.ProductList[productIdxInList].Price) * newOrderItem.Amount;
+     dalList.orderItem.Update(newOrderItem);
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying an item in the order (by the item ID), 
+/// and sends them to the function that will do it.
+/// </summary>
 void WatchOrderItem()
 {
     Console.WriteLine("\nEnter the orderItem ID for watching: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrderItem = DalOrderItem.ReadOrderItem(id);
+    OrderItem tmpOrderItem =  dalList.orderItem.Read(id);
     Console.WriteLine(tmpOrderItem + "\n");
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying the data of all items of allthe existing orders, and sends them to the function that will do it.
+/// </summary>
 void WatchOrderItemList()
 {
     int size = DataSource.OrderItemList.Count;
-    OrderItem[] orderItemList = new OrderItem[size];
-    orderItemList = DalOrderItem.ReadOrderItem();
+    IEnumerable<OrderItem> orderItemList = new OrderItem[size];
+    orderItemList =  dalList.orderItem.Read();
     foreach (OrderItem orderItem in orderItemList)
     {
         Console.WriteLine(orderItem);
     }
 }
-
+/// <summary>
+/// A function that receives details from the user for deleting a item in an order, and sends them to the function that will do it.
+/// </summary>
 void DeleteOrderItem()
 {
     Console.WriteLine("\nEnter the ID of the orderItem you want to delete: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    DalOrderItem.DeleteOrderItem(id);
+     dalList.orderItem.Delete(id);
 }
-
+/// <summary>
+/// A function that receives details from the user for displaying an item in the order (by the order ID and the product ID), 
+/// and sends them to the function that will do it.
+/// </summary>
 void WatchOrderItemByOrderIdProductId()
 {
     Console.WriteLine("\nEnter the order ID : ");
     int oId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID : ");
     int pId = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrderItem = DalOrderItem.ReadOrderItem(pId, oId);
+    OrderItem tmpOrderItem =  dalList.orderItem.ReadOrderItem(pId, oId);
     Console.WriteLine(tmpOrderItem + "\n");
 }
 
 
-//==================================== Menue
+/// <summary>
+/// A function that presents the user with a menu of actions for the selected entity, receives a action by  
+/// input and routes it to the appropriate function.
+/// </summary>
 void Menue(string type)
 {
     string specialOptions = ".";
@@ -430,7 +461,6 @@ void Menue(string type)
                 break;
             default:
                 throw new Exception("unknown action");
-                break;
         }
     }
 }

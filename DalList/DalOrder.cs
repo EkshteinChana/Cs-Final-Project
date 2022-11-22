@@ -5,7 +5,7 @@ namespace Dal;
 /// <summary>
 /// This class implements the CRUD on the database functions for each order.
 /// </summary>
-internal class DalOrder : IOrder
+public class DalOrder : IOrder
 {
     /// <summary>
     /// A function to add a new oder to the database.
@@ -23,7 +23,7 @@ internal class DalOrder : IOrder
         Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
         if (order.Equals(default(Order)))
         {
-            throw new 
+            throw new IdNotExist();
            // throw new Exception("No order exists with this ID");
         }
         DataSource.OrderList.Remove(order);
@@ -36,7 +36,7 @@ internal class DalOrder : IOrder
         Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
         if (order.Equals(default(Order)))
         {
-            throw new Exception("No order exists with this ID");
+            throw new IdNotExist();
         }
         return order;
     }
@@ -58,7 +58,7 @@ internal class DalOrder : IOrder
         Order originalOrder = DataSource.OrderList.Where(originalOrder => originalOrder.Id == order.Id).FirstOrDefault();
         if (originalOrder.Equals(default(Order)))
         {
-            throw new Exception("No order exists with this ID");
+            throw new IdNotExist();
         }
         DataSource.OrderList.Remove(originalOrder);
         DataSource.OrderList.Add(order);
