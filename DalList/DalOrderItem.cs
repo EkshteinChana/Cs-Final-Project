@@ -23,7 +23,7 @@ public class DalOrderItem : IOrderItem
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
         if (orderItem.Equals(default(OrderItem)))
         {
-            throw new Exception("No orderItem exists with this ID");
+            throw new IdNotExist();
         }
         DataSource.OrderItemList.Remove(orderItem);
     }
@@ -35,7 +35,7 @@ public class DalOrderItem : IOrderItem
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
         if (orderItem.Equals(default(OrderItem)))
         {
-            throw new Exception("No orderItem exists with this ID ");
+            throw new IdNotExist();
         }
         return orderItem;
     }
@@ -83,7 +83,7 @@ public class DalOrderItem : IOrderItem
         OrderItem originalOrderItem = DataSource.OrderItemList.Where(originalOrderItem => originalOrderItem.Id == orderItem.Id).FirstOrDefault();
         if (originalOrderItem.Equals(default(OrderItem)))
         {
-            throw new Exception("No orderItem exists with this ID");
+            throw new IdNotExist();
         }
         DataSource.OrderItemList.Remove(originalOrderItem);
         DataSource.OrderItemList.Add(orderItem);

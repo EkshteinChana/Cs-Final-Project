@@ -5,7 +5,7 @@ namespace Dal;
 //public IOrderItem orderItem { get; }
 sealed public class DalList : IDal
 {
-    public IOrder Order => new DalOrder();
-    public IProduct Product => new DalProduct();
-    public IOrderItem OrderItem => new DalOrderItem();
+    public IProduct product => new DalProduct();
+    public IOrder order => new DalOrder();
+    public IOrderItem orderItem => new DalOrderItem();
 }
