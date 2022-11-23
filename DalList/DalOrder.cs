@@ -12,6 +12,11 @@ public class DalOrder : IOrder
     /// </summary>
     public int Create(Order order)
     {
+        Order tmpOrder = DataSource.OrderList.Where(ord => ord.Id == order.Id).FirstOrDefault();
+        if (!tmpOrder.Equals(default(Order)))
+        {
+            throw new IdAlreadyExists();
+        }
         DataSource.OrderList.Add(order);
         return order.Id;
     }
@@ -24,7 +29,6 @@ public class DalOrder : IOrder
         if (order.Equals(default(Order)))
         {
             throw new IdNotExist();
-           // throw new Exception("No order exists with this ID");
         }
         DataSource.OrderList.Remove(order);
     }

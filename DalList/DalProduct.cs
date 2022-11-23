@@ -12,6 +12,11 @@ public class DalProduct : IProduct
     /// </summary>
     public int Create(Product product)
     {
+        Product tmpProduct = DataSource.ProductList.Where(prod => prod.Id == product.Id).FirstOrDefault();
+        if (!tmpProduct.Equals(default(Product)))
+        {
+            throw new IdAlreadyExists();
+        }
         DataSource.ProductList.Add(product);
         return product.Id;
     }

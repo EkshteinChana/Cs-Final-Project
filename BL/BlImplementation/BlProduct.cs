@@ -1,5 +1,6 @@
 ﻿using DalApi;
 using Dal;
+using BlApi;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
@@ -9,20 +10,24 @@ internal class BlProduct : BlApi.IProduct
     {
         if(prod.Id < 1)
         {
-            throw new Exception("Id is not valid");
+            throw new InvalidID();
         }
         if (string.IsNullOrEmpty(prod.Name))
         {
-            throw new Exception("Name is not valid");
+            throw new InvalidName();
         }
         if (prod.Price < 0)
         {
-            throw new Exception("Price is not valid");
+            throw new InvalidPrice();
         }
-
+        if(prod.InStock < 0)
+        {
+            throw new InvalidAmountInStock();
+        }
+///////////////////////////////////////////////
     }
 
-    public void DeleteProd(int Id)
+public void DeleteProd(int Id)
     {
 
     }
@@ -31,6 +36,10 @@ internal class BlProduct : BlApi.IProduct
     {
         try
         {
+            if (Id < 1)
+            {
+                throw new InvalidID();
+            }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
             bP.Id = dP.Id;
@@ -40,9 +49,9 @@ internal class BlProduct : BlApi.IProduct
             bP.InStock = dP.InStock;
             return bP;
         }
-        catch (Exception e)
+        catch (IdNotExist exc)
         {
-            throw new Exception("?????????");
+            throw new DataError(exc);
         }
     }
 
@@ -50,6 +59,10 @@ internal class BlProduct : BlApi.IProduct
     {
         try
         {
+            if (Id < 1)
+            {
+                throw new InvalidID();
+            }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
             bP.Id = dP.Id;
@@ -59,9 +72,9 @@ internal class BlProduct : BlApi.IProduct
             bP.InStock = dP.InStock;
             return bP;
         }
-        catch (Exception e)
+        catch (IdNotExist exc)
         {
-            throw new Exception("?????????");
+            throw new DataError(exc);
         }
     }
 

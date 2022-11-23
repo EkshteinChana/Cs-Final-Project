@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BlApi;
+﻿using BlApi;
 using DalApi;
 using Dal;
 

@@ -12,6 +12,11 @@ public class DalOrderItem : IOrderItem
     /// </summary>
     public int Create(OrderItem orderItem)
     {
+        OrderItem tmpOrderItem = DataSource.OrderItemList.Where(ordItem => ordItem.Id == orderItem.Id).FirstOrDefault();
+        if (!tmpOrderItem.Equals(default(OrderItem)))
+        {
+            throw new IdAlreadyExists();
+        }
         DataSource.OrderItemList.Add(orderItem);
         return orderItem.Id;
     }
