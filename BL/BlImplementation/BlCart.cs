@@ -42,10 +42,11 @@ internal class BlCart : ICart
                 throw new OutOfStock();
             }
             BO.OrderItem oI = new BO.OrderItem();
-            //oI.Id = ;
+            oI.Id = Config.MaxOrderItemId ;
+            oI.ProductId = dP.Id;
             oI.Name = dP.Name;
             oI.Price = dP.Price;
-            oI.ProductId = dP.Id;
+            oI.Amount = 1;
             oI.TotalPrice = dP.Price;
             cart.Items.Append(oI);
             cart.TotalPrice += dP.Price;
