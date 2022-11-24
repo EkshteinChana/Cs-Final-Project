@@ -10,19 +10,19 @@ internal class BlProduct : BlApi.IProduct
     {
         if(prod.Id < 1)
         {
-            throw new InvalidID();
+            throw new InvalidValue("ID");
         }
         if (string.IsNullOrEmpty(prod.Name))
         {
-            throw new InvalidName();
+            throw new InvalidValue("name");
         }
         if (prod.Price < 0)
         {
-            throw new InvalidPrice();
+            throw new InvalidValue("price");
         }
         if(prod.InStock < 0)
         {
-            throw new InvalidAmountInStock();
+            throw new InvalidValue("amount in stock");
         }
 ///////////////////////////////////////////////
     }
@@ -38,7 +38,7 @@ public void DeleteProd(int Id)
         {
             if (Id < 1)
             {
-                throw new InvalidID();
+                throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
@@ -61,7 +61,7 @@ public void DeleteProd(int Id)
         {
             if (Id < 1)
             {
-                throw new InvalidID();
+                throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();

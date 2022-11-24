@@ -12,7 +12,7 @@ internal class BlCart : ICart
         {
             if (Id < 1)
             {
-                throw new InvalidID();
+                throw new InvalidValue("ID");
             }
             bool exist = false;
             int inStock;
@@ -42,7 +42,7 @@ internal class BlCart : ICart
                 throw new OutOfStock();
             }
             BO.OrderItem oI = new BO.OrderItem();
-            oI.Id = Config.MaxOrderItemId ;
+            oI.Id = Config.MaxCartOrderItemId;
             oI.ProductId = dP.Id;
             oI.Name = dP.Name;
             oI.Price = dP.Price;
