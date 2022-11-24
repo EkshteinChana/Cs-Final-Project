@@ -50,8 +50,8 @@ public class DalOrderItem : IOrderItem
     /// </summary>
     public IEnumerable<OrderItem> Read()
     {
-        OrderItem[] tmpOrderItemList = new OrderItem[DataSource.OrderItemList.Count];
-        DataSource.OrderItemList.CopyTo(tmpOrderItemList);
+        IEnumerable<OrderItem> tmpOrderItemList = new List<OrderItem>(DataSource.OrderItemList.Count);
+        tmpOrderItemList = DataSource.OrderItemList;
         return tmpOrderItemList;
     }
     /// <summary>
@@ -67,7 +67,7 @@ public class DalOrderItem : IOrderItem
         return orderItem;
     }
     /// <summary>
-    /// A function to get from the database all the items in an specific order.
+    /// A function to get from the database all the items in an specific order by the order ID.
     /// </summary>
     public IEnumerable<OrderItem> ReadOrderItemByOrderId(int oId)
     {
