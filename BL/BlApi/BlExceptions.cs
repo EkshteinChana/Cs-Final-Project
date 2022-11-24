@@ -8,7 +8,7 @@ public class DataError : Exception
 }
 public class InvalidValue : Exception
 {
-    public string msg { get; set; }
+    public readonly string msg;
     public InvalidValue(string m) { msg = m; }
     public override string Message => $"Invalid {msg} entered";
 }
@@ -30,3 +30,12 @@ public class InvalidOrderItem : Exception
     public InvalidOrderItem(string m) { msg = m; }
     public override string Message => $"Invalid order item - {msg}";
 }
+public class IllegalDeletion : Exception
+{
+    public readonly string msg;
+    public IllegalDeletion(string m) { msg = m; }
+    public override string Message => msg;
+}
+
+
+
