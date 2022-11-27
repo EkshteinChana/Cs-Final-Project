@@ -11,7 +11,7 @@ public class OrderForList
     public string CustomerName { get; set; }
     public eOrderStatus status { get; set; }//the status of the order
     public int AmountOfItems { get; set; }
-    public double TotalPrice { get; set; }//the total price o fthe order
+    public double TotalPrice { get; set; }//the total price of the order
 
     public override string ToString() => $@"
         order ID: {Id},

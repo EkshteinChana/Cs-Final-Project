@@ -7,7 +7,7 @@ internal class BlProduct : BlApi.IProduct
 {
     private IDal Dal = new DalList();
     /// <summary>
-    /// A private auxiliary function for checking the integrity of the data in the logical layer for adding/updating a product.
+    /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
     private void checkOrdValues(BO.Product prod)
     {
@@ -27,6 +27,19 @@ internal class BlProduct : BlApi.IProduct
         {
             throw new InvalidValue("amount in stock");
         }
+    }
+    /// <summary>
+    /// A private help function to convert DO.Product entity to BO.Product entity.
+    /// </summary>
+    private BO.Product convertDToB(DO.Product dP)
+    {
+        BO.Product bP = new BO.Product();
+        bP.Id = dP.Id;
+        bP.Name = dP.Name;
+        bP.Price = dP.Price;
+        bP.Category = (BO.eCategory)dP.category;
+        bP.InStock = dP.InStock;
+        return bP;
     }
     /// <summary>
     /// A function that receives product data, checks its integrity 
@@ -84,13 +97,7 @@ internal class BlProduct : BlApi.IProduct
                 throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
-            BO.Product bP = new BO.Product();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
-            bP.InStock = dP.InStock;
-            return bP;
+            return convertDToB(dP);
         }
         catch (IdNotExist exc)
         {
@@ -110,13 +117,7 @@ internal class BlProduct : BlApi.IProduct
                 throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
-            BO.Product bP = new BO.Product();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
-            bP.InStock = dP.InStock;
-            return bP;
+            return convertDToB(dP);
         }
         catch (IdNotExist exc)
         {

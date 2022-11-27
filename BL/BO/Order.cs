@@ -16,7 +16,7 @@ public class Order
     public DateTime PaymentDate { get; set; }
     public DateTime ShipDate { get; set; }
     public DateTime DeliveryDate { get; set; }
-    public IEnumerable<OrderItem> Items { get; set; }//a list of the items in this order 
+    public IEnumerable<BO.OrderItem> Items { get; set; } //a list of the items in this order 
     public double TotalPrice { get; set; }//the total price of this order
 
     public override string ToString() => $@"
@@ -29,7 +29,7 @@ public class Order
         PaymentDate: {PaymentDate}
     	shipDate: {ShipDate},
     	deliveryDate: {DeliveryDate},
-        items: {items},
+        items: {Items},
         totalPrice: {TotalPrice}
         ";
 }

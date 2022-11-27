@@ -1,5 +1,4 @@
-﻿
-namespace BlImplementation;
+﻿namespace BlImplementation;
 internal static class Config
 {
     private static int s_maxCartOrderItemId = 1;
