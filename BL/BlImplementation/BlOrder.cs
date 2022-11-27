@@ -22,17 +22,6 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
-    private double calcTotalPrice(int oId)
-    {
-        double totalPrice = 0;
-        IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
-        IEnumerable<DO.OrderItem> items = orderItems.Where(ordItm => ordItm.OrderId == oId);
-        foreach (DO.OrderItem itm in items)
-        {
-            totalPrice += itm.Price * itm.Amount;
-        }
-        return totalPrice;
-    }
     private BO.Order convertDToB(DO.Order dO)
     {
         BO.Order bO = new();
