@@ -30,17 +30,17 @@ public interface IProduct
     /// <returns>Product</returns>
     public Product ReadProdCustomer(int Id);
     // <summary>
-    /// A function to add a product (for customer screen)
+    /// A function to add a product (for manager screen)
     /// </summary>
     /// <returns>void</returns>
     public void CreateProd(Product prod);
     // <summary>
-    /// A function to delete a product (for customer screen)
+    /// A function to delete a product (for manager screen)
     /// </summary>
     /// <returns>void</returns>
     public void DeleteProd(int Id);
     // <summary>
-    /// A function to update a Product (for customer screen)
+    /// A function to update a Product (for manager screen)
     /// </summary>
     /// <returns>void</returns>
     public void UpdateProd(Product prod);

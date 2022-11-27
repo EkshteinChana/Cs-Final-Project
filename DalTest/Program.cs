@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// C# project Stage 2 
+/// C# project Stage 1 
 /// by Ozer Ester 214255705 and Ekshtein Chana 213868631
 /// </summary>
 

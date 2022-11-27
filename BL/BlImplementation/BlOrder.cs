@@ -1,25 +1,24 @@
 ﻿using BlApi;
 using DalApi;
 using Dal;
-using BO;
 
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
     private IDal Dal = new DalList();
-    private eOrderStatus checkStatus(DO.Order dO)
+    private BO.eOrderStatus checkStatus(DO.Order dO)
     {
         if (dO.DeliveryDate != DateTime.MinValue)
         {
-            return eOrderStatus.provided;
+            return BO.eOrderStatus.provided;
         }
         else if (dO.ShipDate != DateTime.MinValue)
         {
-            return eOrderStatus.Sent;
+            return BO.eOrderStatus.Sent;
         }
         else
         {
-            return eOrderStatus.confirmed;
+            return BO.eOrderStatus.confirmed;
         }
     }
 
@@ -64,7 +63,7 @@ internal class BlOrder : BlApi.IOrder
         return bO;
     }
 
-    Order BlApi.IOrder.ReadOrd(int orderId)
+    BO.Order BlApi.IOrder.ReadOrd(int orderId)
     {
         if(orderId < 0)
         {
@@ -81,7 +80,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
-    IEnumerable<OrderForList> BlApi.IOrder.ReadOrdsManager()
+    IEnumerable<BO.OrderForList> BlApi.IOrder.ReadOrdsManager()
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
         IEnumerable<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
@@ -100,17 +99,17 @@ internal class BlOrder : BlApi.IOrder
     }
 
 
-    Order BlApi.IOrder.UpdateOrd(int orderId, Order ord)
+    BO.Order BlApi.IOrder.UpdateOrd(int orderId, BO.Order ord)
     {
         throw new NotImplementedException();
     }
 
-    Order BlApi.IOrder.UpdateOrdDelivery(int orderId)
+    BO.Order BlApi.IOrder.UpdateOrdDelivery(int orderId)
     {
         throw new NotImplementedException();
     }
 
-    Order BlApi.IOrder.UpdateOrdShipping(int orderId)
+    BO.Order BlApi.IOrder.UpdateOrdShipping(int orderId)
     {
         throw new NotImplementedException();
     }

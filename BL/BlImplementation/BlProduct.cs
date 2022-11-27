@@ -49,19 +49,38 @@ internal class BlProduct : BlApi.IProduct
     {
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
-        newProd.Id = prod.Id;
         newProd.Name = prod.Name;
         newProd.Price = prod.Price;
         newProd.category = (DO.eCategory)prod.Category;
         newProd.InStock = prod.InStock;
-        try
+        bool tryId = true;
+        while (tryId)//Create an ID
         {
-            Dal.product.Create(newProd);
+            tryId = false;
+            try
+            {
+                bool notExists;
+                do  //Rand id and make sure is unique in DataSource.ProductList 
+                {
+                    notExists = true;
+                    Random rnd = new Random();
+                    newProd.Id = rnd.Next(100000, 1000000);
+                    foreach  (DO.Product p in DataSource.ProductList)
+                    {
+                        if (p.Id == newProd.Id)
+                        {
+                            notExists = false;
+                            break;
+                        }
+                    }
+                } while (!notExists);
+                Dal.product.Create(newProd);
+            }
+            catch (IdAlreadyExists)
+            {
+                tryId = true;
+            }
         }
-        catch (IdAlreadyExists err)
-        {
-            throw new DataError(err);
-        }  
     }
     /// <summary>
     /// A function that receives a product ID, checks that it does not exist in orders 
