@@ -174,7 +174,7 @@ public class DataSource
                 Product product = ProductList[pIdx];
                 product.InStock -= amount;
                 ProductList[pIdx]=product;
-                tmpOrdItem.Price = amount * ProductList[pIdx].Price;
+                tmpOrdItem.Price = ProductList[pIdx].Price;
                 tmpOrdItem.Amount = amount; 
                 OrderItemList.Add(tmpOrdItem);                
             }                 
