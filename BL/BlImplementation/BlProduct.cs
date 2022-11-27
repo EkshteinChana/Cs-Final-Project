@@ -45,8 +45,9 @@ internal class BlProduct : BlApi.IProduct
     /// A function that receives product data, checks its integrity 
     /// and sends a request to the data layer to add such a product.
     /// </summary>
-    public void CreateProd(BO.Product prod)
+    public int CreateProd(BO.Product prod)
     {
+        int id=0;
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
         newProd.Name = prod.Name;
@@ -74,13 +75,14 @@ internal class BlProduct : BlApi.IProduct
                         }
                     }
                 } while (!notExists);
-                Dal.product.Create(newProd);
+                id=Dal.product.Create(newProd);
             }
             catch (IdAlreadyExists)
             {
                 tryId = true;
             }
         }
+        return id;
     }
     /// <summary>
     /// A function that receives a product ID, checks that it does not exist in orders 

@@ -132,8 +132,6 @@ void UpdateDeliveryDate()
 
 //public Product ReadProdCustomer(int Id);
 
-//public void CreateProd(Product prod);
-
 //public void DeleteProd(int Id);
 
 //public void UpdateProd(Product prod);
@@ -154,7 +152,8 @@ void AddProduct()
     newProduct.Price = Console.Read();
     Console.WriteLine("\ninStock- ");
     newProduct.InStock = Console.Read();
-    bl.Product.CreateProd(newProduct);
+    int ID=bl.Product.CreateProd(newProduct);
+    Console.WriteLine($"The ID of the added product is: {ID}");
 }
 /// <summary>
 /// A function that receives details from the user for updating an product, and sends them to the function that will do it.

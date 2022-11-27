@@ -33,11 +33,11 @@ public interface IProduct
     /// A function to add a product (for manager screen)
     /// </summary>
     /// <returns>void</returns>
-    public void CreateProd(Product prod);
+    public int CreateProd(Product prod);
     // <summary>
     /// A function to delete a product (for manager screen)
     /// </summary>
-    /// <returns>void</returns>
+    /// <returns>int(ID of the added product) </returns>
     public void DeleteProd(int Id);
     // <summary>
     /// A function to update a Product (for manager screen)
