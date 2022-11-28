@@ -27,6 +27,15 @@
 //}
 
 
+
+
+
+
+
+///// <summary>
+///// C# project Stage 2 
+///// by Ozer Ester 214255705 and Ekshtein Chana 213868631
+///// </summary>
 using BO;
 using BlImplementation;
 //=========================== Generic variables
@@ -149,33 +158,38 @@ void AddProduct()
     Console.WriteLine("\ncategory- ");
     newProduct.Category = (eCategory)Console.Read();
     Console.WriteLine("\nprice- ");
-    newProduct.Price = Console.Read();
+    newProduct.Price = Convert.ToDouble(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
     newProduct.InStock = Console.Read();
     int ID=bl.Product.CreateProd(newProduct);
     Console.WriteLine($"The ID of the added product is: {ID}");
 }
 /// <summary>
-/// A function that receives details from the user for updating an product, and sends them to the function that will do it.
+/// A function that receives details from the user(manager) for updating an product,
+/// and sends them to the function that will do it(in the logical layer).
 /// </summary>.
 void UpdateProduct()
 {
     Product tmpProduct = new Product();
-
     Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
-    tmpProduct.Id = Convert.ToInt32(Console.ReadLine());
-    Product srcProd = dalList.product.Read(tmpProduct.Id);
+    tmpProduct.Id = Console.Read();
+    Product srcProd = bl.Product.ReadProdManager(tmpProduct.Id);
     Console.WriteLine(srcProd + "\n");
     Console.WriteLine("\nname- ");
     tmpProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    tmpProduct.category = (eCategory)Convert.ToInt32(Console.ReadLine());
+    tmpProduct.Category = (eCategory)Console.Read();
     Console.WriteLine("\ninStock- ");
-    tmpProduct.InStock = Convert.ToInt32(Console.ReadLine());
+    tmpProduct.InStock = Console.Read();
     Console.WriteLine("\nprice- ");
     tmpProduct.Price = Convert.ToDouble(Console.ReadLine());
-    dalList.product.Update(tmpProduct);
+    bl.Product.UpdateProd(tmpProduct);
 }
+
+
+
+
+
 /// <summary>
 /// A function that receives details from the user for displaying product data, and sends them to the function to do so.
 /// </summary>

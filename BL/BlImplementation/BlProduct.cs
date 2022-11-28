@@ -47,7 +47,7 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public int CreateProd(BO.Product prod)
     {
-        int id=0;
+        int id = 0;
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
         newProd.Name = prod.Name;
@@ -60,22 +60,9 @@ internal class BlProduct : BlApi.IProduct
             tryId = false;
             try
             {
-                bool notExists;
-                do  //Rand id and make sure is unique in DataSource.ProductList 
-                {
-                    notExists = true;
-                    Random rnd = new Random();
-                    newProd.Id = rnd.Next(100000, 1000000);
-                    foreach  (DO.Product p in DataSource.ProductList)
-                    {
-                        if (p.Id == newProd.Id)
-                        {
-                            notExists = false;
-                            break;
-                        }
-                    }
-                } while (!notExists);
-                id=Dal.product.Create(newProd);
+                Random rnd = new Random();
+                newProd.Id = rnd.Next(100000, 1000000);
+                id = Dal.product.Create(newProd);
             }
             catch (IdAlreadyExists)
             {
@@ -90,8 +77,8 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public void DeleteProd(int Id)
     {
-       IEnumerable<DO.OrderItem> orderItemsList = Dal.orderItem.Read();
-       DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
+        IEnumerable<DO.OrderItem> orderItemsList = Dal.orderItem.Read();
+        DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
         if (!ordWithProd.Equals(default(DO.OrderItem)))
         {
             throw new IllegalDeletion("It is not possible to delete an existing product in an order");
