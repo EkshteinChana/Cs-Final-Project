@@ -6,12 +6,13 @@
 
 using BO;
 using BlImplementation;
-
+using BlTest;
 
 //=========================== Generic variables
 char choice;
 Bl bl = new Bl();
 Cart cart = new();
+
 //=========================== Order functions
 
 /// <summary>
@@ -56,6 +57,48 @@ void UpdateDeliveryDate()
     Console.WriteLine(ord + "\n");
 }
 
+/// <summary>
+/// A function for adding a product to an order.
+/// </summary>
+void AddProdToOrder()
+{
+    Console.WriteLine("\nEnter the order ID: ");
+    int ordId = Console.Read();
+    Console.WriteLine("\nEnter the product ID: ");
+    int pId = Console.Read();
+    Console.WriteLine("\nEnter the amount: ");
+    int amount = Console.Read();
+    Order ord = bl.Order.UpdateOrd(ordId, pId, amount, eUpdateOrder.add);
+    Console.WriteLine("The update order:\n" + ord + "\n");
+}
+
+/// <summary>
+/// A function for deleting a product from an order.
+/// </summary>
+void DeleteProdFromOrder()
+{
+    Console.WriteLine("\nEnter the order ID: ");
+    int ordId = Console.Read();
+    Console.WriteLine("\nEnter the product ID: ");
+    int pId = Console.Read();
+    Order ord = bl.Order.UpdateOrd(ordId, pId, 0, eUpdateOrder.delete);
+    Console.WriteLine("The update order:\n" + ord + "\n");
+}
+
+/// <summary>
+/// A function for updating the amount of a product in an order.
+/// </summary>
+void UpdateAmountProdInOrder()
+{
+    Console.WriteLine("\nEnter the order ID: ");
+    int ordId = Console.Read();
+    Console.WriteLine("\nEnter the product ID: ");
+    int pId = Console.Read();
+    Console.WriteLine("\nEnter the new amount: ");
+    int amount = Console.Read();
+    Order ord = bl.Order.UpdateOrd(ordId, pId, amount, eUpdateOrder.changeAmount);
+    Console.WriteLine("The update order:\n" + ord + "\n");
+}
 
 //==================================== Product functions
 
@@ -79,9 +122,6 @@ void WatchProductCustomer()
 {
     Console.WriteLine("\nEnter the product ID for watching: ");
     int id = Console.Read();
-    /////////////////??????
-    Cart cart = new();
-    /////////////////??????
     ProductItem productItem = bl.Product.ReadProdCustomer(id, cart);
     Console.WriteLine(productItem + "\n");
 }
@@ -100,7 +140,7 @@ void WatchProductList()
 }
 
 /// <summary>
-/// A function that receives details from the user(manager) about the new product and sends them to the function for adding an product (in the logical layer) .
+/// A function that receives details from the user(manager) about the new product and sends them to the function for adding a product (in the logical layer) .
 /// </summary>
 void AddProduct()
 {
@@ -118,7 +158,7 @@ void AddProduct()
 }
 
 /// <summary>
-/// A function that receives details from the user(manager) for updating an product,
+/// A function that receives details from the user(manager) for updating a product,
 /// and sends them to the function that will do it (in the logical layer).
 /// </summary>.
 void UpdateProduct()
@@ -154,7 +194,7 @@ void DeleteProduct()
 //==================================== Cart functions
 
 /// <summary> 
-/// A function that receives product ID from the user for adding an product to the cart,
+/// A function that receives product ID from the user for adding a product to the cart,
 /// and sends it to the function that will do it (in the logical layer).
 /// </summary>
 void AddProductToCart()
@@ -166,7 +206,7 @@ void AddProductToCart()
 
 
 /// <summary> 
-/// A function that receives product ID and amount from the user for updating the amount of an product in the cart,
+/// A function that receives product ID and amount from the user for updating the amount of a product in the cart,
 /// and sends them to the function that will do it (in the logical layer).
 /// </summary>
 void UpdateProdAmontInCart()
@@ -202,112 +242,57 @@ void MakeOrder()
 /// </summary>
 void Menue(string type)
 {
-    string specialOptions = ".";
-    if (type == "orderItem")
-    {
-        specialOptions = $@"f for watching all items in a specific order 
-            g for watching a specific item of a specific order.";
-    }
-    if (type == "order")
-    {
-        specialOptions = $@"f for watching all the items in the order
-            g for watching a specific item of the order.";
-    }
-    Console.WriteLine($@"
-            Choose the following action:
-            a for adding an {type},
-            b for watching an {type},
-            c for watching the {type}s list,
-            d for updating an {type},
-            e for deleting an {type} from the {type}s list
-            {specialOptions}
-            ");
-
-    choice = Console.ReadKey().KeyChar;
-    if (type == "order")
-    {
-        switch (choice)
-        {
-            case 'a':   // add
-                AddOrder();
-                break;
-            case 'b':
-                WatchOrder();
-                break;
-            case 'c':
-                WatchOrderList();
-                break;
-            case 'd':
-                UpdateOrder();
-                break;
-            case 'e':
-                DeleteOrder();
-                break;
-            case 'f':
-                WatchAllItemsInOrd();
-                break;
-            case 'g':
-                WatchOrderItemByOrderIdProductId();
-                break;
-            default:
-                throw new Exception("unknown action");
-                break;
-        }
-    }
+    Dictionary<char, Func> Actions = new Dictionary<char, Func>();
+    string Options = ".";
     if (type == "product")
     {
-        switch (choice)
-        {
-            case 'a':   // add
-                AddProduct();
-                break;
-            case 'b':
-                WatchProduct();
-                break;
-            case 'c':
-                WatchProductList();
-                break;
-            case 'd':
-                UpdateProduct();
-                break;
-            case 'e':
-                DeleteProduct();
-                break;
-            default:
-                throw new Exception("unknown action");
-                break;
+        Options = $@"a for watching a product for the manager screen\n
+                    b for watching a product for the customer screen\n
+                    c for watching the products list\n
+                    d for adding a product\n
+                    e for updating a product\n
+                    f for deleting a product\n";
+        Actions = new Dictionary<char, Func>(){
+            {'a', WatchProductManager },
+            {'b', WatchProductCustomer},
+            {'c', WatchProductList},
+            {'d', AddProduct},
+            {'e', UpdateProduct},
+            {'f', DeleteProduct} };
 
-        }
     }
-    if (type == "orderItem")
+    if (type == "cart")
     {
-        switch (choice)
-        {
-            case 'a':   // add
-                AddOrderItem();
-                break;
-            case 'b':
-                WatchOrderItem();
-                break;
-            case 'c':
-                WatchOrderItemList();
-                break;
-            case 'd':
-                UpdateOrderItem();
-                break;
-            case 'e':
-                DeleteOrderItem();
-                break;
-            case 'f':
-                WatchAllItemsInOrd();
-                break;
-            case 'g':
-                WatchOrderItemByOrderIdProductId();
-                break;
-            default:
-                throw new Exception("unknown action");
-        }
+        Options = $@"a for adding a product to the cart\n
+                    b for updating the amount of a product in the cart\n
+                    c for approval of a shopping cart for an order\n";
+        Actions = new Dictionary<char, Func>(){
+            {'a', AddProductToCart },
+            {'b', UpdateProdAmontInCart},
+            {'c', MakeOrder} };
     }
+    if (type == "order")
+    {
+        Options = $@"a for watching a specific order\n
+                    b the orders list\n
+                    c for updating the shipping date\n
+                    d for updating the delivery date\n
+                    e for adding a product to the order\n
+                    f for deleting a product from the order\n
+                    g for updating the amount of a product in the order\n";
+        Actions = new Dictionary<char, Func>(){
+            {'a', WatchOrder },
+            {'b', WatchOrderList},
+            {'c', UpdateShippingDate},
+            {'d', UpdateDeliveryDate},
+            {'e', AddProdToOrder},
+            {'f', DeleteProdFromOrder},
+            {'g',UpdateAmountProdInOrder} };
+    }
+    Console.WriteLine($@"{Options}");
+    choice = Console.ReadKey().KeyChar;
+    var res = Actions[choice];
+    res();
 }
 
 void main()
@@ -340,7 +325,7 @@ void main()
         }
         catch (Exception errMsg)
         {
-            Console.WriteLine(errMsg.Message + "\n");
+            Console.WriteLine(errMsg.Message + errMsg.InnerException?? errMsg.InnerException.Message +"\n");
         }
     }
 }
