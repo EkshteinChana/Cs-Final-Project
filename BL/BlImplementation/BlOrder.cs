@@ -101,12 +101,14 @@ internal class BlOrder : BlApi.IOrder
             {
                 throw new IllegalAction("The order has already been sent.");
             }
+
             IEnumerable<DO.OrderItem> orderItems =  Dal.orderItem.Read();
+            DO.OrderItem itmInOrd = orderItems.Where(oItm => oItm.ProductId == pId && oItm.OrderId == oId).FirstOrDefault();
+
             switch (action)
             {
                 case BO.eUpdateOrder.add:
-                    IEnumerable<DO.OrderItem> productInOrd = orderItems.Where(oItm => oItm.ProductId == pId && oItm.OrderId == oId);
-                    if (productInOrd.Count() > 0)
+                    if (!itmInOrd.Equals(default(DO.OrderItem)))
                     {
                         throw new IllegalAction("Adding a product that already exists in the order.");
                     }
@@ -116,27 +118,59 @@ internal class BlOrder : BlApi.IOrder
                     newItm.ProductId = pId;
                     newItm.Price = Dal.product.Read(pId).Price;
                     newItm.Amount = amount;
+                    
                     Dal.orderItem.Create(newItm);
-
                     break;
                 case BO.eUpdateOrder.delete:
+                    if (itmInOrd.Equals(default(DO.OrderItem)))
+                    {
+                        throw new IllegalAction("Deletion of a product that does not exist in the order.");
+                    }
+                    
+                    Dal.orderItem.Delete(itmInOrd.Id);
                     break;
                 case BO.eUpdateOrder.changeAmount:
+                    if (itmInOrd.Equals(default(DO.OrderItem)))
+                    {
+                        throw new IllegalAction("Updating the quantity of an item that does not exist in the order");
+                    }
+                    itmInOrd.Amount = amount;
+                    
+                    Dal.orderItem.Update(itmInOrd);
                     break;
-            }
-
-
-            BO.Order bOrd = new();
-            bOrd.
-            
-            return;
+            }         
+            return convertDToB(dOrd);
         }
         catch (IdNotExist err)
         {
             throw new DataError(err);
         }
+        catch (IdAlreadyExists err)
+        {
+            throw new DataError(err);
+        }
     }
 
+    BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
+    {
+        if (oId < 0)
+        {
+            throw new InvalidValue("ID");
+        }
+        try
+        {
+            DO.Order dOrder = Dal.order.Read(oId);
+            if(dOrder.DeliveryDate !=  DateTime.MinValue)
+            {
+                throw new IllegalAction("The order has already been delivered.");
+            }
+            return convertDToB(dOrder);
+        }
+        catch (IdNotExist err)
+        {
+            throw new DataError(err);
+        } 
+    }
     BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
     {
         if (oId < 0)
@@ -169,7 +203,7 @@ internal class BlOrder : BlApi.IOrder
             DO.Order dOrder = Dal.order.Read(oId);
             if (dOrder.ShipDate != DateTime.MinValue)
             {
-                throw new IllegalUpdatig("The order has already been sent.");
+                throw new IllegalAction("The order has already been sent.");
             }
             return convertDToB(dOrder);
         }
