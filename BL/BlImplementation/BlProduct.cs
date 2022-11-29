@@ -6,6 +6,7 @@ namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     private IDal Dal = new DalList();
+
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
@@ -28,6 +29,7 @@ internal class BlProduct : BlApi.IProduct
             throw new InvalidValue("amount in stock");
         }
     }
+
     /// <summary>
     /// A private help function to convert DO.Product entity to BO.Product entity.
     /// </summary>
@@ -41,6 +43,7 @@ internal class BlProduct : BlApi.IProduct
         bP.InStock = dP.InStock;
         return bP;
     }
+
     /// <summary>
     /// A function that receives product data, checks its integrity 
     /// and sends a request to the data layer to add such a product.
@@ -71,6 +74,7 @@ internal class BlProduct : BlApi.IProduct
         }
         return id;
     }
+
     /// <summary>
     /// A function that receives a product ID, checks that it does not exist in orders 
     /// and sends a request to the data layer to delete it from the list
@@ -96,7 +100,7 @@ internal class BlProduct : BlApi.IProduct
     /// A function that returns an entity to display product data for a customer screen 
     /// by referring to the data layer using an ID.
     /// </summary>
-    public BO.Product ReadProdCustomer(int Id)
+    public BO.ProductItem ReadProdCustomer(int Id, BO.Cart cart)
     {
         try
         {
@@ -105,13 +109,33 @@ internal class BlProduct : BlApi.IProduct
                 throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
-            return convertDToB(dP);
+            BO.ProductItem bP = new();
+            bP.Id = dP.Id;
+            bP.Name = dP.Name;
+            bP.Price = dP.Price;
+            bP.Category = (BO.eCategory)dP.category;
+            bP.InStock = (dP.InStock > 0) ? true : false;
+            bool exist = false;
+            foreach (BO.OrderItem i in cart.Items)
+            {
+                if (i.ProductId == bP.Id)//The product is already in the shopping cart
+                {
+                    exist = true;
+                    bP.Amount = i.Amount;
+                }
+            }
+            if(exist== false)
+            {
+                bP.Amount = 0;
+            }
+            return bP;
         }
         catch (IdNotExist exc)
         {
             throw new DataError(exc);
         }
     }
+
     /// <summary>
     /// A function that returns an entity to display product data for the manager screen 
     /// by referring to the data layer using an ID.
@@ -132,32 +156,11 @@ internal class BlProduct : BlApi.IProduct
             throw new DataError(exc);
         }
     }
+
     /// <summary>
-    /// A function that returns an entity to display the product catalog for a client screen 
-    /// by referring to the data layer
+    /// A function to read the list of products
     /// </summary>
-    public IEnumerable<BO.ProductItem> ReadProdsCustomer()
-    {
-        IEnumerable<DO.Product> dProds = Dal.product.Read();
-        IEnumerable<BO.ProductItem> bProds = new List<BO.ProductItem>(dProds.Count());
-        foreach (DO.Product dP in dProds)
-        {
-            BO.ProductItem bP = new BO.ProductItem();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
-            bP.InStock = dP.InStock > 0 ? true : false;
-            //??????bP.Amount=
-            bProds.Append(bP);
-        }
-        return bProds;
-    }
-    /// <summary>
-    /// A function that returns an entity to display the product catalog for a manager screen 
-    /// by referring to the data layer
-    /// </summary>
-    public IEnumerable<BO.ProductForList> ReadProdsManager()
+    public IEnumerable<BO.ProductForList> ReadProdsList()
     {
         IEnumerable<DO.Product> dProds = Dal.product.Read();
         IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
@@ -172,6 +175,7 @@ internal class BlProduct : BlApi.IProduct
         }
         return bProds;
     }
+
     /// <summary>
     /// A function that receives product data, checks their integrity
     ///and sends a request to the data layer to update the product with such an ID.
