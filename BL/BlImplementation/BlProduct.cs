@@ -85,7 +85,7 @@ internal class BlProduct : BlApi.IProduct
         DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
         if (!ordWithProd.Equals(default(DO.OrderItem)))
         {
-            throw new IllegalDeletion("It is not possible to delete an existing product in an order");
+            throw new IllegalAction("It is not possible to delete an existing product in an order");
         }
         try
         {
@@ -93,7 +93,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist)
         {
-            throw new IllegalDeletion("A non-existent product cannot be deleted");
+            throw new IllegalAction("A non-existent product cannot be deleted");
         }
     }
     /// <summary>
@@ -164,6 +164,7 @@ internal class BlProduct : BlApi.IProduct
     {
         IEnumerable<DO.Product> dProds = Dal.product.Read();
         IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
+        List<BO.ProductForList> bProdsList = bProds.ToList();
         foreach (DO.Product dP in dProds)
         {
             BO.ProductForList bP = new BO.ProductForList();
@@ -171,9 +172,9 @@ internal class BlProduct : BlApi.IProduct
             bP.Name = dP.Name;
             bP.Price = dP.Price;
             bP.Category = (BO.eCategory)dP.category;
-            bProds.Append(bP);
+            bProdsList.Add(bP);
         }
-        return bProds;
+        return bProdsList;
     }
 
     /// <summary>

@@ -16,21 +16,22 @@ internal class BlCart : ICart
             }
             bool exist = false;
             int inStock;
-            foreach (BO.OrderItem i in cart.Items)
-            {
-                if (i.ProductId == id)//The product is already in the shopping cart
+            if (cart.Items != null)
+                foreach (BO.OrderItem i in cart.Items)
                 {
-                    exist = true;
-                    inStock = Dal.product.Read(id).InStock;
-                    if (inStock <= 0)
+                    if (i.ProductId == id)//The product is already in the shopping cart
                     {
-                        throw new OutOfStock(0);
+                        exist = true;
+                        inStock = Dal.product.Read(id).InStock;
+                        if (inStock <= 0)
+                        {
+                            throw new OutOfStock(0);
+                        }
+                        i.Amount += 1;
+                        i.TotalPrice += i.Price;
+                        cart.TotalPrice += i.Price;
                     }
-                    i.Amount += 1;
-                    i.TotalPrice += i.Price;
-                    cart.TotalPrice += i.Price;
                 }
-            }
             if (exist == true)
             {
                 return cart;

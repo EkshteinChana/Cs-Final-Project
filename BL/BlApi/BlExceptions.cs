@@ -4,7 +4,7 @@ namespace BlApi;
 public class DataError : Exception
 {
     public DataError(Exception inner) : base("Data Error", inner) { }
-    //public override string Message => InnerException.Message;
+    public override string Message => "Data Error";
 }
 public class InvalidValue : Exception
 {

@@ -325,7 +325,7 @@ void main()
         }
         catch (Exception errMsg)
         {
-            Console.WriteLine(errMsg.Message + errMsg.InnerException?? errMsg.InnerException.Message +"\n");
+            Console.WriteLine(errMsg.Message + " " + errMsg.InnerException?? errMsg.InnerException.Message +"\n");
         }
     }
 }

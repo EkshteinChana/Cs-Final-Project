@@ -35,6 +35,7 @@ internal class BlOrder : BlApi.IOrder
         IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
         items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
         bO.Items = new List<BO.OrderItem>(items.Count());
+        List<BO.OrderItem> bItemsList = bO.Items.ToList();
         bO.TotalPrice = 0;
         foreach (DO.OrderItem dItm in items)
         {
@@ -46,9 +47,9 @@ internal class BlOrder : BlApi.IOrder
             bItm.Amount = dItm.Amount;
             bItm.TotalPrice = bItm.Price * bItm.Amount;
             bO.TotalPrice += bItm.TotalPrice;
-            bO.Items.Append(bItm);
+            bItemsList.Add(bItm);
         }
-
+        bO.Items = bItemsList;
         return bO;
     }
 
@@ -72,7 +73,7 @@ internal class BlOrder : BlApi.IOrder
     IEnumerable<BO.OrderForList> BlApi.IOrder.ReadOrdsManager()
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
-        IEnumerable<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
+        List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
         foreach (DO.Order dO in dOrders)
         {
             BO.Order bO = convertDToB(dO);
@@ -82,7 +83,7 @@ internal class BlOrder : BlApi.IOrder
             ordForList.status = bO.status;
             ordForList.AmountOfItems = bO.Items.Count();
             ordForList.TotalPrice = bO.TotalPrice;
-            orderList.Append(ordForList);
+            orderList.Add(ordForList);
         }
         return orderList;
     }
