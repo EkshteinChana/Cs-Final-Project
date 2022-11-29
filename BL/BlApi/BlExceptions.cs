@@ -30,19 +30,13 @@ public class InvalidOrderItem : Exception
     public InvalidOrderItem(string m) { msg = m; }
     public override string Message => $"Invalid order item - {msg}";
 }
-public class IllegalDeletion : Exception
+public class IllegalAction : Exception
 {
     public readonly string msg;
-    public IllegalDeletion(string m) { msg = m; }
+    public IllegalAction(string m) { msg = m; }
     public override string Message => msg;
 }
 
-public class IllegalUpdatig : Exception
-{
-    public readonly string msg;
-    public IllegalUpdatig(string m) { msg = m; }
-    public override string Message => msg;
-}
 
 
 

@@ -13,6 +13,7 @@ public class DalOrderItem : IOrderItem
     public int Create(OrderItem orderItem)
     {
         OrderItem tmpOrderItem = DataSource.OrderItemList.Where(ordItem => ordItem.Id == orderItem.Id).FirstOrDefault();
+
         if (!tmpOrderItem.Equals(default(OrderItem)))
         {
             throw new IdAlreadyExists();

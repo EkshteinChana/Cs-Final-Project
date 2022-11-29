@@ -93,29 +93,42 @@ internal class BlOrder : BlApi.IOrder
         try
         {
             DO.Order dOrd = Dal.order.Read(oId);
-            if(dOrd.OrderDate == DateTime.MinValue)
+            if (dOrd.OrderDate == DateTime.MinValue)
             {
-                throw new IllegalUpdatig("The customer has not completed the order.");
+                throw new IllegalAction("The customer has not completed the order.");
             }
             if(dOrd.ShipDate != DateTime.MinValue)
             {
-                throw new IllegalUpdatig("The order has already been sent.");
+                throw new IllegalAction("The order has already been sent.");
             }
             IEnumerable<DO.OrderItem> orderItems =  Dal.orderItem.Read();
             switch (action)
             {
                 case BO.eUpdateOrder.add:
                     IEnumerable<DO.OrderItem> productInOrd = orderItems.Where(oItm => oItm.ProductId == pId && oItm.OrderId == oId);
+                    if (productInOrd.Count() > 0)
+                    {
+                        throw new IllegalAction("Adding a product that already exists in the order.");
+                    }
+                    DO.OrderItem newItm = new();
+                    newItm.Id = DataSource.Config.MaxOrderItemId;
+                    newItm.OrderId = oId;
+                    newItm.ProductId = pId;
+                    newItm.Price = Dal.product.Read(pId).Price;
+                    newItm.Amount = amount;
+                    Dal.orderItem.Create(newItm);
+
                     break;
                 case BO.eUpdateOrder.delete:
                     break;
                 case BO.eUpdateOrder.changeAmount:
                     break;
             }
-            
 
-           // Order tmpOrder = DataSource.OrderList.Where(ord => ord.Id == order.Id).FirstOrDefault();
-            Dal.order.Update(dOrd);
+
+            BO.Order bOrd = new();
+            bOrd.
+            
             return;
         }
         catch (IdNotExist err)
@@ -126,12 +139,16 @@ internal class BlOrder : BlApi.IOrder
 
     BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
     {
+        if (oId < 0)
+        {
+            throw new InvalidValue("ID");
+        }
         try
         {
             DO.Order dOrder = Dal.order.Read(oId);
             if(dOrder.DeliveryDate !=  DateTime.MinValue)
             {
-                throw new IllegalUpdatig("The order has already been delivered.");
+                throw new IllegalAction("The order has already been delivered.");
             }
             return convertDToB(dOrder);
         }
@@ -143,6 +160,10 @@ internal class BlOrder : BlApi.IOrder
 
     BO.Order BlApi.IOrder.UpdateOrdShipping(int oId)
     {
+        if (oId < 0)
+        {
+            throw new InvalidValue("ID");
+        }
         try
         {
             DO.Order dOrder = Dal.order.Read(oId);
