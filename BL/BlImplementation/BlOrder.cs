@@ -171,26 +171,6 @@ internal class BlOrder : BlApi.IOrder
             throw new DataError(err);
         } 
     }
-    BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
-    {
-        if (oId < 0)
-        {
-            throw new InvalidValue("ID");
-        }
-        try
-        {
-            DO.Order dOrder = Dal.order.Read(oId);
-            if(dOrder.DeliveryDate !=  DateTime.MinValue)
-            {
-                throw new IllegalAction("The order has already been delivered.");
-            }
-            return convertDToB(dOrder);
-        }
-        catch (IdNotExist err)
-        {
-            throw new DataError(err);
-        } 
-    }
 
     BO.Order BlApi.IOrder.UpdateOrdShipping(int oId)
     {
