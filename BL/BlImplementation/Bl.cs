@@ -6,6 +6,7 @@ namespace BlImplementation
         public IProduct Product => new BlProduct();
         public IOrder Order => new BlOrder();
         public ICart Cart => new BlCart();
+        
     }
 }
 
