@@ -37,5 +37,12 @@ public class IllegalDeletion : Exception
     public override string Message => msg;
 }
 
+public class IllegalUpdatig : Exception
+{
+    public readonly string msg;
+    public IllegalUpdatig(string m) { msg = m; }
+    public override string Message => msg;
+}
+
 
 

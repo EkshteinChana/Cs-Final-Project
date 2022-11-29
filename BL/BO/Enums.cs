@@ -16,3 +16,12 @@ public enum eOrderStatus
 }
 
 
+public enum eUpdateOrder
+{
+    /// <summary>
+    /// Adding a product that does not exist in the order.
+    /// </summary>
+    add,
+    delete,
+    changeAmount
+}

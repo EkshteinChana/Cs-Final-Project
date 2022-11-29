@@ -87,20 +87,75 @@ internal class BlOrder : BlApi.IOrder
         return orderList;
     }
 
-
-    BO.Order BlApi.IOrder.UpdateOrd(int orderId, BO.Order ord)
+ 
+    BO.Order BlApi.IOrder.UpdateOrd(int oId , int pId , int amount , BO.eUpdateOrder action) // (Bonus)
     {
-        throw new NotImplementedException();
+        try
+        {
+            DO.Order dOrd = Dal.order.Read(oId);
+            if(dOrd.OrderDate == DateTime.MinValue)
+            {
+                throw new IllegalUpdatig("The customer has not completed the order.");
+            }
+            if(dOrd.ShipDate != DateTime.MinValue)
+            {
+                throw new IllegalUpdatig("The order has already been sent.");
+            }
+            IEnumerable<DO.OrderItem> orderItems =  Dal.orderItem.Read();
+            switch (action)
+            {
+                case BO.eUpdateOrder.add:
+                    IEnumerable<DO.OrderItem> productInOrd = orderItems.Where(oItm => oItm.ProductId == pId && oItm.OrderId == oId);
+                    break;
+                case BO.eUpdateOrder.delete:
+                    break;
+                case BO.eUpdateOrder.changeAmount:
+                    break;
+            }
+            
+
+           // Order tmpOrder = DataSource.OrderList.Where(ord => ord.Id == order.Id).FirstOrDefault();
+            Dal.order.Update(dOrd);
+            return;
+        }
+        catch (IdNotExist err)
+        {
+            throw new DataError(err);
+        }
     }
 
-    BO.Order BlApi.IOrder.UpdateOrdDelivery(int orderId)
+    BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            DO.Order dOrder = Dal.order.Read(oId);
+            if(dOrder.DeliveryDate !=  DateTime.MinValue)
+            {
+                throw new IllegalUpdatig("The order has already been delivered.");
+            }
+            return convertDToB(dOrder);
+        }
+        catch (IdNotExist err)
+        {
+            throw new DataError(err);
+        } 
     }
 
-    BO.Order BlApi.IOrder.UpdateOrdShipping(int orderId)
+    BO.Order BlApi.IOrder.UpdateOrdShipping(int oId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            DO.Order dOrder = Dal.order.Read(oId);
+            if (dOrder.ShipDate != DateTime.MinValue)
+            {
+                throw new IllegalUpdatig("The order has already been sent.");
+            }
+            return convertDToB(dOrder);
+        }
+        catch (IdNotExist err)
+        {
+            throw new DataError(err);
+        }
     }
 
 }

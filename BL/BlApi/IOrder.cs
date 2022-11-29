@@ -34,5 +34,5 @@ public interface IOrder
     /// (for Manager Screen)
     /// </summary>
     /// <returns>Order(a logical entity)</returns>
-    public Order UpdateOrd(int orderId, Order ord);
+    public Order UpdateOrd(int orderId, int pId, int amount, BO.eUpdateOrder action);
 }
