@@ -132,7 +132,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc);
+            throw new DataError(exc, "Data Error");
         }
     }
 
@@ -153,7 +153,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc);
+            throw new DataError(exc, "Data Error");
         }
     }
 
@@ -196,7 +196,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err);
+            throw new DataError(err, "Data Error");
         }
     }
 

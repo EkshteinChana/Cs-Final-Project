@@ -16,16 +16,16 @@ internal class BlCart : ICart
             }
             bool exist = false;
             int inStock;
+            DO.Product dP = Dal.product.Read(id);
             if (cart.Items != null)
                 foreach (BO.OrderItem i in cart.Items)
                 {
                     if (i.ProductId == id)//The product is already in the shopping cart
                     {
                         exist = true;
-                        inStock = Dal.product.Read(id).InStock;
-                        if (inStock <= 0)
+                        if (dP.InStock <= 0)
                         {
-                            throw new OutOfStock(0);
+                            throw new OutOfStock(dP.Id,0);
                         }
                         i.Amount += 1;
                         i.TotalPrice += i.Price;
@@ -37,10 +37,9 @@ internal class BlCart : ICart
                 return cart;
             }
             //The product is not in the shopping cart
-            DO.Product dP = Dal.product.Read(id);
             if (dP.InStock <= 0)
             {
-                throw new OutOfStock(0);
+                throw new OutOfStock(dP.Id, 0);
             }
             BO.OrderItem oI = new BO.OrderItem();
             oI.Id = Config.MaxCartOrderItemId;
@@ -55,7 +54,7 @@ internal class BlCart : ICart
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc);
+            throw new DataError(exc,"Data Error");
         }
     }
 
@@ -113,13 +112,15 @@ internal class BlCart : ICart
                 DO.Product dP = Dal.product.Read(item.ProductId);
                 if (dP.InStock < item.Amount)
                 {
-                    throw new InvalidOrderItem($"The amount you ordered from product: {item.ProductId} is not in stock");
+                    throw new OutOfStock(dP.Id,dP.InStock);
                 }
                 dP.InStock -= item.Amount;
                 Dal.product.Update(dP);
             }
             catch (IdNotExist exc)
             {
+
+                throw new InvalidValue($"ID of product ID: {item.ProductId}");
                 throw new InvalidOrderItem($"There is no product with ID number {item.ProductId}");
             }
         }
@@ -239,7 +240,7 @@ internal class BlCart : ICart
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc);
+            throw new DataError(exc, "Data Error");
         }
     }
 }
