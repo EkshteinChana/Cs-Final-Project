@@ -28,6 +28,8 @@ internal class BlOrder : BlApi.IOrder
         bO.Id = dO.Id;
         bO.CustomerName = dO.CustomerName;
         bO.CustomerEmail = dO.CustomerEmail;
+        bO.OrderDate = dO.OrderDate;
+        bO.ShipDate = dO.ShipDate;
         bO.DeliveryDate = dO.DeliveryDate;
         bO.status = checkStatus(dO);
         //items and totalPrice:
@@ -165,6 +167,12 @@ internal class BlOrder : BlApi.IOrder
             {
                 throw new IllegalAction("The order has already been delivered.");
             }
+            if (dOrder.ShipDate == DateTime.MinValue)
+            {
+                throw new IllegalAction("The order has not been sent yet.");
+            }
+            dOrder.DeliveryDate = DateTime.Now;
+            Dal.order.Update(dOrder);
             return convertDToB(dOrder);
         }
         catch (IdNotExist err)
@@ -186,6 +194,8 @@ internal class BlOrder : BlApi.IOrder
             {
                 throw new IllegalAction("The order has already been sent.");
             }
+            dOrder.ShipDate = DateTime.Now;
+            Dal.order.Update(dOrder);
             return convertDToB(dOrder);
         }
         catch (IdNotExist err)

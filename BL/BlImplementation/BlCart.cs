@@ -48,7 +48,7 @@ internal class BlCart : ICart
             oI.Price = dP.Price;
             oI.Amount = 1;
             oI.TotalPrice = dP.Price;
-            cart.Items.Append(oI);
+            cart.Items.Add(oI);
             cart.TotalPrice += dP.Price;
             return cart;
         }

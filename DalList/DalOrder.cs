@@ -28,7 +28,7 @@ public class DalOrder : IOrder
         Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
         if (order.Equals(default(Order)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order");
         }
         DataSource.OrderList.Remove(order);
     }
@@ -40,7 +40,7 @@ public class DalOrder : IOrder
         Order order = DataSource.OrderList.Where(order => order.Id == id).FirstOrDefault();
         if (order.Equals(default(Order)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order");
         }
         return order;
     }
@@ -62,7 +62,7 @@ public class DalOrder : IOrder
         Order originalOrder = DataSource.OrderList.Where(originalOrder => originalOrder.Id == order.Id).FirstOrDefault();
         if (originalOrder.Equals(default(Order)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order");
         }
         DataSource.OrderList.Remove(originalOrder);
         DataSource.OrderList.Add(order);

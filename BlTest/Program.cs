@@ -247,11 +247,11 @@ void Menue(string type)
     if (type == "product")
     {
         Options = $@"a for watching a product for the manager screen\n
-                    b for watching a product for the customer screen\n
-                    c for watching the products list\n
-                    d for adding a product\n
-                    e for updating a product\n
-                    f for deleting a product\n";
+                     b for watching a product for the customer screen\n
+                     c for watching the products list\n
+                     d for adding a product\n
+                     e for updating a product\n
+                     f for deleting a product\n";
         Actions = new Dictionary<char, Func>(){
             {'a', WatchProductManager },
             {'b', WatchProductCustomer},
@@ -264,8 +264,8 @@ void Menue(string type)
     if (type == "cart")
     {
         Options = $@"a for adding a product to the cart\n
-                    b for updating the amount of a product in the cart\n
-                    c for approval of a shopping cart for an order\n";
+                     b for updating the amount of a product in the cart\n
+                     c for approval of a shopping cart for an order\n";
         Actions = new Dictionary<char, Func>(){
             {'a', AddProductToCart },
             {'b', UpdateProdAmontInCart},
@@ -274,12 +274,12 @@ void Menue(string type)
     if (type == "order")
     {
         Options = $@"a for watching a specific order\n
-                    b the orders list\n
-                    c for updating the shipping date\n
-                    d for updating the delivery date\n
-                    e for adding a product to the order\n
-                    f for deleting a product from the order\n
-                    g for updating the amount of a product in the order\n";
+                     b the orders list\n
+                     c for updating the shipping date\n
+                     d for updating the delivery date\n
+                     e for adding a product to the order\n
+                     f for deleting a product from the order\n
+                     g for updating the amount of a product in the order\n";
         Actions = new Dictionary<char, Func>(){
             {'a', WatchOrder },
             {'b', WatchOrderList},
@@ -302,7 +302,8 @@ void main()
     {
         try
         {
-            Console.WriteLine(" Press 0 to exit,\n" +
+            Console.WriteLine(
+            " Press 0 to exit,\n" +
             " 1 to check the product functions,\n " +
             " 2 to check the cart functions,\n" +
             " 3 to check the order functions. ");

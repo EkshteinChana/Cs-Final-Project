@@ -28,7 +28,7 @@ public class DalProduct : IProduct
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
         if (product.Equals(default(Product)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("product");
         }
         DataSource.ProductList.Remove(product);
     }
@@ -40,7 +40,7 @@ public class DalProduct : IProduct
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
         if (product.Equals(default(Product)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("product");
         }
         return product;
     }
@@ -61,7 +61,7 @@ public class DalProduct : IProduct
         Product originalProduct = DataSource.ProductList.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
         if (originalProduct.Equals(default(Product)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("product");
         }
         DataSource.ProductList.Remove(originalProduct);
         DataSource.ProductList.Add(product);

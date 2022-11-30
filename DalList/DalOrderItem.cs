@@ -29,7 +29,7 @@ public class DalOrderItem : IOrderItem
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
         if (orderItem.Equals(default(OrderItem)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order item");
         }
         DataSource.OrderItemList.Remove(orderItem);
     }
@@ -41,7 +41,7 @@ public class DalOrderItem : IOrderItem
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
         if (orderItem.Equals(default(OrderItem)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order item");
         }
         return orderItem;
     }
@@ -63,7 +63,7 @@ public class DalOrderItem : IOrderItem
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
         if (orderItem.Equals(default(OrderItem)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order item");
         }
         return orderItem;
     }
@@ -75,7 +75,7 @@ public class DalOrderItem : IOrderItem
         List<OrderItem> orderItems = DataSource.OrderItemList.Where(orderItem => orderItem.OrderId == oId).ToList();
         if (orderItems.Equals(null) || orderItems.Count == 0)
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order item");
         }
         List<OrderItem> tmpOrderItemList = new List<OrderItem>(orderItems.Count);
         tmpOrderItemList = orderItems;
@@ -89,7 +89,7 @@ public class DalOrderItem : IOrderItem
         OrderItem originalOrderItem = DataSource.OrderItemList.Where(originalOrderItem => originalOrderItem.Id == orderItem.Id).FirstOrDefault();
         if (originalOrderItem.Equals(default(OrderItem)))
         {
-            throw new IdNotExist();
+            throw new IdNotExist("order item");
         }
         DataSource.OrderItemList.Remove(originalOrderItem);
         DataSource.OrderItemList.Add(orderItem);

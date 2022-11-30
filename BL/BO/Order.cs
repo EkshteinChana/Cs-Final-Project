@@ -13,7 +13,6 @@ public class Order
     public string CustomerAddress { get; set; }
     public DateTime OrderDate { get; set; }
     public eOrderStatus status { get; set; }//the status of this order
-    public DateTime PaymentDate { get; set; }
     public DateTime ShipDate { get; set; }
     public DateTime DeliveryDate { get; set; }
     public IEnumerable<BO.OrderItem> Items { get; set; } //a list of the items in this order 
@@ -21,35 +20,21 @@ public class Order
 
     public override string ToString()
     {
-        string ordToString = $@"order ID: {Id},
+        string ordToString = 
+        $@"order ID: {Id},
         customerName: {CustomerName},
         customerEmail: {CustomerEmail},
         customerAddress: {CustomerAddress},
     	orderDate: {OrderDate},
         status: {status},
-        PaymentDate: {PaymentDate}
     	shipDate: {ShipDate},
-    	deliveryDate: {DeliveryDate}";
+    	deliveryDate: {DeliveryDate},
+        the order items:
+       ";
         foreach (BO.OrderItem itm in Items)
         {
-            ordToString.Concat($"{itm},\n");
+            ordToString += $"{itm},\n";
         }
         return ordToString;
     }
-
-    //public override string ToString() => $@"
-    //    order ID: {Id},
-    //    customerName: {CustomerName},
-    //    customerEmail: {CustomerEmail},
-    //    customerAddress: {CustomerAddress},
-    //	orderDate: {OrderDate},
-    //    status: {status},
-    //    PaymentDate: {PaymentDate}
-    //	shipDate: {ShipDate},
-    //	deliveryDate: {DeliveryDate}" +
-        
-    //    foreach(DO.OrderItem itm in Items){
-    //        itm;
-    //    }
-    //    + "totalPrice: {TotalPrice}";
 }
