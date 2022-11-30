@@ -24,12 +24,7 @@ public class ItemNotExist : Exception
 {
     public override string Message => $"You have not yet taken this product";
 }
-//public class InvalidOrderItem : Exception
-//{
-//    public string msg { get; set; }
-//    public InvalidOrderItem(string m) { msg = m; }
-//    public override string Message => $"Invalid order item - {msg}";
-//}
+
 public class IllegalAction : Exception
 {
     public readonly string msg;

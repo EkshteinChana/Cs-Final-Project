@@ -119,9 +119,7 @@ internal class BlCart : ICart
             }
             catch (IdNotExist exc)
             {
-
                 throw new InvalidValue($"ID of product ID: {item.ProductId}");
-                throw new InvalidOrderItem($"There is no product with ID number {item.ProductId}");
             }
         }
     }
@@ -146,19 +144,19 @@ internal class BlCart : ICart
         {
             if (item.Amount < 1)
             {
-                throw new InvalidOrderItem($"You took an invalid amount of product: {item.ProductId}");
+                throw new InvalidValue($"amount of product: {item.ProductId}");
             }
             try
             {
                 DO.Product dP = Dal.product.Read(item.ProductId);
                 if (dP.InStock < item.Amount)
                 {
-                    throw new InvalidOrderItem($"The amount you ordered from product: {item.ProductId} is not in stock");
+                    throw new OutOfStock(dP.Id, dP.InStock);
                 }
             }
             catch (IdNotExist exc)
             {
-                throw new InvalidOrderItem($"There is no product with ID number {item.ProductId}");
+                throw new InvalidValue($"ID of product ID: {item.ProductId}");
             }
         }
     }
@@ -208,10 +206,10 @@ internal class BlCart : ICart
                     exist = true;//The product is in the shopping cart
                     if (i.Amount < amount)//Update in case the amount of the product increased
                     {
-                        int inStock = Dal.product.Read(id).InStock;
-                        if (inStock - amount < 0)
+                        DO.Product dP = Dal.product.Read(id);
+                        if (dP.InStock - amount < 0)
                         {
-                            throw new OutOfStock(inStock);
+                            throw new OutOfStock(dP.Id, dP.InStock);
                         }
                         cart.TotalPrice += i.Price * (amount - i.Amount);
                         i.Amount = amount;
