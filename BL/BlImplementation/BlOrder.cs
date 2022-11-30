@@ -66,7 +66,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err);
+            throw new DataError(err, "Data Error");
         }
     }
 

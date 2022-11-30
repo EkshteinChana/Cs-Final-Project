@@ -23,7 +23,6 @@ void WatchOrder()
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
     BO.Order ord = bl.Order.ReadOrd(oId);
-    Console.WriteLine(ord + "\n");
 }
 /// <summary>
 /// A function that receives details from the user(manager) for displaying the data of all orders, and sends them to the function that will do it (in the logical layer).
@@ -336,10 +335,6 @@ void main()
             Console.WriteLine(err.Message + "\n");
         }
         catch (BlApi.ItemNotExist err)
-        {
-            Console.WriteLine(err.Message + "\n");
-        }
-        catch (BlApi.InvalidOrderItem err)
         {
             Console.WriteLine(err.Message + "\n");
         }
