@@ -116,14 +116,18 @@ internal class BlProduct : BlApi.IProduct
             bP.Category = (BO.eCategory)dP.category;
             bP.InStock = (dP.InStock > 0) ? true : false;
             bool exist = false;
-            foreach (BO.OrderItem i in cart.Items)
+            if(cart.Items != null)
             {
-                if (i.ProductId == bP.Id)//The product is already in the shopping cart
+                foreach (BO.OrderItem i in cart.Items)
                 {
-                    exist = true;
-                    bP.Amount = i.Amount;
+                    if (i.ProductId == bP.Id)//The product is already in the shopping cart
+                    {
+                        exist = true;
+                        bP.Amount = i.Amount;
+                        break;
+                    }
                 }
-            }
+            }           
             if(exist== false)
             {
                 bP.Amount = 0;
