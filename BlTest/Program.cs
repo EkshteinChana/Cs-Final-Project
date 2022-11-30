@@ -323,9 +323,29 @@ void main()
                     break;
             }
         }
-        catch (Exception errMsg)
+        catch (BlApi.DataError err)
         {
-            Console.WriteLine(errMsg.Message + " " + errMsg.InnerException?? errMsg.InnerException.Message +"\n");
+            Console.WriteLine(err.Message + " " + err.InnerException.Message +"\n");
+        }
+        catch (BlApi.InvalidValue err)
+        {
+            Console.WriteLine(err.Message + "\n");
+        }
+        catch (BlApi.OutOfStock err)
+        {
+            Console.WriteLine(err.Message + "\n");
+        }
+        catch (BlApi.ItemNotExist err)
+        {
+            Console.WriteLine(err.Message + "\n");
+        }
+        catch (BlApi.InvalidOrderItem err)
+        {
+            Console.WriteLine(err.Message + "\n");
+        }
+        catch (BlApi.IllegalAction err)
+        {
+            Console.WriteLine(err.Message + "\n");
         }
     }
 }
