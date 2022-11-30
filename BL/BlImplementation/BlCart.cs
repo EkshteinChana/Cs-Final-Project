@@ -58,7 +58,7 @@ internal class BlCart : ICart
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc,"Data Error");
+            throw new DataError(exc,"Data Error: ");
         }
     }
 
@@ -123,7 +123,7 @@ internal class BlCart : ICart
             }
             catch (IdNotExist exc)
             {
-                throw new InvalidValue($"ID of product ID: {item.ProductId}");
+                throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
             }
         }
     }
@@ -242,7 +242,7 @@ internal class BlCart : ICart
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc, "Data Error");
+            throw new DataError(exc, "Data Error: ");
         }
     }
 }

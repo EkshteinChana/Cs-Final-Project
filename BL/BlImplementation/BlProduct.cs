@@ -24,6 +24,10 @@ internal class BlProduct : BlApi.IProduct
         {
             throw new InvalidValue("price");
         }
+        if (((int)prod.Category < 0) || ((int)prod.Category > 4))
+        {
+            throw new InvalidValue("category");
+        }
         if (prod.InStock < 0)
         {
             throw new InvalidValue("amount in stock");
@@ -50,7 +54,8 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public int CreateProd(BO.Product prod)
     {
-        int id = 0;
+        int id=0;
+        prod.Id = 111;//Temporary value for the checkOrdValues function - will be updated later.
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
         newProd.Name = prod.Name;
@@ -91,9 +96,9 @@ internal class BlProduct : BlApi.IProduct
         {
             Dal.product.Delete(Id);
         }
-        catch (IdNotExist)
+        catch (IdNotExist err)
         {
-            throw new IllegalAction("A non-existent product cannot be deleted");
+            throw new DataError(err, "Data Error: ");
         }
     }
     /// <summary>
@@ -136,7 +141,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc, "Data Error");
+            throw new DataError(exc, "Data Error: ");
         }
     }
 
@@ -157,7 +162,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist exc)
         {
-            throw new DataError(exc, "Data Error");
+            throw new DataError(exc, "Data Error: ");
         }
     }
 
@@ -200,7 +205,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         }
     }
 

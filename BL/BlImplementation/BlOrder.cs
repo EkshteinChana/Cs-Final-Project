@@ -68,7 +68,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         }
     }
 
@@ -146,11 +146,11 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         }
         catch (IdAlreadyExists err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         }
     }
 
@@ -177,7 +177,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         } 
     }
 
@@ -200,7 +200,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExist err)
         {
-            throw new DataError(err, "Data Error");
+            throw new DataError(err, "Data Error: ");
         }
     }
 

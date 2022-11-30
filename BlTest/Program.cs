@@ -148,7 +148,7 @@ void AddProduct()
     Console.WriteLine("Enter the product details:\n name-");
     newProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    newProduct.Category = (eCategory)Convert.ToInt32(Console.ReadLine());
+    newProduct.Category =(eCategory)Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
     newProduct.Price = Convert.ToDouble(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
