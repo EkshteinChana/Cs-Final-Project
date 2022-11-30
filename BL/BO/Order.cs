@@ -32,9 +32,9 @@ public class Order
     	deliveryDate: {DeliveryDate}";
         foreach (BO.OrderItem itm in Items)
         {
-            ordToString.Concat($"{itm}");
+            ordToString.Concat($"{itm},\n");
         }
-        return
+        return ordToString;
     }
 
     //public override string ToString() => $@"
