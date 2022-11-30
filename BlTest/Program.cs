@@ -42,7 +42,7 @@ void WatchOrderList()
 void UpdateShippingDate()
 {
     Console.WriteLine("\nEnter the order ID: ");
-    int ordId = Console.Read();
+    int ordId = Convert.ToInt32(Console.ReadLine());
     Order ord = bl.Order.UpdateOrdShipping(ordId);
     Console.WriteLine(ord + "\n");
 }
@@ -52,7 +52,7 @@ void UpdateShippingDate()
 void UpdateDeliveryDate()
 {
     Console.WriteLine("\nEnter the order ID: ");
-    int ordId = Console.Read();
+    int ordId = Convert.ToInt32(Console.ReadLine());
     Order ord = bl.Order.UpdateOrdDelivery(ordId);
     Console.WriteLine(ord + "\n");
 }
@@ -63,11 +63,11 @@ void UpdateDeliveryDate()
 void AddProdToOrder()
 {
     Console.WriteLine("\nEnter the order ID: ");
-    int ordId = Console.Read();
+    int ordId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID: ");
-    int pId = Console.Read();
+    int pId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the amount: ");
-    int amount = Console.Read();
+    int amount = Convert.ToInt32(Console.ReadLine());
     Order ord = bl.Order.UpdateOrd(ordId, pId, amount, eUpdateOrder.add);
     Console.WriteLine("The update order:\n" + ord + "\n");
 }
@@ -78,9 +78,9 @@ void AddProdToOrder()
 void DeleteProdFromOrder()
 {
     Console.WriteLine("\nEnter the order ID: ");
-    int ordId = Console.Read();
+    int ordId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID: ");
-    int pId = Console.Read();
+    int pId = Convert.ToInt32(Console.ReadLine());
     Order ord = bl.Order.UpdateOrd(ordId, pId, 0, eUpdateOrder.delete);
     Console.WriteLine("The update order:\n" + ord + "\n");
 }
@@ -91,11 +91,11 @@ void DeleteProdFromOrder()
 void UpdateAmountProdInOrder()
 {
     Console.WriteLine("\nEnter the order ID: ");
-    int ordId = Console.Read();
+    int ordId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID: ");
-    int pId = Console.Read();
+    int pId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the new amount: ");
-    int amount = Console.Read();
+    int amount = Convert.ToInt32(Console.ReadLine());
     Order ord = bl.Order.UpdateOrd(ordId, pId, amount, eUpdateOrder.changeAmount);
     Console.WriteLine("The update order:\n" + ord + "\n");
 }
@@ -109,7 +109,7 @@ void UpdateAmountProdInOrder()
 void WatchProductManager()
 {
     Console.WriteLine("\nEnter the product ID for watching: ");
-    int id = Console.Read();
+    int id = Convert.ToInt32(Console.ReadLine());
     Product tmpProduct = bl.Product.ReadProdManager(id);
     Console.WriteLine(tmpProduct + "\n");
 }
@@ -121,7 +121,7 @@ void WatchProductManager()
 void WatchProductCustomer()
 {
     Console.WriteLine("\nEnter the product ID for watching: ");
-    int id = Console.Read();
+    int id = Convert.ToInt32(Console.ReadLine());
     ProductItem productItem = bl.Product.ReadProdCustomer(id, cart);
     Console.WriteLine(productItem + "\n");
 }
@@ -148,11 +148,11 @@ void AddProduct()
     Console.WriteLine("Enter the product details:\n name-");
     newProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    newProduct.Category = (eCategory)Console.Read();
+    newProduct.Category = (eCategory)Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
     newProduct.Price = Convert.ToDouble(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
-    newProduct.InStock = Console.Read();
+    newProduct.InStock = Convert.ToInt32(Console.ReadLine());
     int ID = bl.Product.CreateProd(newProduct);
     Console.WriteLine($"The ID of the added product is: {ID}");
 }
@@ -165,15 +165,15 @@ void UpdateProduct()
 {
     Product tmpProduct = new Product();
     Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
-    tmpProduct.Id = Console.Read();
+    tmpProduct.Id = Convert.ToInt32(Console.ReadLine());
     Product srcProd = bl.Product.ReadProdManager(tmpProduct.Id);
     Console.WriteLine(srcProd + "\n");
     Console.WriteLine("\nname- ");
     tmpProduct.Name = Console.ReadLine();
     Console.WriteLine("\ncategory- ");
-    tmpProduct.Category = (eCategory)Console.Read();
+    tmpProduct.Category = (eCategory)Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\ninStock- ");
-    tmpProduct.InStock = Console.Read();
+    tmpProduct.InStock = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
     tmpProduct.Price = Convert.ToDouble(Console.ReadLine());
     bl.Product.UpdateProd(tmpProduct);
@@ -186,7 +186,7 @@ void UpdateProduct()
 void DeleteProduct()
 {
     Console.WriteLine("\nEnter the ID of the product you want to delete: ");
-    int id = Console.Read();
+    int id = Convert.ToInt32(Console.ReadLine());
     bl.Product.DeleteProd(id);
 }
 
@@ -200,7 +200,7 @@ void DeleteProduct()
 void AddProductToCart()
 {
     Console.WriteLine("Enter the product ID you want to add to the cart:");
-    int Id = Console.Read();
+    int Id = Convert.ToInt32(Console.ReadLine());
     cart = bl.Cart.CreateProdInCart(cart, Id);
 }
 
@@ -212,9 +212,9 @@ void AddProductToCart()
 void UpdateProdAmontInCart()
 {
     Console.WriteLine("Enter the product ID you want to update its amount in the cart:");
-    int id = Console.Read();
+    int id = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("Enter the new amount");
-    int amount = Console.Read();
+    int amount = Convert.ToInt32(Console.ReadLine());
     cart = bl.Cart.UpdateAmountOfProd(cart, id, amount);
 }
 
