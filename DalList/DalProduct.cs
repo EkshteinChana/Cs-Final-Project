@@ -47,11 +47,10 @@ public class DalProduct : IProduct
     /// <summary>
     ///  A function to get the information about all the products in the database.
     /// </summary>
-    public IEnumerable<Product> Read()
+    IEnumerable<Product> ICrud<Product>.Read(Func<Product, bool> func)
     {
-        List<Product> tmpProductList = new List<Product>(DataSource.ProductList.Count);
-        tmpProductList = DataSource.ProductList;
-        return tmpProductList;
+        List<Product> tmpProductList = DataSource.ProductList;
+        return func == null ? tmpProductList : tmpProductList.Where(func);
     }
     /// <summary>
     ///  A function to update a specific product in the database. 

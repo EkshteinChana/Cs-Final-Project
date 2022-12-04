@@ -47,13 +47,11 @@ public class DalOrder : IOrder
     /// <summary> 
     ///A function to get the information about all the orders in the database.
     /// </summary>
-    public IEnumerable<Order> Read()
+    IEnumerable<Order> ICrud<Order>.Read(Func<Order, bool>? func) 
     {
-        List<Order> tmpOrderList = new List<Order> (DataSource.OrderList.Count);
-        tmpOrderList = DataSource.OrderList;
-        return tmpOrderList;
+        IEnumerable<Order> tmpOrderList = DataSource.OrderList;
+        return func==null ? tmpOrderList : tmpOrderList.Where(func);
     }
-
     /// <summary> 
     ///A function to get the information about all the orders in the database.
     /// </summary>
@@ -67,4 +65,6 @@ public class DalOrder : IOrder
         DataSource.OrderList.Remove(originalOrder);
         DataSource.OrderList.Add(order);
     }
+
+  
 }

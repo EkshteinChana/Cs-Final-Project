@@ -49,15 +49,15 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to get from the database all the items that ordered,and from all the orders.
     /// </summary>
-    public IEnumerable<OrderItem> Read()
+    IEnumerable<OrderItem> ICrud<OrderItem>.Read(Func<OrderItem, bool> func)
     {
-        IEnumerable<OrderItem> tmpOrderItemList = new List<OrderItem>(DataSource.OrderItemList.Count);
-        tmpOrderItemList = DataSource.OrderItemList;
-        return tmpOrderItemList;
+        IEnumerable<OrderItem> tmpOrderItemList = DataSource.OrderItemList;
+        return func == null ? tmpOrderItemList : tmpOrderItemList.Where(func);
     }
     /// <summary>
     /// A function to get an specific item from a specific all the items that ordered,and from all the orders.
     /// </summary>
+
     public OrderItem ReadOrderItem(int pId, int oId)
     {
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
