@@ -10,7 +10,7 @@ public interface IOrder
     /// A function to read the list of orders for manager screen
     /// </summary>
     /// <returns>An IEnumerable of OrderForList</returns>
-    public IEnumerable<OrderForList> ReadOrdsManager();
+    public IEnumerable<OrderForList?> ReadOrdsManager();
     /// <summary>
     /// A function to read the details of an order
     /// for manager screen and customer screen

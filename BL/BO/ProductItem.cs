@@ -7,9 +7,9 @@ namespace BO;
 public class ProductItem
 {
     public int Id { get; set; }//productId
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public double Price { get; set; }//productPrice
-    public eCategory Category { get; set; }
+    public eCategory? Category { get; set; }
     public int Amount { get; set; }//The quantity of this product in the customer's cart
     public bool InStock { get; set; }//Availability (whether in stock)
 

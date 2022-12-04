@@ -11,7 +11,7 @@ public interface IProduct
     /// A function to read the list of products
     /// </summary>
     /// <returns>An IEnumerable of ProductForList</returns>
-    public IEnumerable<ProductForList> ReadProdsList();
+    public IEnumerable<ProductForList?> ReadProdsList();
 
     /// <summary>
     /// A function to read details of a product by productId

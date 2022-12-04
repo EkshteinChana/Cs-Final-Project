@@ -8,8 +8,8 @@ namespace BO;
 public class OrderForList
 {
     public int Id { get; set; }//OrderId
-    public string CustomerName { get; set; }
-    public eOrderStatus status { get; set; }//the status of the order
+    public string? CustomerName { get; set; }
+    public eOrderStatus? status { get; set; }//the status of the order
     public int AmountOfItems { get; set; }
     public double TotalPrice { get; set; }//the total price of the order
 

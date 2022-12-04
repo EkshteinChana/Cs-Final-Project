@@ -8,14 +8,14 @@ namespace BO;
 public class Order
 {
     public int Id { get; set; }//orderId
-    public string CustomerName { get; set; }
-    public string CustomerEmail { get; set; }
-    public string CustomerAddress { get; set; }
-    public DateTime OrderDate { get; set; }
-    public eOrderStatus status { get; set; }//the status of this order
-    public DateTime ShipDate { get; set; }
-    public DateTime DeliveryDate { get; set; }
-    public IEnumerable<BO.OrderItem> Items { get; set; } //a list of the items in this order 
+    public string? CustomerName { get; set; }
+    public string? CustomerEmail { get; set; }
+    public string? CustomerAddress { get; set; }
+    public DateTime? OrderDate { get; set; }
+    public eOrderStatus? status { get; set; }//the status of this order
+    public DateTime? ShipDate { get; set; }
+    public DateTime? DeliveryDate { get; set; }
+    public IEnumerable<BO.OrderItem?> Items { get; set; } //a list of the items in this order 
     public double TotalPrice { get; set; }//the total price of this order
 
     public override string ToString()

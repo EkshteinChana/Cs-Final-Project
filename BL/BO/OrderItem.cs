@@ -10,7 +10,7 @@ public class OrderItem
 {
     public int Id { get; set; }//OrderItem ID
     public int ProductId { get; set; }
-    public string Name { get; set; }//product's name
+    public string? Name { get; set; }//product's name
     public double Price { get; set; }//product's price
     public int Amount { get; set; }//Amount of items of a product in the cart/order
     public double TotalPrice { get; set; }//Total price of an item (according to product price and his quantity at the order/cart)

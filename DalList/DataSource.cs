@@ -41,7 +41,7 @@ public class DataSource
     private static void CreateProductList()
     {
         // Temp help array 
-        (string, eCategory, double)[] prodNameCategoryPrice = 
+        (string?, eCategory?, double)[] prodNameCategoryPrice = 
            {("Magnet siddur", eCategory.Siddur,52.5 ),
             ("Artistic Shabbat box", eCategory.Shabbat,200),
             ("pendant model siddur", eCategory.Siddur,60),
@@ -89,7 +89,7 @@ public class DataSource
     /// </summary>
     private static void CreateOrderList()
     {
-        (string, string, string)[] CustomerDetails = new (string, string, string)[5]
+        (string?, string?, string?)[] CustomerDetails = new (string?, string?, string?)[5]
            {("Shimon Cohen","shimon66@gmail.com", "Shaulzon 66" ),
             ("Daniel Levi","levi05276@gmail.com", "Sorotskin 16"),
             ("Reuven Katz","reuvenkatz123@gmail.com","Idelson 24" ),
