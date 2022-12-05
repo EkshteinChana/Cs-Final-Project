@@ -66,7 +66,7 @@ internal class BlOrder : BlApi.IOrder
             DO.Order dO =  Dal.order.Read(orderId);
             return convertDToB(dO);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }
@@ -144,11 +144,11 @@ internal class BlOrder : BlApi.IOrder
             }         
             return convertDToB(dOrd);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }
-        catch (IdAlreadyExists err)
+        catch (IdAlreadyExistsException err)
         {
             throw new DataError(err, "Data Error: ");
         }
@@ -175,7 +175,7 @@ internal class BlOrder : BlApi.IOrder
             Dal.order.Update(dOrder);
             return convertDToB(dOrder);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         } 
@@ -198,7 +198,7 @@ internal class BlOrder : BlApi.IOrder
             Dal.order.Update(dOrder);
             return convertDToB(dOrder);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }

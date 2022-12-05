@@ -15,7 +15,7 @@ public class DalProduct : IProduct
         Product tmpProduct = DataSource.ProductList.Where(prod => prod.Id == product.Id).FirstOrDefault();
         if (!tmpProduct.Equals(default(Product)))
         {
-            throw new IdAlreadyExists();
+            throw new IdAlreadyExistsException();
         }
         DataSource.ProductList.Add(product);
         return product.Id;
@@ -28,7 +28,7 @@ public class DalProduct : IProduct
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
         if (product.Equals(default(Product)))
         {
-            throw new IdNotExist("product");
+            throw new IdNotExistException("product");
         }
         DataSource.ProductList.Remove(product);
     }
@@ -40,7 +40,7 @@ public class DalProduct : IProduct
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
         if (product.Equals(default(Product)))
         {
-            throw new IdNotExist("product");
+            throw new IdNotExistException("product");
         }
         return product;
     }
@@ -60,10 +60,20 @@ public class DalProduct : IProduct
         Product originalProduct = DataSource.ProductList.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
         if (originalProduct.Equals(default(Product)))
         {
-            throw new IdNotExist("product");
+            throw new IdNotExistException("product");
         }
         DataSource.ProductList.Remove(originalProduct);
         DataSource.ProductList.Add(product);
+    }
+
+    Product ICrud<Product>.ReadSingle(Func<Product, bool> func)
+    {
+        Product prod = DataSource.ProductList.Where(func).FirstOrDefault();
+        if (prod.Equals(default(Order)))
+        {
+            throw new ObjectNotExistException("product");
+        }
+        return prod;
     }
 }
 

@@ -1,17 +1,22 @@
-﻿public class IdNotExist  : Exception
+﻿public class IdNotExistException  : Exception
 {
     public readonly string msg;
-    public IdNotExist(string m) { msg = m; }
+    public IdNotExistException(string _msg) { msg = _msg; }
     public override string Message => $"The {msg} ID is not exist";
 }
 
-public class IdAlreadyExists : Exception
+public class IdAlreadyExistsException : Exception
 {
     public override string Message => "Such an ID is already exists";
 }
 
 
-//public readonly string msg;
-//public InvalidValue(string m) { msg = m; }
-//public override string Message => $"Invalid {msg}";
-//}
+public class ObjectNotExistException : Exception
+{
+    public readonly string obj ;
+    public ObjectNotExistException( string _obj )
+    {
+        obj = _obj;
+    }
+    public override string Message => $"No such { obj } exists ";
+}

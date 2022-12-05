@@ -56,7 +56,7 @@ internal class BlCart : ICart
             cart.TotalPrice += dP.Price;
             return cart;
         }
-        catch (IdNotExist exc)
+        catch (IdNotExistException exc)
         {
             throw new DataError(exc,"Data Error: ");
         }
@@ -82,7 +82,7 @@ internal class BlCart : ICart
                 dOrder.Id = DataSource.Config.MaxOrderId;
                 orderId = Dal.order.Create(dOrder);
             }
-            catch (IdAlreadyExists)
+            catch (IdAlreadyExistsException)
             {
                 tryId = true;
             }
@@ -103,7 +103,7 @@ internal class BlCart : ICart
                     dOrderItem.Id = DataSource.Config.MaxOrderItemId;
                     Dal.orderItem.Create(dOrderItem);
                 }
-                catch (IdAlreadyExists)
+                catch (IdAlreadyExistsException)
                 {
                     tryId = true;
                 }
@@ -121,7 +121,7 @@ internal class BlCart : ICart
                 dP.InStock -= item.Amount;
                 Dal.product.Update(dP);
             }
-            catch (IdNotExist exc)
+            catch (IdNotExistException exc)
             {
                 throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
             }
@@ -158,7 +158,7 @@ internal class BlCart : ICart
                     throw new OutOfStock(dP.Id, dP.InStock);
                 }
             }
-            catch (IdNotExist exc)
+            catch (IdNotExistException exc)
             {
                 throw new InvalidValue($"ID of product ID: {item.ProductId}");
             }
@@ -240,7 +240,7 @@ internal class BlCart : ICart
             }
             return cart;
         }
-        catch (IdNotExist exc)
+        catch (IdNotExistException exc)
         {
             throw new DataError(exc, "Data Error: ");
         }

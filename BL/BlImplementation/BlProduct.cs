@@ -72,7 +72,7 @@ internal class BlProduct : BlApi.IProduct
                 newProd.Id = rnd.Next(100000, 1000000);
                 id = Dal.product.Create(newProd);
             }
-            catch (IdAlreadyExists)
+            catch (IdAlreadyExistsException)
             {
                 tryId = true;
             }
@@ -96,7 +96,7 @@ internal class BlProduct : BlApi.IProduct
         {
             Dal.product.Delete(Id);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }
@@ -139,7 +139,7 @@ internal class BlProduct : BlApi.IProduct
             }
             return bP;
         }
-        catch (IdNotExist exc)
+        catch (IdNotExistException exc)
         {
             throw new DataError(exc, "Data Error: ");
         }
@@ -160,7 +160,7 @@ internal class BlProduct : BlApi.IProduct
             DO.Product dP = Dal.product.Read(Id);
             return convertDToB(dP);
         }
-        catch (IdNotExist exc)
+        catch (IdNotExistException exc)
         {
             throw new DataError(exc, "Data Error: ");
         }
@@ -203,7 +203,7 @@ internal class BlProduct : BlApi.IProduct
         {
             Dal.product.Update(newProd);
         }
-        catch (IdNotExist err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }
