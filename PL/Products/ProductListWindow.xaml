@@ -20,7 +20,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
+            <ComboBox Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,63,0,0" VerticalAlignment="Stretch" Width="120"/>
+            <Label Grid.Column="0" Content="Label" HorizontalAlignment="Left" Margin="62,45,0,0" VerticalAlignment="Top"/>
         </Grid>
+        <ListView Grid.Row="1" x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>
