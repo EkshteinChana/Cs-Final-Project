@@ -14,6 +14,12 @@ public interface IProduct
     public IEnumerable<ProductForList?> ReadProdsList();
 
     /// <summary>
+    /// A function to read a list of products by specific category
+    /// </summary>
+    /// <returns>An IEnumerable of ProductForList</returns>
+    public IEnumerable<ProductForList?> ReadProdsByCategory(eCategory ctgry);
+
+    /// <summary>
     /// A function to read details of a product by productId
     /// for manager screen
     /// </summary>

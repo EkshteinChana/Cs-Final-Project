@@ -1,12 +1,37 @@
-﻿<Window x:Class="PL.Products.ProductWindow"
+﻿<Window x:Class="PL.ProductWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL.Products"
+        xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid Margin="254,44,254,44">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Name="TitelEnterDetailsLbl" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Grid.Row="1" Name="IdLbl" Content="ID: " HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" Margin="95,0,0,0" />
+            <Label Grid.Row="1" Name="IDLbl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="115,0,0,0" />
+            <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
+            <TextBox Name="NameTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
+            <Label Grid.Row="3" Name="PriceLbl" Content="price:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
+            <TextBox Name="PriceTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
+            <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
+            <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Bottom" MinWidth="100"/>
+            <Label Grid.Row="5" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
+            <TextBox Name="InStockTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
+            <Button Name="AddProductBtn" Content="click for sending the product details" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" Click="AddProductBtn_Click" />
+            <Button Name="UpdateProductBtn" Content="Update" HorizontalAlignment="Left" Grid.Row="6" Margin="70,5,0,6" Click="UpdateProductBtn_Click" />
+            <Button Name="DeleteProductBtn" Content="Delete" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Bottom" Margin="179,0,0,6" Click="DeleteProductBtn_Click" />
+        </Grid>
+
     </Grid>
 </Window>
