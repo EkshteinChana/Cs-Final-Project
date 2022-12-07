@@ -191,20 +191,20 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public IEnumerable<BO.ProductForList?> ReadProdsByCategory(BO.eCategory category)
     {
-        DO.eCategory ctgry= (DO.eCategory)category;
-        IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.category == ctgry);
-        IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
-        List<BO.ProductForList> bProdsList = bProds.ToList();
-        foreach (DO.Product dP in dProds)
-        {
-            BO.ProductForList bP = new BO.ProductForList();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
-            bProdsList.Add(bP);
-        }
-        return bProdsList;
+            DO.eCategory ctgry = (DO.eCategory)category;
+            IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.category == ctgry);
+            IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
+            List<BO.ProductForList> bProdsList = bProds.ToList();
+            foreach (DO.Product dP in dProds)
+            {
+                BO.ProductForList bP = new BO.ProductForList();
+                bP.Id = dP.Id;
+                bP.Name = dP.Name;
+                bP.Price = dP.Price;
+                bP.Category = (BO.eCategory)dP.category;
+                bProdsList.Add(bP);
+            }
+            return bProdsList;
     }
 
     /// <summary>

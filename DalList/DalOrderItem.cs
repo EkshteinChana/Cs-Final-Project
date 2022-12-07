@@ -52,7 +52,15 @@ public class DalOrderItem : IOrderItem
     IEnumerable<OrderItem> ICrud<OrderItem>.Read(Func<OrderItem, bool> func)
     {
         IEnumerable<OrderItem> tmpOrderItemList = DataSource.OrderItemList;
-        return func == null ? tmpOrderItemList : tmpOrderItemList.Where(func);
+        if(func != null)
+        {
+            tmpOrderItemList= tmpOrderItemList.Where(func);
+            if (tmpOrderItemList.Equals(null) || tmpOrderItemList.Count() == 0)
+            {
+                throw new ObjectNotExistException("order or items in this order");
+            }
+        }
+        return tmpOrderItemList;
     }
 
     /// <summary>
@@ -71,17 +79,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to get from the database all the items in an specific order by the order ID.
     /// </summary>
-    //public IEnumerable<OrderItem> ReadOrderItemByOrderId(int oId)
-    //{
-    //    List<OrderItem> orderItems = DataSource.OrderItemList.Where(orderItem => orderItem.OrderId == oId).ToList();
-    //    if (orderItems.Equals(null) || orderItems.Count == 0)
-    //    {
-    //        throw new IdNotExistException("order item");
-    //    }
-    //    List<OrderItem> tmpOrderItemList = new List<OrderItem>(orderItems.Count);
-    //    tmpOrderItemList = orderItems;
-    //    return tmpOrderItemList;
-    //}
+
 
     /// <summary>
     /// A function to update a specific item in an specific order.
