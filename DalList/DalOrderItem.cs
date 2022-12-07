@@ -54,35 +54,35 @@ public class DalOrderItem : IOrderItem
         IEnumerable<OrderItem> tmpOrderItemList = DataSource.OrderItemList;
         return func == null ? tmpOrderItemList : tmpOrderItemList.Where(func);
     }
-    ////////////////////////////////////////????
+
     /// <summary>
-    //// A function to get an specific item from a specific all the items that ordered,and from all the orders.
+    /// A function to get an specific item from a specific all the items that ordered,and from all the orders.
     /// </summary>
 
-    public OrderItem ReadOrderItem(int pId, int oId)
-    {
-        OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
-        if (orderItem.Equals(default(OrderItem)))
-        {
-            throw new IdNotExistException("order item");
-        }
-        return orderItem;
-    }
+    //public OrderItem ReadOrderItem(int pId, int oId)
+    //{
+    //    OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
+    //    if (orderItem.Equals(default(OrderItem)))
+    //    {
+    //        throw new IdNotExistException("order item");
+    //    }
+    //    return orderItem;
+    //}
     /// <summary>
     /// A function to get from the database all the items in an specific order by the order ID.
     /// </summary>
-    public IEnumerable<OrderItem> ReadOrderItemByOrderId(int oId)
-    {
-        List<OrderItem> orderItems = DataSource.OrderItemList.Where(orderItem => orderItem.OrderId == oId).ToList();
-        if (orderItems.Equals(null) || orderItems.Count == 0)
-        {
-            throw new IdNotExistException("order item");
-        }
-        List<OrderItem> tmpOrderItemList = new List<OrderItem>(orderItems.Count);
-        tmpOrderItemList = orderItems;
-        return tmpOrderItemList;
-    }
-    /////////////////////////////////?????
+    //public IEnumerable<OrderItem> ReadOrderItemByOrderId(int oId)
+    //{
+    //    List<OrderItem> orderItems = DataSource.OrderItemList.Where(orderItem => orderItem.OrderId == oId).ToList();
+    //    if (orderItems.Equals(null) || orderItems.Count == 0)
+    //    {
+    //        throw new IdNotExistException("order item");
+    //    }
+    //    List<OrderItem> tmpOrderItemList = new List<OrderItem>(orderItems.Count);
+    //    tmpOrderItemList = orderItems;
+    //    return tmpOrderItemList;
+    //}
+
     /// <summary>
     /// A function to update a specific item in an specific order.
     /// </summary>

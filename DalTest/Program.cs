@@ -110,7 +110,7 @@ void WatchAllItemsInOrd()
 {
     Console.WriteLine("\nEnter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    IEnumerable<OrderItem> itemsInOrder = dalList.orderItem.ReadOrderItemByOrderId(oId);
+    IEnumerable<OrderItem> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
     foreach (OrderItem oItem in itemsInOrder)
     {
         Console.WriteLine(oItem);
@@ -346,7 +346,7 @@ void WatchOrderItemByOrderIdProductId()
     int oId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID : ");
     int pId = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrderItem = dalList.orderItem.ReadOrderItem(pId, oId);
+    OrderItem tmpOrderItem = dalList.orderItem.ReadSingle((OrderItem=> (OrderItem.OrderId==oId && OrderItem.ProductId== pId)));
     Console.WriteLine(tmpOrderItem + "\n");
 }
 
