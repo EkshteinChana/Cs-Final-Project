@@ -13,9 +13,5 @@ public class ProductForList
     public eCategory? Category { get; set; }
     
     public override string ToString() => $@"
-        ID: {Id}
-        name: {Name} 
-        price: {Price}
-        category: {Category}    
-        ";
+        ID: {Id} | name: {Name} | price: {Price} | category: {Category}";
 }

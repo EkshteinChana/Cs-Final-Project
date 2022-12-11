@@ -33,9 +33,9 @@ internal class BlOrder : BlApi.IOrder
         bO.DeliveryDate = dO.DeliveryDate;
         bO.status = checkStatus(dO);
         //items and totalPrice:
-        IEnumerable<DO.OrderItem?> orderItems = Dal.orderItem.Read();
-        IEnumerable<DO.OrderItem?> items = new List<DO.OrderItem?>(orderItems.Count());
-        items = orderItems.Where(ordItm => ordItm?.OrderId == bO.Id);
+        IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
+        IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
+        items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
         bO.Items = new List<BO.OrderItem>(items.Count());
         List<BO.OrderItem> bItemsList = bO.Items.ToList();
         bO.TotalPrice = 0;
@@ -74,7 +74,7 @@ internal class BlOrder : BlApi.IOrder
 
     IEnumerable<BO.OrderForList> BlApi.IOrder.ReadOrdsManager()
     {
-        IEnumerable<DO.Order?> dOrders = Dal.order.Read();
+        IEnumerable<DO.Order> dOrders = Dal.order.Read();
         List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
         foreach (DO.Order dO in dOrders)
         {
@@ -105,9 +105,9 @@ internal class BlOrder : BlApi.IOrder
                 throw new IllegalAction("The order has already been sent.");
             }
 
-            IEnumerable<DO.OrderItem?> orderItems = Dal.orderItem.Read();
+            IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
 
-            DO.OrderItem? itmInOrd = orderItems.Where(oItm => oItm != null && (oItm?.ProductId == pId && oItm?.OrderId == oId)).FirstOrDefault();
+            DO.OrderItem? itmInOrd = orderItems.Where(oItm => (oItm.ProductId == pId && oItm.OrderId == oId)).FirstOrDefault();
 
             switch (action)
             {

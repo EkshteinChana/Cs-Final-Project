@@ -39,7 +39,7 @@ namespace PL
         /// </summary>
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BO.eCategory ctgry=(BO.eCategory)CategorySelector.SelectedItem;
+            BO.eCategory ctgry = (BO.eCategory)CategorySelector.SelectedItem;
             ProductsListview.ItemsSource = bl.Product.ReadProdsByCategory(ctgry);
         }
         /// <summary>
@@ -47,7 +47,8 @@ namespace PL
         /// </summary>
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            new ProductWindow(bl,null).Show();
+            new ProductWindow(bl, null).Show();
+            this.Hide();
         }
         /// <summary>
         /// A function that opens the ProductWindow for updating or deleting a product.
@@ -55,7 +56,8 @@ namespace PL
         private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ProductForList p = (ProductForList)((ListView)sender).SelectedItem;
-            new ProductWindow(bl,p.Id).Show();
+            new ProductWindow(bl, p.Id).Show();
+            this.Hide();
         }
         /// <summary>
         /// A function that show all the product
@@ -63,6 +65,11 @@ namespace PL
         private void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
         {
             ProductsListview.ItemsSource = bl.Product.ReadProdsList();
+        }
+
+        private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

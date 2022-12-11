@@ -17,21 +17,22 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Name="TitelEnterDetailsLbl" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Name="TitelEnterDetailsLbl" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Margin="8,0,0,0" />
             <Label Grid.Row="1" Name="IdLbl" Content="ID: " HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" Margin="95,0,0,0" />
             <Label Grid.Row="1" Name="IDLbl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="115,0,0,0" />
-            <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
-            <TextBox Name="NameTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
-            <Label Grid.Row="3" Name="PriceLbl" Content="price:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
-            <TextBox Name="PriceTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
-            <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
-            <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Bottom" MinWidth="100"/>
-            <Label Grid.Row="5" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" MinWidth="100"/>
-            <TextBox Name="InStockTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"/>
-            <Button Name="AddProductBtn" Content="click for sending the product details" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" Click="AddProductBtn_Click" />
-            <Button Name="UpdateProductBtn" Content="Update" HorizontalAlignment="Left" Grid.Row="6" Margin="70,5,0,6" Click="UpdateProductBtn_Click" />
-            <Button Name="DeleteProductBtn" Content="Delete" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Bottom" Margin="179,0,0,6" Click="DeleteProductBtn_Click" />
+            <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,5,0,0" MinWidth="100" Grid.ColumnSpan="3"/>
+            <TextBox Name="NameTxtBx" HorizontalAlignment="Left" Margin="96,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="3" Name="PriceLbl" Content="price:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,5,0,0" MinWidth="100" Grid.ColumnSpan="3"/>
+            <TextBox Name="PriceTxtBx" HorizontalAlignment="Left" Margin="96,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,5,0,0" MinWidth="100" Grid.ColumnSpan="3"/>
+            <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Left" Margin="96,0,0,5" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="5" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,5,0,0" MinWidth="100" Grid.ColumnSpan="3"/>
+            <TextBox Name="InStockTxtBx" HorizontalAlignment="Left" Margin="96,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Button Name="AddProductBtn" Content="click for sending the product details" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Click="AddProductBtn_Click" Grid.ColumnSpan="3" Margin="49,0,0,0" />
+            <Button Name="UpdateProductBtn" Content="Update" HorizontalAlignment="Left" Grid.Row="6" Margin="184,5,0,6" Click="UpdateProductBtn_Click" />
+            <Button Name="DeleteProductBtn" Content="Delete" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Click="DeleteProductBtn_Click" Margin="69,0,0,0" />
         </Grid>
+        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28"/>
 
     </Grid>
 </Window>

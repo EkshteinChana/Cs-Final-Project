@@ -8,30 +8,33 @@
         Title="ProductListWindow" Height="640" Width="800">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="452*"/>
+            <RowDefinition Height="87*"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-        VerticalAlignment="Stretch" Width="auto">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" Margin="8,119,12,50" SelectionChanged="CategorySelector_SelectionChanged"/>
-            <Label Grid.Column="0" Content="Label" HorizontalAlignment="Left" Margin="22,27,0,0" VerticalAlignment="Top"/>
-            <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="41" Grid.Column="1" VerticalAlignment="Top" Margin="0,45,0,0" Width="152" Click="DisplayAllProductsButton_Click" />
+            <ComboBox Name="CategorySelector" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged" Margin="24,40,24,9"/>
+            <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="22,27,0,0" VerticalAlignment="Top" Height="26" Width="120"/>
+            <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" />
         </Grid>
-        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="ProductsListview_MouseDoubleClick" Margin="154,208,154,0" Grid.RowSpan="2">
+        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="ProductsListview_MouseDoubleClick" Margin="62,31,62,52" Grid.Row="1" SelectionChanged="ProductsListview_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Name="AddProductButton" Content="click for adding new product" HorizontalAlignment="Left" Margin="439,116,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AddProductButton_Click"/>
+        <Button Name="AddProductButton" Content="Add new product" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Center" Click="AddProductButton_Click" Height="41" Width="175" Margin="590,0,0,0"/>
 
     </Grid>
 </Window>
