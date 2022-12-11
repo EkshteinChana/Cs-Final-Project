@@ -70,8 +70,8 @@ internal class BlCart : ICart
         dOrder.CustomerEmail = customerEmail;
         dOrder.CustomerAddress = customerAddress;
         dOrder.OrderDate = DateTime.Now;
-        dOrder.ShipDate = DateTime.MinValue;
-        dOrder.DeliveryDate = DateTime.MinValue;
+        dOrder.ShipDate = null;
+        dOrder.DeliveryDate = null;
         bool tryId = true;
         int orderId = 0;
         while (tryId)

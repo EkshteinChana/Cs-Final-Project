@@ -29,8 +29,8 @@ void AddOrder()
 
     newOrder.Id = DataSource.Config.MaxOrderId;
     newOrder.OrderDate = DateTime.Now;
-    newOrder.ShipDate = DateTime.MinValue;
-    newOrder.DeliveryDate = DateTime.MinValue;
+    newOrder.ShipDate = null;
+    newOrder.DeliveryDate = null;
     dalList.order.Create(newOrder);
 }
 /// <summary>
@@ -49,7 +49,7 @@ void WatchOrder()
 void WatchOrderList()
 {
     int size = DataSource.OrderList.Count;
-    IEnumerable<Order> ordList = new List<Order>(size);
+    IEnumerable<Order?> ordList = new List<Order?>(size);
     ordList = dalList.order.Read();
     foreach (Order order in ordList)
     {
@@ -110,7 +110,7 @@ void WatchAllItemsInOrd()
 {
     Console.WriteLine("\nEnter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    IEnumerable<OrderItem> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
+    IEnumerable<OrderItem?> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
     foreach (OrderItem oItem in itemsInOrder)
     {
         Console.WriteLine(oItem);
@@ -190,7 +190,7 @@ void WatchProduct()
 void WatchProductList()
 {
     int size = DataSource.ProductList.Count;
-    IEnumerable<Product> productList = new Product[size];
+    IEnumerable<Product?> productList = new Product?[size];
     productList = dalList.product.Read();
     foreach (Product product in productList)
     {
@@ -320,7 +320,7 @@ void WatchOrderItem()
 void WatchOrderItemList()
 {
     int size = DataSource.OrderItemList.Count;
-    IEnumerable<OrderItem> orderItemList = new OrderItem[size];
+    IEnumerable<OrderItem?> orderItemList = new OrderItem?[size];
     orderItemList = dalList.orderItem.Read();
     foreach (OrderItem orderItem in orderItemList)
     {

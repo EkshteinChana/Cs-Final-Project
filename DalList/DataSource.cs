@@ -120,13 +120,13 @@ public class DataSource
                 }
                 else
                 {
-                    tmpOrd.DeliveryDate = DateTime.MinValue;
+                    tmpOrd.DeliveryDate = null;
                 }
             }
             else
             {
-                tmpOrd.DeliveryDate = DateTime.MinValue;
-                tmpOrd.ShipDate = DateTime.MinValue;
+                tmpOrd.DeliveryDate = null;
+                tmpOrd.ShipDate = null;
             }
             OrderList.Add(tmpOrd);
         }
