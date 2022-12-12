@@ -23,9 +23,27 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged" Margin="24,40,24,9"/>
-            <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="22,27,0,0" VerticalAlignment="Top" Height="26" Width="120"/>
-            <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" />
+            <ComboBox Name="CategorySelector" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged" Margin="24,40,24,9" FontSize="12"/>
+            <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="70,33,0,0" VerticalAlignment="Top" Height="52" Width="120" FontWeight="Bold" FontSize="24"/>
+            <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16">
+                <Button.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF24DCEA" Offset="1"/>
+                        <GradientStop Color="#FF2B7A80" Offset="0.021"/>
+                    </LinearGradientBrush>
+                </Button.BorderBrush>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF73FFE2" Offset="0"/>
+                        <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
+                        <GradientStop Color="#FF3A8274" Offset="1"/>
+                        <GradientStop Color="#FF7CCECC" Offset="0.141"/>
+                        <GradientStop Color="#FF34C8E4" Offset="0.959"/>
+                        <GradientStop Color="#FF66CCD3" Offset="0.189"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
         </Grid>
         <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="ProductsListview_MouseDoubleClick" Margin="62,31,62,52" Grid.Row="1" SelectionChanged="ProductsListview_SelectionChanged">
             <ListView.View>
@@ -34,7 +52,25 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Name="AddProductButton" Content="Add new product" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Center" Click="AddProductButton_Click" Height="41" Width="175" Margin="590,0,0,0"/>
+        <Button Name="AddProductButton" Content="Add new product" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Click="AddProductButton_Click" Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF24DCEA" Offset="1"/>
+                    <GradientStop Color="#FF2B7A80" Offset="0.021"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF73FFE2" Offset="0"/>
+                    <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
+                    <GradientStop Color="#FF3A8274" Offset="1"/>
+                    <GradientStop Color="#FF7CCECC" Offset="0.141"/>
+                    <GradientStop Color="#FF34C8E4" Offset="0.959"/>
+                    <GradientStop Color="#FF66CCD3" Offset="0.189"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>
