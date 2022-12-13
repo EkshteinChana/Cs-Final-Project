@@ -9,7 +9,7 @@
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="85*"/>
-            <RowDefinition Height="452*"/>
+            <RowDefinition Name="try" Height="452*"/>
             <RowDefinition Height="87*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
@@ -45,10 +45,13 @@
                 </Button.Background>
             </Button>
         </Grid>
-        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="ProductsListview_MouseDoubleClick" Margin="62,31,62,52" Grid.Row="1" SelectionChanged="ProductsListview_SelectionChanged">
+        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="ProductsListview_MouseDoubleClick" Margin="50,31,50,52" Grid.Row="1" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category" />
                 </GridView>
             </ListView.View>
         </ListView>

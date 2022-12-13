@@ -78,6 +78,7 @@ namespace PL
                 prd.Category = (BO.eCategory)CategorySelector.SelectedItem;
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
+                MessageBox.Show("The addition was made successfully");
             }
             catch (InvalidValue exc) {
                 MessageBox.Show(exc.Message);
@@ -102,6 +103,7 @@ namespace PL
                 prd.Category = (BO.eCategory)CategorySelector.SelectedItem;
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.UpdateProd(prd);
+                MessageBox.Show("The update was successful");
             }
             catch (InvalidValue exc)
             {
@@ -127,6 +129,7 @@ namespace PL
             {
                 int id = Convert.ToInt32(IDLbl.Content);
                 bl.Product.DeleteProd(id);
+                MessageBox.Show("The deletion was successful");
             }
             catch (IllegalAction exc)
             {

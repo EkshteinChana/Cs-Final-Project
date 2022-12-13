@@ -64,7 +64,7 @@ namespace PL
         /// </summary>
         private void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            ProductsListview.ItemsSource = bl.Product.ReadProdsList();
+           ProductsListview.ItemsSource = bl.Product.ReadProdsList();
         }
 
         private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)

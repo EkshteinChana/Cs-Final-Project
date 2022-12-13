@@ -49,8 +49,7 @@ void WatchOrder()
 void WatchOrderList()
 {
     int size = DataSource.OrderList.Count;
-    IEnumerable<Order?> ordList = new List<Order?>(size);
-    ordList = dalList.order.Read();
+    IEnumerable<Order> ordList = dalList.order.Read(); 
     foreach (Order order in ordList)
     {
         Console.WriteLine(order);
@@ -110,7 +109,7 @@ void WatchAllItemsInOrd()
 {
     Console.WriteLine("\nEnter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    IEnumerable<OrderItem?> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
+    IEnumerable<OrderItem> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
     foreach (OrderItem oItem in itemsInOrder)
     {
         Console.WriteLine(oItem);
@@ -190,8 +189,7 @@ void WatchProduct()
 void WatchProductList()
 {
     int size = DataSource.ProductList.Count;
-    IEnumerable<Product?> productList = new Product?[size];
-    productList = dalList.product.Read();
+    IEnumerable<Product> productList = dalList.product.Read();
     foreach (Product product in productList)
     {
         Console.WriteLine(product);
@@ -320,8 +318,7 @@ void WatchOrderItem()
 void WatchOrderItemList()
 {
     int size = DataSource.OrderItemList.Count;
-    IEnumerable<OrderItem?> orderItemList = new OrderItem?[size];
-    orderItemList = dalList.orderItem.Read();
+    IEnumerable<OrderItem> orderItemList = dalList.orderItem.Read();
     foreach (OrderItem orderItem in orderItemList)
     {
         Console.WriteLine(orderItem);
