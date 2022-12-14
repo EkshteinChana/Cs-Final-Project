@@ -5,13 +5,13 @@
 
 
 using Dal;
+using DalApi;
 using DO;
 
 //=========================== Generic variables
 char choice;
 DataSource ds = new DataSource();
-DalList dalList = new DalList();
-
+IDal dalList = Factory.Get();
 
 //=========================== Order functions
 /// <summary>

@@ -5,7 +5,7 @@ using Dal;
 namespace BlImplementation;
 internal class BlCart : ICart
 {
-    private IDal Dal = new DalList();
+    private IDal dalList = DalApi.Factory.Get();
     public BO.Cart CreateProdInCart(BO.Cart cart, int id)
     {
         try
@@ -16,7 +16,7 @@ internal class BlCart : ICart
             }
             bool exist = false;
             int inStock;
-            DO.Product dP = Dal.product.Read(id);
+            DO.Product dP = dalList.product.Read(id);
             if (cart.Items != null)
                 foreach (BO.OrderItem i in cart.Items)
                 {
@@ -80,7 +80,7 @@ internal class BlCart : ICart
             try
             {
                 dOrder.Id = DataSource.Config.MaxOrderId;
-                orderId = Dal.order.Create(dOrder);
+                orderId = dalList.order.Create(dOrder);
             }
             catch (IdAlreadyExistsException)
             {
@@ -101,7 +101,7 @@ internal class BlCart : ICart
                 try
                 {
                     dOrderItem.Id = DataSource.Config.MaxOrderItemId;
-                    Dal.orderItem.Create(dOrderItem);
+                    dalList.orderItem.Create(dOrderItem);
                 }
                 catch (IdAlreadyExistsException)
                 {
@@ -113,13 +113,13 @@ internal class BlCart : ICart
         {
             try
             {
-                DO.Product dP = Dal.product.Read(item.ProductId);
+                DO.Product dP = dalList.product.Read(item.ProductId);
                 if (dP.InStock < item.Amount)
                 {
                     throw new OutOfStock(dP.Id,dP.InStock);
                 }
                 dP.InStock -= item.Amount;
-                Dal.product.Update(dP);
+                dalList.product.Update(dP);
             }
             catch (IdNotExistException exc)
             {
@@ -152,7 +152,7 @@ internal class BlCart : ICart
             }
             try
             {
-                DO.Product dP = Dal.product.Read(item.ProductId);
+                DO.Product dP = dalList.product.Read(item.ProductId);
                 if (dP.InStock < item.Amount)
                 {
                     throw new OutOfStock(dP.Id, dP.InStock);
@@ -210,7 +210,7 @@ internal class BlCart : ICart
                     exist = true;//The product is in the shopping cart
                     if (i.Amount < amount)//Update in case the amount of the product increased
                     {
-                        DO.Product dP = Dal.product.Read(id);
+                        DO.Product dP = dalList.product.Read(id);
                         if (dP.InStock - amount < 0)
                         {
                             throw new OutOfStock(dP.Id, dP.InStock);

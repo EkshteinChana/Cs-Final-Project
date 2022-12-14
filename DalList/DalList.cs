@@ -1,11 +1,11 @@
 ﻿using DalApi;
 namespace Dal;
-//public IProduct product { get; }
-//public IOrder order { get; }
-//public IOrderItem orderItem { get; }
-sealed public class DalList : IDal
+sealed internal class DalList : IDal
 {
+    public static IDal Instance { get; } = new DalList();
+    private DalList(){ }
     public IProduct product => new DalProduct();
     public IOrder order => new DalOrder();
     public IOrderItem orderItem => new DalOrderItem();
 }
+

@@ -5,7 +5,7 @@ using Dal;
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
-    private IDal Dal = new DalList();
+    private IDal Dal = DalApi.Factory.Get();
     private BO.eOrderStatus checkStatus(DO.Order dO)
     {
         if (dO.DeliveryDate != null)

@@ -1,11 +1,10 @@
 ﻿using DalApi;
-using Dal;
 using BlApi;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private IDal Dal = new DalList();
+    private IDal Dal = DalApi.Factory.Get();
 
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
