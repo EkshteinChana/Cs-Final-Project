@@ -8,7 +8,7 @@ public static class Factory
     {
         string dalType = s_dalName
             ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
-        string dal = s_dalPackages[dalType]
+        string dal = s_class;//class
            ?? throw new DalConfigException($"Package for {dalType} is not found in packages list");
 
         try

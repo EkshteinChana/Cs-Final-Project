@@ -11,11 +11,14 @@ static class DalConfig
             ?? throw new DalConfigException("dal-config.xml file is not found");
         s_dalName = dalConfig?.Element("dal")?.Value
             ?? throw new DalConfigException("<dal> element is missing");
-        var packages = dalConfig?.Element("dal-packages")?.Elements()
+        IEnumerable<XElement> packages = dalConfig?.Element("dal-packages")?.Elements()
            ?? throw new DalConfigException("<dal-packages> element is missing");
-        //var s_class = packages.Elements("class");
-        //var s_namespace = packages?.Elements("namespace");
-        //string g = (string)s_namespace;
+        XElement el_class = packages.Elements($"{s_dalName}")?.Elements("class").First()
+            ?? throw new DalConfigException($"<{s_dalName}><class/><{s_dalName}> element is missing");
+        string s_class = el_class.Value;
+        //XElement el_names
+        string s_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First().Value
+            ?? throw new DalConfigException($"<{s_dalName}><namespace/><{s_dalName}> element is missing");
         s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
     }
 }
