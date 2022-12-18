@@ -2,7 +2,7 @@
 namespace DalApi;
 static class DalConfig
 {
-    internal static string? s_dalName;
+    internal static string? s_dalName, s_class , s_namespace;
     internal static Dictionary<string, string> s_dalPackages;
 
     static DalConfig()
@@ -15,11 +15,11 @@ static class DalConfig
            ?? throw new DalConfigException("<dal-packages> element is missing");
         XElement el_class = packages.Elements($"{s_dalName}")?.Elements("class").First()
             ?? throw new DalConfigException($"<{s_dalName}><class/><{s_dalName}> element is missing");
-        string s_class = el_class.Value;
-        //XElement el_names
-        string s_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First().Value
+        s_class = el_class.Value;
+        XElement el_names
+        s_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First().Value
             ?? throw new DalConfigException($"<{s_dalName}><namespace/><{s_dalName}> element is missing");
-        s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
+        //s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
     }
 }
 
