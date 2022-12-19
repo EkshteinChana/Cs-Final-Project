@@ -8,18 +8,18 @@ public static class Factory
     {
         string dalType = s_dalName
             ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
-        string dal = s_class
+        string dal = s_dalInfo["class"]
            ?? throw new DalConfigException($"Class for {dalType} is not found in packages list");
         try
         {
-            Assembly.Load(dal ?? throw new DalConfigException($"Package {dal} is null"));
+            Assembly.Load(dal ?? throw new DalConfigException($"The class {dal} is null"));
         }
         catch (Exception)
         {
-            throw new DalConfigException("Failed to load {dal}.dll package");
+            throw new DalConfigException($"Failed to load {dal}.dll class");
         }
 
-        Type? type = Type.GetType($"Dal.{dal}, {dal}")
+        Type? type = Type.GetType($"{ s_dalInfo["namespace"]}.{dal}, {dal}")
             ?? throw new DalConfigException($"Class Dal.{dal} was not found in {dal}.dll");
 
         return type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static)?

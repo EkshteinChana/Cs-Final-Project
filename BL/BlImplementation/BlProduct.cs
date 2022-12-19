@@ -38,6 +38,7 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     private BO.Product convertDToB(DO.Product dP)
     {
+
         BO.Product bP = new BO.Product();
         //Type? dPT = dP.GetType();
         foreach (var prop in dP.GetType().GetProperties())
