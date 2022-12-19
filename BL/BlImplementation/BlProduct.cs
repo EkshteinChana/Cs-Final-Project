@@ -38,12 +38,14 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     private BO.Product convertDToB(DO.Product dP)
     {
+
         BO.Product bP = new BO.Product();
-        bP.Id = dP.Id;
-        bP.Name = dP.Name;
-        bP.Price = dP.Price;
-        bP.Category = (BO.eCategory)dP.category;
-        bP.InStock = dP.InStock;
+
+        //bP.Id = dP.Id;
+        //bP.Name = dP.Name;
+        //bP.Price = dP.Price;
+        //bP.Category = (BO.eCategory)dP.category;
+        //bP.InStock = dP.InStock;
         return bP;
     }
 

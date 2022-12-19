@@ -2,8 +2,8 @@
 namespace DalApi;
 static class DalConfig
 {
-    internal static string? s_dalName, s_class , s_namespace;
-    internal static Dictionary<string, string> s_dalPackages;
+    internal static string? s_dalName;
+    internal static Dictionary<string, string> s_dalPackages, s_dalInfo;
 
     static DalConfig()
     {
@@ -11,15 +11,21 @@ static class DalConfig
             ?? throw new DalConfigException("dal-config.xml file is not found");
         s_dalName = dalConfig?.Element("dal")?.Value
             ?? throw new DalConfigException("<dal> element is missing");
-        IEnumerable<XElement> packages = dalConfig?.Element("dal-packages")?.Elements()
-           ?? throw new DalConfigException("<dal-packages> element is missing");
-        XElement el_class = packages.Elements($"{s_dalName}")?.Elements("class").First()
-            ?? throw new DalConfigException($"<{s_dalName}><class/><{s_dalName}> element is missing");
-        s_class = el_class.Value;
-        XElement el_names
-        s_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First().Value
-            ?? throw new DalConfigException($"<{s_dalName}><namespace/><{s_dalName}> element is missing");
-        //s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
+        var packages = dalConfig?.Element("dal-packages")?.Elements()
+            ?? throw new DalConfigException("<dal-packages> element is missing");
+        //IEnumerable<XElement> el_class = packages.Elements($"{s_dalName}");
+        //IEnumerable<XElement> temp = el_class?.Elements("class");
+        //List<XElement> temp5 = (List<XElement>)temp;
+        //XElement temp2 = temp5?[0]
+        //    ?? throw new DalConfigException($"<{s_dalName}><class/><{s_dalName}> element is missing");
+        //s_class = temp2.Value;
+        //XElement el_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First()
+        //    ?? throw new DalConfigException($"<{s_dalName}><namespace/><{s_dalName}> element is missing");
+        //s_namespace = el_namespace.Value;
+         var dalInfo = packages?.Elements($"{s_dalName}")
+            ?? throw new DalConfigException($"<{s_dalName}> element is missing");
+        s_dalInfo = dalInfo.ToDictionary(p => "" + p.Name, p => p.Value);
+        s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
     }
 }
 
