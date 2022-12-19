@@ -25,6 +25,10 @@ internal class BlOrder : BlApi.IOrder
     private BO.Order convertDToB(DO.Order dO)
     {
         BO.Order bO = new();
+        foreach (var prop in dP.GetType().GetProperties())
+        {
+            bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+        }
         bO.Id = dO.Id;
         bO.CustomerName = dO.CustomerName;
         bO.CustomerEmail = dO.CustomerEmail;

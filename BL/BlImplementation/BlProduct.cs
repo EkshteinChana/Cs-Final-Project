@@ -39,11 +39,17 @@ internal class BlProduct : BlApi.IProduct
     private BO.Product convertDToB(DO.Product dP)
     {
         BO.Product bP = new BO.Product();
-        bP.Id = dP.Id;
-        bP.Name = dP.Name;
-        bP.Price = dP.Price;
-        bP.Category = (BO.eCategory)dP.category;
-        bP.InStock = dP.InStock;
+        //Type? dPT = dP.GetType();
+        foreach (var prop in dP.GetType().GetProperties())
+        {
+            bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+        }
+
+        //bP.Id = dP.Id;
+        //bP.Name = dP.Name;
+        //bP.Price = dP.Price;
+        //bP.Category = (BO.eCategory)dP.Category;
+        //bP.InStock = dP.InStock;
         return bP;
     }
 
@@ -53,14 +59,21 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public int CreateProd(BO.Product prod)
     {
-        int id=0;
+        int id = 0;
         prod.Id = 111;//Temporary value for the checkOrdValues function - will be updated later.
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
-        newProd.Name = prod.Name;
-        newProd.Price = prod.Price;
-        newProd.category = (DO.eCategory)prod.Category;
-        newProd.InStock = prod.InStock;
+        foreach (var prop in prod.GetType().GetProperties())
+        {
+            if (prop.Name != "Id")
+            {
+                newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
+            }
+        }
+        //newProd.Name = prod.Name;
+        //newProd.Price = prod.Price;
+        //newProd.Category = (DO.eCategory)prod.Category;???
+        //newProd.InStock = prod.InStock;
         bool tryId = true;
         while (tryId)//Create an ID
         {
@@ -114,13 +127,18 @@ internal class BlProduct : BlApi.IProduct
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.ProductItem bP = new();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
+            foreach (var prop in dP.GetType().GetProperties())
+            {
+                if (prop.Name != "InStock")
+                    bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+            }
+            //bP.Id = dP.Id;
+            //bP.Name = dP.Name;
+            //bP.Price = dP.Price;
+            //bP.Category = (BO.eCategory)dP.Category;???
             bP.InStock = (dP.InStock > 0) ? true : false;
             bool exist = false;
-            if(cart.Items != null)
+            if (cart.Items != null)
             {
                 foreach (BO.OrderItem i in cart.Items)
                 {
@@ -131,8 +149,8 @@ internal class BlProduct : BlApi.IProduct
                         break;
                     }
                 }
-            }           
-            if(exist== false)
+            }
+            if (exist == false)
             {
                 bP.Amount = 0;
             }
@@ -157,7 +175,13 @@ internal class BlProduct : BlApi.IProduct
                 throw new InvalidValue("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
-            return convertDToB(dP);
+            BO.Product bP = new BO.Product();
+            foreach (var prop in dP.GetType().GetProperties())
+            {
+                bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+            }
+            //return convertDToB(dP);???
+            return bP;
         }
         catch (IdNotExistException exc)
         {
@@ -176,10 +200,15 @@ internal class BlProduct : BlApi.IProduct
         foreach (DO.Product dP in dProds)
         {
             BO.ProductForList bP = new BO.ProductForList();
-            bP.Id = dP.Id;
-            bP.Name = dP.Name;
-            bP.Price = dP.Price;
-            bP.Category = (BO.eCategory)dP.category;
+            foreach (var prop in dP.GetType().GetProperties())
+            {
+                if (prop.Name != "InStock")
+                    bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+            }
+            //bP.Id = dP.Id;
+            //bP.Name = dP.Name;
+            //bP.Price = dP.Price;
+            //bP.Category = (BO.eCategory)dP.Category;???
             bProdsList.Add(bP);
         }
         return bProdsList;
@@ -190,20 +219,25 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public IEnumerable<BO.ProductForList?> ReadProdsByCategory(BO.eCategory category)
     {
-            DO.eCategory ctgry = (DO.eCategory)category;
-            IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.category == ctgry);
-            IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
-            List<BO.ProductForList> bProdsList = bProds.ToList();
-            foreach (DO.Product dP in dProds)
+        DO.eCategory ctgry = (DO.eCategory)category;
+        IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry);
+        IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
+        List<BO.ProductForList> bProdsList = bProds.ToList();
+        foreach (DO.Product dP in dProds)
+        {
+            BO.ProductForList bP = new BO.ProductForList();
+            foreach (var prop in dP.GetType().GetProperties())
             {
-                BO.ProductForList bP = new BO.ProductForList();
-                bP.Id = dP.Id;
-                bP.Name = dP.Name;
-                bP.Price = dP.Price;
-                bP.Category = (BO.eCategory)dP.category;
-                bProdsList.Add(bP);
+                if (prop.Name != "InStock")
+                    bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
             }
-            return bProdsList;
+            //bP.Id = dP.Id;
+            //bP.Name = dP.Name;
+            //bP.Price = dP.Price;
+            //bP.Category = (BO.eCategory)dP.Category;???
+            bProdsList.Add(bP);
+        }
+        return bProdsList;
     }
 
     /// <summary>
@@ -214,11 +248,15 @@ internal class BlProduct : BlApi.IProduct
     {
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
-        newProd.Id = prod.Id;
-        newProd.Name = prod.Name;
-        newProd.Price = prod.Price;
-        newProd.category = (DO.eCategory)prod.Category;
-        newProd.InStock = prod.InStock;
+        foreach (var prop in prod.GetType().GetProperties())
+        {
+            newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
+        }
+        //newProd.Id = prod.Id;
+        //newProd.Name = prod.Name;
+        //newProd.Price = prod.Price;
+        //newProd.Category = (DO.eCategory)prod.Category;
+        //newProd.InStock = prod.InStock;
         try
         {
             Dal.product.Update(newProd);

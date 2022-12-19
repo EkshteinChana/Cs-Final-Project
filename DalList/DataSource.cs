@@ -72,7 +72,7 @@ public class DataSource
                 }
             } while (!notExists);
 
-            (tmpProd.Name, tmpProd.category, tmpProd.Price) = prodNameCategoryPrice[i];
+            (tmpProd.Name, tmpProd.Category, tmpProd.Price) = prodNameCategoryPrice[i];
             if (i % 20 == 0)
                 tmpProd.InStock = 0;
             else
