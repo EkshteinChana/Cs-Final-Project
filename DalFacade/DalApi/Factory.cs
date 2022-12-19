@@ -8,11 +8,12 @@ public static class Factory
     {
         string dalType = s_dalName
             ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
-        string dal = s_dalInfo["class"]
+        //string dal = s_dalInfo["class"]
+         string dal = s_dalInfo["namespace"]
            ?? throw new DalConfigException($"Class for {dalType} is not found in packages list");
         try
         {
-            Assembly.Load(dal ?? throw new DalConfigException($"The class {dal} is null"));
+            //Assembly.Load(dal ?? throw new DalConfigException($"The class {dal} is null"));
         }
         catch (Exception)
         {

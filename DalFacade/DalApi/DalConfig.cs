@@ -1,8 +1,8 @@
 ﻿using System.Xml.Linq;
 namespace DalApi;
 static class DalConfig
-{
-    internal static string? s_dalName;
+{    
+    internal static string? s_dalName , s_class;
     internal static Dictionary<string, string> s_dalPackages, s_dalInfo;
 
     static DalConfig()
@@ -22,7 +22,8 @@ static class DalConfig
         //XElement el_namespace = packages.Elements($"{s_dalName}")?.Elements("namespace").First()
         //    ?? throw new DalConfigException($"<{s_dalName}><namespace/><{s_dalName}> element is missing");
         //s_namespace = el_namespace.Value;
-         var dalInfo = packages?.Elements($"{s_dalName}")
+        var el_class = packages?.Elements($"{s_dalName}")?.Elements("class").First();
+        var dalInfo = packages?.Elements($"{s_dalName}")
             ?? throw new DalConfigException($"<{s_dalName}> element is missing");
         s_dalInfo = dalInfo.ToDictionary(p => "" + p.Name, p => p.Value);
         s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
