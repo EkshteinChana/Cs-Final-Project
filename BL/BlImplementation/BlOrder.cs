@@ -25,16 +25,10 @@ internal class BlOrder : BlApi.IOrder
     private BO.Order convertDToB(DO.Order dO)
     {
         BO.Order bO = new();
-        foreach (var prop in dP.GetType().GetProperties())
+        foreach (var prop in dO.GetType().GetProperties())
         {
-            bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+            bO.GetType().GetProperty(prop.Name).SetValue(bO, prop.GetValue(dO));
         }
-        bO.Id = dO.Id;
-        bO.CustomerName = dO.CustomerName;
-        bO.CustomerEmail = dO.CustomerEmail;
-        bO.OrderDate = dO.OrderDate;
-        bO.ShipDate = dO.ShipDate;
-        bO.DeliveryDate = dO.DeliveryDate;
         bO.status = checkStatus(dO);
         //items and totalPrice:
         IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
@@ -46,11 +40,16 @@ internal class BlOrder : BlApi.IOrder
         foreach (DO.OrderItem dItm in items)
         {
             BO.OrderItem bItm = new();
-            bItm.Id = dItm.Id;
-            bItm.ProductId = dItm.ProductId;
+            foreach (var prop in dItm.GetType().GetProperties())
+            {
+                if (prop.Name != "OrderId")
+                    bItm.GetType().GetProperty(prop.Name).SetValue(bItm, prop.GetValue(dItm));
+            }
+            //bItm.Id = dItm.Id;
+            //bItm.ProductId = dItm.ProductId;
             bItm.Name = (Dal.product.Read(dItm.ProductId)).Name;
-            bItm.Price = dItm.Price;
-            bItm.Amount = dItm.Amount;
+            //bItm.Price = dItm.Price;
+           // bItm.Amount = dItm.Amount;
             bItm.TotalPrice = bItm.Price * bItm.Amount;
             bO.TotalPrice += bItm.TotalPrice;
             bItemsList.Add(bItm);
@@ -84,11 +83,18 @@ internal class BlOrder : BlApi.IOrder
         {
             BO.Order bO = convertDToB(dO);
             BO.OrderForList ordForList = new();
-            ordForList.Id = bO.Id;
-            ordForList.CustomerName = bO.CustomerName;
-            ordForList.status = bO.status;
+
+            foreach (var prop in ordForList.GetType().GetProperties())
+            {
+                if (prop.Name != "AmountOfItems")
+                    ordForList.GetType().GetProperty(prop.Name).SetValue(ordForList, bO.GetType().GetProperty(prop.Name).GetValue(bO));
+            }
+
+            //ordForList.Id = bO.Id;
+            //ordForList.CustomerName = bO.CustomerName;
+            //ordForList.status = bO.status;
             ordForList.AmountOfItems = bO.Items.Count();
-            ordForList.TotalPrice = bO.TotalPrice;
+            //ordForList.TotalPrice = bO.TotalPrice;
             orderList.Add(ordForList);
         }
         return orderList;

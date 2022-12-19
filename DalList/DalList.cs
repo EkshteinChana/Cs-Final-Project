@@ -2,7 +2,7 @@
 namespace Dal;
 sealed internal class DalList : IDal
 {
-    private static Lazy<IDal> instance = new Lazy<IDal>();
+    private static Lazy<IDal> instance = new Lazy<IDal>(() => new DalList());
     public static IDal Instance { get => instance.Value; }
     private DalList(){
         lock (instance)

@@ -11,7 +11,7 @@ using DO;
 //=========================== Generic variables
 char choice;
 DataSource ds = new DataSource();
-IDal dalList = Factory.Get();
+IDal? dalList = Factory.Get();
 
 //=========================== Order functions
 /// <summary>
