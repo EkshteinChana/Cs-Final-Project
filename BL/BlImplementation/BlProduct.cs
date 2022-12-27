@@ -36,24 +36,23 @@ internal class BlProduct : BlApi.IProduct
     /// <summary>
     /// A private help function to convert DO.Product entity to BO.Product entity.
     /// </summary>
-    private BO.Product convertDToB(DO.Product dP)
-    {
+    //private BO.Product convertDToB(DO.Product dP)
+    //{
 
-        BO.Product bP = new BO.Product();
-        //Type? dPT = dP.GetType();
-        foreach (var prop in dP.GetType().GetProperties())
-        {
-            if(prop.Name != "Category")
-            bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
-        }
+    //    BO.Product bP = new BO.Product();
+    //    foreach (var prop in dP.GetType().GetProperties())
+    //    {
+    //        if(prop.Name != "Category")
+    //        bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
+    //    }
 
-        //bP.Id = dP.Id;
-        //bP.Name = dP.Name;
-        //bP.Price = dP.Price;
-        bP.Category = (BO.eCategory)dP.Category;
-        //bP.InStock = dP.InStock;
-        return bP;
-    }
+    //    //bP.Id = dP.Id;
+    //    //bP.Name = dP.Name;
+    //    //bP.Price = dP.Price;
+    //    bP.Category = (BO.eCategory)dP.Category;
+    //    //bP.InStock = dP.InStock;
+    //    return bP;
+    //}
 
     /// <summary>
     /// A function that receives product data, checks its integrity 
@@ -65,17 +64,19 @@ internal class BlProduct : BlApi.IProduct
         prod.Id = 111;//Temporary value for the checkOrdValues function - will be updated later.
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
-        foreach (var prop in prod.GetType().GetProperties())
-        {
-            if (prop.Name != "Id" && prop.Name != "Category")
-            {
-                newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
-            }
-        }
-        //newProd.Name = prod.Name;
-        //newProd.Price = prod.Price;
+        ////////////////////////////////////////////////////////////////////////
+        //foreach (var prop in prod.GetType().GetProperties())
+        //{
+        //    if (prop.Name != "Id" && prop.Name != "Category")
+        //    {
+        //        newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
+        //    }
+        //}
+        ////////////////////////////////////////////////////////////////////////
+        newProd.Name = prod.Name;
+        newProd.Price = prod.Price;
+        newProd.InStock = prod.InStock;
         newProd.Category = (DO.eCategory)prod.Category;
-        //newProd.InStock = prod.InStock;
         bool tryId = true;
         while (tryId)//Create an ID
         {
@@ -184,7 +185,6 @@ internal class BlProduct : BlApi.IProduct
                     bP.GetType().GetProperty(prop.Name).SetValue(bP, prop.GetValue(dP));
             }
             bP.Category = (BO.eCategory)dP.Category;
-            //return convertDToB(dP);???
             return bP;
         }
         catch (IdNotExistException exc)
@@ -252,16 +252,20 @@ internal class BlProduct : BlApi.IProduct
     {
         checkOrdValues(prod);
         DO.Product newProd = new DO.Product();
-        foreach (var prop in prod.GetType().GetProperties())
-        {
-            if(prop.Name != "Category")
-            newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
-        }
-        //newProd.Id = prod.Id;
-        //newProd.Name = prod.Name;
-        //newProd.Price = prod.Price;
+        ///////////////////////////////////////////////////////////////////////
+        //foreach (var prop in prod.GetType().GetProperties())
+        //{
+        //    if (prop.Name != "Category")
+        //    {
+        //        newProd.GetType().GetProperty(prop.Name).SetValue(newProd, prop.GetValue(prod));
+        //    }
+        //}
+        ///////////////////////////////////////////////////////////////////////
+        newProd.Id = prod.Id;
+        newProd.Name = prod.Name;
+        newProd.Price = prod.Price;
+        newProd.InStock = prod.InStock;
         newProd.Category = (DO.eCategory)prod.Category;
-        //newProd.InStock = prod.InStock;
         try
         {
             Dal.product.Update(newProd);
