@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--<config>
+<config>
 	<dal>list</dal>
 	<dal-packages>
 		<list>
@@ -12,14 +12,14 @@
 		</xml>
 		
 	</dal-packages>
-</config>-->
+</config>
 
 
-<config>
+<!--<config>
 	<dal>list</dal>
 	<dal-packages>
 		<list>DalList</list>
 		<xml>DalXml</xml>
 	</dal-packages>
 </config>
-
+-->
