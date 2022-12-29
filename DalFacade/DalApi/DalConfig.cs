@@ -1,11 +1,16 @@
 ﻿namespace DalApi;
 using System.Xml.Linq;
 
+/// <summary>
+/// Extracts information from the Xml file. 
+/// </summary>
 static class DalConfig
 {
-    internal static string? s_dalName;
-    internal static Dictionary<string, string> s_dalPackages;
-
+    internal static string? s_dalName , s_class , s_namespace;
+    /// <summary>
+    /// DalConfig ctor
+    /// </summary>
+    /// <exception cref="DalConfigException"></exception>
     static DalConfig()
     {
         XElement dalConfig = XElement.Load(@"..\xml\dal-config.xml")
@@ -14,7 +19,10 @@ static class DalConfig
             ?? throw new DalConfigException("<dal> element is missing");
         var packages = dalConfig?.Element("dal-packages")?.Elements()
             ?? throw new DalConfigException("<dal-packages> element is missing");
-        s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
+        var temp = packages?.Where(e => e.Name == s_dalName)
+            ?? throw new DalConfigException($"<dal-packages><{s_dalName}><dal-packages> is missing");
+        s_class = temp?.Elements("class")?.First()?.Value;
+        s_namespace = temp?.Elements("namespace")?.First()?.Value;
     }
 }
 
