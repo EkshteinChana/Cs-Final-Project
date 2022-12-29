@@ -1,8 +1,14 @@
 ﻿<config>
 	<dal>list</dal>
 	<dal-packages>
-		<list>DalList</list>
-		<xml>DalXml</xml>
+		<list>
+			<class>DalList</class>
+			<namespace>Dal</namespace>
+		</list>
+		<xml>
+			<class>DalXml</class>
+			<namespace>Xml</namespace>
+		</xml>
 	</dal-packages>
 </config>
 
