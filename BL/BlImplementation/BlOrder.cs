@@ -5,7 +5,7 @@ using Dal;
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
-    private IDal Dal = DalApi.Factory.Get();
+    private IDal? Dal = DalApi.Factory.Get();
     private BO.eOrderStatus checkStatus(DO.Order dO)
     {
         if (dO.DeliveryDate != null)
@@ -27,7 +27,7 @@ internal class BlOrder : BlApi.IOrder
         BO.Order bO = new();
         foreach (var prop in dO.GetType().GetProperties())
         {
-            bO.GetType().GetProperty(prop.Name).SetValue(bO, prop.GetValue(dO));
+            bO.GetType().GetProperty(prop.Name)?.SetValue(bO, prop.GetValue(dO));
         }
         bO.status = checkStatus(dO);
         //items and totalPrice:
@@ -35,7 +35,7 @@ internal class BlOrder : BlApi.IOrder
         IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
         items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
         bO.Items = new List<BO.OrderItem>(items.Count());
-        List<BO.OrderItem> bItemsList = bO.Items.ToList();
+        List<BO.OrderItem?> bItemsList = bO.Items.ToList();
         bO.TotalPrice = 0;
         foreach (DO.OrderItem dItm in items)
         {
@@ -43,13 +43,9 @@ internal class BlOrder : BlApi.IOrder
             foreach (var prop in dItm.GetType().GetProperties())
             {
                 if (prop.Name != "OrderId")
-                    bItm.GetType().GetProperty(prop.Name).SetValue(bItm, prop.GetValue(dItm));
+                    bItm.GetType().GetProperty(prop.Name)?.SetValue(bItm, prop.GetValue(dItm));
             }
-            //bItm.Id = dItm.Id;
-            //bItm.ProductId = dItm.ProductId;
             bItm.Name = (Dal.product.Read(dItm.ProductId)).Name;
-            //bItm.Price = dItm.Price;
-           // bItm.Amount = dItm.Amount;
             bItm.TotalPrice = bItm.Price * bItm.Amount;
             bO.TotalPrice += bItm.TotalPrice;
             bItemsList.Add(bItm);
@@ -83,18 +79,12 @@ internal class BlOrder : BlApi.IOrder
         {
             BO.Order bO = convertDToB(dO);
             BO.OrderForList ordForList = new();
-
             foreach (var prop in ordForList.GetType().GetProperties())
             {
                 if (prop.Name != "AmountOfItems")
-                    ordForList.GetType().GetProperty(prop.Name).SetValue(ordForList, bO.GetType().GetProperty(prop.Name).GetValue(bO));
+                    ordForList.GetType().GetProperty(prop.Name)?.SetValue(ordForList, bO.GetType().GetProperty(prop.Name)?.GetValue(bO));
             }
-
-            //ordForList.Id = bO.Id;
-            //ordForList.CustomerName = bO.CustomerName;
-            //ordForList.status = bO.status;
             ordForList.AmountOfItems = bO.Items.Count();
-            //ordForList.TotalPrice = bO.TotalPrice;
             orderList.Add(ordForList);
         }
         return orderList;
@@ -132,7 +122,6 @@ internal class BlOrder : BlApi.IOrder
                     newItm.ProductId = pId;
                     newItm.Price = Dal.product.Read(pId).Price;
                     newItm.Amount = amount;
-
                     Dal.orderItem.Create(newItm);
                     break;
                 case BO.eUpdateOrder.delete:

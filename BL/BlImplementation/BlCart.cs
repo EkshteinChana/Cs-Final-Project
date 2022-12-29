@@ -25,7 +25,7 @@ internal class BlCart : ICart
                         exist = true;
                         if (dP.InStock <= 0)
                         {
-                            throw new OutOfStock(dP.Id,0);
+                            throw new OutOfStock(dP.Id, 0);
                         }
                         i.Amount += 1;
                         i.TotalPrice += i.Price;
@@ -42,23 +42,26 @@ internal class BlCart : ICart
                 throw new OutOfStock(dP.Id, 0);
             }
             BO.OrderItem oI = new BO.OrderItem();
+            foreach (var prop in dP.GetType().GetProperties())
+            {
+                if (prop.Name != "InStock" && prop.Name != "Category" && prop.Name != "Id")
+                    oI.GetType().GetProperty(prop.Name)?.SetValue(oI, prop.GetValue(dP));
+            }
             oI.Id = Config.MaxCartOrderItemId;
             oI.ProductId = dP.Id;
-            oI.Name = dP.Name;
-            oI.Price = dP.Price;
             oI.Amount = 1;
             oI.TotalPrice = dP.Price;
-            if(cart.Items == null)
+            if (cart.Items == null)
             {
                 cart.Items = new List<BO.OrderItem>();
-            }          
+            }
             cart.Items.Add(oI);
             cart.TotalPrice += dP.Price;
             return cart;
         }
         catch (IdNotExistException exc)
         {
-            throw new DataError(exc,"Data Error: ");
+            throw new DataError(exc, "Data Error: ");
         }
     }
 
@@ -89,11 +92,16 @@ internal class BlCart : ICart
         }
         foreach (BO.OrderItem item in cart.Items)//Building order item objects in the data layer based on items ordered in the shopping cart
         {
-            DO.OrderItem dOrderItem = new DO.OrderItem();
-            dOrderItem.ProductId = item.ProductId;
+            object tmpdOrderItem = new DO.OrderItem();
+            foreach (var prop in item.GetType().GetProperties())
+            {
+                if (prop.Name != "Id" && prop.Name != "Name" && prop.Name != "TotalPrice")
+                {
+                    tmpdOrderItem.GetType().GetProperty(prop.Name)?.SetValue(tmpdOrderItem, prop.GetValue(item));
+                }
+            }
+            DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
             dOrderItem.OrderId = orderId;
-            dOrderItem.Price = item.Price;
-            dOrderItem.Amount = item.Amount;
             tryId = true;
             while (tryId)
             {
@@ -116,7 +124,7 @@ internal class BlCart : ICart
                 DO.Product dP = dalList.product.Read(item.ProductId);
                 if (dP.InStock < item.Amount)
                 {
-                    throw new OutOfStock(dP.Id,dP.InStock);
+                    throw new OutOfStock(dP.Id, dP.InStock);
                 }
                 dP.InStock -= item.Amount;
                 dalList.product.Update(dP);

@@ -17,7 +17,7 @@ public static class Factory
         }
         catch (Exception)
         {
-            throw new DalConfigException($"Failed to load {dal}.dll package");
+            throw new DalConfigException("Failed to load {dal}.dll package");
         }
 
         Type? type = Type.GetType($"Dal.{dal}, {dal}")
@@ -30,37 +30,4 @@ public static class Factory
 }
 
 
-
-
-
-//namespace DalApi;
-//using System.Reflection;
-//using static DalApi.DalConfig;
-
-//public static class Factory
-//{
-//    public static IDal? Get()
-//    {
-//        string dalType = s_dalName
-//            ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
-//        //string dal = s_dalInfo["class"]
-//         string dal = s_dalInfo["namespace"]
-//           ?? throw new DalConfigException($"Class for {dalType} is not found in packages list");
-//        try
-//        {
-//            //Assembly.Load(dal ?? throw new DalConfigException($"The class {dal} is null"));
-//        }
-//        catch (Exception)
-//        {
-//            throw new DalConfigException($"Failed to load {dal}.dll class");
-//        }
-
-//        Type? type = Type.GetType($"{ s_dalInfo["namespace"]}.{dal}, {dal}")
-//            ?? throw new DalConfigException($"Class Dal.{dal} was not found in {dal}.dll");
-
-//        return type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static)?
-//                   .GetValue(null) as IDal
-//            ?? throw new DalConfigException($"Class {dal} is not singleton or Instance property not found");
-//    }
-//}
 
