@@ -1,6 +1,7 @@
 ﻿using DalApi;
 using BlApi;
 
+
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
@@ -39,11 +40,30 @@ internal class BlProduct : BlApi.IProduct
     private BO.ProductForList convertDoProdToBoProdForLst(DO.Product dP)
     {
         BO.ProductForList bP = new BO.ProductForList();
-        foreach (var prop in dP.GetType().GetProperties())
-        {
-            if (prop.Name != "InStock" && prop.Name != "Category")
-                bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-        }
+        //foreach (var prop in dP.GetType().GetProperties())
+        //{
+        //    if (prop.Name != "InStock" && prop.Name != "Category")
+        //        bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
+        //}
+        //===================
+       //var t = 
+       // from prop in dP.GetType().GetProperties()
+       // where (prop.Name != "InStock" && prop.Name != "Category")
+       // select (from bProp in bP.GetType().GetProperties()
+       //         where (bProp.Name == prop.Name)
+       //         select (bProp => { bProp.SetValue(bP, prop.GetValue(dP)); return bProp; })
+       //         ).ToList();
+        
+     var t =
+     from prop in dP.GetType().GetProperties()
+     where (prop.Name != "InStock" && prop.Name != "Category")
+     select (prop =>{ int e = 5; return prop; }
+             );
+        //bP.select (c => { c.CreditLimit = 1000; return c; })
+
+        //IEnumerable < System.Reflection.PropertyInfo > dPtype = dP.GetType().GetProperties();
+        //dPtype.Where(prop => prop.Name != "InStock" && prop.Name != "Category");
+        //bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
         bP.Category = (BO.eCategory?)dP.Category;
         return bP;
     }
