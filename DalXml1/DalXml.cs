@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace Dal;
 using DalApi;
 using DO;
 
-sealed internal class DalXml : IDal
+namespace Dal;
+
+//sealed internal class DalXml : IDal
+    sealed public class DalXml : IDal
 {
 
     private static Lazy<IDal> instance = new Lazy<IDal>(() => new DalXml());

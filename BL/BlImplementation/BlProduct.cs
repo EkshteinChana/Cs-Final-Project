@@ -1,12 +1,14 @@
 ﻿using DalApi;
 using BlApi;
+using Dal;
+using DalXml;
 
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private IDal Dal = DalApi.Factory.Get();
-
+    //private IDal Dal = DalApi.Factory.Get();
+    private IDal Dal = DalXml.Instance;
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
@@ -40,33 +42,49 @@ internal class BlProduct : BlApi.IProduct
     private BO.ProductForList convertDoProdToBoProdForLst(DO.Product dP)
     {
         BO.ProductForList bP = new BO.ProductForList();
-        //foreach (var prop in dP.GetType().GetProperties())
-        //{
-        //    if (prop.Name != "InStock" && prop.Name != "Category")
-        //        bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-        //}
-        //===================
-       //var t = 
-       // from prop in dP.GetType().GetProperties()
-       // where (prop.Name != "InStock" && prop.Name != "Category")
-       // select (from bProp in bP.GetType().GetProperties()
-       //         where (bProp.Name == prop.Name)
-       //         select (bProp => { bProp.SetValue(bP, prop.GetValue(dP)); return bProp; })
-       //         ).ToList();
-        
-     var t =
-     from prop in dP.GetType().GetProperties()
-     where (prop.Name != "InStock" && prop.Name != "Category")
-     select (prop =>{ int e = 5; return prop; }
-             );
-        //bP.select (c => { c.CreditLimit = 1000; return c; })
+        foreach (var prop in dP.GetType().GetProperties())
+        {
+            if (prop.Name != "InStock" && prop.Name != "Category")
+            {
+                bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
+            }
+        }
 
-        //IEnumerable < System.Reflection.PropertyInfo > dPtype = dP.GetType().GetProperties();
-        //dPtype.Where(prop => prop.Name != "InStock" && prop.Name != "Category");
-        //bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-        bP.Category = (BO.eCategory?)dP.Category;
+        // ===================
+        //var t =
+        // from prop in dP.GetType().GetProperties()
+        // where (prop.Name != "InStock" && prop.Name != "Category")
+        // select (from bProp in bP.GetType().GetProperties()
+        //         where (bProp.Name == prop.Name)
+        //         select (bProp => { bProp.SetValue(bP, prop.GetValue(dP)); return bProp; })
+        //         ).ToList();
+
+        ////////////////////////////////////////////////////////////////////////////////////
+     //   var query =
+     //from prop in dP.GetType().GetProperties()
+     //where (prop.Name != "InStock" && prop.Name != "Category")
+     //select (
+     //from a in bP.GetType().GetProperties()
+     //where a.Name == prop.Name
+     //select returnInt(prop, a, dP, bP));
+       
+       
+            bP.Category = (BO.eCategory?)dP.Category;
         return bP;
     }
+    //private int returnInt(System.Reflection.PropertyInfo prop, System.Reflection.PropertyInfo a, DO.Product dP, BO.ProductForList bP)
+    //{
+    //    bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
+    //    return 1;
+    //}
+    ////////////////////////////////////////////////////////////////////////////////////
+    //bP.select (c => { c.CreditLimit = 1000; return c; })
+
+    //IEnumerable < System.Reflection.PropertyInfo > dPtype = dP.GetType().GetProperties();
+    //dPtype.Where(prop => prop.Name != "InStock" && prop.Name != "Category");
+    //bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
+
+
 
     /// <summary>
     /// A private help function to convert BO.Product entity to DO.Product entity.
