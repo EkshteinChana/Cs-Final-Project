@@ -19,17 +19,24 @@ internal class Product : IProduct
     //    //read
     //    //StreamReader product
     //}
-    public int Create(DO.Product t)
+    public int Create(DO.Product prod)
     {
         XElement? root = XDocument.Load("..\\..\\product.xml").Root;
         List<XElement> products = (List<XElement>)root.Elements("Product");
-        XElement tmpProduct = products.Where(prod => prod.Element("Id")?.Value == t.Id).FirstOrDefault();
-        if (!tmpProduct.Equals(default(Product)))
+        XElement tmpProduct = products.Where(prod => Convert.ToInt16(prod.Element("Id")?.Value.ToString()) == t.Id).FirstOrDefault();
+        if (!tmpProduct.Equals(default(XElement)))
         {
             throw new IdAlreadyExistsException();
         }
-        DataSource.ProductList.Add(product);
-        return product.Id;
+        XElement el = new("product",
+                new XElement("Id", Convert.ToString(prod.Id)),
+                new XElement("Name", prod.Name),
+                new XElement("Price", Convert.ToDouble(prod.Price)),
+                new XElement("InStock", Convert.ToString(prod.InStock)),
+                new XElement("Category", Convert.ToString(prod.Category)));
+        root.Add(el);
+        root?.Save("..\\..\\product.xml");
+        return prod.Id;
         //write
         //save
     }
