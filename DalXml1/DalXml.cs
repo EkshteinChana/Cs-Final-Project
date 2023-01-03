@@ -8,8 +8,8 @@ using DO;
 
 namespace Dal;
 
-//sealed internal class DalXml : IDal
-    sealed public class DalXml : IDal
+sealed internal class DalXml : IDal
+    //sealed public class DalXml : IDal
 {
 
     private static Lazy<IDal> instance = new Lazy<IDal>(() => new DalXml());

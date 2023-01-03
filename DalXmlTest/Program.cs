@@ -33,7 +33,7 @@ void AddOrder()
     newOrder.OrderDate = DateTime.Now;
     newOrder.ShipDate = null;
     newOrder.DeliveryDate = null;
-    dalList.order.Create(newOrder);
+    dalXml.order.Create(newOrder);
 }
 /// <summary>
 /// A function that receives details from the user for displaying order data, and sends them to the function to do so.
@@ -42,8 +42,8 @@ void WatchOrder()
 {
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    dalList.order.Read(oId);
-    Console.WriteLine(dalList.order + "\n");
+    dalXml.order.Read(oId);
+    Console.WriteLine(dalXml.order + "\n");
 }
 /// <summary>
 /// A function that receives details from the user for displaying the data of all orders, and sends them to the function that will do it.
@@ -51,7 +51,7 @@ void WatchOrder()
 void WatchOrderList()
 {
     int size = DataSource.OrderList.Count;
-    IEnumerable<Order> ordList = dalList.order.Read();
+    IEnumerable<Order> ordList = dalXml.order.Read();
     foreach (Order order in ordList)
     {
         Console.WriteLine(order);
@@ -67,7 +67,7 @@ void UpdateOrder()
 
     Console.WriteLine("\nEnter the order id you want to update: ");
     tmpOrder.Id = Convert.ToInt32(Console.ReadLine());
-    Order srcOrd = dalList.order.Read(tmpOrder.Id);
+    Order srcOrd = dalXml.order.Read(tmpOrder.Id);
     Console.WriteLine(srcOrd + "\n");
     Console.WriteLine("\nEnter your details:\n name- ");
     tmpOrder.CustomerName = Console.ReadLine();
@@ -93,7 +93,7 @@ void UpdateOrder()
     }
     tmpOrder.DeliveryDate = deliveryDate;
 
-    dalList.order.Update(tmpOrder);
+    dalXml.order.Update(tmpOrder);
 }
 /// <summary>
 /// A function that receives details from the user for deleting an order, and sends them to the function that will do it.
@@ -102,7 +102,7 @@ void DeleteOrder()
 {
     Console.WriteLine("\nEnter the ID of the order you want to delete: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    dalList.order.Delete(oId);
+    dalXml.order.Delete(oId);
 }
 /// <summary>
 /// A function that receives details from the user for displaying all the items in a specific order, and sends them to the function that will do it.
@@ -111,7 +111,7 @@ void WatchAllItemsInOrd()
 {
     Console.WriteLine("\nEnter the order ID you want to watch: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    IEnumerable<OrderItem> itemsInOrder = dalList.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
+    IEnumerable<OrderItem> itemsInOrder = dalXml.orderItem.Read((OrderItem => OrderItem.OrderId == oId));
     foreach (OrderItem oItem in itemsInOrder)
     {
         Console.WriteLine(oItem);

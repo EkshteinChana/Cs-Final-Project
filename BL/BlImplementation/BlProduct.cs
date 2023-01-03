@@ -1,14 +1,14 @@
 ﻿using DalApi;
 using BlApi;
 using Dal;
-using DalXml;
+
 
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    //private IDal Dal = DalApi.Factory.Get();
-    private IDal Dal = DalXml.Instance;
+    private IDal Dal = DalApi.Factory.Get();
+    //private IDal Dal = DalXml.Instance;
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
@@ -60,23 +60,23 @@ internal class BlProduct : BlApi.IProduct
         //         ).ToList();
 
         ////////////////////////////////////////////////////////////////////////////////////
-     //   var query =
-     //from prop in dP.GetType().GetProperties()
-     //where (prop.Name != "InStock" && prop.Name != "Category")
-     //select (
-     //from a in bP.GetType().GetProperties()
-     //where a.Name == prop.Name
-     //select returnInt(prop, a, dP, bP));
-       
-       
-            bP.Category = (BO.eCategory?)dP.Category;
+        var query =
+     from prop in dP.GetType().GetProperties()
+     where (prop.Name != "InStock" && prop.Name != "Category")
+     select (
+     from bProp in bP.GetType().GetProperties()
+     where bProp.Name == prop.Name
+     select returnInt(prop, bProp, dP, bP));
+
+
+        bP.Category = (BO.eCategory?)dP.Category;
         return bP;
     }
-    //private int returnInt(System.Reflection.PropertyInfo prop, System.Reflection.PropertyInfo a, DO.Product dP, BO.ProductForList bP)
-    //{
-    //    bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-    //    return 1;
-    //}
+    private int returnInt(System.Reflection.PropertyInfo prop, System.Reflection.PropertyInfo bProp, DO.Product dP, BO.ProductForList bP)
+    {
+        bProp.SetValue(bP, prop.GetValue(dP));
+        return 1;
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     //bP.select (c => { c.CreditLimit = 1000; return c; })
 
