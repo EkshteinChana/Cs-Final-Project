@@ -13,7 +13,10 @@ using System.Xml.Linq;
 char choice;
 //DataSource ds = new DataSource();
 IDal? dalXml = DalXml.Instance;
-XElement? root = XDocument.Load("..\\..\\config.xml").Root;
+XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
+XElement? products = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+XElement? orders = XDocument.Load("..\\..\\..\\..\\xml\\order.xml").Root;
+XElement? orderItems = XDocument.Load("..\\..\\..\\..\\xml\\orderItem.xml").Root;
 
 //=========================== Order functions
 /// <summary>
@@ -29,7 +32,7 @@ void AddOrder()
     Console.WriteLine("\naddress-");
     newOrder.CustomerAddress = Console.ReadLine();
 
-    newOrder.Id = DataSource.Config.MaxOrderId;
+    newOrder.Id = Convert.ToInt32(root.Element("MaxOrderId").Value.ToString());
     newOrder.OrderDate = DateTime.Now;
     newOrder.ShipDate = null;
     newOrder.DeliveryDate = null;
@@ -50,7 +53,8 @@ void WatchOrder()
 /// </summary>
 void WatchOrderList()
 {
-    int size = DataSource.OrderList.Count;
+    //Convert.ToInt16(root.Element("MaxOrderId").Value.ToString()); ;
+    //int size = orders.Elements("Order").Count();
     IEnumerable<Order> ordList = dalXml.order.Read();
     foreach (Order order in ordList)
     {
@@ -142,9 +146,22 @@ void AddProduct()
         notExists = true;
         Random rnd = new Random();
         id = rnd.Next(100000, 1000000);
-        for (int j = 0; j < DataSource.ProductList.Count; j++)
+        List<XElement> productsXml = products.Elements("Product").ToList();
+        List<Product> productsList = new();
+        foreach (XElement productXml in productsXml)
         {
-            if (DataSource.ProductList[j].Id == id)
+            Product prd = new();
+            prd.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
+            prd.Name = productXml.Element("Name").Value.ToString();
+            prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
+            prd.InStock = Convert.ToInt32(productXml.Element("InStock").Value.ToString());
+            //////?????
+            prd.Category = (eCategory)Enum.Parse(typeof(eCategory), productXml.Element("Category").Value.ToString());
+            productsList.Add(prd);
+        }
+        for (int j = 0; j < productsList.Count; j++)
+        {
+            if (productsList[j].Id == id)
             {
                 notExists = false;
                 break;
@@ -152,7 +169,7 @@ void AddProduct()
         }
     } while (!notExists);
     newProduct.Id = id;
-    dalList.product.Create(newProduct);
+    dalXml.product.Create(newProduct);
 }
 /// <summary>
 /// A function that receives details from the user for updating an product, and sends them to the function that will do it.
@@ -163,7 +180,7 @@ void UpdateProduct()
 
     Console.WriteLine("\nEnter the product's details you want to update:\n id- ");
     tmpProduct.Id = Convert.ToInt32(Console.ReadLine());
-    Product srcProd = dalList.product.Read(tmpProduct.Id);
+    Product srcProd = dalXml.product.Read(tmpProduct.Id);
     Console.WriteLine(srcProd + "\n");
     Console.WriteLine("\nname- ");
     tmpProduct.Name = Console.ReadLine();
@@ -173,7 +190,7 @@ void UpdateProduct()
     tmpProduct.InStock = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nprice- ");
     tmpProduct.Price = Convert.ToDouble(Console.ReadLine());
-    dalList.product.Update(tmpProduct);
+    dalXml.product.Update(tmpProduct);
 }
 /// <summary>
 /// A function that receives details from the user for displaying product data, and sends them to the function to do so.
@@ -182,7 +199,7 @@ void WatchProduct()
 {
     Console.WriteLine("\nEnter the product ID for watching: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    Product tmpProduct = dalList.product.Read(id);
+    Product tmpProduct = dalXml.product.Read(id);
     Console.WriteLine(tmpProduct + "\n");
 }
 /// <summary>
@@ -190,8 +207,8 @@ void WatchProduct()
 /// </summary>
 void WatchProductList()
 {
-    int size = DataSource.ProductList.Count;
-    IEnumerable<Product> productList = dalList.product.Read();
+    int size = products.Elements("Product").Count();
+    IEnumerable<Product> productList = dalXml.product.Read();
     foreach (Product product in productList)
     {
         Console.WriteLine(product);
@@ -204,7 +221,7 @@ void DeleteProduct()
 {
     Console.WriteLine("\nEnter the ID of the product you want to delete: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    dalList.product.Delete(id);
+    dalXml.product.Delete(id);
 }
 
 
@@ -218,14 +235,43 @@ void AddOrderItem()
     int productIdxInList = -1;
     bool correct;
     Console.WriteLine("Enter OrderItem details:");
+    List<XElement> productsXml = (List<XElement>)products.Elements("Product");
+    List<Product> productsList = new();
+    foreach (XElement productXml in productsXml)
+    {
+        Product prd = new();
+        prd.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
+        prd.Name = productXml.Element("Name").Value.ToString();
+        prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
+        prd.InStock = Convert.ToInt16(productXml.Element("InStock").Value.ToString());
+        //////?????
+        prd.Category = (eCategory)Convert.ToInt32(productXml.Element("Category").Value.ToString());
+        productsList.Add(prd);
+    }
+
+    List<XElement> ordersXml = (List<XElement>)orders.Elements("Order");
+    List<Order> ordersList = new();
+    foreach (XElement orderXml in ordersXml)
+    {
+        Order ord = new();
+        ord.Id = Convert.ToInt32(orderXml.Element("Id").Value.ToString());
+        ord.CustomerName = orderXml.Element("CustomerName").Value.ToString();
+        ord.CustomerEmail = orderXml.Element("CustomerEmail").Value.ToString();
+        ord.CustomerAddress = orderXml.Element("CustomerAddress").Value.ToString();
+        ord.OrderDate = Convert.ToDateTime(orderXml.Element("OrderDate").Value.ToString());
+        ord.ShipDate = Convert.ToDateTime(orderXml.Element("ShipDate").Value.ToString());
+        ord.DeliveryDate = Convert.ToDateTime(orderXml.Element("DeliveryDate").Value.ToString());
+        ordersList.Add(ord);
+    }
+
     do
     {
         correct = false;
         Console.WriteLine("productId-");
         newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.ProductList.Count; j++)//checking that this productId exists 
+        for (int j = 0; j < productsList.Count; j++)//checking that this productId exists 
         {
-            if (DataSource.ProductList[j].Id == newOrderItem.ProductId)
+            if (productsList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -239,9 +285,9 @@ void AddOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.OrderList.Count; j++)//checking that this orderId exists 
+        for (int j = 0; j < ordersList.Count; j++)//checking that this orderId exists 
         {
-            if (DataSource.OrderList[j].Id == newOrderItem.OrderId)
+            if (ordersList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -251,9 +297,9 @@ void AddOrderItem()
     } while (!correct);
     Console.WriteLine("amount-");
     newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
-    newOrderItem.Price = (DataSource.ProductList[productIdxInList].Price);
-    newOrderItem.Id = DataSource.Config.MaxOrderItemId;
-    dalList.orderItem.Create(newOrderItem);
+    newOrderItem.Price = (productsList[productIdxInList].Price);
+    newOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString()); ;
+    dalXml.orderItem.Create(newOrderItem);
 }
 /// <summary>
 /// A function that receives details from the user for updating an item (by ID) in the order, and sends them to the function that will do it.
@@ -265,16 +311,46 @@ void UpdateOrderItem()
     bool correct;
     Console.WriteLine("\nEnter the orderItem's details you want to update:\n id- ");
     newOrderItem.Id = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrdItem = dalList.orderItem.Read(newOrderItem.Id);
+    OrderItem tmpOrdItem = dalXml.orderItem.Read(newOrderItem.Id);
     Console.WriteLine(tmpOrdItem + "\n");
+
+    List<XElement> productsXml = (List<XElement>)products.Elements("Product");
+    List<Product> productsList = new();
+    foreach (XElement productXml in productsXml)
+    {
+        Product prd = new();
+        prd.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
+        prd.Name = productXml.Element("Name").Value.ToString();
+        prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
+        prd.InStock = Convert.ToInt16(productXml.Element("InStock").Value.ToString());
+        //////?????
+        prd.Category = (eCategory)Convert.ToInt32(productXml.Element("Category").Value.ToString());
+        productsList.Add(prd);
+    }
+
+    List<XElement> ordersXml = (List<XElement>)orders.Elements("Order");
+    List<Order> ordersList = new();
+    foreach (XElement orderXml in ordersXml)
+    {
+        Order ord = new();
+        ord.Id = Convert.ToInt32(orderXml.Element("Id").Value.ToString());
+        ord.CustomerName = orderXml.Element("CustomerName").Value.ToString();
+        ord.CustomerEmail = orderXml.Element("CustomerEmail").Value.ToString();
+        ord.CustomerAddress = orderXml.Element("CustomerAddress").Value.ToString();
+        ord.OrderDate = Convert.ToDateTime(orderXml.Element("OrderDate").Value.ToString());
+        ord.ShipDate = Convert.ToDateTime(orderXml.Element("ShipDate").Value.ToString());
+        ord.DeliveryDate = Convert.ToDateTime(orderXml.Element("DeliveryDate").Value.ToString());
+        ordersList.Add(ord);
+    }
+
     do
     {
         correct = false;
         Console.WriteLine("productId-");
         newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.ProductList.Count; j++)//checking that this productId exists 
+        for (int j = 0; j < productsList.Count; j++)//checking that this productId exists 
         {
-            if (DataSource.ProductList[j].Id == newOrderItem.ProductId)
+            if (productsList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -288,9 +364,9 @@ void UpdateOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < DataSource.OrderList.Count; j++)//checking that this orderId exists 
+        for (int j = 0; j < ordersList.Count; j++)//checking that this orderId exists 
         {
-            if (DataSource.OrderList[j].Id == newOrderItem.OrderId)
+            if (ordersList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -300,8 +376,8 @@ void UpdateOrderItem()
     } while (!correct);
     Console.WriteLine("amount-");
     newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
-    newOrderItem.Price = (DataSource.ProductList[productIdxInList].Price);
-    dalList.orderItem.Update(newOrderItem);
+    newOrderItem.Price = (productsList[productIdxInList].Price);
+    dalXml.orderItem.Update(newOrderItem);
 }
 /// <summary>
 /// A function that receives details from the user for displaying an item in the order (by the item ID), 
@@ -311,7 +387,7 @@ void WatchOrderItem()
 {
     Console.WriteLine("\nEnter the orderItem ID for watching: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrderItem = dalList.orderItem.Read(id);
+    OrderItem tmpOrderItem = dalXml.orderItem.Read(id);
     Console.WriteLine(tmpOrderItem + "\n");
 }
 /// <summary>
@@ -319,8 +395,22 @@ void WatchOrderItem()
 /// </summary>
 void WatchOrderItemList()
 {
-    int size = DataSource.OrderItemList.Count;
-    IEnumerable<OrderItem> orderItemList = dalList.orderItem.Read();
+    //List<XElement> orderItemsXml = (List<XElement>)orderItems.Elements("OrderItem");
+    //List<OrderItem> orderItemsList = new();
+    //foreach (XElement orderItemXml in orderItemsXml)
+    //{
+    //    OrderItem orderItem = new();
+    //    orderItem.Id = Convert.ToInt16(orderItemXml.Element("Id").Value.ToString());
+    //    orderItem.ProductId = Convert.ToInt16(orderItemXml.Element("ProductId").Value.ToString());
+    //    orderItem.OrderId = Convert.ToInt16(orderItemXml.Element("OrderId").Value.ToString());
+    //    orderItem.Amount = Convert.ToInt16(orderItemXml.Element("Amount").Value.ToString());
+    //    orderItem.Price = Convert.ToDouble(orderItemXml.Element("Price").Value.ToString());
+    //    orderItemsList.Add(orderItem);
+    //}
+
+
+    //int size = orderItemsList.Count;
+    IEnumerable<OrderItem> orderItemList = dalXml.orderItem.Read();
     foreach (OrderItem orderItem in orderItemList)
     {
         Console.WriteLine(orderItem);
@@ -333,7 +423,7 @@ void DeleteOrderItem()
 {
     Console.WriteLine("\nEnter the ID of the orderItem you want to delete: ");
     int id = Convert.ToInt32(Console.ReadLine());
-    dalList.orderItem.Delete(id);
+    dalXml.orderItem.Delete(id);
 }
 /// <summary>
 /// A function that receives details from the user for displaying an item in the order (by the order ID and the product ID), 
@@ -345,7 +435,7 @@ void WatchOrderItemByOrderIdProductId()
     int oId = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("\nEnter the product ID : ");
     int pId = Convert.ToInt32(Console.ReadLine());
-    OrderItem tmpOrderItem = dalList.orderItem.ReadSingle((OrderItem => (OrderItem.OrderId == oId && OrderItem.ProductId == pId)));
+    OrderItem tmpOrderItem = dalXml.orderItem.ReadSingle((OrderItem => (OrderItem.OrderId == oId && OrderItem.ProductId == pId)));
     Console.WriteLine(tmpOrderItem + "\n");
 }
 
