@@ -42,50 +42,14 @@ internal class BlProduct : BlApi.IProduct
     private BO.ProductForList convertDoProdToBoProdForLst(DO.Product dP)
     {
         BO.ProductForList bP = new BO.ProductForList();
-        foreach (var prop in dP.GetType().GetProperties())
-        {
-            if (prop.Name != "InStock" && prop.Name != "Category")
-            {
-                bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-            }
-        }
-
-        // ===================
-        //var t =
-        // from prop in dP.GetType().GetProperties()
-        // where (prop.Name != "InStock" && prop.Name != "Category")
-        // select (from bProp in bP.GetType().GetProperties()
-        //         where (bProp.Name == prop.Name)
-        //         select (bProp => { bProp.SetValue(bP, prop.GetValue(dP)); return bProp; })
-        //         ).ToList();
-
-        ////////////////////////////////////////////////////////////////////////////////////
-        var query =
-     from prop in dP.GetType().GetProperties()
-     where (prop.Name != "InStock" && prop.Name != "Category")
-     select (
-     from bProp in bP.GetType().GetProperties()
-     where bProp.Name == prop.Name
-     select returnInt(prop, bProp, dP, bP));
-
-
-        bP.Category = (BO.eCategory?)dP.Category;
+        bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP , dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
         return bP;
     }
-    private int returnInt(System.Reflection.PropertyInfo prop, System.Reflection.PropertyInfo bProp, DO.Product dP, BO.ProductForList bP)
+    private string returnInt(System.Reflection.PropertyInfo prop, DO.Product dP, BO.ProductForList bP)
     {
-        bProp.SetValue(bP, prop.GetValue(dP));
-        return 1;
+        dP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
+        return prop.Name;
     }
-    ////////////////////////////////////////////////////////////////////////////////////
-    //bP.select (c => { c.CreditLimit = 1000; return c; })
-
-    //IEnumerable < System.Reflection.PropertyInfo > dPtype = dP.GetType().GetProperties();
-    //dPtype.Where(prop => prop.Name != "InStock" && prop.Name != "Category");
-    //bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-
-
-
     /// <summary>
     /// A private help function to convert BO.Product entity to DO.Product entity.
     /// </summary>
@@ -167,11 +131,7 @@ internal class BlProduct : BlApi.IProduct
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.ProductItem bP = new();
-            foreach (var prop in dP.GetType().GetProperties())
-            {
-                if (prop.Name != "InStock" && prop.Name != "Category")
-                    bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-            }
+            bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP, dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
             bP.Category = (BO.eCategory?)dP.Category;
             bP.InStock = (dP.InStock > 0) ? true : false;
             bool exist = false;
@@ -186,6 +146,7 @@ internal class BlProduct : BlApi.IProduct
                         break;
                     }
                 }
+                //cart.Items.Where(i => i.ProductId == bP.Id).Select(i => { exist = true;            bP.Amount = i.Amount; return i; }).ToList();
             }
             if (exist == false)
             {

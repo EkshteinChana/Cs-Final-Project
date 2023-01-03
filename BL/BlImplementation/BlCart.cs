@@ -19,9 +19,11 @@ internal class BlCart : ICart
             DO.Product dP = dalList.product.Read(id);
 
             if (cart.Items != null)
+                //cart.Items.Where()
+
                 foreach (BO.OrderItem i in cart.Items)
                 {
-                    if (i.ProductId == id)//The product is already in the shopping cart
+                    if (i?.ProductId == id)//The product is already in the shopping cart
                     {
                         exist = true;
                         if (dP.InStock <= 0)
