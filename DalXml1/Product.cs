@@ -14,36 +14,48 @@ using System.Xml.Linq;
 /// </summary>
 internal class Product : IProduct
 {
-    //public Product()
-    //{
-    //    //read
-    //    //StreamReader product
-    //}
+    /// <summary>
+    /// A function to add a new product to the Xml database.
+    /// </summary>
     public int Create(DO.Product prod)
     {
-        XElement? root = XDocument.Load("..\\..\\product.xml").Root;
-        List<XElement> products = (List<XElement>)root.Elements("Product");
-        XElement tmpProduct = products.Where(prod => Convert.ToInt16(prod.Element("Id")?.Value.ToString()) == t.Id).FirstOrDefault();
-        if (!tmpProduct.Equals(default(XElement)))
+        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        List<XElement> products = root.Elements("Product").ToList();
+        XElement tmpProduct = products.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value.ToString()) == prod.Id).FirstOrDefault();
+
+        if (tmpProduct != null)
         {
             throw new IdAlreadyExistsException();
         }
-        XElement el = new("product",
+        XElement el = new("Product",
                 new XElement("Id", Convert.ToString(prod.Id)),
                 new XElement("Name", prod.Name),
                 new XElement("Price", Convert.ToDouble(prod.Price)),
                 new XElement("InStock", Convert.ToString(prod.InStock)),
                 new XElement("Category", Convert.ToString(prod.Category)));
         root.Add(el);
-        root?.Save("..\\..\\product.xml");
+        root?.Save("..\\..\\..\\..\\xml\\product.xml");
         return prod.Id;
-        //write
-        //save
     }
 
+    /// <summary>
+    /// A function to delete a product from the database.
+    /// </summary>
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        List<XElement> products = root.Elements("Product").ToList();
+        XElement tmpProduct = products.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value.ToString()) == id).FirstOrDefault();
+        if (tmpProduct == null)
+        {
+            throw new IdNotExistException("product");
+        }
+        tmpProduct.Remove();
+        root?.Save("..\\..\\..\\..\\xml\\product.xml");
+
+        //////////////////////////////////////////////////////
+        //root.Element(tmpProduct.Name).Remove;
+        ////////////////////////////////////////////////////////
     }
 
     public DO.Product Read(int id)
@@ -75,19 +87,7 @@ internal class Product : IProduct
 ///// </summary>
 //public class DalProduct : IProduct
 //{
-//    /// <summary>
-//    /// A function to add a new product to the database.
-//    /// </summary>
-//    public int Create(Product product)
-//    {
-//        Product tmpProduct = DataSource.ProductList.Where(prod => prod.Id == product.Id).FirstOrDefault();
-//        if (!tmpProduct.Equals(default(Product)))
-//        {
-//            throw new IdAlreadyExistsException();
-//        }
-//        DataSource.ProductList.Add(product);
-//        return product.Id;
-//    }
+
 //    /// <summary>
 //    /// A function to delete a product from the database.
 //    /// </summary>
