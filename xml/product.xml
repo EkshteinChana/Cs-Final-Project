@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Products>
   <Product>
-    <Id>675340</Id>
-    <Name>Magnet siddur</Name>
-    <Price>52.5</Price>
-    <InStock>0</InStock>
-    <Category>Siddur</Category>
-  </Product>
-  <Product>
     <Id>651301</Id>
     <Name>Artistic Shabbat box</Name>
     <Price>200</Price>
@@ -76,5 +69,12 @@
     <Price>1</Price>
     <InStock>1</InStock>
     <Category>Tehillim</Category>
+  </Product>
+  <Product>
+    <Id>675340</Id>
+    <Name>bbbbbbbbb</Name>
+    <Price>55</Price>
+    <InStock>5</InStock>
+    <Category>Chaggim</Category>
   </Product>
 </Products>
