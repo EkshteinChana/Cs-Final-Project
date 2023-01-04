@@ -1,183 +1,192 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Orders>
+<?xml version="1.0" encoding="utf-8"?>
+<Orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Order>
 		<Id>1</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>09/12/2022 15:26:18</OrderDate>
-		<ShipDate>11/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>15/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-09T15:26:18</OrderDate>
+		<ShipDate>2022-12-11T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>2</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>05/12/2022 15:26:18</OrderDate>
-		<ShipDate>08/12/2022 15:26:1</ShipDate>
-		<DeliveryDate>13/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-05T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:10</ShipDate>
+		<DeliveryDate>2022-12-13T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>3</Id>
 		<CustomerName>Shimon Cohen</CustomerName>
 		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
 		<CustomerAddress>Shaulzon 66</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>07/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>10/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-07T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-10T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>4</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>07/12/2022 15:26:18</OrderDate>
-		<ShipDate>08/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>11/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-07T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-11T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>5</Id>
 		<CustomerName>Shimon Cohen</CustomerName>
 		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
 		<CustomerAddress>Shaulzon 66</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>07/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>10/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-07T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-10T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>6</Id>
 		<CustomerName>Shimon Cohen</CustomerName>
 		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
 		<CustomerAddress>Shaulzon 66</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>09/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>12/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-09T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-12T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>7</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>10/12/2022 15:26:18</OrderDate>
-		<ShipDate>13/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-10T15:26:18</OrderDate>
+		<ShipDate>2022-12-13T15:26:18</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>8</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>05/12/2022 15:26:18</OrderDate>
-		<ShipDate>08/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-05T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:18</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>9</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>03/12/2022 15:26:18</OrderDate>
-		<ShipDate>null</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>0001-01-01T00:00:00</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>10</Id>
 		<CustomerName>Daniel Levi</CustomerName>
 		<CustomerEmail>levi05276@gmail.com</CustomerEmail>
 		<CustomerAddress>Sorotskin 16</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>null</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>0001-01-01T00:00:00</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>11</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>03/12/2022 15:26:18</OrderDate>
-		<ShipDate>04/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>09/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-09T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>12</Id>
 		<CustomerName>Shimon Cohen</CustomerName>
 		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
 		<CustomerAddress>Shaulzon 66</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>10/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>15/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>13</Id>
 		<CustomerName>Daniel Levi</CustomerName>
 		<CustomerEmail>levi05276@gmail.com</CustomerEmail>
 		<CustomerAddress>Sorotskin 16</CustomerAddress>
-		<OrderDate>07/12/2022 15:26:18</OrderDate>
-		<ShipDate>10/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>15/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-07T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>14</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>04/12/2022 15:26:18</OrderDate>
-		<ShipDate>07/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>10/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-04T15:26:18</OrderDate>
+		<ShipDate>2022-12-07T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-10T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>15</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>03/12/2022 15:26:18</OrderDate>
-		<ShipDate>04/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>08/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-08T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>16</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>09/12/2022 15:26:18</OrderDate>
-		<ShipDate>10/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>15/12/2022 15:26:18</DeliveryDate>
+		<OrderDate>2022-12-09T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>17</Id>
 		<CustomerName>Sarah Klein</CustomerName>
 		<CustomerEmail>klein424@gmail.com</CustomerEmail>
 		<CustomerAddress>Gulak 424</CustomerAddress>
-		<OrderDate>11/12/2022 15:26:18</OrderDate>
-		<ShipDate>12/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-11T15:26:18</OrderDate>
+		<ShipDate>2022-12-12T15:26:18</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>18</Id>
 		<CustomerName>Reuven Katz</CustomerName>
 		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
 		<CustomerAddress>Idelson 24</CustomerAddress>
-		<OrderDate>03/12/2022 15:26:18</OrderDate>
-		<ShipDate>04/12/2022 15:26:18</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>19</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>06/12/2022 15:26:18</OrderDate>
-		<ShipDate>null</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>0001-01-01T00:00:00</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
 	</Order>
 	<Order>
 		<Id>20</Id>
 		<CustomerName>Mordechai Rabinowitz</CustomerName>
 		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
 		<CustomerAddress>Franc 12</CustomerAddress>
-		<OrderDate>04/12/2022 15:26:18</OrderDate>
-		<ShipDate>null</ShipDate>
-		<DeliveryDate>null</DeliveryDate>
+		<OrderDate>2022-12-04T15:26:18</OrderDate>
+		<ShipDate>0001-01-01T00:00:00</ShipDate>
+		<DeliveryDate>0001-01-01T00:00:00</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>21</Id>
+		<CustomerName>a</CustomerName>
+		<CustomerEmail>a</CustomerEmail>
+		<CustomerAddress>a</CustomerAddress>
+		<OrderDate>2023-01-04T16:33:10.4162682+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
 	</Order>
 </Orders>
