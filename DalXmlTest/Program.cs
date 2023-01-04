@@ -155,7 +155,6 @@ void AddProduct()
             prd.Name = productXml.Element("Name").Value.ToString();
             prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
             prd.InStock = Convert.ToInt32(productXml.Element("InStock").Value.ToString());
-            //////?????
             prd.Category = (eCategory)Enum.Parse(typeof(eCategory), productXml.Element("Category").Value.ToString());
             productsList.Add(prd);
         }
