@@ -110,6 +110,9 @@ internal class Product : IProduct
         return func == null ? productList : productList.Where(func);
     }
 
+    /// <summary>
+    /// A function to get a specific product from the xml database by a function.
+    /// </summary>
     public DO.Product ReadSingle(Func<DO.Product, bool> func)
     {
         XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;

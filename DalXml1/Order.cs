@@ -95,6 +95,9 @@ internal class Order : IOrder
         return func == null ? ordLst : ordLst.Where(func);
     }
 
+    /// <summary>
+    /// A function to get a specific order from the xml database by a function.
+    /// </summary>
     public DO.Order ReadSingle(Func<DO.Order, bool> func)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();

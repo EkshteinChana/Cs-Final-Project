@@ -48,8 +48,8 @@ void WatchOrder()
 {
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    dalXml.order.Read(oId);
-    Console.WriteLine(dalXml.order + "\n");
+    //Order=dalXml.order.Read(oId);
+    Console.WriteLine(dalXml.order.Read(oId) + "\n");
 }
 /// <summary>
 /// A function that receives details from the user for displaying the data of all orders, and sends them to the function that will do it.
@@ -83,6 +83,7 @@ void UpdateOrder()
     Console.WriteLine("\naddress- ");
     tmpOrder.CustomerAddress = Console.ReadLine();
     oDate = srcOrd.OrderDate;
+    tmpOrder.OrderDate = oDate;
     Console.WriteLine("\nEnter the order shipping date: ");
 
     bool correctInput = false;

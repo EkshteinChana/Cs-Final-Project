@@ -74,6 +74,7 @@ void UpdateOrder()
     Console.WriteLine("\naddress- ");
     tmpOrder.CustomerAddress = Console.ReadLine();
     oDate = srcOrd.OrderDate;
+    tmpOrder.OrderDate = oDate;
     Console.WriteLine("\nEnter the order shipping date: ");
 
     bool correctInput = false;

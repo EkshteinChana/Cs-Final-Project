@@ -64,24 +64,6 @@ public class DalOrderItem : IOrderItem
     }
 
     /// <summary>
-    /// A function to get an specific item from a specific all the items that ordered,and from all the orders.
-    /// </summary>
-
-    //public OrderItem ReadOrderItem(int pId, int oId)
-    //{
-    //    OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.ProductId == pId && orderItem.OrderId == oId).FirstOrDefault();
-    //    if (orderItem.Equals(default(OrderItem)))
-    //    {
-    //        throw new IdNotExistException("order item");
-    //    }
-    //    return orderItem;
-    //}
-    /// <summary>
-    /// A function to get from the database all the items in an specific order by the order ID.
-    /// </summary>
-
-
-    /// <summary>
     /// A function to update a specific item in an specific order.
     /// </summary>
     public void Update(OrderItem orderItem)
@@ -95,10 +77,13 @@ public class DalOrderItem : IOrderItem
         DataSource.OrderItemList.Add(orderItem);
     }
 
+    /// <summary>
+    /// A function to get a specific orderItem from the xml database by a function.
+    /// </summary>
     public OrderItem ReadSingle(Func<OrderItem, bool> func)
     {
         OrderItem orderItm = DataSource.OrderItemList.Where(func).FirstOrDefault();
-        if (orderItm.Equals(default(Order)))
+        if (orderItm.Equals(default(OrderItem)))
         {
             throw new ObjectNotExistException("order item");
         }
