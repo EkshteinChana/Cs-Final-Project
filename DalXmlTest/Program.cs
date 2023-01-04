@@ -13,7 +13,7 @@ using System.Xml.Linq;
 char choice;
 //DataSource ds = new DataSource();
 IDal? dalXml = DalXml.Instance;
-XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
+
 XElement? products = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
 XElement? orders = XDocument.Load("..\\..\\..\\..\\xml\\order.xml").Root;
 XElement? orderItems = XDocument.Load("..\\..\\..\\..\\xml\\orderItem.xml").Root;
@@ -24,6 +24,7 @@ XElement? orderItems = XDocument.Load("..\\..\\..\\..\\xml\\orderItem.xml").Root
 /// </summary>
 void AddOrder()
 {
+    XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
     Order newOrder = new Order();
     Console.WriteLine("\nEnter your details:\n name-");
     newOrder.CustomerName = Console.ReadLine();
@@ -33,6 +34,8 @@ void AddOrder()
     newOrder.CustomerAddress = Console.ReadLine();
 
     newOrder.Id = Convert.ToInt32(root.Element("MaxOrderId").Value.ToString());
+    root.Element("MaxOrderId").Value = Convert.ToString(newOrder.Id + 1);
+    root?.Save("..\\..\\..\\..\\xml\\config.xml");
     newOrder.OrderDate = DateTime.Now;
     newOrder.ShipDate = null;
     newOrder.DeliveryDate = null;
@@ -294,10 +297,13 @@ void AddOrderItem()
         if (!correct)
             Console.WriteLine("this orderId doesn't exist");
     } while (!correct);
+    XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
     Console.WriteLine("amount-");
     newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
     newOrderItem.Price = (productsList[productIdxInList].Price);
-    newOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString()); ;
+    newOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
+    root.Element("MaxOrderItemId").Value = Convert.ToString( newOrderItem.Id + 1);
+    root?.Save("..\\..\\..\\..\\xml\\config.xml");
     dalXml.orderItem.Create(newOrderItem);
 }
 /// <summary>
