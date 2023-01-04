@@ -7,7 +7,7 @@ using Dal;
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private IDal Dal = DalApi.Factory.Get();
+    private IDal Dal = DalApi.Factory.Get() ?? throw new Exception("Can not get BlImplementation.BL");
     //private IDal Dal = DalXml.Instance;
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
@@ -42,27 +42,22 @@ internal class BlProduct : BlApi.IProduct
     private BO.ProductForList convertDoProdToBoProdForLst(DO.Product dP)
     {
         BO.ProductForList bP = new BO.ProductForList();
-        bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP , dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
+        bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP, dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
+        bP.Category = (BO.eCategory?)dP.Category;
         return bP;
     }
-    private string returnInt(System.Reflection.PropertyInfo prop, DO.Product dP, BO.ProductForList bP)
-    {
-        dP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-        return prop.Name;
-    }
+
     /// <summary>
     /// A private help function to convert BO.Product entity to DO.Product entity.
     /// </summary>
     private DO.Product convertBoProdToDoProd(BO.Product prod)
     {
         object tmpNewProd = new DO.Product();
-        foreach (var prop in prod.GetType().GetProperties())
-        {
-            if (prop.Name != "Category")
-            {
-                tmpNewProd.GetType().GetProperty(prop.Name)?.SetValue(tmpNewProd, prop.GetValue(prod));
-            }
-        }
+        tmpNewProd.GetType().GetProperties().Where(prop => prop.Name != "Category").Select(prop => 
+        { 
+            prop.SetValue(tmpNewProd, prod.GetType().GetProperty(prop.Name)?.GetValue(prod));
+            return prop; 
+        }).ToList();
         DO.Product newProd = (DO.Product)tmpNewProd;
         newProd.Category = (DO.eCategory?)prod.Category;
         return newProd;
@@ -137,16 +132,7 @@ internal class BlProduct : BlApi.IProduct
             bool exist = false;
             if (cart.Items != null)
             {
-                foreach (BO.OrderItem i in cart.Items)
-                {
-                    if (i.ProductId == bP.Id)//The product is already in the shopping cart
-                    {
-                        exist = true;
-                        bP.Amount = i.Amount;
-                        break;
-                    }
-                }
-                //cart.Items.Where(i => i.ProductId == bP.Id).Select(i => { exist = true;            bP.Amount = i.Amount; return i; }).ToList();
+                cart.Items.Where(i => i?.ProductId == bP.Id).Select(i => { exist = true; bP.Amount = i.Amount; return i; }).ToList();
             }
             if (exist == false)
             {
@@ -174,11 +160,7 @@ internal class BlProduct : BlApi.IProduct
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
-            foreach (var prop in dP.GetType().GetProperties())
-            {
-                if (prop.Name != "Category")
-                    bP.GetType().GetProperty(prop.Name)?.SetValue(bP, prop.GetValue(dP));
-            }
+            bP.GetType().GetProperties().Where(prop => prop.Name != "Category").Select(prop => { prop.SetValue(bP, dP.GetType().GetProperty(prop.Name)?.GetValue(dP)); return prop; }).ToList();
             bP.Category = (BO.eCategory?)dP.Category;
             return bP;
         }
@@ -196,11 +178,12 @@ internal class BlProduct : BlApi.IProduct
         IEnumerable<DO.Product> dProds = Dal.product.Read();
         IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
         List<BO.ProductForList> bProdsList = bProds.ToList();
-        foreach (DO.Product dP in dProds)
-        {
+        dProds.Select(dP => {
             BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
             bProdsList.Add(bP);
-        }
+            return dP;
+        }).ToList();
+
         return bProdsList;
     }
 
@@ -213,11 +196,10 @@ internal class BlProduct : BlApi.IProduct
         IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry);
         IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
         List<BO.ProductForList> bProdsList = bProds.ToList();
-        foreach (DO.Product dP in dProds)
-        {
+        dProds.Select(dP => {
             BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
-            bProdsList.Add(bP);
-        }
+            bProdsList.Add(bP);  
+            return dProds; } ).ToList();
         return bProdsList;
     }
 

@@ -25,27 +25,28 @@ internal class BlOrder : BlApi.IOrder
     private BO.Order convertDToB(DO.Order dO)
     {
         BO.Order bO = new();
-        foreach (var prop in dO.GetType().GetProperties())
+        bO.GetType().GetProperties().Select(prop =>
         {
-            bO.GetType().GetProperty(prop.Name)?.SetValue(bO, prop.GetValue(dO));
-        }
+            prop.SetValue(bO, dO.GetType().GetProperty(prop.Name)?.GetValue(dO));
+            return prop;
+        }).ToList();
         bO.status = checkStatus(dO);
         //items and totalPrice:
-        IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
+        IEnumerable<DO.OrderItem> orderItems = Dal?.orderItem.Read() ?? Enumerable.Empty<DO.OrderItem>();   
         IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
         items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
         bO.Items = new List<BO.OrderItem>(items.Count());
         List<BO.OrderItem?> bItemsList = bO.Items.ToList();
         bO.TotalPrice = 0;
-        foreach (DO.OrderItem dItm in items)
+        var enumerator = items.GetEnumerator();
+        while(enumerator.MoveNext())    
         {
             BO.OrderItem bItm = new();
-            foreach (var prop in dItm.GetType().GetProperties())
-            {
-                if (prop.Name != "OrderId")
-                    bItm.GetType().GetProperty(prop.Name)?.SetValue(bItm, prop.GetValue(dItm));
-            }
-            bItm.Name = (Dal.product.Read(dItm.ProductId)).Name;
+            bItm.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop => { 
+               prop.SetValue(bItm, enumerator.Current.GetType().GetProperty(prop.Name)?.GetValue(enumerator.Current));
+               return prop; 
+            }).ToList();
+            bItm.Name = (Dal.product.Read(enumerator.Current.ProductId)).Name;
             bItm.TotalPrice = bItm.Price * bItm.Amount;
             bO.TotalPrice += bItm.TotalPrice;
             bItemsList.Add(bItm);
@@ -75,15 +76,16 @@ internal class BlOrder : BlApi.IOrder
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
         List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
-        foreach (DO.Order dO in dOrders)
+        var enumerator = dOrders.GetEnumerator();   
+        while (enumerator.MoveNext())
         {
-            BO.Order bO = convertDToB(dO);
+            BO.Order bO = convertDToB(enumerator.Current);
             BO.OrderForList ordForList = new();
-            foreach (var prop in ordForList.GetType().GetProperties())
+            ordForList.GetType().GetProperties().Where(prop => prop.Name != "AmountOfItems").Select(prop =>
             {
-                if (prop.Name != "AmountOfItems")
-                    ordForList.GetType().GetProperty(prop.Name)?.SetValue(ordForList, bO.GetType().GetProperty(prop.Name)?.GetValue(bO));
-            }
+                prop.SetValue(ordForList, bO.GetType().GetProperty(prop.Name)?.GetValue(bO));
+                return prop;
+            }).ToList();
             ordForList.AmountOfItems = bO.Items.Count();
             orderList.Add(ordForList);
         }

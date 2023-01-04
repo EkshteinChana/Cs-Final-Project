@@ -69,7 +69,7 @@ public class DalProduct : IProduct
     Product ICrud<Product>.ReadSingle(Func<Product, bool> func)
     {
         Product prod = DataSource.ProductList.Where(func).FirstOrDefault();
-        if (prod.Equals(default(Order)))
+        if (prod.Equals(default(Product)))
         {
             throw new ObjectNotExistException("product");
         }

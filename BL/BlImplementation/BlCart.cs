@@ -19,8 +19,9 @@ internal class BlCart : ICart
             DO.Product dP = dalList.product.Read(id);
 
             if (cart.Items != null)
-                //cart.Items.Where()
-
+                //beginning of corect way:
+                //cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
+                //    .Select().ToList();
                 foreach (BO.OrderItem i in cart.Items)
                 {
                     if (i?.ProductId == id)//The product is already in the shopping cart
@@ -34,8 +35,8 @@ internal class BlCart : ICart
                         i.TotalPrice += i.Price;
                         cart.TotalPrice += i.Price;
                     }
-                }
-            if (exist == true)
+                    //}
+                    if (exist == true)
             {
                 return cart;
             }
