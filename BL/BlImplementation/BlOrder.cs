@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using DalApi;
 using Dal;
+using System.Xml.Linq;
 
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
@@ -119,6 +120,12 @@ internal class BlOrder : BlApi.IOrder
                         throw new IllegalAction("Adding a product that already exists in the order.");
                     }
                     DO.OrderItem newItm = new();
+                    //for xml
+                    //XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
+                    //newItm.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
+                    //root.Element("MaxOrderItemId").Value = Convert.ToString(newItm.Id + 1);
+                    //root?.Save("..\\..\\..\\..\\xml\\config.xml");
+                    //for list
                     newItm.Id = DataSource.Config.MaxOrderItemId;
                     newItm.OrderId = oId;
                     newItm.ProductId = pId;
