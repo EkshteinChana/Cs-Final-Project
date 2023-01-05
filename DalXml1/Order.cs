@@ -92,7 +92,7 @@ internal class Order : IOrder
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
-        return func == null ? ordLst : ordLst.Where(func);
+        return func == null ? ordLst : ordLst?.Where(func);
     }
 
     /// <summary>

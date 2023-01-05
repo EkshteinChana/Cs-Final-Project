@@ -1,1 +1,210 @@
-<?xml version="1.0" encoding="utf-8"?><Orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Order><Id>1</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-09T15:26:18</OrderDate><ShipDate>2022-12-11T15:26:18</ShipDate><DeliveryDate>2022-12-15T15:26:18</DeliveryDate></Order><Order><Id>2</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-05T15:26:18</OrderDate><ShipDate>2022-12-08T15:26:10</ShipDate><DeliveryDate>2022-12-13T15:26:18</DeliveryDate></Order><Order><Id>4</Id><CustomerName>Mordechai Rabinowitz</CustomerName><CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail><CustomerAddress>Franc 12</CustomerAddress><OrderDate>2022-12-07T15:26:18</OrderDate><ShipDate>2022-12-08T15:26:18</ShipDate><DeliveryDate>2022-12-11T15:26:18</DeliveryDate></Order><Order><Id>6</Id><CustomerName>Shimon Cohen</CustomerName><CustomerEmail>shimon66@gmail.com</CustomerEmail><CustomerAddress>Shaulzon 66</CustomerAddress><OrderDate>2022-12-06T15:26:18</OrderDate><ShipDate>2022-12-09T15:26:18</ShipDate><DeliveryDate>2022-12-12T15:26:18</DeliveryDate></Order><Order><Id>7</Id><CustomerName>Mordechai Rabinowitz</CustomerName><CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail><CustomerAddress>Franc 12</CustomerAddress><OrderDate>2022-12-10T15:26:18</OrderDate><ShipDate>2022-12-13T15:26:18</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>8</Id><CustomerName>Mordechai Rabinowitz</CustomerName><CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail><CustomerAddress>Franc 12</CustomerAddress><OrderDate>2022-12-05T15:26:18</OrderDate><ShipDate>2022-12-08T15:26:18</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>9</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-03T15:26:18</OrderDate><ShipDate>0001-01-01T00:00:00</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>10</Id><CustomerName>Daniel Levi</CustomerName><CustomerEmail>levi05276@gmail.com</CustomerEmail><CustomerAddress>Sorotskin 16</CustomerAddress><OrderDate>2022-12-06T15:26:18</OrderDate><ShipDate>0001-01-01T00:00:00</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>11</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-03T15:26:18</OrderDate><ShipDate>2022-12-04T15:26:18</ShipDate><DeliveryDate>2022-12-09T15:26:18</DeliveryDate></Order><Order><Id>12</Id><CustomerName>Shimon Cohen</CustomerName><CustomerEmail>shimon66@gmail.com</CustomerEmail><CustomerAddress>Shaulzon 66</CustomerAddress><OrderDate>2022-12-06T15:26:18</OrderDate><ShipDate>2022-12-10T15:26:18</ShipDate><DeliveryDate>2022-12-15T15:26:18</DeliveryDate></Order><Order><Id>13</Id><CustomerName>Daniel Levi</CustomerName><CustomerEmail>levi05276@gmail.com</CustomerEmail><CustomerAddress>Sorotskin 16</CustomerAddress><OrderDate>2022-12-07T15:26:18</OrderDate><ShipDate>2022-12-10T15:26:18</ShipDate><DeliveryDate>2022-12-15T15:26:18</DeliveryDate></Order><Order><Id>14</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-04T15:26:18</OrderDate><ShipDate>2022-12-07T15:26:18</ShipDate><DeliveryDate>2022-12-10T15:26:18</DeliveryDate></Order><Order><Id>15</Id><CustomerName>Mordechai Rabinowitz</CustomerName><CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail><CustomerAddress>Franc 12</CustomerAddress><OrderDate>2022-12-03T15:26:18</OrderDate><ShipDate>2022-12-04T15:26:18</ShipDate><DeliveryDate>2022-12-08T15:26:18</DeliveryDate></Order><Order><Id>16</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-09T15:26:18</OrderDate><ShipDate>2022-12-10T15:26:18</ShipDate><DeliveryDate>2022-12-15T15:26:18</DeliveryDate></Order><Order><Id>17</Id><CustomerName>Sarah Klein</CustomerName><CustomerEmail>klein424@gmail.com</CustomerEmail><CustomerAddress>Gulak 424</CustomerAddress><OrderDate>2022-12-11T15:26:18</OrderDate><ShipDate>2022-12-12T15:26:18</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>18</Id><CustomerName>Reuven Katz</CustomerName><CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail><CustomerAddress>Idelson 24</CustomerAddress><OrderDate>2022-12-03T15:26:18</OrderDate><ShipDate>2022-12-04T15:26:18</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>20</Id><CustomerName>Mordechai Rabinowitz</CustomerName><CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail><CustomerAddress>Franc 12</CustomerAddress><OrderDate>2022-12-04T15:26:18</OrderDate><ShipDate>0001-01-01T00:00:00</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>21</Id><CustomerName>a</CustomerName><CustomerEmail>a</CustomerEmail><CustomerAddress>a</CustomerAddress><OrderDate>2023-01-04T16:33:10.4162682+02:00</OrderDate><ShipDate xsi:nil="true" /><DeliveryDate xsi:nil="true" /></Order><Order><Id>23</Id><CustomerName>c</CustomerName><CustomerEmail>c</CustomerEmail><CustomerAddress>c</CustomerAddress><OrderDate>2023-01-04T17:42:36.6444424+02:00</OrderDate><ShipDate xsi:nil="true" /><DeliveryDate xsi:nil="true" /></Order><Order><Id>24</Id><CustomerName>s</CustomerName><CustomerEmail>s</CustomerEmail><CustomerAddress>s</CustomerAddress><OrderDate>2023-01-04T20:51:41.3993725+02:00</OrderDate><ShipDate xsi:nil="true" /><DeliveryDate xsi:nil="true" /></Order><Order><Id>19</Id><CustomerName>esty</CustomerName><CustomerEmail>e@e</CustomerEmail><CustomerAddress>sh 66</CustomerAddress><OrderDate>0001-01-01T00:00:00</OrderDate><ShipDate>2023-01-04T00:00:00</ShipDate><DeliveryDate>0001-01-01T00:00:00</DeliveryDate></Order><Order><Id>3</Id><CustomerName>das</CustomerName><CustomerEmail>d@D</CustomerEmail><CustomerAddress>DDDDDD</CustomerAddress><OrderDate>2022-12-06T15:26:18</OrderDate><ShipDate>2022-12-07T00:00:00</ShipDate><DeliveryDate>0003-02-01T00:00:00</DeliveryDate></Order></Orders>
+<?xml version="1.0" encoding="utf-8"?>
+<Orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Order>
+		<Id>1</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-09T15:26:18</OrderDate>
+		<ShipDate>2022-12-11T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>2</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-05T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:10</ShipDate>
+		<DeliveryDate>2022-12-13T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>4</Id>
+		<CustomerName>Mordechai Rabinowitz</CustomerName>
+		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
+		<CustomerAddress>Franc 12</CustomerAddress>
+		<OrderDate>2022-12-07T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-11T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>6</Id>
+		<CustomerName>Shimon Cohen</CustomerName>
+		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
+		<CustomerAddress>Shaulzon 66</CustomerAddress>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-09T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-12T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>7</Id>
+		<CustomerName>Mordechai Rabinowitz</CustomerName>
+		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
+		<CustomerAddress>Franc 12</CustomerAddress>
+		<OrderDate>2022-12-10T15:26:18</OrderDate>
+		<ShipDate>2022-12-13T15:26:18</ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>8</Id>
+		<CustomerName>Mordechai Rabinowitz</CustomerName>
+		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
+		<CustomerAddress>Franc 12</CustomerAddress>
+		<OrderDate>2022-12-05T15:26:18</OrderDate>
+		<ShipDate>2022-12-08T15:26:18</ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>9</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate xsi:nil="true"></ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>10</Id>
+		<CustomerName>Daniel Levi</CustomerName>
+		<CustomerEmail>levi05276@gmail.com</CustomerEmail>
+		<CustomerAddress>Sorotskin 16</CustomerAddress>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate xsi:nil="true"></ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>11</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-09T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>12</Id>
+		<CustomerName>Shimon Cohen</CustomerName>
+		<CustomerEmail>shimon66@gmail.com</CustomerEmail>
+		<CustomerAddress>Shaulzon 66</CustomerAddress>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>13</Id>
+		<CustomerName>Daniel Levi</CustomerName>
+		<CustomerEmail>levi05276@gmail.com</CustomerEmail>
+		<CustomerAddress>Sorotskin 16</CustomerAddress>
+		<OrderDate>2022-12-07T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>14</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-04T15:26:18</OrderDate>
+		<ShipDate>2022-12-07T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-10T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>15</Id>
+		<CustomerName>Mordechai Rabinowitz</CustomerName>
+		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
+		<CustomerAddress>Franc 12</CustomerAddress>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-08T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>16</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-09T15:26:18</OrderDate>
+		<ShipDate>2022-12-10T15:26:18</ShipDate>
+		<DeliveryDate>2022-12-15T15:26:18</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>17</Id>
+		<CustomerName>Sarah Klein</CustomerName>
+		<CustomerEmail>klein424@gmail.com</CustomerEmail>
+		<CustomerAddress>Gulak 424</CustomerAddress>
+		<OrderDate>2022-12-11T15:26:18</OrderDate>
+		<ShipDate>2022-12-12T15:26:18</ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>18</Id>
+		<CustomerName>Reuven Katz</CustomerName>
+		<CustomerEmail>reuvenkatz123@gmail.com</CustomerEmail>
+		<CustomerAddress>Idelson 24</CustomerAddress>
+		<OrderDate>2022-12-03T15:26:18</OrderDate>
+		<ShipDate>2022-12-04T15:26:18</ShipDate>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>20</Id>
+		<CustomerName>Mordechai Rabinowitz</CustomerName>
+		<CustomerEmail>Rabinowitz678@gmail.com</CustomerEmail>
+		<CustomerAddress>Franc 12</CustomerAddress>
+		<OrderDate>2022-12-04T15:26:18</OrderDate>
+		<ShipDate xsi:nil="true"/>
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>21</Id>
+		<CustomerName>a</CustomerName>
+		<CustomerEmail>a</CustomerEmail>
+		<CustomerAddress>a</CustomerAddress>
+		<OrderDate>2023-01-04T16:33:10.4162682+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>23</Id>
+		<CustomerName>c</CustomerName>
+		<CustomerEmail>c</CustomerEmail>
+		<CustomerAddress>c</CustomerAddress>
+		<OrderDate>2023-01-04T17:42:36.6444424+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>24</Id>
+		<CustomerName>s</CustomerName>
+		<CustomerEmail>s</CustomerEmail>
+		<CustomerAddress>s</CustomerAddress>
+		<OrderDate>2023-01-04T20:51:41.3993725+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>19</Id>
+		<CustomerName>esty</CustomerName>
+		<CustomerEmail>e@e</CustomerEmail>
+		<CustomerAddress>sh 66</CustomerAddress>
+		<OrderDate>2023-01-04T20:51:41.3993725+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+	<Order>
+		<Id>3</Id>
+		<CustomerName>das</CustomerName>
+		<CustomerEmail>d@D</CustomerEmail>
+		<CustomerAddress>DDDDDD</CustomerAddress>
+		<OrderDate>2022-12-06T15:26:18</OrderDate>
+		<ShipDate>2022-12-07T00:00:00</ShipDate>
+		<DeliveryDate>0003-02-01T00:00:00</DeliveryDate>
+	</Order>
+	<Order>
+		<Id>26</Id>
+		<CustomerName>r</CustomerName>
+		<CustomerEmail>r</CustomerEmail>
+		<CustomerAddress>r</CustomerAddress>
+		<OrderDate>2023-01-05T16:09:50.0878093+02:00</OrderDate>
+		<ShipDate xsi:nil="true" />
+		<DeliveryDate xsi:nil="true" />
+	</Order>
+</Orders>

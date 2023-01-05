@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<OrderItems>
+<?xml version="1.0" encoding="utf-8"?>
+<OrderItems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<OrderItem>
 		<Id>1</Id>
 		<ProductId>651301</ProductId>
@@ -20,13 +20,6 @@
 		<OrderId>1</OrderId>
 		<Price>300</Price>
 		<Amount>3</Amount>
-	</OrderItem>
-	<OrderItem>
-		<Id>4</Id>
-		<ProductId>753396</ProductId>
-		<OrderId>2</OrderId>
-		<Price>16.8</Price>
-		<Amount>4</Amount>
 	</OrderItem>
 	<OrderItem>
 		<Id>5</Id>
