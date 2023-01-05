@@ -14,10 +14,10 @@ internal class Product : IProduct
     private DO.Product convertFromXmlToDoProduct(XElement productXml)
     {
         DO.Product prod = new();
-        prod.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
-        prod.Name = productXml.Element("Name").Value.ToString();
-        prod.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
-        prod.InStock = Convert.ToInt32(productXml.Element("InStock").Value.ToString());
+        prod.Id = Convert.ToInt32(productXml?.Element("Id")?.Value.ToString());
+        prod.Name = productXml?.Element("Name")?.Value.ToString();
+        prod.Price = Convert.ToDouble(productXml?.Element("Price")?.Value.ToString());
+        prod.InStock = Convert.ToInt32(productXml?.Element("InStock")?.Value.ToString());
         prod.Category = (eCategory)Enum.Parse(typeof(eCategory), productXml.Element("Category").Value.ToString());
         return prod;
     }
@@ -61,7 +61,7 @@ internal class Product : IProduct
     {
         XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
         List<XElement> products = root.Elements("Product").ToList();
-        XElement tmpProduct = products?.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value?.ToString()) == id).FirstOrDefault();
+        XElement tmpProduct = products?.Where(prd => Convert.ToInt32(prd?.Element("Id")?.Value?.ToString()) == id).FirstOrDefault();
         if (tmpProduct == null)
         {
             throw new IdNotExistException("product");

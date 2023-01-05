@@ -8,10 +8,10 @@ using Dal;
 using DalApi;
 using DO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 //=========================== Generic variables
 char choice;
-//DataSource ds = new DataSource();
 IDal? dalXml = DalXml.Instance;
 
 XElement? products = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
@@ -48,7 +48,6 @@ void WatchOrder()
 {
     Console.WriteLine("\nEnter the order ID for watching: ");
     int oId = Convert.ToInt32(Console.ReadLine());
-    //Order=dalXml.order.Read(oId);
     Console.WriteLine(dalXml.order.Read(oId) + "\n");
 }
 /// <summary>
@@ -56,8 +55,6 @@ void WatchOrder()
 /// </summary>
 void WatchOrderList()
 {
-    //Convert.ToInt16(root.Element("MaxOrderId").Value.ToString()); ;
-    //int size = orders.Elements("Order").Count();
     IEnumerable<Order> ordList = dalXml.order.Read();
     foreach (Order order in ordList)
     {
@@ -238,43 +235,36 @@ void AddOrderItem()
     int productIdxInList = -1;
     bool correct;
     Console.WriteLine("Enter OrderItem details:");
-    List<XElement> productsXml = (List<XElement>)products.Elements("Product");
-    List<Product> productsList = new();
+
+    List<XElement> productsXml = (List<XElement>)products.Elements("Product").ToList();
+    List<Product> productList = new();
     foreach (XElement productXml in productsXml)
     {
         Product prd = new();
         prd.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
         prd.Name = productXml.Element("Name").Value.ToString();
         prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
-        prd.InStock = Convert.ToInt16(productXml.Element("InStock").Value.ToString());
-        //////?????
-        prd.Category = (eCategory)Convert.ToInt32(productXml.Element("Category").Value.ToString());
-        productsList.Add(prd);
+        prd.InStock = Convert.ToInt32(productXml.Element("InStock").Value.ToString());
+        prd.Category = (eCategory)Enum.Parse(typeof(eCategory), productXml.Element("Category").Value.ToString());
+        productList.Add(prd);
     }
 
-    List<XElement> ordersXml = (List<XElement>)orders.Elements("Order");
-    List<Order> ordersList = new();
-    foreach (XElement orderXml in ordersXml)
-    {
-        Order ord = new();
-        ord.Id = Convert.ToInt32(orderXml.Element("Id").Value.ToString());
-        ord.CustomerName = orderXml.Element("CustomerName").Value.ToString();
-        ord.CustomerEmail = orderXml.Element("CustomerEmail").Value.ToString();
-        ord.CustomerAddress = orderXml.Element("CustomerAddress").Value.ToString();
-        ord.OrderDate = Convert.ToDateTime(orderXml.Element("OrderDate").Value.ToString());
-        ord.ShipDate = Convert.ToDateTime(orderXml.Element("ShipDate").Value.ToString());
-        ord.DeliveryDate = Convert.ToDateTime(orderXml.Element("DeliveryDate").Value.ToString());
-        ordersList.Add(ord);
-    }
+    XmlRootAttribute xRoot = new XmlRootAttribute();
+    xRoot.ElementName = "Orders";
+    xRoot.IsNullable = true;
+    StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+    XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
+    List<DO.Order> orderList = (List<DO.Order>?)ser.Deserialize(ordersRead);
+    ordersRead.Close();
 
     do
     {
         correct = false;
         Console.WriteLine("productId-");
         newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < productsList.Count; j++)//checking that this productId exists 
+        for (int j = 0; j < productList.Count; j++)//checking that this productId exists 
         {
-            if (productsList[j].Id == newOrderItem.ProductId)
+            if (productList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -288,9 +278,9 @@ void AddOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < ordersList.Count; j++)//checking that this orderId exists 
+        for (int j = 0; j < orderList.Count; j++)//checking that this orderId exists 
         {
-            if (ordersList[j].Id == newOrderItem.OrderId)
+            if (orderList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -301,9 +291,9 @@ void AddOrderItem()
     XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
     Console.WriteLine("amount-");
     newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
-    newOrderItem.Price = (productsList[productIdxInList].Price);
+    newOrderItem.Price = (productList[productIdxInList].Price);
     newOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
-    root.Element("MaxOrderItemId").Value = Convert.ToString( newOrderItem.Id + 1);
+    root.Element("MaxOrderItemId").Value = Convert.ToString(newOrderItem.Id + 1);
     root?.Save("..\\..\\..\\..\\xml\\config.xml");
     dalXml.orderItem.Create(newOrderItem);
 }
@@ -320,43 +310,35 @@ void UpdateOrderItem()
     OrderItem tmpOrdItem = dalXml.orderItem.Read(newOrderItem.Id);
     Console.WriteLine(tmpOrdItem + "\n");
 
-    List<XElement> productsXml = (List<XElement>)products.Elements("Product");
-    List<Product> productsList = new();
+    List<XElement> productsXml = (List<XElement>)products.Elements("Product").ToList();
+    List<Product> productList = new();
     foreach (XElement productXml in productsXml)
     {
         Product prd = new();
         prd.Id = Convert.ToInt32(productXml.Element("Id").Value.ToString());
         prd.Name = productXml.Element("Name").Value.ToString();
         prd.Price = Convert.ToDouble(productXml.Element("Price").Value.ToString());
-        prd.InStock = Convert.ToInt16(productXml.Element("InStock").Value.ToString());
-        //////?????
-        prd.Category = (eCategory)Convert.ToInt32(productXml.Element("Category").Value.ToString());
-        productsList.Add(prd);
+        prd.InStock = Convert.ToInt32(productXml.Element("InStock").Value.ToString());
+        prd.Category = (eCategory)Enum.Parse(typeof(eCategory), productXml.Element("Category").Value.ToString());
+        productList.Add(prd);
     }
 
-    List<XElement> ordersXml = (List<XElement>)orders.Elements("Order");
-    List<Order> ordersList = new();
-    foreach (XElement orderXml in ordersXml)
-    {
-        Order ord = new();
-        ord.Id = Convert.ToInt32(orderXml.Element("Id").Value.ToString());
-        ord.CustomerName = orderXml.Element("CustomerName").Value.ToString();
-        ord.CustomerEmail = orderXml.Element("CustomerEmail").Value.ToString();
-        ord.CustomerAddress = orderXml.Element("CustomerAddress").Value.ToString();
-        ord.OrderDate = Convert.ToDateTime(orderXml.Element("OrderDate").Value.ToString());
-        ord.ShipDate = Convert.ToDateTime(orderXml.Element("ShipDate").Value.ToString());
-        ord.DeliveryDate = Convert.ToDateTime(orderXml.Element("DeliveryDate").Value.ToString());
-        ordersList.Add(ord);
-    }
+    XmlRootAttribute xRoot = new XmlRootAttribute();
+    xRoot.ElementName = "Orders";
+    xRoot.IsNullable = true;
+    StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+    XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
+    List<DO.Order> orderList = (List<DO.Order>?)ser.Deserialize(ordersRead);
+    ordersRead.Close();
 
     do
     {
         correct = false;
         Console.WriteLine("productId-");
         newOrderItem.ProductId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < productsList.Count; j++)//checking that this productId exists 
+        for (int j = 0; j < productList.Count; j++)//checking that this productId exists 
         {
-            if (productsList[j].Id == newOrderItem.ProductId)
+            if (productList[j].Id == newOrderItem.ProductId)
             {
                 correct = true;
                 productIdxInList = j;
@@ -370,9 +352,9 @@ void UpdateOrderItem()
         correct = false;
         Console.WriteLine("orderId-");
         newOrderItem.OrderId = Convert.ToInt32(Console.ReadLine());
-        for (int j = 0; j < ordersList.Count; j++)//checking that this orderId exists 
+        for (int j = 0; j < orderList.Count; j++)//checking that this orderId exists 
         {
-            if (ordersList[j].Id == newOrderItem.OrderId)
+            if (orderList[j].Id == newOrderItem.OrderId)
             {
                 correct = true;
             }
@@ -382,7 +364,7 @@ void UpdateOrderItem()
     } while (!correct);
     Console.WriteLine("amount-");
     newOrderItem.Amount = Convert.ToInt32(Console.ReadLine());
-    newOrderItem.Price = (productsList[productIdxInList].Price);
+    newOrderItem.Price = (productList[productIdxInList].Price);
     dalXml.orderItem.Update(newOrderItem);
 }
 /// <summary>
@@ -401,21 +383,6 @@ void WatchOrderItem()
 /// </summary>
 void WatchOrderItemList()
 {
-    //List<XElement> orderItemsXml = (List<XElement>)orderItems.Elements("OrderItem");
-    //List<OrderItem> orderItemsList = new();
-    //foreach (XElement orderItemXml in orderItemsXml)
-    //{
-    //    OrderItem orderItem = new();
-    //    orderItem.Id = Convert.ToInt16(orderItemXml.Element("Id").Value.ToString());
-    //    orderItem.ProductId = Convert.ToInt16(orderItemXml.Element("ProductId").Value.ToString());
-    //    orderItem.OrderId = Convert.ToInt16(orderItemXml.Element("OrderId").Value.ToString());
-    //    orderItem.Amount = Convert.ToInt16(orderItemXml.Element("Amount").Value.ToString());
-    //    orderItem.Price = Convert.ToDouble(orderItemXml.Element("Price").Value.ToString());
-    //    orderItemsList.Add(orderItem);
-    //}
-
-
-    //int size = orderItemsList.Count;
     IEnumerable<OrderItem> orderItemList = dalXml.orderItem.Read();
     foreach (OrderItem orderItem in orderItemList)
     {
