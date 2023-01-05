@@ -86,7 +86,7 @@ internal class BlCart : ICart
                 //root.Element("MaxOrderId").Value = Convert.ToString(dOrder.Id + 1);
                 //root?.Save("..\\..\\..\\..\\xml\\config.xml");
                 //for list
-                dOrder.Id = DataSource.Config.MaxOrderId;   !!!!!!
+                dOrder.Id = DataSource.Config.MaxOrderId;
                 orderId = dalList.order.Create(dOrder);
             }
             catch (IdAlreadyExistsException)
