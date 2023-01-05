@@ -19,24 +19,20 @@ internal class BlCart : ICart
             DO.Product dP = dalList.product.Read(id);
 
             if (cart.Items != null)
-                //beginning of corect way:
-                //cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
-                //    .Select().ToList();
-                foreach (BO.OrderItem i in cart.Items)
-                {
-                    if (i?.ProductId == id)//The product is already in the shopping cart
-                    {
-                        exist = true;
-                        if (dP.InStock <= 0)
-                        {
-                            throw new OutOfStock(dP.Id, 0);
-                        }
-                        i.Amount += 1;
-                        i.TotalPrice += i.Price;
-                        cart.TotalPrice += i.Price;
-                    }
-                    //}
-                    if (exist == true)
+                cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
+                     .Select(i =>
+                     {
+                         exist = true;
+                         if (dP.InStock <= 0)
+                         {
+                             throw new OutOfStock(dP.Id, 0);
+                         }
+                         i.Amount += 1;
+                         i.TotalPrice += i.Price;
+                         cart.TotalPrice += i.Price;
+                         return i;
+                     }).ToList();              
+            if (exist == true)
             {
                 return cart;
             }
@@ -46,13 +42,10 @@ internal class BlCart : ICart
                 throw new OutOfStock(dP.Id, 0);
             }
             BO.OrderItem oI = new BO.OrderItem();
-            foreach (var prop in dP.GetType().GetProperties())
-            {
-                if (prop.Name != "InStock" && prop.Name != "Category" && prop.Name != "Id")
-                    oI.GetType().GetProperty(prop.Name)?.SetValue(oI, prop.GetValue(dP));
-            }
             oI.Id = Config.MaxCartOrderItemId;
             oI.ProductId = dP.Id;
+            oI.Price = dP.Price;    
+            oI.Name = dP.Name;  
             oI.Amount = 1;
             oI.TotalPrice = dP.Price;
             if (cart.Items == null)
@@ -94,48 +87,74 @@ internal class BlCart : ICart
                 tryId = true;
             }
         }
-        foreach (BO.OrderItem item in cart.Items)//Building order item objects in the data layer based on items ordered in the shopping cart
+        if (cart.Items != null)
         {
-            object tmpdOrderItem = new DO.OrderItem();
-            foreach (var prop in item.GetType().GetProperties())
-            {
-                if (prop.Name != "Id" && prop.Name != "Name" && prop.Name != "TotalPrice")
+            cart.Items.Select(item => { //Building order item objects in the data layer based on items ordered in the shopping cart
+                object tmpdOrderItem = new DO.OrderItem();
+                tmpdOrderItem.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
+                    {
+                        prop.SetValue(tmpdOrderItem, item.GetType().GetProperty(prop.Name).GetValue(item));
+                        return prop;
+                    }).ToList();
+                DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
+                dOrderItem.OrderId = orderId;
+                tryId = true;
+                while (tryId)
                 {
-                    tmpdOrderItem.GetType().GetProperty(prop.Name)?.SetValue(tmpdOrderItem, prop.GetValue(item));
+                    tryId = false;
+                    try
+                    {
+                        dOrderItem.Id = DataSource.Config.MaxOrderItemId;
+                        dalList.orderItem.Create(dOrderItem);
+                    }
+                    catch (IdAlreadyExistsException)
+                    {
+                        tryId = true;
+                    }
                 }
-            }
-            DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
-            dOrderItem.OrderId = orderId;
-            tryId = true;
-            while (tryId)
+                return item; }).ToList();
+
+            //foreach (BO.OrderItem item in cart.Items)//Building order item objects in the data layer based on items ordered in the shopping cart
+            //{
+            //    object tmpdOrderItem = new DO.OrderItem();
+            //    tmpdOrderItem.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
+            //        {
+            //            prop.SetValue(tmpdOrderItem, item.GetType().GetProperty(prop.Name).GetValue(item));
+            //            return prop;
+            //    }).ToList();
+            //    DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
+            //    dOrderItem.OrderId = orderId;
+            //    tryId = true;
+            //    while (tryId)
+            //    {
+            //        tryId = false;
+            //        try
+            //        {
+            //            dOrderItem.Id = DataSource.Config.MaxOrderItemId;
+            //            dalList.orderItem.Create(dOrderItem);
+            //        }
+            //        catch (IdAlreadyExistsException)
+            //        {
+            //            tryId = true;
+            //        }
+            //    }
+            //}
+            foreach (BO.OrderItem item in cart.Items)//Updating the amount in stock in the data layer of the ordered products
             {
-                tryId = false;
                 try
                 {
-                    dOrderItem.Id = DataSource.Config.MaxOrderItemId;
-                    dalList.orderItem.Create(dOrderItem);
+                    DO.Product dP = dalList.product.Read(item.ProductId);
+                    if (dP.InStock < item.Amount)
+                    {
+                        throw new OutOfStock(dP.Id, dP.InStock);
+                    }
+                    dP.InStock -= item.Amount;
+                    dalList.product.Update(dP);
                 }
-                catch (IdAlreadyExistsException)
+                catch (IdNotExistException exc)
                 {
-                    tryId = true;
+                    throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
                 }
-            }
-        }
-        foreach (BO.OrderItem item in cart.Items)//Updating the amount in stock in the data layer of the ordered products
-        {
-            try
-            {
-                DO.Product dP = dalList.product.Read(item.ProductId);
-                if (dP.InStock < item.Amount)
-                {
-                    throw new OutOfStock(dP.Id, dP.InStock);
-                }
-                dP.InStock -= item.Amount;
-                dalList.product.Update(dP);
-            }
-            catch (IdNotExistException exc)
-            {
-                throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
             }
         }
     }
@@ -156,25 +175,28 @@ internal class BlCart : ICart
         {
             throw new InvalidValue("customer address");
         }
-        foreach (BO.OrderItem item in cart.Items)
-        {
-            if (item.Amount < 1)
+
+        if (cart.Items != null) { 
+            foreach (BO.OrderItem item in cart.Items)
             {
-                throw new InvalidValue($"amount of product: {item.ProductId}");
-            }
-            try
-            {
-                DO.Product dP = dalList.product.Read(item.ProductId);
-                if (dP.InStock < item.Amount)
+                if (item.Amount < 1)
                 {
-                    throw new OutOfStock(dP.Id, dP.InStock);
+                    throw new InvalidValue($"amount of product: {item.ProductId}");
+                }
+                try
+                {
+                    DO.Product dP = dalList.product.Read(item.ProductId);
+                    if (dP.InStock < item.Amount)
+                    {
+                        throw new OutOfStock(dP.Id, dP.InStock);
+                    }
+                }
+                catch (IdNotExistException exc)
+                {
+                    throw new InvalidValue($"ID of product ID: {item.ProductId}");
                 }
             }
-            catch (IdNotExistException exc)
-            {
-                throw new InvalidValue($"ID of product ID: {item.ProductId}");
-            }
-        }
+          }
     }
     /// <summary>
     /// A private help function to check the correctness of the customer's email.
