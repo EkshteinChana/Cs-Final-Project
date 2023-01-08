@@ -32,7 +32,7 @@ internal class BlCart : ICart
                          i.TotalPrice += i.Price;
                          cart.TotalPrice += i.Price;
                          return i;
-                     }).ToList();              
+                     }).ToList();
             if (exist == true)
             {
                 return cart;
@@ -45,13 +45,13 @@ internal class BlCart : ICart
             BO.OrderItem oI = new BO.OrderItem();
             oI.Id = Config.MaxCartOrderItemId;
             oI.ProductId = dP.Id;
-            oI.Price = dP.Price;    
-            oI.Name = dP.Name;  
+            oI.Price = dP.Price;
+            oI.Name = dP.Name;
             oI.Amount = 1;
             oI.TotalPrice = dP.Price;
             if (cart.Items == null)
             {
-                cart.Items = new List<BO.OrderItem>();
+                cart.Items = new List<BO.OrderItem?>();
             }
             cart.Items.Add(oI);
             cart.TotalPrice += dP.Price;
@@ -96,11 +96,12 @@ internal class BlCart : ICart
         }
         if (cart.Items != null)
         {
-            cart.Items.Select(item => { //Building order item objects in the data layer based on items ordered in the shopping cart
+            cart.Items.Select(item =>
+            { //Building order item objects in the data layer based on items ordered in the shopping cart
                 object tmpdOrderItem = new DO.OrderItem();
                 tmpdOrderItem.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
                     {
-                        prop.SetValue(tmpdOrderItem, item.GetType().GetProperty(prop.Name).GetValue(item));
+                        prop.SetValue(tmpdOrderItem, item?.GetType()?.GetProperty(prop.Name)?.GetValue(item));
                         return prop;
                     }).ToList();
                 DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
@@ -110,8 +111,10 @@ internal class BlCart : ICart
                 {
                     tryId = false;
                     try
-                    {   
+                    {
+                        ///////////////////////////////////////////
                         //for xml
+                        ///////////////////////////////////////////
                         //XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
                         //dOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
                         //root.Element("MaxOrderItemId").Value = Convert.ToString(dOrderItem.Id + 1);
@@ -125,34 +128,11 @@ internal class BlCart : ICart
                         tryId = true;
                     }
                 }
-                return item; }).ToList();
+                return item;
+            }).ToList();
 
-            //foreach (BO.OrderItem item in cart.Items)//Building order item objects in the data layer based on items ordered in the shopping cart
-            //{
-            //    object tmpdOrderItem = new DO.OrderItem();
-            //    tmpdOrderItem.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
-            //        {
-            //            prop.SetValue(tmpdOrderItem, item.GetType().GetProperty(prop.Name).GetValue(item));
-            //            return prop;
-            //    }).ToList();
-            //    DO.OrderItem dOrderItem = (DO.OrderItem)tmpdOrderItem;
-            //    dOrderItem.OrderId = orderId;
-            //    tryId = true;
-            //    while (tryId)
-            //    {
-            //        tryId = false;
-            //        try
-            //        {
-            //            dOrderItem.Id = DataSource.Config.MaxOrderItemId;
-            //            dalList.orderItem.Create(dOrderItem);
-            //        }
-            //        catch (IdAlreadyExistsException)
-            //        {
-            //            tryId = true;
-            //        }
-            //    }
-            //}
-            foreach (BO.OrderItem item in cart.Items)//Updating the amount in stock in the data layer of the ordered products
+            //Updating the amount in stock in the data layer of the ordered products
+            cart.Items.Select(item =>
             {
                 try
                 {
@@ -168,9 +148,12 @@ internal class BlCart : ICart
                 {
                     throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
                 }
-            }
+                return item;
+            }).ToList();
         }
     }
+
+
     /// <summary>
     /// A private help function to check the correctness of the customer's details and the shopping cart.
     /// </summary>
@@ -189,8 +172,31 @@ internal class BlCart : ICart
             throw new InvalidValue("customer address");
         }
 
-        if (cart.Items != null) { 
-            foreach (BO.OrderItem item in cart.Items)
+        if (cart.Items != null)
+        {
+            //foreach (BO.OrderItem item in cart.Items)
+            //{
+            //    if (item.Amount < 1)
+            //    {
+            //        throw new InvalidValue($"amount of product: {item.ProductId}");
+            //    }
+            //    try
+            //    {
+            //        DO.Product dP = dalList.product.Read(item.ProductId);
+            //        if (dP.InStock < item.Amount)
+            //        {
+            //            throw new OutOfStock(dP.Id, dP.InStock);
+            //        }
+            //    }
+            //    catch (IdNotExistException exc)
+            //    {
+            //        throw new InvalidValue($"ID of product ID: {item.ProductId}");
+            //    }
+            //}
+
+
+
+            cart.Items.Select(item =>
             {
                 if (item.Amount < 1)
                 {
@@ -208,8 +214,9 @@ internal class BlCart : ICart
                 {
                     throw new InvalidValue($"ID of product ID: {item.ProductId}");
                 }
-            }
-          }
+                return item;
+            }).ToList();
+        }
     }
     /// <summary>
     /// A private help function to check the correctness of the customer's email.
@@ -272,6 +279,8 @@ internal class BlCart : ICart
                         if (amount == 0)
                         {
                             cart.Items.Remove(i);
+                            if (cart.Items.Count == 0)
+                                break;
                         }
                         else
                         {
