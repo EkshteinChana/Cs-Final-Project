@@ -12,29 +12,32 @@ namespace PL
     public partial class ProductWindow : Window
     {
         private IBl bl;
-
+        Window mainWindow;
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
-        public ProductWindow(IBl Ibl,int ?id)
+        public ProductWindow(IBl Ibl,Window w,int ?id )
         {
             try
             {
                 InitializeComponent();
                 CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 bl = Ibl;
+                mainWindow = w;
+
                 if (id != null)
                 {
                     Product p = bl.Product.ReadProdManager((int)id);
+                    DataContext = p; 
                     IDLbl.Content = p.Id;
-                    NameTxtBx.Text = p.Name;
+                    //NameTxtBx.Text = p.Name;
                     PriceTxtBx.Text = p.Price.ToString();
                     CategorySelector.SelectedItem = p.Category;
                     InStockTxtBx.Text = p.InStock.ToString();
                     AddProductBtn.Visibility = Visibility.Hidden;
                     TitelEnterDetailsLbl.Content = "Change the product details for updating";
                 }
-                else
+                else//add
                 {
                     TitelEnterDetailsLbl.Content = "Enter the product details";
                     IdLbl.Visibility = Visibility.Hidden;
@@ -56,7 +59,7 @@ namespace PL
         /// <summary>
         /// A function for adding a new product (in the PL layer).
         /// </summary>
-        private void AddProductBtn_Click(object sender, RoutedEventArgs e)
+        private void AddProductBtn_Click(object sender, RoutedEventArgs e )
         {
             try
             {
@@ -67,6 +70,8 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
+                mainWindow.Show();
+                this.Hide();    
             }
             catch (InvalidValue exc) {
                 MessageBox.Show(exc.Message);
@@ -80,7 +85,7 @@ namespace PL
         /// <summary>
         /// A function for updating a product (in the PL layer).
         /// </summary>
-        private void UpdateProductBtn_Click(object sender, RoutedEventArgs e)
+        private void UpdateProductBtn_Click(object sender, RoutedEventArgs e )
         {
             try
             {
@@ -92,6 +97,8 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.UpdateProd(prd);
                 MessageBox.Show("The update was successful");
+                mainWindow.Show();  
+                this.Hide();
             }
             catch (InvalidValue exc)
             {
@@ -131,15 +138,20 @@ namespace PL
             {
                 MessageBox.Show(exc.Message);
             }
+            finally
+            {
+                mainWindow.Show();
+                this.Hide();
+            }
             
         }
 
         /// <summary>
         /// A function that opens the ProductListWindow.
         /// </summary>
-        private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
+        private void ShowProductListBtn_Click(object sender, RoutedEventArgs e )
         {
-            new ProductListWindow(bl).Show();
+            mainWindow.Show();
             this.Hide();
         }
     }

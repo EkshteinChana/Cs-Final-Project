@@ -37,7 +37,7 @@ namespace PL
         /// </summary>
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            new ProductWindow(bl, null).Show();
+            new ProductWindow(bl, this, null).Show();
             this.Hide();
         }
         /// <summary>
@@ -46,7 +46,7 @@ namespace PL
         private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ProductForList p = (ProductForList)((ListView)sender).SelectedItem;
-            new ProductWindow(bl, p.Id).Show();
+            new ProductWindow(bl,this, p.Id).Show();
             this.Hide();
         }
         /// <summary>

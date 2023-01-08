@@ -21,89 +21,17 @@
             <Label Grid.Row="1" Name="IdLbl" Content="ID: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Margin="-40,0,0,0" FontWeight="Bold"/>
             <Label Grid.Row="1" Name="IDLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,0,0,0" FontWeight="Bold"/>
             <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="NameTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <TextBox Name="NameTxtBx" Text="{Binding Path=Name,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
             <Label Grid.Row="3" Name="PriceLbl" Content="price:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="PriceTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
             <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
             <Label Grid.Row="5" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="InStockTxtBx" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
-            <Button Name="AddProductBtn" Content="click for sending the product details" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" Click="AddProductBtn_Click" Grid.ColumnSpan="3" FontWeight="Bold">
-                <Button.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="#FF24DCEA" Offset="1"/>
-                        <GradientStop Color="#FF2B7A80" Offset="0.021"/>
-                    </LinearGradientBrush>
-                </Button.BorderBrush>
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF73FFE2" Offset="0"/>
-                        <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
-                        <GradientStop Color="#FF3A8274" Offset="1"/>
-                        <GradientStop Color="#FF7CCECC" Offset="0.141"/>
-                        <GradientStop Color="#FF34C8E4" Offset="0.959"/>
-                        <GradientStop Color="#FF66CCD3" Offset="0.189"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="UpdateProductBtn" Content="Update" HorizontalAlignment="Right" Grid.Row="6" Margin="0,0,300,0" Click="UpdateProductBtn_Click" Width="50" FontWeight="Bold">
-                <Button.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="#FF24DCEA" Offset="1"/>
-                        <GradientStop Color="#FF2B7A80" Offset="0.021"/>
-                    </LinearGradientBrush>
-                </Button.BorderBrush>
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF73FFE2" Offset="0"/>
-                        <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
-                        <GradientStop Color="#FF3A8274" Offset="1"/>
-                        <GradientStop Color="#FF7CCECC" Offset="0.141"/>
-                        <GradientStop Color="#FF34C8E4" Offset="0.959"/>
-                        <GradientStop Color="#FF66CCD3" Offset="0.189"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="DeleteProductBtn" Content="Delete" HorizontalAlignment="Left" Grid.Row="6" Click="DeleteProductBtn_Click" Margin="300,0,0,0" Width="50" FontWeight="Bold">
-                <Button.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="#FF24DCEA" Offset="1"/>
-                        <GradientStop Color="#FF2B7A80" Offset="0.021"/>
-                    </LinearGradientBrush>
-                </Button.BorderBrush>
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF73FFE2" Offset="0"/>
-                        <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
-                        <GradientStop Color="#FF3A8274" Offset="1"/>
-                        <GradientStop Color="#FF7CCECC" Offset="0.141"/>
-                        <GradientStop Color="#FF34C8E4" Offset="0.959"/>
-                        <GradientStop Color="#FF66CCD3" Offset="0.189"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+            <Button Name="AddProductBtn" Content="click for sending the product details" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" Click="AddProductBtn_Click" Grid.ColumnSpan="3" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+            <Button Name="UpdateProductBtn" Content="Update" HorizontalAlignment="Right" Grid.Row="6" Margin="0,0,300,0" Click="UpdateProductBtn_Click" Width="50" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+            <Button Name="DeleteProductBtn" Content="Delete" HorizontalAlignment="Left" Grid.Row="6" Click="DeleteProductBtn_Click" Margin="300,0,0,0" Width="50" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         </Grid>
-        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FF24DCEA" Offset="1"/>
-                    <GradientStop Color="#FF2B7A80" Offset="0.021"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF73FFE2" Offset="0"/>
-                    <GradientStop Color="#FF4CB3BB" Offset="0.983"/>
-                    <GradientStop Color="#FF3A8274" Offset="1"/>
-                    <GradientStop Color="#FF7CCECC" Offset="0.141"/>
-                    <GradientStop Color="#FF34C8E4" Offset="0.959"/>
-                    <GradientStop Color="#FF66CCD3" Offset="0.189"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
+        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
     </Grid>
 </Window>
