@@ -1,0 +1,49 @@
+﻿<Window x:Class="PL.Orders.OrderListWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Orders"
+        mc:Ignorable="d"
+        Title="OrderListWindow" Height="640" Width="800">
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Name="try" Height="452*"/>
+            <RowDefinition Height="87*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <Button Name="DisplayAllOrdersButton" Content="Show all orders" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllOrdersBtn_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
+              BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        </Grid>
+        <ListView x:Name="OrdersListview" d:ItemsSource="{d:SampleData}" MouseDoubleClick="OrdresListview_MouseDoubleClick" Margin="50,31,50,52" Grid.Row="1" SelectionChanged="OrdersListview_SelectionChanged" FontSize="20">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id ,UpdateSourceTrigger=PropertyChanged}" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=CustomerName ,UpdateSourceTrigger=PropertyChanged}" Header="Customer name" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Status ,UpdateSourceTrigger=PropertyChanged}" Header="Status" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=AmountOfItems ,UpdateSourceTrigger=PropertyChanged}" Header="Amount of items" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice ,UpdateSourceTrigger=PropertyChanged}" Header="Total price" />
+                    <!--     public int Id { get; set; }//OrderId
+    public string? CustomerName { get; set; }
+    public eOrderStatus? status { get; set; }//the status of the order
+    public int AmountOfItems { get; set; }
+    public double TotalPrice { get; set; }//the total price of the order-->
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="AddOrderButton" Content="Add new order" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Click="AddOrderBtn_Click" Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
+          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+    </Grid>
+</Window>
+
