@@ -28,5 +28,15 @@ namespace PL.Orders
         {
 
         }
+
+        private void UpdateOrdeBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

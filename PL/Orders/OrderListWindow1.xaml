@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Orders"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="640" Width="800">
-    <Grid Name="MainGrid">
+    <!--<Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="85*"/>
             <RowDefinition Name="try" Height="452*"/>
@@ -34,16 +34,17 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Status ,UpdateSourceTrigger=PropertyChanged}" Header="Status" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=AmountOfItems ,UpdateSourceTrigger=PropertyChanged}" Header="Amount of items" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice ,UpdateSourceTrigger=PropertyChanged}" Header="Total price" />
-                    <!--     public int Id { get; set; }//OrderId
+                    -->
+    <!--     public int Id { get; set; }//OrderId
     public string? CustomerName { get; set; }
     public eOrderStatus? status { get; set; }//the status of the order
     public int AmountOfItems { get; set; }
     public double TotalPrice { get; set; }//the total price of the order-->
-                </GridView>
+                <!--</GridView>
             </ListView.View>
         </ListView>
         <Button Name="AddOrderButton" Content="Add new order" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Click="AddOrderBtn_Click" Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
-    </Grid>
+    </Grid>-->
 </Window>
 

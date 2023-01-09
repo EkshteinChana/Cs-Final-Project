@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using PL.Products;
+using System.Windows;
 
 namespace PL
 {
@@ -21,14 +22,17 @@ namespace PL
         /// </summary>
         private void ShowProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            new ProductListWindow(bl,"admin").Show();
-            this.Hide();
+            new ProductListWindow(bl).Show();
+            this.Close();
         }
 
-        private void ShowCustomerWindowBtn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// A function that opens the ProductCatalogWindow.
+        /// </summary>
+        private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
         {
-            new ProductListWindow(bl,"customer").Show();
-            this.Hide();
+            new ProductCatalogWindow(bl).Show();
+            this.Close();
         }
     }
 }

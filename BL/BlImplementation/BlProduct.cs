@@ -130,7 +130,7 @@ internal class BlProduct : BlApi.IProduct
             bP.Category = (BO.eCategory?)dP.Category;
             bP.InStock = (dP.InStock > 0) ? true : false;
             bool exist = false;
-            if (cart.Items != null)
+            if (cart!=null && cart.Items!= null)
             {
                 cart.Items.Where(i => i?.ProductId == bP.Id).Select(i => { exist = true; bP.Amount = i.Amount; return i; }).ToList();
             }

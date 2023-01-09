@@ -12,16 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Orders
-{
-    /// <summary>
-    /// Interaction logic for OrderForWindow1.xaml
-    /// </summary>
-    public partial class OrderForWindow1 : Window
-    {
-        public OrderForWindow1()
-        {
-            InitializeComponent();
-        }
-    }
-}
+//namespace PL.Orders
+//{
+//    /// <summary>
+//    /// Interaction logic for OrderForWindow1.xaml
+//    /// </summary>
+//    public partial class OrderForWindow1 : Window
+//    {
+//        public OrderForWindow1()
+//        {
+//            InitializeComponent();
+//        }
+//    }
+//}
