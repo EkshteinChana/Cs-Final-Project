@@ -28,26 +28,9 @@ namespace PL.Products;
             try
             {
                 InitializeComponent();
-                CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 bl = Ibl;
                 ProductItem p = bl.Product.ReadProdCustomer((int)id, cart);
-                DataContext = p;
-                //if (id != null)
-                //{
-                //    ProductItem p = bl.Product.ReadProdCustomer((int)id,cart);
-                //    DataContext = p;
-                //    CategorySelector.SelectedItem = p.Category;
-                //    AddProductBtn.Visibility = Visibility.Hidden;
-                //    TitelEnterDetailsLbl.Content = "Change the product details for updating";
-                //}
-                //else//add
-                //{
-                //    TitelEnterDetailsLbl.Content = "Enter the product details";
-                //    IdLbl.Visibility = Visibility.Hidden;
-                //    IDLbl.Visibility = Visibility.Hidden;
-                //    UpdateProductBtn.Visibility = Visibility.Hidden;
-                //    DeleteProductBtn.Visibility = Visibility.Hidden;
-                //}
+                DataContext = p;                
             }
             catch (DataError dataError)
             {

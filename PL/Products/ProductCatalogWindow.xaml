@@ -8,9 +8,8 @@
         Title="ProductCatalogWindow" Height="450" Width="800">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="85*"/>
+            <RowDefinition Height="100*"/>
             <RowDefinition Name="try" Height="452*"/>
-            <RowDefinition Height="87*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
             <Grid.RowDefinitions>
