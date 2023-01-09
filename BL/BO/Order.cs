@@ -1,4 +1,7 @@
 ﻿
+using BlApi;
+using System.Diagnostics;
+
 namespace BO;
 
 /// <summary>
@@ -31,10 +34,15 @@ public class Order
     	deliveryDate: {DeliveryDate},
         the order items:
        ";
-        foreach (BO.OrderItem itm in Items)
+        //foreach (BO.OrderItem itm in Items)
+        //{
+        //    ordToString += $"{itm},\n";
+        //}
+        Items.Select(itm =>
         {
             ordToString += $"{itm},\n";
-        }
+            return itm;
+        }).ToList();
         return ordToString;
     }
 }

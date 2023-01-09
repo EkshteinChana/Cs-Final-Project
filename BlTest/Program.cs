@@ -7,6 +7,7 @@
 using BO;
 using BlImplementation;
 using BlTest;
+using BlApi;
 
 //=========================== Generic variables
 char choice;
@@ -259,7 +260,6 @@ void Menue(string type)
             {'d', AddProduct},
             {'e', UpdateProduct},
             {'f', DeleteProduct} };
-
     }
     if (type == "cart")
     {
@@ -291,6 +291,11 @@ void Menue(string type)
     }
     Console.WriteLine($@"{Options}");
     choice = Console.ReadKey().KeyChar;
+    if ((type == "product" &&(choice < 97 || choice > 102))
+        || (type == "cart" && (choice < 97 || choice > 99))
+        || (type == "order" && (choice < 97 || choice > 103))
+        )
+        throw new IllegalAction("Illegal Action");
     var res = Actions[choice];
     res();
 }

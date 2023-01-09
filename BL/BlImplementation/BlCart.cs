@@ -193,12 +193,9 @@ internal class BlCart : ICart
             //        throw new InvalidValue($"ID of product ID: {item.ProductId}");
             //    }
             //}
-
-
-
             cart.Items.Select(item =>
             {
-                if (item.Amount < 1)
+                if (item?.Amount < 1)
                 {
                     throw new InvalidValue($"amount of product: {item.ProductId}");
                 }
@@ -257,9 +254,9 @@ internal class BlCart : ICart
                 throw new InvalidValue("amount");
             }
             bool exist = false;
-            foreach (BO.OrderItem i in cart.Items)
+            cart.Items.Select(i =>
             {
-                if (i.ProductId == id)
+                if (i?.ProductId == id)
                 {
                     exist = true;//The product is in the shopping cart
                     if (i.Amount < amount)//Update in case the amount of the product increased
@@ -279,8 +276,6 @@ internal class BlCart : ICart
                         if (amount == 0)
                         {
                             cart.Items.Remove(i);
-                            if (cart.Items.Count == 0)
-                                break;
                         }
                         else
                         {
@@ -289,7 +284,9 @@ internal class BlCart : ICart
                         }
                     }
                 }
-            }
+                return i;
+            }).ToList();
+
             if (exist == false)//The product is not in the shopping cart
             {
                 throw new ItemNotExist();
