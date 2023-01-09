@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using BlApi;
-using BO;
+//using BO;
 
 namespace PL
 {
@@ -13,6 +14,28 @@ namespace PL
     {
         private IBl bl;
         Window mainWindow;
+
+        // <summary>
+        /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+        /// </summary>
+        private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
+        {
+            PO.ProductForList p = new();
+            p.GetType().GetProperties().Select(pPr => { pPr.SetValue(p, bP.GetType().GetProperty(pPr.Name)?.GetValue(bP)); return pPr; }).ToList();
+            return p;
+        }
+
+        // <summary>
+        /// A private help function to convert BO.Product entity to PO.Product entity.
+        /// </summary>
+        private PO.Product convertBoProdToPoProd(BO.Product bP)
+        {
+            PO.Product p = new();
+            p.GetType().GetProperties().Select(pPr => { pPr.SetValue(p, bP.GetType().GetProperty(pPr.Name)?.GetValue(bP)); return pPr; }).ToList();
+            return p;
+        }
+
+
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
@@ -27,13 +50,10 @@ namespace PL
 
                 if (id != null)
                 {
-                    Product p = bl.Product.ReadProdManager((int)id);
+                    BO.Product bP = bl.Product.ReadProdManager((int)id);
+                    PO.Product p = convertBoProdToPoProd(bP);
                     DataContext = p; 
-                    IDLbl.Content = p.Id;
-                    //NameTxtBx.Text = p.Name;
-                    PriceTxtBx.Text = p.Price.ToString();
                     CategorySelector.SelectedItem = p.Category;
-                    InStockTxtBx.Text = p.InStock.ToString();
                     AddProductBtn.Visibility = Visibility.Hidden;
                     TitelEnterDetailsLbl.Content = "Change the product details for updating";
                 }
@@ -48,7 +68,7 @@ namespace PL
             }
             catch (DataError dataError)
             {
-                MessageBox.Show(dataError.Message + " " + dataError.InnerException.Message);
+                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
             }
             catch (Exception exc)
             {
@@ -106,7 +126,7 @@ namespace PL
             }
             catch (DataError dataError)
             {
-                MessageBox.Show(dataError.Message + " " + dataError.InnerException.Message);
+                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
             }
             catch (Exception exc)
             {
@@ -132,7 +152,7 @@ namespace PL
             }
             catch (DataError dataError)
             {
-                MessageBox.Show(dataError.Message + " " + dataError.InnerException.Message);
+                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
             }
             catch (Exception exc)
             {

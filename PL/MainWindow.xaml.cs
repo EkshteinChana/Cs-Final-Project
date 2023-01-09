@@ -21,7 +21,13 @@ namespace PL
         /// </summary>
         private void ShowProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            new ProductListWindow(bl).Show();
+            new ProductListWindow(bl,"admin").Show();
+            this.Hide();
+        }
+
+        private void ShowCustomerWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            new ProductListWindow(bl,"customer").Show();
             this.Hide();
         }
     }
