@@ -1,0 +1,56 @@
+﻿<Window x:Class="PL.Orders.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Orders"
+        mc:Ignorable="d"
+        Title="OrderWindow" Height="450" Width="800">
+    <Grid>
+        <Grid Margin="10,44,10,44" RenderTransformOrigin="0.5,0.5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Name="TitelEnterDetailsLbl" Content="{Binding  Path=Id,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Margin="8,0,0,0" FontWeight="Bold" FontSize="14"/>
+            <Label Grid.Row="1" Name="IdLbl" Content="ID: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Margin="-40,0,0,0" FontWeight="Bold"/>
+            <Label Grid.Row="1" Name="IDLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,0,0,0" FontWeight="Bold"/>
+            <!--  public int Id { get; set; }//orderId
+    public string? CustomerName { get; set; }
+    public string? CustomerEmail { get; set; }
+    public string? CustomerAddress { get; set; }
+    public DateTime? OrderDate { get; set; }
+    public eOrderStatus? status { get; set; }//the status of this order
+    public DateTime? ShipDate { get; set; }
+    public DateTime? DeliveryDate { get; set; }
+    public IEnumerable<BO.OrderItem?> Items { get; set; } //a list of the items in this order 
+    public double TotalPrice { get; set; }//the total price of this order-->
+            <Label Grid.Row="2" Name="CustomNameLbl" Content="Customer name:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="NameTxtBx" Text="{Binding Path=CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="3" Name="CustomEmailLbl" Content="Customer email:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="CustomEmailTxtBx" Text="{Binding Path=CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="4" Name="CustomAddressLbl" Content="Customer address:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="CustomAddressTxtBx" Text="{Binding Path=CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="5" Name="OrderDateLbl" Content="Order date:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="OrderDateTxtBx" Text="{Binding Path=OrderDate,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="6" Name="StatusLbl" Content="Status:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="StatusTxtBx" Text="{Binding Path=Status,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+            <Button Name="UpdateOrderBtn" Content="Update" HorizontalAlignment="Center" Grid.Row="7" Margin="0,0,0,0" Click="UpdateOrdeBtn_Click" Width="50" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        </Grid>
+        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+    </Grid>
+</Window>
+
+
+
+
+
+
+  
