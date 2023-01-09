@@ -90,6 +90,7 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
+                DisplayAllProductsButton_Click();
                 mainWindow.Show();
                 this.Hide();    
             }

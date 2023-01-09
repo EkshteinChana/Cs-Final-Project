@@ -90,7 +90,7 @@ namespace PL
         /// <summary>
         /// A function that show all the product
         /// </summary>
-        private void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
+        public void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
         {
             IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
             IEnumerable<PO.ProductForList?> tmpPrdLst = new List<PO.ProductForList>(bProds.Count());
@@ -103,6 +103,7 @@ namespace PL
             ProductsListview.ItemsSource = PrdLst;
             //ProductsListview.ItemsSource = bl.Product.ReadProdsList();
         }
+        
 
         private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
