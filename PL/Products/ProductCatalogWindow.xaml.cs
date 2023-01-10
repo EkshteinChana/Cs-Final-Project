@@ -45,9 +45,9 @@ public partial class ProductCatalogWindow : Window
     /// </summary>
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        ProductForList p = (ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, p.Id, cart).Show();
-        this.Close();
+        //ProductForList p = (ProductForList)((ListView)sender).SelectedItem;
+        //new ProductItemWindow(bl, p.Id, cart).Show();
+        //this.Close();
     }
     /// <summary>
     /// A function that show all the product

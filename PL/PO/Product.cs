@@ -4,20 +4,21 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
+//using System.Windows;
 
-//using BO;
 ///// <summary>
 ///// Main logical entity of product 
 ///// for product detail screens (for manager) 
 ///// and actions on a product
 ///// </summary>
 //namespace PL.PO;
-//internal class Product : INotifyPropertyChanged
+//internal class Product : DependencyObject
 //{
+
 //    public int Id { get; set; }//product id
 //    public string? Name { get; set; }
 //    public double Price { get; set; }
-//    public eCategory? Category { get; set; }
+//    public BO.eCategory? Category { get; set; }
 //    public int InStock { get; set; }//amount in stock
 
 //    public event PropertyChangedEventHandler? PropertyChanged;

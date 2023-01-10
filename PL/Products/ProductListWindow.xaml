@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800"
         >
@@ -29,13 +28,13 @@
             <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
               BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         </Grid>
-        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData}"  Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
+        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id ,UpdateSourceTrigger=PropertyChanged}" Header="ID" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name ,UpdateSourceTrigger=PropertyChanged}" Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price ,UpdateSourceTrigger=PropertyChanged}" Header="Price" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Category ,UpdateSourceTrigger=PropertyChanged}" Header="Category" />
+                <GridView >
+                    <GridViewColumn DisplayMemberBinding="{Binding Id }" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Price }" Header="Price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Category }" Header="Category" />
                 </GridView>
             </ListView.View>
         </ListView>
