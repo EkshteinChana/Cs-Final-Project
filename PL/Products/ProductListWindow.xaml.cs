@@ -16,7 +16,6 @@ namespace PL;
 public partial class ProductListWindow : Window
 {
     private IBl bl;
-    //ListOfProductForList ProdForLstList = new();
 
     ///// <summary>
     ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.

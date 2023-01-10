@@ -14,7 +14,6 @@ namespace PL
     {
         private IBl bl;
         Window sourcWindow;
-        //ListOfProductForList ProdForLstList = new();
         BO.eCategory? catagory;
         ///// <summary>
         ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
