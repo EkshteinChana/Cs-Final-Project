@@ -1,18 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BlApi;
+using PL.PO;
 
 namespace PL
 {
     /// <summary>
     /// Interaction logic for ProductWindow.xaml
     /// </summary>
-
     public partial class ProductWindow : Window
     {
         private IBl bl;
         Window sourcWindow;
+        ListOfProductForList ProdForLstList = new();
+        BO.eCategory? catagory;
+        ///// <summary>
+        ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+        ///// </summary>
+        private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
+        {
+            PO.ProductForList p = new();
+            p.Name = bP.Name;
+            p.Price = bP.Price;
+            p.Id = bP.Id;
+            p.Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others;
+            return p;
+        }
         //// <summary>
         ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
         ///// </summary>
@@ -41,7 +56,7 @@ namespace PL
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
-        public ProductWindow(IBl Ibl, Window w,int ?id )
+        public ProductWindow(IBl Ibl, Window w, BO.eCategory? ctgry, int ?id )
         {
             try
             {
@@ -49,7 +64,7 @@ namespace PL
                 CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 bl = Ibl;
                 sourcWindow = w;
-
+                catagory = ctgry;
                 if (id != null)
                 {            
                     BO.Product bP =  bl.Product.ReadProdManager((int)id);
@@ -92,16 +107,26 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
-                sourcWindow.Show();
-                this.Close();
-            }
-            
+                ProdForLstList.List.Clear();
+                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
+                bProds.Select(bP =>
+                {
+                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
+                    ProdForLstList.List.Add(p);
+                    return bP;
+                }).ToList();
+            }          
             catch (InvalidValue exc) {
                 MessageBox.Show(exc.Message);
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+            }
+            finally
+            {
+                sourcWindow.Show();
+                this.Close();
             }
         }
 
@@ -120,8 +145,14 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.UpdateProd(prd);
                 MessageBox.Show("The update was successful");
-                sourcWindow.Show();  
-                this.Close();
+                ProdForLstList.List.Clear();
+                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
+                bProds.Select(bP =>
+                {
+                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
+                    ProdForLstList.List.Add(p);
+                    return bP;
+                }).ToList();
             }
             catch (InvalidValue exc)
             {
@@ -135,7 +166,11 @@ namespace PL
             {
                 MessageBox.Show(exc.Message);
             }
-            
+            finally
+            {
+                sourcWindow.Show();
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -148,6 +183,14 @@ namespace PL
                 int id = Convert.ToInt32(IDLbl.Content);
                 bl.Product.DeleteProd(id);
                 MessageBox.Show("The deletion was successful");
+                ProdForLstList.List.Clear();
+                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
+                bProds.Select(bP =>
+                {
+                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
+                    ProdForLstList.List.Add(p);
+                    return bP;
+                }).ToList();
             }
             catch (IllegalAction exc)
             {
@@ -164,9 +207,8 @@ namespace PL
             finally
             {
                 sourcWindow.Show();
-                this.Hide();
-            }
-            
+                this.Close();
+            }            
         }
 
         /// <summary>
@@ -175,7 +217,7 @@ namespace PL
         private void ShowProductListBtn_Click(object sender, RoutedEventArgs e )
         { 
             sourcWindow.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

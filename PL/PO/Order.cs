@@ -27,7 +27,7 @@ internal class Order: DependencyObject
     public static readonly DependencyProperty deliveryDateProperty = DependencyProperty.Register("DeliveryDate", typeof(DateTime), typeof(Order), new UIPropertyMetadata(null));
     public static readonly DependencyProperty totalPriceProperty = DependencyProperty.Register("TotalPrice", typeof(double), typeof(Order), new UIPropertyMetadata(0.0));
     public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(BO.eOrderStatus), typeof(Order), new UIPropertyMetadata(BO.eOrderStatus.confirmed));
-    public static readonly DependencyProperty itemsProperty = DependencyProperty.Register("Items", typeof(ObservableCollection<PO.OrderItem?>), typeof(Order), new UIPropertyMetadata(new ObservableCollection<PO.OrderItem?>());
+    public static readonly DependencyProperty itemsProperty = DependencyProperty.Register("Items", typeof(ObservableCollection<PO.OrderItem?>), typeof(Order), new UIPropertyMetadata(new ObservableCollection<PO.OrderItem?>()));
 
 
     public int Id//orderId

@@ -11,13 +11,13 @@ public interface IProduct
     /// A function to read the list of products
     /// </summary>
     /// <returns>An IEnumerable of ProductForList</returns>
-    public IEnumerable<ProductForList?> ReadProdsList();
+    public IEnumerable<ProductForList?> ReadProdsList(eCategory? ctgry=null);
 
-    /// <summary>
-    /// A function to read a list of products by specific category
-    /// </summary>
-    /// <returns>An IEnumerable of ProductForList</returns>
-    public IEnumerable<ProductForList?> ReadProdsByCategory(eCategory ctgry);
+    ///// <summary>
+    ///// A function to read a list of products by specific category
+    ///// </summary>
+    ///// <returns>An IEnumerable of ProductForList</returns>
+    //public IEnumerable<ProductForList?> ReadProdsByCategory(eCategory? ctgry);
 
     /// <summary>
     /// A function to read details of a product by productId

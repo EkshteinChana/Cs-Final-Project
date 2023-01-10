@@ -173,35 +173,49 @@ internal class BlProduct : BlApi.IProduct
     /// <summary>
     /// A function to read the list of products
     /// </summary>
-    public IEnumerable<BO.ProductForList> ReadProdsList()
+    public IEnumerable<BO.ProductForList> ReadProdsList(BO.eCategory? category=null)
     {
-        IEnumerable<DO.Product> dProds = Dal.product.Read();
-        IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
-        List<BO.ProductForList> bProdsList = bProds.ToList();
+        List<BO.ProductForList> bProdsList = new();
+        List<DO.Product> dProds = new();
+        if (category == null)
+        {
+            dProds = Dal.product.Read().ToList();
+        }
+        else
+        {
+            DO.eCategory ctgry = (DO.eCategory)category;
+            dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
+        }
         dProds.Select(dP => {
             BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
             bProdsList.Add(bP);
-            return dP;
+            return dProds;
         }).ToList();
-
         return bProdsList;
     }
 
-    /// <summary>
-    /// A function to read a list of products by specific category
-    /// </summary>
-    public IEnumerable<BO.ProductForList?> ReadProdsByCategory(BO.eCategory category)
-    {
-        DO.eCategory ctgry = (DO.eCategory)category;
-        IEnumerable<DO.Product> dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry);
-        IEnumerable<BO.ProductForList> bProds = new List<BO.ProductForList>(dProds.Count());
-        List<BO.ProductForList> bProdsList = bProds.ToList();
-        dProds.Select(dP => {
-            BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
-            bProdsList.Add(bP);  
-            return dProds; } ).ToList();
-        return bProdsList;
-    }
+    ///// <summary>
+    ///// A function to read a list of products by specific category
+    ///// </summary>
+    //public IEnumerable<BO.ProductForList?> ReadProdsByCategory(BO.eCategory? category)
+    //{
+    //    List<BO.ProductForList> bProdsList = new();
+    //    List<DO.Product> dProds = new();
+    //    if (category == null)
+    //    {
+    //        dProds = Dal.product.Read().ToList();
+    //    }
+    //    else
+    //    {
+    //        DO.eCategory ctgry = (DO.eCategory)category;
+    //        dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
+    //    }        
+    //    dProds.Select(dP => {
+    //        BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
+    //        bProdsList.Add(bP);  
+    //        return dProds; } ).ToList();
+    //    return bProdsList;
+    //}
 
     /// <summary>
     /// A function that receives product data, checks their integrity

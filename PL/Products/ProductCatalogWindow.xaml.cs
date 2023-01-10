@@ -38,7 +38,7 @@ public partial class ProductCatalogWindow : Window
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         BO.eCategory ctgry = (BO.eCategory)CategorySelector.SelectedItem;
-        ProductsListview.ItemsSource = bl.Product.ReadProdsByCategory(ctgry);
+        //ProductsListview.ItemsSource = bl.Product.ReadProdsList(ctgry);
     }
     /// <summary>
     /// A function that opens the ProductItemWindow for watching a product.
