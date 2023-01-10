@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using BlApi;
-using BO;
 
 namespace PL
 {
@@ -13,46 +12,48 @@ namespace PL
     public partial class ProductWindow : Window
     {
         private IBl bl;
-        //Window mainWindow;
-
+        Window sourcWindow;
         //// <summary>
         ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
         ///// </summary>
         //private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
         //{
         //    PO.ProductForList p = new();
-        //    p.GetType().GetProperties().Select(pPr => { pPr.SetValue(p, bP.GetType().GetProperty(pPr.Name)?.GetValue(bP)); return pPr; }).ToList();
+
         //    return p;
         //}
 
         //// <summary>
         ///// A private help function to convert BO.Product entity to PO.Product entity.
         ///// </summary>
-        //private PO.Product convertBoProdToPoProd(BO.Product bP)
-        //{
-        //    PO.Product p = new();
-        //    p.GetType().GetProperties().Select(pPr => { pPr.SetValue(p, bP.GetType().GetProperty(pPr.Name)?.GetValue(bP)); return pPr; }).ToList();
-        //    return p;
-        //}
+        private PO.Product convertBoProdToPoProd(BO.Product bP)
+        {
+            PO.Product p = new();
+            p.Id = bP.Id;
+            p.Name = bP.Name;
+            p.Price = bP.Price; 
+            p.InStock= bP.InStock;
+            p.Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others;
+            return p;
+        }
 
 
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
-        public ProductWindow(IBl Ibl,int ?id )
+        public ProductWindow(IBl Ibl, Window w,int ?id )
         {
             try
             {
                 InitializeComponent();
                 CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 bl = Ibl;
-                //mainWindow = w;
+                sourcWindow = w;
 
                 if (id != null)
-                {
-                    //BO.Product bP = bl.Product.ReadProdManager((int)id);
-                    //PO.Product p = convertBoProdToPoProd(bP);
-                    Product p = bl.Product.ReadProdManager((int)id);                   
+                {            
+                    BO.Product bP =  bl.Product.ReadProdManager((int)id);
+                    PO.Product p = convertBoProdToPoProd(bP);
                     DataContext = p; 
                     CategorySelector.SelectedItem = p.Category;
                     AddProductBtn.Visibility = Visibility.Hidden;
@@ -80,7 +81,7 @@ namespace PL
         /// <summary>
         /// A function for adding a new product (in the PL layer).
         /// </summary>
-        private void AddProductBtn_Click(object sender, RoutedEventArgs e )
+        private void AddProductBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -91,10 +92,10 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
-                //mainWindow.Show();
-                new ProductListWindow(bl).Show();
-                this.Close();    
+                sourcWindow.Show();
+                this.Close();
             }
+            
             catch (InvalidValue exc) {
                 MessageBox.Show(exc.Message);
             }
@@ -119,8 +120,7 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.UpdateProd(prd);
                 MessageBox.Show("The update was successful");
-                //mainWindow.Show();  
-                new ProductListWindow(bl).Show();
+                sourcWindow.Show();  
                 this.Close();
             }
             catch (InvalidValue exc)
@@ -163,9 +163,8 @@ namespace PL
             }
             finally
             {
-                //mainWindow.Show();
-                new ProductListWindow(bl).Show();
-                this.Close();
+                sourcWindow.Show();
+                this.Hide();
             }
             
         }
@@ -174,10 +173,9 @@ namespace PL
         /// A function that opens the ProductListWindow.
         /// </summary>
         private void ShowProductListBtn_Click(object sender, RoutedEventArgs e )
-        {
-            //mainWindow.Show();
-            new ProductListWindow(bl).Show();
-            this.Close();
+        { 
+            sourcWindow.Show();
+            this.Hide();
         }
     }
 }

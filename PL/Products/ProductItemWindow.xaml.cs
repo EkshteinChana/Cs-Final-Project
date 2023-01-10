@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BlApi;
-using BO;
 namespace PL.Products;
     /// <summary>
     /// Interaction logic for ProductItemWindow.xaml
@@ -20,16 +8,20 @@ namespace PL.Products;
     public partial class ProductItemWindow : Window
     {
         private IBl bl;
+        Window ProductCatalogWindow;
+        PO.ProductItem p = new();
         /// <summary>
         /// Constractor of ProductItemWindow for watching a productItem.
         /// </summary>
-        public ProductItemWindow(BlApi.IBl Ibl, int id, Cart cart)
+        public ProductItemWindow(BlApi.IBl Ibl, int id, BO.Cart cart, Window w)
         {
             try
             {
                 InitializeComponent();
+                ProductCatalogWindow = w;   
                 bl = Ibl;
-                ProductItem p = bl.Product.ReadProdCustomer((int)id, cart);
+                
+                bl.Product.ReadProdCustomer((int)id, cart);
                 DataContext = p;                
             }
             catch (DataError dataError)
@@ -47,7 +39,7 @@ namespace PL.Products;
         /// </summary>
         private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
         {
-            new ProductCatalogWindow(bl).Show();
+            ProductCatalogWindow.Show();
             this.Close();
         }
     }
