@@ -25,7 +25,7 @@
             <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="NameContentLbl" Content="{Binding Path=Name,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="4" Name="PriceLbl" Content="price:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="PriceContentLbl" Content="{Binding Path=Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"  Grid.ColumnSpan="5"/>
+            <Label Name="PriceContentLbl" Content="{Binding Path=Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="6" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="CategoryContentLbl" Content="{Binding Path=Category,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="8" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
