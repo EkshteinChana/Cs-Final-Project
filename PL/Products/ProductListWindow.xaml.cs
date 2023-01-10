@@ -16,7 +16,7 @@ namespace PL;
 public partial class ProductListWindow : Window
 {
     private IBl bl;
-    ListOfProductForList ProdForLstList = new();
+    //ListOfProductForList ProdForLstList = new();
 
     ///// <summary>
     ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -39,6 +39,7 @@ public partial class ProductListWindow : Window
         InitializeComponent();
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
+        ListOfProductForList ProdForLstList = new();
         bProds.Select(bP =>
         {
             PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
@@ -54,6 +55,7 @@ public partial class ProductListWindow : Window
     /// </summary>
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        ListOfProductForList ProdForLstList = new();
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList((BO.eCategory?)CategorySelector.SelectedItem);
         ProdForLstList.List.Clear();
         bProds.Select(bP =>

@@ -14,7 +14,7 @@ namespace PL
     {
         private IBl bl;
         Window sourcWindow;
-        ListOfProductForList ProdForLstList = new();
+        //ListOfProductForList ProdForLstList = new();
         BO.eCategory? catagory;
         ///// <summary>
         ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -100,6 +100,7 @@ namespace PL
         {
             try
             {
+                ListOfProductForList ProdForLstList = new();
                 BO.Product prd = new();
                 prd.Name = NameTxtBx.Text;
                 prd.Price = Convert.ToDouble(PriceTxtBx.Text);
@@ -137,6 +138,7 @@ namespace PL
         {
             try
             {
+                ListOfProductForList ProdForLstList = new();
                 BO.Product prd = new();
                 prd.Id = Convert.ToInt32(IDLbl.Content);
                 prd.Name = NameTxtBx.Text;
@@ -180,6 +182,7 @@ namespace PL
         {
             try
             {
+                ListOfProductForList ProdForLstList = new();
                 int id = Convert.ToInt32(IDLbl.Content);
                 bl.Product.DeleteProd(id);
                 MessageBox.Show("The deletion was successful");
