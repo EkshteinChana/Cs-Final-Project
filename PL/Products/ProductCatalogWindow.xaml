@@ -30,13 +30,13 @@
                     Width="80" Height="30" FontWeight="Bold" FontSize="16"
                     BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="CartBtn_Click" />
         </Grid>
-        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData}"  Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
+        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id ,UpdateSourceTrigger=PropertyChanged}" Header="ID" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name ,UpdateSourceTrigger=PropertyChanged}" Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price ,UpdateSourceTrigger=PropertyChanged}" Header="Price" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Category ,UpdateSourceTrigger=PropertyChanged}" Header="Category" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category" />
                 </GridView>
             </ListView.View>
         </ListView>

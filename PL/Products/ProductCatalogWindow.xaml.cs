@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
-using BO;
+using BlImplementation;
+
 namespace PL.Products;
 /// <summary>
 /// Interaction logic for ProductCatalogWindow.xaml
@@ -20,7 +21,20 @@ namespace PL.Products;
 public partial class ProductCatalogWindow : Window
 {
     private IBl bl;
-    Cart cart;
+    PO.Cart cart =new();
+
+    ///// <summary>
+    ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+    ///// </summary>
+    private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
+    {
+        PO.ProductForList p = new();
+        p.Name = bP.Name;
+        p.Price = bP.Price;
+        p.Id = bP.Id;
+        p.Category = (BO.eCategory)bP.Category;
+        return p;
+    }
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
@@ -28,7 +42,15 @@ public partial class ProductCatalogWindow : Window
     {
         InitializeComponent();
         bl = Ibl;
-        ProductsListview.ItemsSource = bl.Product.ReadProdsList();
+        IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
+        PO.ListOfProductForList ProdForLstList = new();
+        bProds.Select(bP =>
+        {
+            PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
+            ProdForLstList.List?.Add(p);
+            return bP;
+        }).ToList();
+        ProductsListview.DataContext = ProdForLstList.List;
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
     }
 
@@ -37,24 +59,32 @@ public partial class ProductCatalogWindow : Window
     /// </summary>
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        BO.eCategory ctgry = (BO.eCategory)CategorySelector.SelectedItem;
-        //ProductsListview.ItemsSource = bl.Product.ReadProdsList(ctgry);
+        PO.ListOfProductForList ProdForLstList = new();
+        IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList((BO.eCategory?)CategorySelector.SelectedItem);
+        ProdForLstList.List.Clear();
+        bProds.Select(bP =>
+        {
+            PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
+            ProdForLstList.List.Add(p);
+            return bP;
+        }).ToList();
+        ProductsListview.DataContext = ProdForLstList.List;
     }
     /// <summary>
     /// A function that opens the ProductItemWindow for watching a product.
     /// </summary>
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        //ProductForList p = (ProductForList)((ListView)sender).SelectedItem;
-        //new ProductItemWindow(bl, p.Id, cart).Show();
-        //this.Close();
+        PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
+        new ProductItemWindow(bl, p.Id, cart,this,(BO.eCategory?)CategorySelector.SelectedItem).Show();
+        this.Hide();
     }
     /// <summary>
     /// A function that show all the product
     /// </summary>
     public void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
     {
-        ProductsListview.ItemsSource = bl.Product.ReadProdsList();
+        CategorySelector.SelectedItem = null;
     }
 
 
@@ -68,4 +98,9 @@ public partial class ProductCatalogWindow : Window
 
     }
 }
+
+
+
+
+
 
