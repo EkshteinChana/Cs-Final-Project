@@ -29,12 +29,22 @@
             <Label Name="PriceContentLbl" Content="{Binding Path=Price}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="6" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="CategoryContentLbl" Content="{Binding Path=Category}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7"  Grid.ColumnSpan="3"/>
-            <Label Grid.Row="8" Name="AmountLbl" Content="Amount in Cart:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="AmountContentLbl" Content="{Binding Path=Amount}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9"  Grid.ColumnSpan="3"/>
-            <Label Grid.Row="10" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="InStockContentLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="11" Grid.ColumnSpan="3"
+            <Label Grid.Row="8" Name="InStockLbl" Content="in stock:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <Label Name="InStockContentLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.ColumnSpan="3"
                      Content="{Binding Path=InStock}"/>
+            <Label Grid.Row="10" Name="AmountLbl" Content="Amount in Cart:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <Label Name="AmountContentLbl" Content="{Binding Path=Amount}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="11"  Grid.ColumnSpan="3"/>
         </Grid>
         <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <Grid Name="AddProdGrid" VerticalAlignment="Bottom" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="decreaseBy1Btn" Grid.Column="1" Content="-" HorizontalAlignment="Right"  VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Width="36" Margin="0,0,15,0" Click="decreaseBy1Btn_Click"/>
+            <Button Name="increaseBy1Btn" Grid.Column="2" Content="+" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Width="36" Margin="15,0,0,0" Click="increaseBy1Btn_Click"/>
+        </Grid>
     </Grid>
 </Window>

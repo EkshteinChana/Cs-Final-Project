@@ -19,7 +19,7 @@ internal class BlCart : ICart
             int inStock;
             DO.Product dP = dalList.product.Read(id);
 
-            if (cart.Items != null)
+            if (cart.Items.Count !=0)
                 cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
                      .Select(i =>
                      {
@@ -42,13 +42,15 @@ internal class BlCart : ICart
             {
                 throw new OutOfStock(dP.Id, 0);
             }
-            BO.OrderItem oI = new BO.OrderItem();
-            oI.Id = Config.MaxCartOrderItemId;
-            oI.ProductId = dP.Id;
-            oI.Price = dP.Price;
-            oI.Name = dP.Name;
-            oI.Amount = 1;
-            oI.TotalPrice = dP.Price;
+            BO.OrderItem oI = new BO.OrderItem()
+            {
+                Id = Config.MaxCartOrderItemId,
+                ProductId = dP.Id,
+                Price = dP.Price,
+                Name = dP.Name,
+                Amount = 1,
+                TotalPrice = dP.Price
+            };
             if (cart.Items == null)
             {
                 cart.Items = new List<BO.OrderItem?>();
@@ -66,13 +68,15 @@ internal class BlCart : ICart
     public void MakeOrder(BO.Cart cart, string customerName, string customerEmail, string customerAddress)
     {
         checkDataMakeOrder(cart, customerName, customerEmail, customerAddress);
-        DO.Order dOrder = new DO.Order();
-        dOrder.CustomerName = customerName;
-        dOrder.CustomerEmail = customerEmail;
-        dOrder.CustomerAddress = customerAddress;
-        dOrder.OrderDate = DateTime.Now;
-        dOrder.ShipDate = null;
-        dOrder.DeliveryDate = null;
+        DO.Order dOrder = new DO.Order()
+        {
+            CustomerName = customerName,
+            CustomerEmail = customerEmail,
+            CustomerAddress = customerAddress,
+            OrderDate = DateTime.Now,
+            ShipDate = null,
+            DeliveryDate = null
+        };
         bool tryId = true;
         int orderId = 0;
         while (tryId)

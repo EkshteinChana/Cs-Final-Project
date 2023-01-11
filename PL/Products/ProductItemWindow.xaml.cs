@@ -22,7 +22,7 @@ public partial class ProductItemWindow : Window
     Window sourcWindow;
     BO.eCategory? catagory;
     PO.Cart? cart;
-    private ObservableCollection<PO.ProductForList?> currentProductList;
+    PO.ProductItem currentProd;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -40,7 +40,7 @@ public partial class ProductItemWindow : Window
         return p;
     }
     /// <summary>
-    /// A private help function to convert PO.ProductForList entity to BO.ProductForList entity.
+    /// A private help function to convert PO.Cart entity to BO.Cart entity.
     /// </summary>
     private BO.Cart convertPoCartToBoCart(PO.Cart pCrt)
     {
@@ -54,23 +54,58 @@ public partial class ProductItemWindow : Window
         if (pCrt.Items.Count == 0)
             bCrt.Items = new();
         else
-            bCrt.Items = (List<BO.OrderItem?>)from itm in pCrt.Items
-                                              select new BO.OrderItem
-                                              {
-                                                  Id = itm.Id,
-                                                  ProductId = itm.ProductId,
-                                                  Name = itm.Name,
-                                                  Price = itm.Price,
-                                                  Amount = itm.Amount,
-                                                  TotalPrice = itm.TotalPrice,
-                                              };
+            pCrt.Items.Select(itm =>
+            {
+                BO.OrderItem oI = new()
+                {
+                    Id = itm.Id,
+                    ProductId = itm.ProductId,
+                    Name = itm.Name,
+                    Price = itm.Price,
+                    Amount = itm.Amount,
+                    TotalPrice = itm.TotalPrice,
+                };
+                //bCrt.Items.Add(oI);
+                return itm;
+            }).ToList();
         return bCrt;
+    }
+    /// <summary>
+    /// A private help function to convert BO.Cart entity to PO.Cart entity.
+    /// </summary>
+    private PO.Cart convertBoCartToPoCart(BO.Cart bCrt)
+    {
+        PO.Cart pCrt = new()
+        {
+            CustomerName = bCrt.CustomerName,
+            CustomerEmail = bCrt.CustomerEmail,
+            CustomerAddress = bCrt.CustomerAddress,
+            TotalPrice = bCrt.TotalPrice
+        };
+        if (bCrt.Items.Count == 0)
+            pCrt.Items = new();
+        else
+            bCrt.Items.Select(itm =>
+            {
+                PO.OrderItem oI = new()
+                {
+                    Id = itm.Id,
+                    ProductId = itm.ProductId,
+                    Name = itm.Name,
+                    Price = itm.Price,
+                    Amount = itm.Amount,
+                    TotalPrice = itm.TotalPrice,
+                };
+                pCrt.Items.Add(oI);
+                return itm;
+            }).ToList();
+        return pCrt;
     }
 
     /// <summary>
     /// Constractor of ProductItemWindow for watching a productItem.
     /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart? crt, ObservableCollection<PO.ProductForList?> cl)
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart? crt)
     {
         try
         {
@@ -79,11 +114,10 @@ public partial class ProductItemWindow : Window
             sourcWindow = w;
             catagory = ctgry;
             cart = crt;
-            currentProductList = cl;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)id, bCrt);
-            PO.ProductItem p = convertBoProdItmToPoProdItm(bP);
-            DataContext = p;
+            currentProd = convertBoProdItmToPoProdItm(bP);
+            DataContext = currentProd;
         }
         catch (DataError dataError)
         {
@@ -103,4 +137,72 @@ public partial class ProductItemWindow : Window
         sourcWindow.Show();
         this.Close();
     }
+    /// <summary>
+    /// A function to decrease the amount of a product in the cart by 1.
+    /// </summary>
+    private void decreaseBy1Btn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
+            int amount = Convert.ToInt32(AmountContentLbl.Content);
+            bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
+            cart = convertBoCartToPoCart(bCrt);
+            sourcWindow.Show();
+            this.Close();
+        }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (ItemNotExist exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+        }
+        catch (Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+    }
+    /// <summary>
+    /// A function to increase the amount of a product in the cart by 1.
+    /// </summary>
+    private void increaseBy1Btn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
+            bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
+            cart = convertBoCartToPoCart(bCrt);
+            sourcWindow.Show();
+            this.Close();
+        }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (OutOfStock exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+        }
+        catch (Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+    }
+    ///// <summary>
+    ///// A function to update the amount of a product in the cart.
+    ///// </summary>
+    //private void updateAmntInCrt(int num)
+    //{
+
+    //}
 }

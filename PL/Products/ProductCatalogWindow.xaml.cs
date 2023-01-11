@@ -79,7 +79,7 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart,   currentProductList).Show();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart).Show();
         this.Hide();
     }
     /// <summary>
