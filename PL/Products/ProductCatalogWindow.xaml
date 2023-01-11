@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ProductCatalogWindow" Height="450" Width="800">
     <Grid Name="MainGrid">
-        <!--<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
             <RowDefinition Name="try" Height="452*"/>
         </Grid.RowDefinitions>
@@ -39,6 +39,6 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category" />
                 </GridView>
             </ListView.View>
-        </ListView>-->
+        </ListView>
     </Grid>
 </Window>

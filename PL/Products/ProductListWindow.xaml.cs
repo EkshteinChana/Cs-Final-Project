@@ -17,13 +17,10 @@ namespace PL;
 public partial class ProductListWindow : Window
 {
     private IBl bl;
-    private ObservableCollection<PO.ProductForList?> currentProductList//the list of the products 
-    {
-        get;set;
-    }
-    ///// <summary>
-    ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
-    ///// </summary>
+    private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products 
+    /// <summary>
+    /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+    /// </summary>
     private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
     {
         PO.ProductForList p = new()
@@ -75,7 +72,7 @@ public partial class ProductListWindow : Window
     /// </summary>
     private void AddProductButton_Click(object sender, RoutedEventArgs e)
     {
-        new ProductWindow(bl,this, (BO.eCategory?)CategorySelector.SelectedItem,null , currentProductList).Show();
+        new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, null, currentProductList).Show();
         this.Hide();
     }
     /// <summary>
@@ -83,8 +80,8 @@ public partial class ProductListWindow : Window
     /// </summary>
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        PO. ProductForList p = (PO. ProductForList)((ListView)sender).SelectedItem;
-        new ProductWindow(bl,this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id , currentProductList).Show();
+        PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
+        new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, currentProductList).Show();
         this.Hide();
     }
     /// <summary>
@@ -94,7 +91,7 @@ public partial class ProductListWindow : Window
     {
         CategorySelector.SelectedItem = null;
     }
-    
+
     private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
