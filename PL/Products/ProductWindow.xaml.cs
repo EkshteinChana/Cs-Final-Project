@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using BlApi;
 using PL.PO;
 
@@ -15,6 +17,8 @@ namespace PL
         private IBl bl;
         Window sourcWindow;
         BO.eCategory? catagory;
+        private ObservableCollection<PO.ProductForList?> currentProductList;
+        public int MyProperty { get; set; }
         ///// <summary>
         ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
         ///// </summary>
@@ -55,7 +59,7 @@ namespace PL
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
-        public ProductWindow(IBl Ibl, Window w, BO.eCategory? ctgry, int ?id )
+        public ProductWindow(IBl Ibl, Window w, BO.eCategory? ctgry, int ?id , ObservableCollection<PO.ProductForList?> cl)
         {
             try
             {
@@ -64,6 +68,7 @@ namespace PL
                 bl = Ibl;
                 sourcWindow = w;
                 catagory = ctgry;
+                currentProductList= cl;
                 if (id != null)
                 {            
                     BO.Product bP =  bl.Product.ReadProdManager((int)id);
@@ -99,20 +104,20 @@ namespace PL
         {
             try
             {
-                ListOfProductForList ProdForLstList = new();
-                BO.Product prd = new();
+                //ListOfProductForList ProdForLstList = new();
+                BO.Product prd = new();//*******
                 prd.Name = NameTxtBx.Text;
                 prd.Price = Convert.ToDouble(PriceTxtBx.Text);
                 prd.Category = (BO.eCategory)CategorySelector.SelectedItem;
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
-                ProdForLstList.List.Clear();
+                currentProductList.Clear();
                 IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
                 bProds.Select(bP =>
                 {
                     PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    ProdForLstList.List.Add(p);
+                    currentProductList.Add(p);
                     return bP;
                 }).ToList();
             }          
@@ -137,7 +142,7 @@ namespace PL
         {
             try
             {
-                ListOfProductForList ProdForLstList = new();
+                //ListOfProductForList ProdForLstList = new();
                 BO.Product prd = new();
                 prd.Id = Convert.ToInt32(IDLbl.Content);
                 prd.Name = NameTxtBx.Text;
@@ -146,12 +151,12 @@ namespace PL
                 prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
                 bl.Product.UpdateProd(prd);
                 MessageBox.Show("The update was successful");
-                ProdForLstList.List.Clear();
+                currentProductList.Clear();
                 IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
                 bProds.Select(bP =>
                 {
                     PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    ProdForLstList.List.Add(p);
+                    currentProductList.Add(p);
                     return bP;
                 }).ToList();
             }
@@ -181,16 +186,18 @@ namespace PL
         {
             try
             {
-                ListOfProductForList ProdForLstList = new();
+                //ListOfProductForList ProdForLstList = new();
                 int id = Convert.ToInt32(IDLbl.Content);
                 bl.Product.DeleteProd(id);
                 MessageBox.Show("The deletion was successful");
-                ProdForLstList.List.Clear();
+                //ProdForLstList.List.Clear();
+                currentProductList.Clear();
                 IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
                 bProds.Select(bP =>
                 {
                     PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    ProdForLstList.List.Add(p);
+                    //ProdForLstList.List.Add(p);
+                    currentProductList.Add(p);
                     return bP;
                 }).ToList();
             }

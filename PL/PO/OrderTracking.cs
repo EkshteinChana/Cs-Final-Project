@@ -10,7 +10,7 @@ namespace PL.PO;
 /// <summary>
 /// PO Order Tracking entity for the Order Tracking screen
 /// </summary>
-internal class OrderTracking: DependencyObject
+public class OrderTracking: DependencyObject
 {
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(OrderTracking), new UIPropertyMetadata(0));
     public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(BO.eOrderStatus), typeof(OrderTracking), new UIPropertyMetadata(BO.eOrderStatus.confirmed));

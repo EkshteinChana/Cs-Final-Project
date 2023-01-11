@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="ProductItemWindow" Height="450" Width="800">
     <Grid>
-        <Grid Margin="10,44,10,44">
+        <!--<Grid Margin="10,44,10,44">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -35,6 +35,6 @@
             <Label Name="InStockContentLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="11" Grid.ColumnSpan="3"
                      Content="{Binding Path=InStock}"/>
         </Grid>
-        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>-->
     </Grid>
 </Window>

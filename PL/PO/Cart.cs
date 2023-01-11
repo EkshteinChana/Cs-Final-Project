@@ -11,7 +11,7 @@ namespace PL.PO;
 /// A PO entity of shopping cart
 /// for the shopping cart management screen and order confirmation
 /// </summary>
-internal class Cart: DependencyObject
+public class Cart: DependencyObject
 {
     public static readonly DependencyProperty customerNameProperty = DependencyProperty.Register("CustomerName", typeof(string), typeof(Cart), new UIPropertyMetadata(""));
     public static readonly DependencyProperty customerEmailProperty = DependencyProperty.Register("CustomerEmail", typeof(string), typeof(Cart), new UIPropertyMetadata(""));

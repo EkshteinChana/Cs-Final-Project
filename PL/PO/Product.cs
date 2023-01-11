@@ -14,7 +14,7 @@ namespace PL.PO;
 /// for product detail screens (for manager) 
 /// and actions on a product
 /// </summary>
-internal class Product : DependencyObject
+public class Product : DependencyObject
 {
 
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(Product), new UIPropertyMetadata(0));

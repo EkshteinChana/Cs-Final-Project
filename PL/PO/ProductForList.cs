@@ -6,7 +6,7 @@ namespace PL.PO
     /// An entity of product in list
     /// for product list screen and catalog screen of a manager
     /// </summary>
-    internal class ProductForList : DependencyObject
+    public class ProductForList : DependencyObject
     {
         public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(ProductForList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty nameProperty = DependencyProperty.Register("Name", typeof(string), typeof(ProductForList) , new UIPropertyMetadata(""));

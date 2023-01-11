@@ -14,7 +14,7 @@ namespace PL.PO;
 /// <summary>
 /// A PO product item entity for the catalog screen of the customer
 /// </summary>
-internal class ProductItem: DependencyObject
+public class ProductItem: DependencyObject
 {
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(ProductItem), new UIPropertyMetadata(0));
     public static readonly DependencyProperty nameProperty = DependencyProperty.Register("Name", typeof(string), typeof(ProductItem), new UIPropertyMetadata(""));

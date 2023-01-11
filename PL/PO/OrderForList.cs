@@ -13,7 +13,7 @@ namespace PL.PO;
 /// An entity of order in list 
 /// for the order list screen
 /// </summary>
-internal class OrderForList : DependencyObject
+public class OrderForList : DependencyObject
 {
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(OrderForList), new UIPropertyMetadata(0));
     public static readonly DependencyProperty customerNameProperty = DependencyProperty.Register("CustomerName", typeof(string), typeof(OrderForList), new UIPropertyMetadata(""));

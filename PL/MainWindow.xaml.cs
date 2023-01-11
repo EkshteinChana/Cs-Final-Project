@@ -31,7 +31,7 @@ namespace PL
         /// </summary>
         private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
         {
-            new ProductCatalogWindow(bl).Show();
+            //new ProductCatalogWindow(bl).Show();
             this.Close();
         }
     }

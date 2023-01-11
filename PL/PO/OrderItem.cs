@@ -14,7 +14,7 @@ namespace PL.PO;
 /// (represents a row in the order) 
 /// for a list of items in the shopping cart screen and in the order details screen
 /// </summary>
-internal class OrderItem: DependencyObject
+public class OrderItem: DependencyObject
 {
 
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(OrderItem), new UIPropertyMetadata(0));

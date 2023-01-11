@@ -16,7 +16,7 @@ namespace PL.PO;
 /// PO entity of order 
 /// for order detail screens and actions on a order
 /// </summary>
-internal class Order: DependencyObject
+public class Order: DependencyObject
 {
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(Order), new UIPropertyMetadata(0));
     public static readonly DependencyProperty customerNameProperty = DependencyProperty.Register("CustomerName", typeof(string), typeof(Order), new UIPropertyMetadata(""));
