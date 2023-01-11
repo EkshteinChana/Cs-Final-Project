@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Name="ShowProductsButton" Content="Admin" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ShowProductsButton_Click" Height="80" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <Button Name="ShowProductsButton" Content="Admin" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AdminEnter_Click" Height="80" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         <Button Name="NewOrderBtn" Content="New Order" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="80" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="NewOrderBtn_Click"/>
     </Grid>
 </Window>
