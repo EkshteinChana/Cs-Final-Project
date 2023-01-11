@@ -19,39 +19,48 @@ namespace PL
         BO.eCategory? catagory;
         private ObservableCollection<PO.ProductForList?> currentProductList;
         public int MyProperty { get; set; }
-        ///// <summary>
-        ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
-        ///// </summary>
-        private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
+        /// <summary>
+        /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+        /// </summary>
+        private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
         {
-            PO.ProductForList p = new();
-            p.Name = bP.Name;
-            p.Price = bP.Price;
-            p.Id = bP.Id;
-            p.Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others;
+            PO.ProductForList p = new()
+            {
+                Name = bP.Name,
+                Price = bP.Price,
+                Id = bP.Id,
+                Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+            };
             return p;
         }
-        //// <summary>
-        ///// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
-        ///// </summary>
-        //private PO.ProductForList convertBoProdForLstToPoProdForLst(BO.ProductForList bP)
-        //{
-        //    PO.ProductForList p = new();
-
-        //    return p;
-        //}
+        /// <summary>
+        /// A private help function for updating the currentProductList.
+        /// </summary>
+        private void UpdateCrrntPrdLst()
+        {
+            currentProductList.Clear();
+            IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
+            bProds.Select(bP =>
+            {
+                PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
+                currentProductList.Add(p);
+                return bP;
+            }).ToList();
+        }
 
         //// <summary>
         ///// A private help function to convert BO.Product entity to PO.Product entity.
         ///// </summary>
         private PO.Product convertBoProdToPoProd(BO.Product bP)
         {
-            PO.Product p = new();
-            p.Id = bP.Id;
-            p.Name = bP.Name;
-            p.Price = bP.Price; 
-            p.InStock= bP.InStock;
-            p.Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others;
+            PO.Product p = new()
+            {
+                Id = bP.Id,
+                Name = bP.Name,
+                Price = bP.Price,
+                InStock = bP.InStock,
+                Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+            };
             return p;
         }
 
@@ -59,7 +68,7 @@ namespace PL
         /// <summary>
         /// Constractor of ProductWindow for add, delete or update an a product.
         /// </summary>
-        public ProductWindow(IBl Ibl, Window w, BO.eCategory? ctgry, int ?id , ObservableCollection<PO.ProductForList?> cl)
+        public ProductWindow(IBl Ibl, Window w, BO.eCategory? ctgry, int? id, ObservableCollection<PO.ProductForList?> cl)
         {
             try
             {
@@ -68,12 +77,12 @@ namespace PL
                 bl = Ibl;
                 sourcWindow = w;
                 catagory = ctgry;
-                currentProductList= cl;
+                currentProductList = cl;
                 if (id != null)
-                {            
-                    BO.Product bP =  bl.Product.ReadProdManager((int)id);
+                {
+                    BO.Product bP = bl.Product.ReadProdManager((int)id);
                     PO.Product p = convertBoProdToPoProd(bP);
-                    DataContext = p; 
+                    DataContext = p;
                     CategorySelector.SelectedItem = p.Category;
                     AddProductBtn.Visibility = Visibility.Hidden;
                     TitelEnterDetailsLbl.Content = "Change the product details for updating";
@@ -104,61 +113,49 @@ namespace PL
         {
             try
             {
-                //ListOfProductForList ProdForLstList = new();
-                BO.Product prd = new();//*******
-                prd.Name = NameTxtBx.Text;
-                prd.Price = Convert.ToDouble(PriceTxtBx.Text);
-                prd.Category = (BO.eCategory)CategorySelector.SelectedItem;
-                prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
+                BO.Product prd = new()
+                {
+                    Name = NameTxtBx.Text,
+                    Price = Convert.ToDouble(PriceTxtBx.Text),
+                    InStock = Convert.ToInt32(InStockTxtBx.Text),
+                    Category = (BO.eCategory)CategorySelector.SelectedItem
+                };
                 bl.Product.CreateProd(prd);
                 MessageBox.Show("The addition was made successfully");
-                currentProductList.Clear();
-                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
-                bProds.Select(bP =>
-                {
-                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    currentProductList.Add(p);
-                    return bP;
-                }).ToList();
-            }          
-            catch (InvalidValue exc) {
+                UpdateCrrntPrdLst();
+                sourcWindow.Show();
+                this.Close();
+            }
+            catch (InvalidValue exc)
+            {
                 MessageBox.Show(exc.Message);
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
             }
-            finally
-            {
-                sourcWindow.Show();
-                this.Close();
-            }
         }
 
         /// <summary>
         /// A function for updating a product (in the PL layer).
         /// </summary>
-        private void UpdateProductBtn_Click(object sender, RoutedEventArgs e )
+        private void UpdateProductBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                //ListOfProductForList ProdForLstList = new();
-                BO.Product prd = new();
-                prd.Id = Convert.ToInt32(IDLbl.Content);
-                prd.Name = NameTxtBx.Text;
-                prd.Price = Convert.ToDouble(PriceTxtBx.Text);
-                prd.Category = (BO.eCategory)CategorySelector.SelectedItem;
-                prd.InStock = Convert.ToInt32(InStockTxtBx.Text);
+                BO.Product prd = new()
+                {
+                    Id = Convert.ToInt32(IDLbl.Content),
+                    Name = NameTxtBx.Text,
+                    Price = Convert.ToDouble(PriceTxtBx.Text),
+                    InStock = Convert.ToInt32(InStockTxtBx.Text),
+                    Category = (BO.eCategory)CategorySelector.SelectedItem
+                };
                 bl.Product.UpdateProd(prd);
                 MessageBox.Show("The update was successful");
-                currentProductList.Clear();
-                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
-                bProds.Select(bP =>
-                {
-                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    currentProductList.Add(p);
-                    return bP;
-                }).ToList();
+                UpdateCrrntPrdLst();
+                sourcWindow.Show();
+                this.Close();
             }
             catch (InvalidValue exc)
             {
@@ -172,11 +169,6 @@ namespace PL
             {
                 MessageBox.Show(exc.Message);
             }
-            finally
-            {
-                sourcWindow.Show();
-                this.Close();
-            }
         }
 
         /// <summary>
@@ -186,20 +178,12 @@ namespace PL
         {
             try
             {
-                //ListOfProductForList ProdForLstList = new();
                 int id = Convert.ToInt32(IDLbl.Content);
                 bl.Product.DeleteProd(id);
                 MessageBox.Show("The deletion was successful");
-                //ProdForLstList.List.Clear();
-                currentProductList.Clear();
-                IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList(catagory);
-                bProds.Select(bP =>
-                {
-                    PO.ProductForList p = convertBoProdForLstToPoProdForLst(bP);
-                    //ProdForLstList.List.Add(p);
-                    currentProductList.Add(p);
-                    return bP;
-                }).ToList();
+                UpdateCrrntPrdLst();
+                sourcWindow.Show();
+                this.Close();
             }
             catch (IllegalAction exc)
             {
@@ -213,18 +197,13 @@ namespace PL
             {
                 MessageBox.Show(exc.Message);
             }
-            finally
-            {
-                sourcWindow.Show();
-                this.Close();
-            }            
         }
 
         /// <summary>
         /// A function that opens the ProductListWindow.
         /// </summary>
-        private void ShowProductListBtn_Click(object sender, RoutedEventArgs e )
-        { 
+        private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
+        {
             sourcWindow.Show();
             this.Close();
         }

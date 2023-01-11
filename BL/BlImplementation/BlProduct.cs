@@ -186,7 +186,7 @@ internal class BlProduct : BlApi.IProduct
             DO.eCategory ctgry = (DO.eCategory)category;
             dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
         }
-        dProds.Select(dP => {
+        dProds.OrderBy(dP => dP.Name).Select(dP => {
             BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
             bProdsList.Add(bP);
             return dProds;
