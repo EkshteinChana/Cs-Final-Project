@@ -26,13 +26,23 @@ public partial class MainWindow : Window
         Close();
     }
 
+
+    /// <summary>
+    /// A function that opens the ProductCatalogWindow.
+    /// </summary>
+    private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
+    {
+        //new ProductCatalogWindow(bl).Show();
+        Close();
+
         /// <summary>
         /// A function that opens the ProductCatalogWindow.
         /// </summary>
-        private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
-        {
-            new ProductCatalogWindow(bl).Show();
-            this.Close();
-        }
+        //private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    new ProductCatalogWindow(bl).Show();
+        //    Close();
+        //}
+
     }
 }
