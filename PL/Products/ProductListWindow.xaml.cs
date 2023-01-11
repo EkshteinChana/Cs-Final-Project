@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BlApi;
-using PL.PO;
+
 
 namespace PL;
 
@@ -17,7 +17,7 @@ public partial class ProductListWindow : Window
 {
     private IBl bl;
     //public static readonly DependencyProperty listProperty = DependencyProperty.Register("List", typeof(ObservableCollection<PO.ProductForList?>), typeof(ProductListWindow), new UIPropertyMetadata(new ObservableCollection<PO.ProductForList?>()));
-    private ObservableCollection<PO.ProductForList?> currentProductList//the list of the products 
+    private ObservableCollection<PO.ProductForList?> currentProductList//the list of the products in PL 
     {
         get;set;
         //get { return (ObservableCollection<PO.ProductForList?>)GetValue(listProperty); }
