@@ -69,6 +69,11 @@ public partial class OrderListWindow : Window
         new OrderWindow(bl, this, O.Id, currentOrderList).Show();
         Hide();
     }
+
+    private void OrdersListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
 }
 
 

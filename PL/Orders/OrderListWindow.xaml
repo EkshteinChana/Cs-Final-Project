@@ -26,7 +26,7 @@
             <Button Name="DisplayAllOrdersButton" Content="Show all orders" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllOrdersBtn_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
               BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         </Grid>
-        <ListView x:Name="OrdersListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}"  MouseDoubleClick="OrdersListview_MouseDoubleClick" Margin="50,31,50,52" Grid.Row="1" FontSize="20">
+        <ListView x:Name="OrdersListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}"  MouseDoubleClick="OrdersListview_MouseDoubleClick" Margin="50,31,50,52" Grid.Row="1" FontSize="20" SelectionChanged="OrdersListview_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID" />
