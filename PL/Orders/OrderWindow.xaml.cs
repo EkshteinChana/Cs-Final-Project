@@ -32,18 +32,6 @@ public partial class OrderWindow : Window
         if (bo.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
         else if (bo.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
         else { po.status = PO.eOrderStatus.Sent; }
-        //var q =
-        //    from oi in bo.Items
-        //    select new PO.OrderItem()
-        //    {
-        //        Id = oi.Id,
-        //        ProductId = oi.ProductId,
-        //        Name = oi.Name,
-        //        Price = oi.Price,
-        //        Amount = oi.Amount,
-        //        TotalPrice = oi.TotalPrice
-        //    };
-        //po.Items = (ObservableCollection<PO.OrderItem?>)q;
         bo.Items.Select(boi =>
         {
             PO.OrderItem poi = new() 
@@ -87,7 +75,8 @@ public partial class OrderWindow : Window
             {
                 BO.Order bo = bl.Order.ReadOrd(id);
                 PO.Order o = convertBoOrdToPoOrd(bo);
-                DataContext = o;
+                orderDetails.DataContext = o;
+                ItemsList.DataContext = o.Items;
                 //DataContext = p;
                 //CategorySelector.SelectedItem = p.Category;
                 //AddProductBtn.Visibility = Visibility.Hidden;
