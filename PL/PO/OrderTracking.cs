@@ -23,7 +23,7 @@ public class OrderTracking: DependencyObject
     }
     public eOrderStatus? status
     {
-        get { return (BO.eOrderStatus)GetValue(statusProperty); }
+        get { return (PO.eOrderStatus)GetValue(statusProperty); }
         set { SetValue(statusProperty, value); }
     }
     public Dictionary<DateTime, eOrderStatus?> OrderStatusByDate//List of pairs (date, description of order progress )

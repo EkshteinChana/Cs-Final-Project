@@ -67,7 +67,7 @@ public class Order: DependencyObject
     }
     public eOrderStatus? status//the status of this order
     {
-        get { return (BO.eOrderStatus)GetValue(statusProperty); }
+        get { return (PO.eOrderStatus)GetValue(statusProperty); }
         set { SetValue(statusProperty, value); }
     }
     public double TotalPrice//the total price of this order

@@ -31,7 +31,7 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID" />
                     <GridViewColumn DisplayMemberBinding="{Binding CustomerName}" Header="Customer name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Status }" Header="Status" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Converter={StaticResource DefaultEnumConverter},ConverterParameter=Status}" Header="Status" />
                     <GridViewColumn DisplayMemberBinding="{Binding AmountOfItems}" Header="Amount of items" />
                     <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total price" />
                 </GridView>

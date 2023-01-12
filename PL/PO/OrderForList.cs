@@ -17,7 +17,7 @@ public class OrderForList : DependencyObject
 {
     public static readonly DependencyProperty idProperty = DependencyProperty.Register("Id", typeof(int), typeof(OrderForList), new UIPropertyMetadata(0));
     public static readonly DependencyProperty customerNameProperty = DependencyProperty.Register("CustomerName", typeof(string), typeof(OrderForList), new UIPropertyMetadata(""));
-    public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(BO.eOrderStatus), typeof(OrderForList), new UIPropertyMetadata(BO.eOrderStatus.confirmed));
+    public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(PO.eOrderStatus), typeof(OrderForList), new UIPropertyMetadata(PO.eOrderStatus.confirmed));
     public static readonly DependencyProperty amountOfItemsProperty = DependencyProperty.Register("AmountOfItems", typeof(int), typeof(OrderForList), new UIPropertyMetadata(0));
     public static readonly DependencyProperty totalPriceProperty = DependencyProperty.Register("TotalPrice", typeof(double), typeof(OrderForList), new UIPropertyMetadata(0.0));
 
@@ -32,9 +32,9 @@ public class OrderForList : DependencyObject
         get { return (string)GetValue(customerNameProperty); }
         set { SetValue(customerNameProperty, value); }
     }
-    public eOrderStatus? status//the status of the order
+    public eOrderStatus status//the status of the order
     {
-        get { return (BO.eOrderStatus)GetValue(statusProperty); }
+        get { return (PO.eOrderStatus)GetValue(statusProperty); }
         set { SetValue(statusProperty, value); }
     }
     public int AmountOfItems
