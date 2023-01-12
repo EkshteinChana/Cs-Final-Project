@@ -26,7 +26,7 @@ public class Order: DependencyObject
     public static readonly DependencyProperty shipDateProperty = DependencyProperty.Register("ShipDate", typeof(DateTime), typeof(Order), new UIPropertyMetadata(null));
     public static readonly DependencyProperty deliveryDateProperty = DependencyProperty.Register("DeliveryDate", typeof(DateTime), typeof(Order), new UIPropertyMetadata(null));
     public static readonly DependencyProperty totalPriceProperty = DependencyProperty.Register("TotalPrice", typeof(double), typeof(Order), new UIPropertyMetadata(0.0));
-    public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(BO.eOrderStatus), typeof(Order), new UIPropertyMetadata(BO.eOrderStatus.confirmed));
+    public static readonly DependencyProperty statusProperty = DependencyProperty.Register("status", typeof(PO.eOrderStatus), typeof(Order), new UIPropertyMetadata(PO.eOrderStatus.confirmed));
     public static readonly DependencyProperty itemsProperty = DependencyProperty.Register("Items", typeof(ObservableCollection<PO.OrderItem?>), typeof(Order), new UIPropertyMetadata(new ObservableCollection<PO.OrderItem?>()));
 
 
@@ -65,7 +65,7 @@ public class Order: DependencyObject
         get { return (DateTime)GetValue(deliveryDateProperty); }
         set { SetValue(deliveryDateProperty, value); }
     }
-    public eOrderStatus? status//the status of this order
+    public PO.eOrderStatus? status//the status of this order
     {
         get { return (PO.eOrderStatus)GetValue(statusProperty); }
         set { SetValue(statusProperty, value); }

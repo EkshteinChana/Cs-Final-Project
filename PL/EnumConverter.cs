@@ -14,7 +14,7 @@ public class EnumConverter : IValueConverter
         string EnumString;
         try
         {
-            EnumString = PO.eOrderStatus.GetName((value.GetType()), (PL.PO.OrderForList) value ) ?? throw new Exception();
+            EnumString = PO.eOrderStatus.GetName((((value as PL.PO.OrderForList).status).GetType()),(value as PL.PO.OrderForList)?.status ?? throw new Exception());
             return EnumString;
         }
         catch

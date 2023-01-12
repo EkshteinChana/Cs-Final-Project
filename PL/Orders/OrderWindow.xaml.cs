@@ -1,5 +1,7 @@
 ﻿using BlApi;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,7 +13,7 @@ namespace PL.Orders;
 /// </summary>
 public partial class OrderWindow : Window
 {
-    IBl bl;
+    IBl? bl;
     ObservableCollection<PO.OrderForList?> currentOrderList;
     Window sourcWindow;
 
@@ -27,7 +29,49 @@ public partial class OrderWindow : Window
             ShipDate = bo.ShipDate,
             TotalPrice = bo.TotalPrice
         };
-        //if(bo.status == )
+        if (bo.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
+        else if (bo.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
+        else { po.status = PO.eOrderStatus.Sent; }
+        //var q =
+        //    from oi in bo.Items
+        //    select new PO.OrderItem()
+        //    {
+        //        Id = oi.Id,
+        //        ProductId = oi.ProductId,
+        //        Name = oi.Name,
+        //        Price = oi.Price,
+        //        Amount = oi.Amount,
+        //        TotalPrice = oi.TotalPrice
+        //    };
+        //po.Items = (ObservableCollection<PO.OrderItem?>)q;
+        bo.Items.Select(boi =>
+        {
+            PO.OrderItem poi = new() 
+            {
+                Id = boi.Id,
+                ProductId = boi.ProductId,
+                Name = boi.Name,
+                Price = boi.Price,
+                Amount = boi.Amount,
+                TotalPrice = boi.TotalPrice
+            };
+            po.Items.Add(poi);
+            return boi;
+        }).ToList();
+
+        //IEnumerator enumerator = bo.Items.GetEnumerator();
+        //while (enumerator.MoveNext())
+        //{
+        //    var tmp = enumerator.Current;
+        //    PO.OrderItem oi = new();
+        //    oi.Id = (int)tmp.GetType().GetProperty("Id")?.GetValue(enumerator.Current);
+        //    oi.ProductId = tmp.GetType().GetProperty("ProductId")?.GetValue(enumerator.Current);
+        //    oi.Name = tmp.Name;
+        //    oi.Price = oi.Price;
+        //    oi.Amount = oi.Amount;
+        //    oi.TotalPrice = oi.TotalPrice;
+        //    po.Items.Add(oi);
+        //}
         //Items
         return po;
     }
@@ -37,12 +81,13 @@ public partial class OrderWindow : Window
         {
             InitializeComponent();
             bl = Ibl;
-            currentOrderList = cl;
+            currentOrderList = cl ;
             sourcWindow = w;
-            if (id != null)
+            if (id > -1)
             {
-                //BO.Product bP = bl.Product.ReadProdManager((int)id);
-                PO.Order o = convertBoOrdToPoOrd(bl.Order.ReadOrd(id));
+                BO.Order bo = bl.Order.ReadOrd(id);
+                PO.Order o = convertBoOrdToPoOrd(bo);
+                DataContext = o;
                 //DataContext = p;
                 //CategorySelector.SelectedItem = p.Category;
                 //AddProductBtn.Visibility = Visibility.Hidden;
@@ -50,7 +95,7 @@ public partial class OrderWindow : Window
 
             }
         }
-        catch {
+        catch (Exception e){
 
         }
     }
