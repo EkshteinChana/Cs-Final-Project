@@ -23,7 +23,7 @@ public partial class ProductCatalogWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
-    PO.Cart cart = new();
+    PO.Cart cart;
 
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -44,6 +44,7 @@ public partial class ProductCatalogWindow : Window
     /// </summary>
     public ProductCatalogWindow(IBl Ibl)
     {
+        cart= new PO.Cart();
         InitializeComponent();
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
@@ -79,7 +80,7 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart).Show();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, ref cart).Show();
         this.Hide();
     }
     /// <summary>

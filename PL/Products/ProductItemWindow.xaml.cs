@@ -51,9 +51,8 @@ public partial class ProductItemWindow : Window
             CustomerAddress = pCrt.CustomerAddress,
             TotalPrice = pCrt.TotalPrice
         };
-        if (pCrt.Items.Count == 0)
-            bCrt.Items = new();
-        else
+        bCrt.Items = new();
+        if (pCrt.Items.Count != 0)
             pCrt.Items.Select(itm =>
             {
                 BO.OrderItem oI = new()
@@ -65,7 +64,7 @@ public partial class ProductItemWindow : Window
                     Amount = itm.Amount,
                     TotalPrice = itm.TotalPrice,
                 };
-                //bCrt.Items.Add(oI);
+                bCrt.Items.Add(oI);
                 return itm;
             }).ToList();
         return bCrt;
@@ -105,7 +104,7 @@ public partial class ProductItemWindow : Window
     /// <summary>
     /// Constractor of ProductItemWindow for watching a productItem.
     /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart? crt)
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id,ref PO.Cart? crt)
     {
         try
         {

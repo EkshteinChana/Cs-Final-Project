@@ -1,4 +1,5 @@
 ﻿using PL;
+using PL.Products;
 using System.Windows;
 
 namespace PL;
@@ -32,7 +33,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
     {
-        //new ProductCatalogWindow(bl).Show();
+        new ProductCatalogWindow(bl).Show();
         Close();
 
         /// <summary>
