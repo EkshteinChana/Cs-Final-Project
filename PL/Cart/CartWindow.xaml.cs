@@ -87,7 +87,6 @@ public partial class CartWindow : Window
     private IBl bl;
     Window sourcWindow;
     PO.Cart cart;
-    private ObservableCollection<PO.ProductForList?> currentProdItmList { get; set; }//the list of the product items 
     /// <summary>
     /// constractor of CartWindow which imports the list of the orderItems in the cart.
     /// </summary>

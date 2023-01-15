@@ -10,8 +10,6 @@ using BO;
 using DalApi;
 using DO;
 
-//using PL.PO;
-
 namespace PL.Products;
 /// <summary>
 /// Interaction logic for ProductItemWindow.xaml
@@ -23,12 +21,6 @@ public partial class ProductItemWindow : Window
     BO.eCategory? catagory;
     PO.Cart? cart;
     PO.ProductItem currentProd;
-    //public int Amountx//The quantity of this product in the customer's cart
-    //{
-    //    get { return (int)GetValue(amountProperty); }
-    //    set { SetValue(amountProperty, value); }
-    //}
-    //public static readonly DependencyProperty amountProperty = DependencyProperty.Register("Amountx", typeof(int), typeof(ProductItem), new UIPropertyMetadata(0));
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -158,9 +150,10 @@ public partial class ProductItemWindow : Window
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
-            BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
-            currentProd = convertBoProdItmToPoProdItm(bP);
-           // Amountx = currentProd.Amount;
+            //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
+            //currentProd = convertBoProdItmToPoProdItm(bP);
+            sourcWindow.Show();
+            this.Close();
         }
         catch (InvalidValue exc)
         {
@@ -194,9 +187,10 @@ public partial class ProductItemWindow : Window
             bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
-            BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
-            currentProd = convertBoProdItmToPoProdItm(bP);
-            //Amountx = currentProd.Amount;
+            //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
+            //currentProd = convertBoProdItmToPoProdItm(bP);
+            sourcWindow.Show();
+            this.Close();
         }
         catch (InvalidValue exc)
         {
