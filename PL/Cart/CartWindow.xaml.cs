@@ -71,12 +71,30 @@ public partial class CartWindow : Window
 
     private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
     {
+        try { 
         BO.Cart bCart = convertPoCartToBoCart(cart);
         bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
         cart = new();
         MessageBox.Show("The order has been sent successfully");
         sourcWindow.Show();
         this.Close();
+        }
+        catch (OutOfStock exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+        }
+        catch (Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
     }
 
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)

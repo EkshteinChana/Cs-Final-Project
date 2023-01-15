@@ -12,7 +12,7 @@ internal class BlProduct : BlApi.IProduct
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
-    private void checkOrdValues(BO.Product prod)
+    private void checkProdValues(BO.Product prod)
     {
         if (prod.Id < 1)
         {
@@ -71,7 +71,7 @@ internal class BlProduct : BlApi.IProduct
     {
         int id = 0;
         prod.Id = 111;//Temporary value for the checkOrdValues function - will be updated later.
-        checkOrdValues(prod);
+        checkProdValues(prod);
         DO.Product newProd = convertBoProdToDoProd(prod);
         bool tryId = true;
         while (tryId)//Create an ID
@@ -223,7 +223,7 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     public void UpdateProd(BO.Product prod)
     {
-        checkOrdValues(prod);
+        checkProdValues(prod);
         DO.Product newProd = convertBoProdToDoProd(prod);
         try
         {

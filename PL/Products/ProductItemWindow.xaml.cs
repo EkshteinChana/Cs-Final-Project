@@ -123,8 +123,6 @@ public partial class ProductItemWindow : Window
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
             DataContext = currentProd;
-            //Amountx=currentProd.Amount;
-            //AmountContentLbl.DataContext = Amountx;
         }
         catch (DataError dataError)
         {
@@ -153,7 +151,7 @@ public partial class ProductItemWindow : Window
         {
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             int amount = Convert.ToInt32(AmountContentLbl.Content);
-            bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
+            bCrt = bl.Cart.                                                 +-(bCrt, currentProd.Id, amount - 1);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
