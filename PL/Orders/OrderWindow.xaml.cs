@@ -19,12 +19,16 @@ public partial class OrderWindow : Window
 
     private PO.Order convertBoOrdToPoOrd(BO.Order bo)
     {
+        if(bo.DeliveryDate == null) { bo.DeliveryDate = DateTime.MinValue; }
+        if (bo.ShipDate == null) { bo.ShipDate = DateTime.MinValue; }
+        if (bo.OrderDate == null) { bo.OrderDate = DateTime.MinValue; }
         PO.Order po = new()
         {
+            Id= bo.Id,
             CustomerAddress = bo.CustomerAddress,
             CustomerEmail = bo.CustomerEmail,
             CustomerName = bo.CustomerName,
-            DeliveryDate = bo.DeliveryDate,
+            DeliveryDate =bo.DeliveryDate,
             OrderDate = bo.OrderDate,
             ShipDate = bo.ShipDate,
             TotalPrice = bo.TotalPrice
@@ -76,16 +80,27 @@ public partial class OrderWindow : Window
                 BO.Order bo = bl.Order.ReadOrd(id);
                 PO.Order o = convertBoOrdToPoOrd(bo);
                 orderDetails.DataContext = o;
+                if(o.status == PO.eOrderStatus.confirmed)
+                {
+                    PO.eOrderStatus[] Statusoptions = { PO.eOrderStatus.Sent, PO.eOrderStatus.provided };
+                }
+                else if(o.status == PO.eOrderStatus.Sent)
+                {
+                    PO.eOrderStatus[] Statusoptions = { PO.eOrderStatus.provided };
+                }
+                else
+                {
+                    PO.eOrderStatus[] Statusoptions = { };
+                }
+                 
+
                 ItemsList.DataContext = o.Items;
-                //DataContext = p;
-                //CategorySelector.SelectedItem = p.Category;
-                //AddProductBtn.Visibility = Visibility.Hidden;
-                //TitelEnterDetailsLbl.Content = "Change the product details for updating";
+                StatusSelector.ItemsSource = Statusoptions;
 
             }
         }
         catch (Exception e){
-
+           MessageBox.Show(e.Message);
         }
     }
 
@@ -99,7 +114,13 @@ public partial class OrderWindow : Window
 
     }
 
-    private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
+    private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
+    {
+        sourcWindow.Show(); 
+        Close();    
+    }
+
+    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
     }
