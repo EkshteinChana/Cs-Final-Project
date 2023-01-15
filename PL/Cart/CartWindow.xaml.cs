@@ -73,6 +73,10 @@ public partial class CartWindow : Window
     {
         BO.Cart bCart = convertPoCartToBoCart(cart);
         bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
+        cart = new();
+        MessageBox.Show("The order has been sent successfully");
+        sourcWindow.Show();
+        this.Close();
     }
 
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
