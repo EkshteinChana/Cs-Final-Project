@@ -74,7 +74,6 @@ public partial class CartWindow : Window
         try { 
         BO.Cart bCart = convertPoCartToBoCart(cart);
         bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
-        cart = new();
         MessageBox.Show("The order has been sent successfully");
         sourcWindow.Show();
         this.Close();
