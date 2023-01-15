@@ -150,6 +150,7 @@ public partial class ProductItemWindow : Window
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
+            MessageBox.Show("The deletion was successful");
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
             sourcWindow.Show();
@@ -187,6 +188,7 @@ public partial class ProductItemWindow : Window
             bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
+            MessageBox.Show("The deletion was successful");
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
             sourcWindow.Show();
