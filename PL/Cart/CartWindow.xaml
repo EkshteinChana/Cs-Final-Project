@@ -9,18 +9,17 @@
     <Grid>
         <Grid Name="MainGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="87*"/>
                 <RowDefinition Height="452*"/>
                 <RowDefinition Height="87*"/>
             </Grid.RowDefinitions>
-            <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="0*"/>
-                </Grid.RowDefinitions>
-            </Grid>
-            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="OrderItemListview_SelectionChanged" FontSize="20">
+            <Button x:Name="ReturnToCatalogBtn" Content="Back" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Height="41" Width="175" FontWeight="Bold" FontSize="16"
+          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="ReturnToCatalogBtn_Click" />
+            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" FontSize="20">
                 <ListView.View>
                     <GridView >
+                        <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
                         <GridViewColumn DisplayMemberBinding="{Binding ProductId }" Header="Product Id" />
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
                         <GridViewColumn DisplayMemberBinding="{Binding Price }" Header="Price" />
@@ -31,6 +30,24 @@
             </ListView>
             <Button Name="MakeOrderBtn" Content="Make Order" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top"  Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="MakeOrderBtn_Click"/>
+            <StackPanel Name="CustomerDetails" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2">
+                <StackPanel Name="CustomerName" VerticalAlignment="Top">
+                    <Label Name="CustomerNameLbl" Content="CustomerName:" HorizontalAlignment="Center" VerticalAlignment="Top"   FontWeight="Bold"/>
+                    <TextBox Name="CustomerNameTxtBx" Text="{Binding CustomerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" TextWrapping="Wrap" MinWidth="100" />
+                </StackPanel>
+                <StackPanel Name="CustomerEmail" VerticalAlignment="Top">
+                    <Label Name="CustomerEmailLbl" Content="CustomerEmail:" HorizontalAlignment="Center" VerticalAlignment="Top"   FontWeight="Bold"/>
+                    <TextBox Name="CustomerEmailTxtBx" Text="{Binding CustomerEmail,Mode=TwoWay ,UpdateSourceTrigger=LostFocus}" TextWrapping="Wrap" MinWidth="100" />
+                </StackPanel>
+                <StackPanel Name="CustomerAddress" VerticalAlignment="Top">
+                    <Label Name="CustomerAddressLbl" Content="CustomerAddress:" HorizontalAlignment="Center" VerticalAlignment="Top"   FontWeight="Bold"/>
+                    <TextBox Name="CustomerAddressTxtBx" Text="{Binding CustomerAddress,Mode=TwoWay,UpdateSourceTrigger=LostFocus }" TextWrapping="Wrap" MinWidth="100" />
+                </StackPanel>
+
+
+
+            </StackPanel>
+
 
         </Grid>
     </Grid>

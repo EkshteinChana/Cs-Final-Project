@@ -99,7 +99,8 @@ public partial class ProductCatalogWindow : Window
 
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
-
+        new Cart.CartWindow(bl, this,ref cart).Show();
+        this.Hide();
     }
 }
 

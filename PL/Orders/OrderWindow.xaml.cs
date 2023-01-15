@@ -95,7 +95,7 @@ public partial class OrderWindow : Window
                  
 
                 ItemsList.DataContext = o.Items;
-                StatusSelector.ItemsSource = Statusoptions;
+                //StatusSelector.ItemsSource = Statusoptions;
 
             }
         }

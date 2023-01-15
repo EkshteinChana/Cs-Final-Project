@@ -22,100 +22,64 @@ namespace PL.Cart;
 /// </summary>
 public partial class CartWindow : Window
 {
+    /// <summary>
+    /// A private help function to convert PO.Cart entity to BO.Cart entity.
+    /// </summary>
+    private BO.Cart convertPoCartToBoCart(PO.Cart pCrt)
+    {
+        BO.Cart bCrt = new()
+        {
+            CustomerName = pCrt.CustomerName,
+            CustomerEmail = pCrt.CustomerEmail,
+            CustomerAddress = pCrt.CustomerAddress,
+            TotalPrice = pCrt.TotalPrice
+        };
+        bCrt.Items = new();
+        if (pCrt.Items.Count != 0)
+            pCrt.Items.Select(itm =>
+            {
+                BO.OrderItem oI = new()
+                {
+                    Id = itm.Id,
+                    ProductId = itm.ProductId,
+                    Name = itm.Name,
+                    Price = itm.Price,
+                    Amount = itm.Amount,
+                    TotalPrice = itm.TotalPrice,
+                };
+                bCrt.Items.Add(oI);
+                return itm;
+            }).ToList();
+        return bCrt;
+    }
     private IBl bl;
+    Window sourcWindow;
+    PO.Cart cart;
     private ObservableCollection<PO.ProductForList?> currentProdItmList { get; set; }//the list of the product items 
     /// <summary>
-    /// constractor of CartWindow which imports the list of the productItems in the cart.
+    /// constractor of CartWindow which imports the list of the orderItems in the cart.
     /// </summary>
-    public CartWindow()
+    public CartWindow(IBl Ibl, Window w,ref PO.Cart c)
     {
         InitializeComponent();
         bl = Ibl;
-        IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
-        currentProductList = new();
-        bProds.Select(bP =>
-        {
-            PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
-            currentProductList.Add(p);
-            return bP;
-        }).ToList();
-        ProductsListview.DataContext = currentProdItmList;
+        sourcWindow = w;
+        cart = c;
+        OrderItemListview.DataContext = cart.Items;
+        CustomerDetails.DataContext = cart;
     }
 
     private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
     {
+        BO.Cart bCart = convertPoCartToBoCart(cart);
+        bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
+    }
 
+    private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
+    {
+        sourcWindow.Show();
+        this.Close();
     }
 }
 
 
-
-
-
-
-
-
-
-
-public ProductListWindow(IBl Ibl)
-{
-    InitializeComponent();
-    bl = Ibl;
-    IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
-    currentProductList = new();
-    bProds.Select(bP =>
-    {
-        PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
-        currentProductList.Add(p);
-        return bP;
-    }).ToList();
-    ProductsListview.DataContext = currentProductList;
-    CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-}
-
-/// <summary>
-/// A function that filters the products by category.
-/// </summary>
-private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList((BO.eCategory?)CategorySelector.SelectedItem);
-    currentProductList.Clear();
-    bProds.Select(bP =>
-    {
-        PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
-        currentProductList.Add(p);
-        return bP;
-    }).ToList();
-    ProductsListview.DataContext = currentProductList;
-}
-/// <summary>
-/// A function that opens the ProductWindow for adding a product.
-/// </summary>
-private void AddProductButton_Click(object sender, RoutedEventArgs e)
-{
-    new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, null, currentProductList).Show();
-    this.Hide();
-}
-/// <summary>
-/// A function that opens the ProductWindow for updating or deleting a product.
-/// </summary>
-private void OrderItemListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-{
-    PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-    new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, currentProductList).Show();
-    this.Hide();
-}
-/// <summary>
-/// A function that show all the product
-/// </summary>
-public void DisplayAllProductsButton_Click(object sender, RoutedEventArgs e)
-{
-    CategorySelector.SelectedItem = null;
-}
-
-private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-
-}
-
-}

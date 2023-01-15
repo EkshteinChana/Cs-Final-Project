@@ -154,6 +154,7 @@ public partial class ProductItemWindow : Window
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             int amount = Convert.ToInt32(AmountContentLbl.Content);
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
+            cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
@@ -185,6 +186,7 @@ public partial class ProductItemWindow : Window
         {
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
+            cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
