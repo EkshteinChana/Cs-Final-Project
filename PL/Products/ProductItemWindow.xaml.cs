@@ -23,6 +23,12 @@ public partial class ProductItemWindow : Window
     BO.eCategory? catagory;
     PO.Cart? cart;
     PO.ProductItem currentProd;
+    //public int Amountx//The quantity of this product in the customer's cart
+    //{
+    //    get { return (int)GetValue(amountProperty); }
+    //    set { SetValue(amountProperty, value); }
+    //}
+    //public static readonly DependencyProperty amountProperty = DependencyProperty.Register("Amountx", typeof(int), typeof(ProductItem), new UIPropertyMetadata(0));
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -117,6 +123,8 @@ public partial class ProductItemWindow : Window
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
             DataContext = currentProd;
+            //Amountx=currentProd.Amount;
+            //AmountContentLbl.DataContext = Amountx;
         }
         catch (DataError dataError)
         {
@@ -147,8 +155,9 @@ public partial class ProductItemWindow : Window
             int amount = Convert.ToInt32(AmountContentLbl.Content);
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
             cart = convertBoCartToPoCart(bCrt);
-            sourcWindow.Show();
-            this.Close();
+            BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
+            currentProd = convertBoProdItmToPoProdItm(bP);
+           // Amountx = currentProd.Amount;
         }
         catch (InvalidValue exc)
         {
@@ -177,8 +186,9 @@ public partial class ProductItemWindow : Window
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
             cart = convertBoCartToPoCart(bCrt);
-            sourcWindow.Show();
-            this.Close();
+            BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
+            currentProd = convertBoProdItmToPoProdItm(bP);
+            //Amountx = currentProd.Amount;
         }
         catch (InvalidValue exc)
         {
