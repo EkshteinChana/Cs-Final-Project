@@ -124,6 +124,10 @@ public partial class ProductItemWindow : Window
             currentProd = convertBoProdItmToPoProdItm(bP);
             DataContext = currentProd;
         }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
         catch (DataError dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
@@ -151,7 +155,7 @@ public partial class ProductItemWindow : Window
         {
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             int amount = Convert.ToInt32(AmountContentLbl.Content);
-            bCrt = bl.Cart.                                                 +-(bCrt, currentProd.Id, amount - 1);
+            bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
@@ -159,6 +163,10 @@ public partial class ProductItemWindow : Window
            // Amountx = currentProd.Amount;
         }
         catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (OutOfStock exc)
         {
             MessageBox.Show(exc.Message);
         }
@@ -207,11 +215,4 @@ public partial class ProductItemWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
-    ///// <summary>
-    ///// A function to update the amount of a product in the cart.
-    ///// </summary>
-    //private void updateAmntInCrt(int num)
-    //{
-
-    //}
 }

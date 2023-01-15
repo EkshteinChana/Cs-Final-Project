@@ -95,6 +95,10 @@ public partial class ProductWindow : Window
                 DeleteProductBtn.Visibility = Visibility.Hidden;
             }
         }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
         catch (DataError dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
