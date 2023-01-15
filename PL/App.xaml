@@ -17,8 +17,8 @@
             <GradientStop Color="#FF34C8E4" Offset="0.959"/>
             <GradientStop Color="#FF66CCD3" Offset="0.189"/>
         </LinearGradientBrush>
-        <local:EnumConverter x:Key="DefaultEnumConverter" />
-   
+        <local:EnumOrdForLstConverter x:Key="EnumOrdForLstConverter"/>
+        <local:EnumOrdConverter x:Key="EnumOrdConverter"/>
     </Application.Resources>
 </Application>
 
