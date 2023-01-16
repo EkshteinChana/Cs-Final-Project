@@ -30,9 +30,10 @@
             <Label Name="OrderDateTxtBx" Content="{Binding Path=OrderDate}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5"  VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
             <Label Grid.Row="6" Name="StatusLbl" Content="Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <!--<Label Name="StatusContentLbl" Content="{Binding Converter={StaticResource EnumOrdConverter},ConverterParameter=Status}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="6"  VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>-->
-            <ComboBox Name="StatusSelector" Text="Status"
-             IsEditable="true" SelectionChanged="StatusSelector_SelectionChanged" Margin="0,0,0,15" Grid.RowSpan="2"
+            <ComboBox Name="StatusSelector" 
+             SelectionChanged="StatusSelector_SelectionChanged" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100"
             />
+            <!--<ComboBox Name="CategorySelector" Grid.Column="1"  SelectionChanged="CategorySelector_SelectionChanged" Margin="24,40,24,9" FontSize="12"/>-->
             <!--ItemsSource="{StaticResource myVacations}"-->
             <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15">
                 <ListView.View>
@@ -47,7 +48,7 @@
             </ListView>
             <Button Name="UpdateOrderBtn" Content="Update" HorizontalAlignment="Center" Grid.Row="8" Click="UpdateOrdeBtn_Click" Width="78" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         </Grid>
-        <Button Name="ReturnBack" Content="Return" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ReturnBackBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <Button Name="ReturnBack" Content="Back" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ReturnBackBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
     </Grid>
 </Window>
 
