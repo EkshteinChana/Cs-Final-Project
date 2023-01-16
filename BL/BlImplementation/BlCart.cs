@@ -2,6 +2,8 @@
 using DalApi;
 using Dal;
 using System.Xml.Linq;
+using BO;
+using DO;
 
 namespace BlImplementation;
 internal class BlCart : ICart
@@ -257,6 +259,7 @@ internal class BlCart : ICart
             {
                 throw new InvalidValue("amount");
             }
+            int remove = -1;
             bool exist = false;
             cart.Items.Select(i =>
             {
@@ -279,7 +282,7 @@ internal class BlCart : ICart
                         cart.TotalPrice -= i.Price * (i.Amount - amount);
                         if (amount == 0)
                         {
-                            cart.Items.Remove(i);
+                            remove = cart.Items.FindIndex(i => i.ProductId == id);
                         }
                         else
                         {
@@ -288,9 +291,12 @@ internal class BlCart : ICart
                         }
                     }
                 }
-                return i;
+                return 0;
             }).ToList();
-
+            if (remove != -1)
+            {
+                cart.Items.RemoveAt(cart.Items.FindIndex(i=> i.ProductId == id));
+            }
             if (exist == false)//The product is not in the shopping cart
             {
                 throw new ItemNotExist();

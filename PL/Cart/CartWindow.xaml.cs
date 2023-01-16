@@ -90,14 +90,13 @@ public partial class CartWindow : Window
     /// <summary>
     /// constractor of CartWindow which imports the list of the orderItems in the cart.
     /// </summary>
-    public CartWindow(IBl Ibl, Window w, ref PO.Cart c)
+    public CartWindow(IBl Ibl, Window w, PO.Cart c)
     {
         InitializeComponent();
         bl = Ibl;
         sourcWindow = w;
         cart = c;
-        OrderItemListview.DataContext = cart.Items;
-        CustomerDetails.DataContext = cart;
+        DataContext = cart;
     }
 
     private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
@@ -138,12 +137,13 @@ public partial class CartWindow : Window
     /// </summary>
     private void UpdateAmount(int ID, int amount)
     {
-      try
+        try
         {
-            BO.Cart bCrt = convertPoCartToBoCart(cart);          
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, ID, amount);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
+            DataContext= cart;///???
         }
         catch (InvalidValue exc)
         {
@@ -179,7 +179,7 @@ public partial class CartWindow : Window
     private void DeleteBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
-        UpdateAmount(currentOI.ProductId,0);
+        UpdateAmount(currentOI.ProductId, 0);
     }
 
     private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)

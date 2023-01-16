@@ -19,7 +19,7 @@ public partial class ProductItemWindow : Window
     private IBl bl;
     Window sourcWindow;
     BO.eCategory? catagory;
-    PO.Cart? cart;
+    PO.Cart cart;
     PO.ProductItem currentProd;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -102,7 +102,7 @@ public partial class ProductItemWindow : Window
     /// <summary>
     /// Constractor of ProductItemWindow for watching a productItem.
     /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id,ref PO.Cart? crt)
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id,PO.Cart crt)
     {
         try
         {
@@ -188,7 +188,7 @@ public partial class ProductItemWindow : Window
             bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
-            MessageBox.Show("The deletion was successful");
+            MessageBox.Show("The product has been successfully added");
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
             sourcWindow.Show();

@@ -11,12 +11,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="87*"/>
                 <RowDefinition Height="452*"/>
-                <RowDefinition Height="87*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
             <Button x:Name="ReturnToCatalogBtn" Content="Back" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Height="41" Width="175" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="ReturnToCatalogBtn_Click" />
-            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="10,31,10,52" Grid.Row="1" FontSize="20" SelectionChanged="OrderItemListview_SelectionChanged">
+            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding Items}" Margin="10,31,10,52" Grid.Row="1" FontSize="20" SelectionChanged="OrderItemListview_SelectionChanged">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
@@ -49,9 +50,13 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Name="MakeOrderBtn" Content="Make Order" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top"  Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
+            <StackPanel HorizontalAlignment="Center" Name="TotalPrice" Orientation="Horizontal" Grid.Row="2">
+                <Label Name="TotalPriceLbl" Content="TotalPrice:" FontWeight="Bold"/>
+                <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,Mode=TwoWay}" />
+            </StackPanel>
+            <Button Name="MakeOrderBtn" Content="Make Order" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Center"  Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="MakeOrderBtn_Click"/>
-            <StackPanel Name="CustomerDetails" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2">
+            <StackPanel Name="CustomerDetails" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="3">
                 <StackPanel Name="CustomerName" VerticalAlignment="Top">
                     <Label Name="CustomerNameLbl" Content="CustomerName:" HorizontalAlignment="Center" VerticalAlignment="Top"   FontWeight="Bold"/>
                     <TextBox Name="CustomerNameTxtBx" Text="{Binding CustomerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" TextWrapping="Wrap" MinWidth="100" />
