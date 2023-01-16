@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -50,21 +51,6 @@ public partial class OrderWindow : Window
             po.Items.Add(poi);
             return boi;
         }).ToList();
-
-        //IEnumerator enumerator = bo.Items.GetEnumerator();
-        //while (enumerator.MoveNext())
-        //{
-        //    var tmp = enumerator.Current;
-        //    PO.OrderItem oi = new();
-        //    oi.Id = (int)tmp.GetType().GetProperty("Id")?.GetValue(enumerator.Current);
-        //    oi.ProductId = tmp.GetType().GetProperty("ProductId")?.GetValue(enumerator.Current);
-        //    oi.Name = tmp.Name;
-        //    oi.Price = oi.Price;
-        //    oi.Amount = oi.Amount;
-        //    oi.TotalPrice = oi.TotalPrice;
-        //    po.Items.Add(oi);
-        //}
-        //Items
         return po;
     }
     public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl)
@@ -78,25 +64,21 @@ public partial class OrderWindow : Window
             if (id > -1)
             {
                 BO.Order bo = bl.Order.ReadOrd(id);
-                PO.Order o = convertBoOrdToPoOrd(bo);
-                orderDetails.DataContext = o;
-                if(o.status == PO.eOrderStatus.confirmed)
+                PO.Order po = convertBoOrdToPoOrd(bo);
+                orderDetails.DataContext = po;
+                List<PO.eOrderStatus> Statusoptions = new();
+                Statusoptions.Add(PO.eOrderStatus.provided);
+                if (po.DeliveryDate == DateTime.MinValue)
                 {
-                    PO.eOrderStatus[] Statusoptions = { PO.eOrderStatus.Sent, PO.eOrderStatus.provided };
+                    Statusoptions.Add(PO.eOrderStatus.Sent);
                 }
-                else if(o.status == PO.eOrderStatus.Sent)
+                if(po.ShipDate == DateTime.MinValue)
                 {
-                    PO.eOrderStatus[] Statusoptions = { PO.eOrderStatus.provided };
+                    Statusoptions.Add(PO.eOrderStatus.confirmed);
                 }
-                else
-                {
-                    PO.eOrderStatus[] Statusoptions = { };
-                }
-                 
-
-                ItemsList.DataContext = o.Items;
-                //StatusSelector.ItemsSource = Statusoptions;
-
+                ItemsList.DataContext = po.Items;
+                StatusSelector.SelectedItem = po.status;
+                StatusSelector.ItemsSource = Statusoptions;
             }
         }
         catch (Exception e){
@@ -124,4 +106,16 @@ public partial class OrderWindow : Window
     {
 
     }
+    //private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    //{
+    //    IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList((BO.eCategory?)CategorySelector.SelectedItem);
+    //    currentProductList.Clear();
+    //    bProds.Select(bP =>
+    //    {
+    //        PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
+    //        currentProductList.Add(p);
+    //        return bP;
+    //    }).ToList();
+    //    ProductsListview.DataContext = currentProductList;
+    //}
 }
