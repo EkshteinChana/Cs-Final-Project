@@ -31,10 +31,8 @@
             <Label Grid.Row="6" Name="StatusLbl" Content="Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <!--<Label Name="StatusContentLbl" Content="{Binding Converter={StaticResource EnumOrdConverter},ConverterParameter=Status}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="6"  VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>-->
             <ComboBox Name="StatusSelector" 
-             SelectionChanged="StatusSelector_SelectionChanged" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100"
+             SelectionChanged="StatusSelector_SelectionChanged=>(Status)" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100"
             />
-            <!--<ComboBox Name="CategorySelector" Grid.Column="1"  SelectionChanged="CategorySelector_SelectionChanged" Margin="24,40,24,9" FontSize="12"/>-->
-            <!--ItemsSource="{StaticResource myVacations}"-->
             <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15">
                 <ListView.View>
                     <GridView >

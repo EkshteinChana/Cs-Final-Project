@@ -65,7 +65,7 @@ public class Order: DependencyObject
         get { return (DateTime)GetValue(deliveryDateProperty); }
         set { SetValue(deliveryDateProperty, value); }
     }
-    public PO.eOrderStatus? status//the status of this order
+    public PO.eOrderStatus status//the status of this order
     {
         get { return (PO.eOrderStatus)GetValue(statusProperty); }
         set { SetValue(statusProperty, value); }

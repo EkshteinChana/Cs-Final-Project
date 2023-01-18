@@ -17,6 +17,7 @@ public partial class OrderWindow : Window
     IBl? bl;
     ObservableCollection<PO.OrderForList?> currentOrderList;
     Window sourcWindow;
+    PO.eOrderStatus currentStatus;
 
     private PO.Order convertBoOrdToPoOrd(BO.Order bo)
     {
@@ -37,6 +38,7 @@ public partial class OrderWindow : Window
         if (bo.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
         else if (bo.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
         else { po.status = PO.eOrderStatus.Sent; }
+        currentStatus = po.status;
         bo.Items.Select(boi =>
         {
             PO.OrderItem poi = new() 
@@ -104,18 +106,9 @@ public partial class OrderWindow : Window
 
     private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if ((PO.eOrderStatus)StatusSelector.SelectedItem == currentStatus)
+        {
+            return;
+        }
     }
-    //private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    //{
-    //    IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList((BO.eCategory?)CategorySelector.SelectedItem);
-    //    currentProductList.Clear();
-    //    bProds.Select(bP =>
-    //    {
-    //        PO.ProductForList p = convertBoPrdLstToPoPrdLst(bP);
-    //        currentProductList.Add(p);
-    //        return bP;
-    //    }).ToList();
-    //    ProductsListview.DataContext = currentProductList;
-    //}
 }
