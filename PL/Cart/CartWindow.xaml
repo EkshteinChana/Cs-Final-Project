@@ -54,8 +54,10 @@
                 <Label Name="TotalPriceLbl" Content="TotalPrice:" FontWeight="Bold"/>
                 <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,Mode=TwoWay}" />
             </StackPanel>
+            <Button Name="EmptyCart" Content="Empty Cart" HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center"  Height="41" Width="175" Margin="0,0,590,0" FontWeight="Bold" FontSize="16"
+          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="EmptyCart_Click" />
             <Button Name="MakeOrderBtn" Content="Make Order" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Center"  Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
-          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="MakeOrderBtn_Click"/>
+          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="MakeOrderBtn_Click" IsEnabled="{Binding Items.Count, Mode=OneWay}"/>
             <StackPanel Name="CustomerDetails" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="3">
                 <StackPanel Name="CustomerName" VerticalAlignment="Top">
                     <Label Name="CustomerNameLbl" Content="CustomerName:" HorizontalAlignment="Center" VerticalAlignment="Top"   FontWeight="Bold"/>

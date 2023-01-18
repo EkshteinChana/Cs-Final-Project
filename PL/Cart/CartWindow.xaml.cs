@@ -106,8 +106,9 @@ public partial class CartWindow : Window
             BO.Cart bCart = convertPoCartToBoCart(cart);
             bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
             MessageBox.Show("The order has been sent successfully");
-            new MainWindow();
-            this.Close();
+            cart.Items.Clear();
+            cart = new();
+            DataContext = cart;///???
         }
         catch (OutOfStock exc)
         {
@@ -185,6 +186,13 @@ public partial class CartWindow : Window
     private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
+    }
+
+    private void EmptyCart_Click(object sender, RoutedEventArgs e)
+    {
+        cart.Items.Clear();
+        cart = new();
+        DataContext = cart;///???
     }
 }
 

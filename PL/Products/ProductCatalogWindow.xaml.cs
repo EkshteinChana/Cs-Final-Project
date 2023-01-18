@@ -57,6 +57,7 @@ public partial class ProductCatalogWindow : Window
         }).ToList();
         ProductsListview.DataContext = currentProductList;
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+        CartBtn.DataContext = cart;
     }
 
     /// <summary>
@@ -101,6 +102,12 @@ public partial class ProductCatalogWindow : Window
     {
         new Cart.CartWindow(bl, this,cart).Show();
         this.Hide();
+    }
+
+    private void Exit_Click(object sender, RoutedEventArgs e)
+    {
+        new MainWindow().Show();
+        this.Close();
     }
 }
 

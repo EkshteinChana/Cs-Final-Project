@@ -9,12 +9,11 @@
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
-            <RowDefinition Name="try" Height="452*"/>
+            <RowDefinition Name="Catalog" Height="452*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="0*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -26,9 +25,20 @@
             <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="70,33,0,0" VerticalAlignment="Top" Height="52" Width="120" FontWeight="Bold" FontSize="24"/>
             <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
               BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
-            <Button Name="CartBtn" Grid.Column="2" Content="Cart" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <Button Name="CartBtn" Content="Cart 🛒" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Width="80" Height="30" FontWeight="Bold" FontSize="16"
-                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="CartBtn_Click" />
+                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="CartBtn_Click" >
+                <!--<Control.Template>
+                    <DataTemplate>
+                        <TextBlock Text="Cart 🛒"/>
+                        <TextBlock Text="{Binding Path=Items.Count}"/>
+                    </DataTemplate>
+
+                </Control.Template>-->
+            </Button>
+            <Button Name="Exit" Grid.Column="3" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Width="80" Height="30" FontWeight="Bold" FontSize="16"
+                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="Exit_Click"  />
         </Grid>
         <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
             <ListView.View>
