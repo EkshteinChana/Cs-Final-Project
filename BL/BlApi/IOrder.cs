@@ -35,4 +35,10 @@ public interface IOrder
     /// </summary>
     /// <returns>Order(a logical entity)</returns>
     public Order UpdateOrd(int orderId, int pId, int amount, BO.eUpdateOrder action);
+
+    /// <summary>
+    /// A function to get an OrderTracking entity for a specific order 
+    /// </summary>
+    /// <returns>TrackOrder(a logical entity)</returns>
+    public BO.OrderTracking TrackOrder(int orderId);
 }

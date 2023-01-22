@@ -12,8 +12,18 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Name="ShowProductsButton" Content="Admin" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AdminEnter_Click" Height="80" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         <Button Name="NewOrderBtn" Content="New Order" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="80" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="NewOrderBtn_Click"/>
+        <StackPanel Grid.Row="3" Width="113">
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Content="Order Id:"></Label>
+                <TextBox Margin="3,0,0,0" Name="OrdIdTxtBx" TextWrapping="Wrap" Width="40" Height="28"
+                     Text="{Binding Path=OrderId,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+            </StackPanel>
+            <Button x:Name="TrackBtn" Content="Track"   FontWeight="Bold" FontSize="20" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"
+                    HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Center" Width="80" Height="28" Click="TrackBtn_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

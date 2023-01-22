@@ -33,19 +33,20 @@ internal class BlOrder : BlApi.IOrder
         }).ToList();
         bO.status = checkStatus(dO);
         //items and totalPrice:
-        IEnumerable<DO.OrderItem> orderItems = Dal?.orderItem.Read() ?? Enumerable.Empty<DO.OrderItem>();   
+        IEnumerable<DO.OrderItem> orderItems = Dal?.orderItem.Read() ?? Enumerable.Empty<DO.OrderItem>();
         IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
         items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
         bO.Items = new List<BO.OrderItem>(items.Count());
         List<BO.OrderItem?> bItemsList = bO.Items.ToList();
         bO.TotalPrice = 0;
         var enumerator = items.GetEnumerator();
-        while(enumerator.MoveNext())    
+        while (enumerator.MoveNext())
         {
             BO.OrderItem bItm = new();
-            bItm.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop => { 
-               prop.SetValue(bItm, enumerator.Current.GetType().GetProperty(prop.Name)?.GetValue(enumerator.Current));
-               return prop; 
+            bItm.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
+            {
+                prop.SetValue(bItm, enumerator.Current.GetType().GetProperty(prop.Name)?.GetValue(enumerator.Current));
+                return prop;
             }).ToList();
             bItm.Name = (Dal.product.Read(enumerator.Current.ProductId)).Name;
             bItm.TotalPrice = bItm.Price * bItm.Amount;
@@ -77,7 +78,7 @@ internal class BlOrder : BlApi.IOrder
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
         List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
-        var enumerator = dOrders.GetEnumerator();   
+        var enumerator = dOrders.GetEnumerator();
         while (enumerator.MoveNext())
         {
             BO.Order bO = convertDToB(enumerator.Current);
@@ -214,40 +215,40 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    public BO.OrderTracking TrackOrder(int orderId)
+    {
+        DO.Order order=new();
+        try
+        {
+            order = Dal.order.ReadSingle(o => o.Id == orderId);
+            if (order.Id == default)
+            {
+                throw new InvalidValue("orderID");
+            }
+            BO.OrderTracking ot = new()
+            {
+                Id = order.Id,
+                Status = order.ShipDate == null ? BO.eOrderStatus.confirmed : order.DeliveryDate == null ? BO.eOrderStatus.Sent : BO.eOrderStatus.provided,
+                OrderStatusByDate = new()
+            };
+            if (order.OrderDate != null)
+            {
+                ot.OrderStatusByDate.Add(new Tuple<DateTime?, BO.eOrderStatus>(order.OrderDate, BO.eOrderStatus.confirmed));
+                if (order.ShipDate != null)
+                {
+                    ot.OrderStatusByDate.Add(new Tuple<DateTime?, BO.eOrderStatus>(order.ShipDate, BO.eOrderStatus.Sent));
+                    if (order.DeliveryDate != null)
+                        ot.OrderStatusByDate.Add(new Tuple<DateTime?, BO.eOrderStatus>(order.DeliveryDate, BO.eOrderStatus.provided));
+                }
+            }
+            return ot;
+        }
+        catch (ObjectNotExistException err)
+        {
+            throw new DataError(err, "Data Error: ");
+        }
+    }
+
 }
 
 
-
-
-//public BO.OrderTracking TrackOrder(int orderId)
-//{
-//    try
-//    {
-//        DO.Order order = Dal.Order.ReadSingle(o => o.Id == orderId);
-//        if (order.Id == default)
-//        {
-//            throw new NonExistentObject();
-//        }
-//        BO.OrderTracking ot = new()
-//        {
-//            Id = order.Id,
-//            OrderStatus = order.Shipping == DateTime.MinValue ? BO.EOrderStatus.Processed : order.Delivery == DateTime.MinValue ? BO.EOrderStatus.Shipped : BO.EOrderStatus.Delivered,
-//            TrackList = new()
-//        };
-//        if (order.OrderCreated != DateTime.MinValue)
-//        {
-//            ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.OrderCreated, BO.EOrderStatus.Processed));
-//            if (order.Shipping != DateTime.MinValue)
-//            {
-//                ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Shipping, BO.EOrderStatus.Shipped));
-//                if (order.Delivery != DateTime.MinValue)
-//                    ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Delivery, BO.EOrderStatus.Delivered));
-//            }
-//        }
-//        return ot;
-//    }
-//    catch (NonExistentObject ex)
-//    {
-//        throw new BO.NonExistentObject(ex);
-//    }
-//}

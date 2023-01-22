@@ -35,15 +35,10 @@ public partial class MainWindow : Window
     {
         new ProductCatalogWindow(bl).Show();
         Close();
+    }
 
-        /// <summary>
-        /// A function that opens the ProductCatalogWindow.
-        /// </summary>
-        //private void NewOrderBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    new ProductCatalogWindow(bl).Show();
-        //    Close();
-        //}
-
+    private void TrackBtn_Click(object sender, RoutedEventArgs e)
+    {
+        new OrderTrackingWindow(bl).Show();
     }
 }
