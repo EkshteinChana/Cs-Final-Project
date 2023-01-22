@@ -78,7 +78,7 @@ internal class BlOrder : BlApi.IOrder
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
         List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
-        var enumerator = dOrders.GetEnumerator();
+        var enumerator = dOrders.OrderBy(dO=>dO.Id).GetEnumerator();   
         while (enumerator.MoveNext())
         {
             BO.Order bO = convertDToB(enumerator.Current);
