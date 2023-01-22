@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,13 @@ namespace PL.Orders;
 /// </summary>
 public partial class OrderTrackingWindow : Window
 {
-    public OrderTrackingWindow()
+    private IBl bl;
+    private PO.OrderTracking ot;
+    public OrderTrackingWindow(IBl Ibl,int Id)
     {
         InitializeComponent();
+        bl = Ibl;
+        BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
+
     }
 }

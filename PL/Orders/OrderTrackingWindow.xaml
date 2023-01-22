@@ -7,6 +7,15 @@
         mc:Ignorable="d"
         Title="OrderTrackingWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel Margin="0,60,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Content="Order Id:"></Label>
+                <Label Name="IDLblContent" Content="{Binding Path=Id,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Content="Status:"></Label>
+                <Label Name="StatusLblContent" Content="{Binding Path=Status,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"></Label>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
