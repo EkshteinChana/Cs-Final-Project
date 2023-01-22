@@ -228,7 +228,7 @@ internal class BlOrder : BlApi.IOrder
             BO.OrderTracking ot = new()
             {
                 Id = order.Id,
-                Status = order.ShipDate == null ? BO.eOrderStatus.confirmed : order.DeliveryDate == null ? BO.eOrderStatus.Sent : BO.eOrderStatus.provided,
+                status = order.ShipDate == null ? BO.eOrderStatus.confirmed : order.DeliveryDate == null ? BO.eOrderStatus.Sent : BO.eOrderStatus.provided,
                 OrderStatusByDate = new()
             };
             if (order.OrderDate != null)

@@ -7,12 +7,12 @@ namespace BO;
 public class OrderTracking
 {
     public int Id { get; set; }
-    public eOrderStatus? Status { get; set; }
+    public eOrderStatus? status { get; set; }
     public List<Tuple<DateTime?, eOrderStatus>>? OrderStatusByDate { get; set; }//List of pairs (date, description of order progress )
 
     public override string ToString() => $@"
         ID: {Id}
-        status: {Status}
+        status: {status}
         ";
 }
 

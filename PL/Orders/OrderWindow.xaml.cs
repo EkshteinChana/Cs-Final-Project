@@ -15,7 +15,7 @@ namespace PL.Orders;
 public partial class OrderWindow : Window
 {
     IBl? bl;
-    ObservableCollection<PO.OrderForList?> currentOrderList;
+    ObservableCollection<PO.OrderForList?>? currentOrderList;
     Window sourcWindow;
     PO.Order po;
     private PO.Order convertBoOrdToPoOrd(BO.Order bo)
@@ -79,7 +79,7 @@ public partial class OrderWindow : Window
         }).ToList();
     }
     
-    public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl)
+    public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl=null)
     {
         try
         {
