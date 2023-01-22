@@ -215,3 +215,39 @@ internal class BlOrder : BlApi.IOrder
     }
 
 }
+
+
+
+
+//public BO.OrderTracking TrackOrder(int orderId)
+//{
+//    try
+//    {
+//        DO.Order order = Dal.Order.ReadSingle(o => o.Id == orderId);
+//        if (order.Id == default)
+//        {
+//            throw new NonExistentObject();
+//        }
+//        BO.OrderTracking ot = new()
+//        {
+//            Id = order.Id,
+//            OrderStatus = order.Shipping == DateTime.MinValue ? BO.EOrderStatus.Processed : order.Delivery == DateTime.MinValue ? BO.EOrderStatus.Shipped : BO.EOrderStatus.Delivered,
+//            TrackList = new()
+//        };
+//        if (order.OrderCreated != DateTime.MinValue)
+//        {
+//            ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.OrderCreated, BO.EOrderStatus.Processed));
+//            if (order.Shipping != DateTime.MinValue)
+//            {
+//                ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Shipping, BO.EOrderStatus.Shipped));
+//                if (order.Delivery != DateTime.MinValue)
+//                    ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Delivery, BO.EOrderStatus.Delivered));
+//            }
+//        }
+//        return ot;
+//    }
+//    catch (NonExistentObject ex)
+//    {
+//        throw new BO.NonExistentObject(ex);
+//    }
+//}
