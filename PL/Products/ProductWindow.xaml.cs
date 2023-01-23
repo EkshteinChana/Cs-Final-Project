@@ -77,23 +77,27 @@ public partial class ProductWindow : Window
             sourcWindow = w;
             catagory = ctgry;
             currentProductList = cl;
+            //bool ShowUDBtns = true, ShowAdBtn = true;
             if (id != null)
             {
                 BO.Product bP = bl.Product.ReadProdManager((int)id);
                 PO.Product p = convertBoProdToPoProd(bP);
                 DataContext = p;
                 CategorySelector.SelectedItem = p.Category;
+                //ShowAdBtn = false;
                 AddProductBtn.Visibility = Visibility.Hidden;
                 TitelEnterDetailsLbl.Content = "Change the product details for updating";
             }
             else//add
             {
                 TitelEnterDetailsLbl.Content = "Enter the product details";
+                //ShowUDBtns = false;
                 IdLbl.Visibility = Visibility.Hidden;
                 IDLbl.Visibility = Visibility.Hidden;
                 UpdateProductBtn.Visibility = Visibility.Hidden;
                 DeleteProductBtn.Visibility = Visibility.Hidden;
             }
+            //DataContext = new { ShowUDBtns , ShowAdBtn };
         }
         catch (InvalidValue exc)
         {
