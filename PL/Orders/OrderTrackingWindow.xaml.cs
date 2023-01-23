@@ -23,6 +23,7 @@ public partial class OrderTrackingWindow : Window
 {
     private IBl bl;
     private PO.OrderTracking ot;
+    private Window mainWindow;
     /// <summary>
     /// A private help function to convert Bo.OrderTracking entity to PO.OrderEntity entity.
     /// </summary>
@@ -37,23 +38,44 @@ public partial class OrderTrackingWindow : Window
         return pOt;
     }
 
-    public OrderTrackingWindow(IBl Ibl, int Id)
+    public OrderTrackingWindow(IBl Ibl, int Id,Window w)
     {
-        InitializeComponent();
+        mainWindow = w;
         bl = Ibl;
-        BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
-        ot= convertBoOrdTrckToPoOrdTrck(bOt);
-        DataContext = ot;   
+        try {           
+            BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
+            InitializeComponent();
+            ot = convertBoOrdTrckToPoOrdTrck(bOt);
+            DataContext = ot;
+        }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+            mainWindow.Show();
+            this.Close();
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            mainWindow.Show();
+            this.Close();
+        }
+        catch (Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+            mainWindow.Show();
+            this.Close();
+        }
     }
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
     {
-        new MainWindow().Show();
+        mainWindow.Show();
         this.Close();
     }
     private void OrderDetailsBtn_Click(object sender, RoutedEventArgs e)
     {
         new OrderWindow(bl, this, ot.Id).Show();
-        Close();
+        this.Hide();
     }
 }
 

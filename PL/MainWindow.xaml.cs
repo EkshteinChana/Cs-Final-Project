@@ -42,7 +42,7 @@ public partial class MainWindow : Window
     private void TrackBtn_Click(object sender, RoutedEventArgs e)
     {
         int oId = Convert.ToInt32(OrdIdTxtBx.Text);
-        new OrderTrackingWindow(bl, oId).Show();
-        Close();
+        this.Hide();
+        new OrderTrackingWindow(bl, oId,this).Show();
     }
 }
