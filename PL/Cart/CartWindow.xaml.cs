@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace PL.Cart;
 /// <summary>
 /// Interaction logic for CartWindow.xaml
@@ -26,6 +27,9 @@ public partial class CartWindow : Window
     /// <summary>
     /// A private help function to convert PO.Cart entity to BO.Cart entity.
     /// </summary>
+    private IBl bl;
+    Window sourcWindow;
+    PO.Cart cart;
     private BO.Cart convertPoCartToBoCart(PO.Cart pCrt)
     {
         BO.Cart bCrt = new()
@@ -84,9 +88,6 @@ public partial class CartWindow : Window
             }).ToList();
         return pCrt;
     }
-    private IBl bl;
-    Window sourcWindow;
-    PO.Cart cart;
     /// <summary>
     /// constractor of CartWindow which imports the list of the orderItems in the cart.
     /// </summary>
@@ -131,6 +132,7 @@ public partial class CartWindow : Window
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
     {
         sourcWindow.Show();
+        new PL.Products.ProductCatalogWindow(bl,cart);
         this.Close();
     }
     /// <summary>

@@ -217,14 +217,14 @@ internal class BlOrder : BlApi.IOrder
 
     public BO.OrderTracking TrackOrder(int orderId)
     {
+        if (orderId < 0)
+        {
+            throw new InvalidValue("ID");
+        }
         DO.Order order=new();
         try
         {
-            order = Dal.order.ReadSingle(o => o.Id == orderId);
-            if (order.Id == default)
-            {
-                throw new InvalidValue("orderID");
-            }
+            order = Dal.order.Read(orderId);
             BO.OrderTracking ot = new()
             {
                 Id = order.Id,
@@ -243,7 +243,7 @@ internal class BlOrder : BlApi.IOrder
             }
             return ot;
         }
-        catch (ObjectNotExistException err)
+        catch (IdNotExistException err)
         {
             throw new DataError(err, "Data Error: ");
         }

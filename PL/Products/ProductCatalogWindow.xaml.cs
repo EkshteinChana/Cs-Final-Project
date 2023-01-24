@@ -42,9 +42,9 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl)
+    public ProductCatalogWindow(IBl Ibl,PO.Cart c=null)
     {
-        cart= new PO.Cart();
+        cart = c ?? new PO.Cart();
         InitializeComponent();
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();

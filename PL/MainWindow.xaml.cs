@@ -1,4 +1,5 @@
-﻿using PL;
+﻿using BlApi;
+using PL;
 using PL.Orders;
 using PL.Products;
 using System;
@@ -41,8 +42,22 @@ public partial class MainWindow : Window
 
     private void TrackBtn_Click(object sender, RoutedEventArgs e)
     {
-        int oId = Convert.ToInt32(OrdIdTxtBx.Text);       
-        new OrderTrackingWindow(bl, oId).Show();
+        try { 
+        //int oId = Convert.ToInt32(OrdIdTxtBx.Text);       
+        //new OrderTrackingWindow(bl, Convert.ToInt32(oId), this).Show();
         this.Hide();
+        }
+        catch (InvalidValue exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+        }
+        catch (Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
     }
 }

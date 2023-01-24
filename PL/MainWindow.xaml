@@ -20,7 +20,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,8,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label Content="Order Id:"></Label>
                 <TextBox Margin="3,0,0,0" Name="OrdIdTxtBx" TextWrapping="Wrap" Width="40" Height="28"
-                     Text="{Binding Path=OrderId,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+                     Text="{Binding oId,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
             </StackPanel>
             <Button x:Name="TrackBtn" Content="Track"   FontWeight="Bold" FontSize="20" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"
                     HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Center" Width="80" Height="28" Click="TrackBtn_Click"/>
