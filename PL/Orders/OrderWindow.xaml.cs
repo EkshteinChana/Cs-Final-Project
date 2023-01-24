@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -78,14 +79,14 @@ public partial class OrderWindow : Window
             return bO;
         }).ToList();
     }
-    
-    public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl=null)
+
+    public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl = null)
     {
         try
         {
             InitializeComponent();
             bl = Ibl;
-            currentOrderList = cl ;
+            currentOrderList = cl;
             sourcWindow = w;
             if (id > -1)
             {
@@ -98,7 +99,7 @@ public partial class OrderWindow : Window
                 {
                     Statusoptions.Add(PO.eOrderStatus.Sent);
                 }
-                if(po.ShipDate == DateTime.MinValue)
+                if (po.ShipDate == DateTime.MinValue)
                 {
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
                 }
@@ -106,21 +107,23 @@ public partial class OrderWindow : Window
                 StatusSelector.ItemsSource = Statusoptions;
             }
         }
-        catch (Exception e){
-           MessageBox.Show(e.Message);
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
         }
     }
 
 
     private void UpdateOrdeBtn_Click(object sender, RoutedEventArgs e)
     {
-        if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status)
-        {
-            MessageBox.Show("No changes have been entered");
-            return;
-        }
         try
         {
+            ////if the admin enter 
+            if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status)
+            {
+                MessageBox.Show("No changes have been entered");
+                return;
+            }
             if (po.status < PO.eOrderStatus.Sent)
             {
                 bl.Order.UpdateOrdShipping(po.Id);
@@ -129,26 +132,56 @@ public partial class OrderWindow : Window
             {
                 bl.Order.UpdateOrdDelivery(po.Id);
             }
+            ////if the client entered
+            po.Items.Select(itm => { 
+                if(itm.UpdateStatus == PO.eUpdateOrder.delete) {
+                    bl.Order.UpdateOrd(po.Id, itm.ProductId, 0, BO.eUpdateOrder.delete);
+                }
+                return itm;
+            }).ToList();    
             updateCrrnOrdLst();
-            MessageBox.Show("The update was successful ✔");           
+            MessageBox.Show("The update was successful ✔");
             sourcWindow.Show();
             Close();
         }
         catch (Exception err)
         {
-            MessageBox.Show(err.Message+" ❌");
+            MessageBox.Show(err.Message + " ❌");
         }
     }
 
     private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
     {
-        sourcWindow.Show(); 
-        Close();    
+        sourcWindow.Show();
+        Close();
     }
 
     private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-       
+
 
     }
+
+    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
+
+    private void DeletItmBtn_Click(object sender, RoutedEventArgs e)
+    {
+        PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
+        if (MessageBox.Show("",
+                                "Delete?",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+            CurrntOitm.UpdateStatus = PO.eUpdateOrder.delete;
+            CurrntOitm.Amount = 0;
+        }
+    }
 }
+
+
+
+
+//int. Parse(textBox1. Text);

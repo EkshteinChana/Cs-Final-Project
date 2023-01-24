@@ -20,21 +20,47 @@
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Name="TitelEnterDetailsLbl" Content="{Binding  Path=Id,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Margin="8,0,0,0" FontWeight="Bold" FontSize="14"/>
-            <Label Grid.Row="2" Name="CustomNameLbl" Content="Customer name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="NameTxtBx" Text="{Binding Path=CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
-            <Label Grid.Row="3" Name="CustomEmailLbl" Content="Customer email:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="CustomEmailTxtBx" Text="{Binding Path=CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
-            <Label Grid.Row="4" Name="CustomAddressLbl" Content="Customer address:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="CustomAddressTxtBx" Text="{Binding Path=CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
-            <Label Grid.Row="5" Name="OrderDateLbl" Content="Order date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="OrderDateTxtBx" Content="{Binding Path=OrderDate}" HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="5"  VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
-            <Label Grid.Row="6" Name="StatusLbl" Content="Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <Label Name="TitelEnterDetailsLbl" Content="{Binding  Path=Id,Mode=TwoWay}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" 
+                   Margin="8,0,0,0" FontWeight="Bold" FontSize="14"/>
+            
+            <Label Grid.Row="2" Name="CustomNameLbl" Content="Customer name:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="NameTxtBx" Text="{Binding Path=CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                    HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" 
+                    Margin="0,0,0,5" MinWidth="100"  Grid.ColumnSpan="3"/>
+            
+            <Label Grid.Row="3" Name="CustomEmailLbl" Content="Customer email:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="CustomEmailTxtBx" Text="{Binding Path=CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                    HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
+                    Margin="0,0,0,5"  Grid.ColumnSpan="3"/>
+            
+            <Label Grid.Row="4" Name="CustomAddressLbl" Content="Customer address:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBox Name="CustomAddressTxtBx" Text="{Binding Path=CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                    HorizontalAlignment="Center"  Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
+                    Margin="0,0,0,5" Grid.ColumnSpan="3"/>
+            
+            <Label Grid.Row="5" Name="OrderDateLbl" Content="Order date:"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <Label Name="OrderDateTxtBx" Content="{Binding Path=OrderDate}" 
+                   HorizontalAlignment="Center" Grid.Row="5"  VerticalAlignment="Bottom" 
+                   Margin="0,0,0,5" MinWidth="100" Grid.ColumnSpan="3"/>
+            
+            <Label Grid.Row="6" Name="StatusLbl" Content="Status:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <ComboBox Name="StatusSelector"                      
                 SelectionChanged="StatusSelector_SelectionChanged" Grid.Row="6" 
-                Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100"
+                Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100" 
+                SelectedItem="{Binding Path=status ,Mode=OneWay }"
             />
-            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15">
+            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False" >
                 <ListView.View>
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
@@ -42,7 +68,30 @@
                         <GridViewColumn DisplayMemberBinding="{ Binding Price }" Header="Price" />
                         <GridViewColumn DisplayMemberBinding="{ Binding Amount }" Header="Amount"/>
                         <GridViewColumn DisplayMemberBinding="{ Binding TotalPrice }" Header="Total price"/>
-                        <GridViewColumn>
+                        <GridViewColumn Header="Change amount">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Name="updatAmountItmTxtBx" 
+                                             Text="{Binding Amount , Mode=OneWayToSource ,
+                                        UpdateSourceTrigger=LostFocus}"></TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Name="DeletItmBtn"
+                                        Content ="❌"
+                                        Click="DeletItmBtn_Click" Foreground="#FF1B1919"  
+                                        BorderBrush="#FF968888"
+                                        BorderThickness="2"
+                                        CommandParameter=""
+                                        Background="#FF268DEC"     
+                                        Margin="0"
+                                        VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>

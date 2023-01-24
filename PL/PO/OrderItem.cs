@@ -23,7 +23,7 @@ public class OrderItem: DependencyObject
     public static readonly DependencyProperty priceProperty = DependencyProperty.Register("Price", typeof(double), typeof(OrderItem), new UIPropertyMetadata(0.0));
     public static readonly DependencyProperty amountProperty = DependencyProperty.Register("Amount", typeof(int), typeof(OrderItem), new UIPropertyMetadata(0));
     public static readonly DependencyProperty totalPriceProperty = DependencyProperty.Register("TotalPrice", typeof(double), typeof(OrderItem), new UIPropertyMetadata(0.0));
-
+    public static readonly DependencyProperty updateStatusProperty = DependencyProperty.Register("UpdateStatus", typeof(PO.eUpdateOrder), typeof(OrderItem), new UIPropertyMetadata(PO.eUpdateOrder.noChanges));
     public int Id//OrderItem ID
     {
         get { return (int)GetValue(idProperty); }
@@ -55,6 +55,10 @@ public class OrderItem: DependencyObject
         set { SetValue(totalPriceProperty, value); }
     }
 
+    public PO.eUpdateOrder UpdateStatus {
+        get { return (PO.eUpdateOrder)GetValue(updateStatusProperty); }
+        set { SetValue(updateStatusProperty, value); }
+    }
     public override string ToString() => $@"
             ID: {Id}
             name: {Name}
