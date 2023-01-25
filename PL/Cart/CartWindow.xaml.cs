@@ -24,12 +24,11 @@ namespace PL.Cart;
 /// </summary>
 public partial class CartWindow : Window
 {
+    private IBl bl;
+    PO.Cart cart;
     /// <summary>
     /// A private help function to convert PO.Cart entity to BO.Cart entity.
     /// </summary>
-    private IBl bl;
-    Window sourcWindow;
-    PO.Cart cart;
     private BO.Cart convertPoCartToBoCart(PO.Cart pCrt)
     {
         BO.Cart bCrt = new()
@@ -95,11 +94,13 @@ public partial class CartWindow : Window
     {
         InitializeComponent();
         bl = Ibl;
-        sourcWindow = w;
         cart = c;
         DataContext = cart;
     }
 
+    /// <summary>
+    /// A function for order confirmation (in the PL layer).
+    /// </summary>
     private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -129,10 +130,12 @@ public partial class CartWindow : Window
         }
     }
 
+    /// <summary>
+    /// A function for returning to the ProductCatalogWindow.
+    /// </summary>
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
     {
-        sourcWindow.Show();
-        new PL.Products.ProductCatalogWindow(bl,cart);
+        new PL.Products.ProductCatalogWindow(bl,cart).Show();
         this.Close();
     }
     /// <summary>
@@ -169,32 +172,42 @@ public partial class CartWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
+    /// <summary>
+    /// A function to increase the amount of a product in the cart by 1.
+    /// </summary>
     private void IncreaseBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
         UpdateAmount(currentOI.ProductId, currentOI.Amount + 1);
     }
+    /// <summary>
+    /// A function to decrease the amount of a product in the cart by 1.
+    /// </summary>
     private void DecreaseBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
         UpdateAmount(currentOI.ProductId, currentOI.Amount - 1);
     }
+    /// <summary>
+    /// A function to delete a product from the cart.
+    /// </summary>
     private void DeleteBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
         UpdateAmount(currentOI.ProductId, 0);
     }
-
-    private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
-
+    /// <summary>
+    /// A function emptying a cart.
+    /// </summary>
     private void EmptyCart_Click(object sender, RoutedEventArgs e)
     {
         cart.Items.Clear();
         cart = new();
         DataContext = cart;///???
+    }
+    private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
     }
 }
 

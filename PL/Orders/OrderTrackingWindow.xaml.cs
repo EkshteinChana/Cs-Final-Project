@@ -23,7 +23,6 @@ public partial class OrderTrackingWindow : Window
 {
     private IBl bl;
     private PO.OrderTracking ot;
-    Window mainWindow;
     /// <summary>
     /// A private help function to convert Bo.OrderTracking entity to PO.OrderEntity entity.
     /// </summary>
@@ -37,10 +36,11 @@ public partial class OrderTrackingWindow : Window
         };
         return pOt;
     }
-
+    /// <summary>
+    /// constractor of OrderTrackingWindow which imports OrderTracking entity for a specific order
+    /// </summary>
     public OrderTrackingWindow(IBl Ibl, int Id,Window w)
     {
-        mainWindow = w;
         bl = Ibl;
         try {
             BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
@@ -61,11 +61,17 @@ public partial class OrderTrackingWindow : Window
             throw exc;
         }
     }
-    private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
+    /// <summary>
+    /// A function for returning to the ProductCatalogWindow.
+    /// </summary>
+    private void ReturnToMainWindowBtn_Click(object sender, RoutedEventArgs e)
     {
-        mainWindow.Show();
+        new MainWindow().Show();
         this.Close();
     }
+    /// <summary>
+    /// A function that opens the OrderWindow for watching the details of the current order.
+    /// </summary>
     private void OrderDetailsBtn_Click(object sender, RoutedEventArgs e)
     {
         new OrderWindow(bl, this, ot.Id).Show();

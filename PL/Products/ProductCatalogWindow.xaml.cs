@@ -43,9 +43,9 @@ public partial class ProductCatalogWindow : Window
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
     public ProductCatalogWindow(IBl Ibl,PO.Cart c=null)
-    {
-        cart = c ?? new PO.Cart();
+    {        
         InitializeComponent();
+        cart = c ?? new PO.Cart();
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
         currentProductList = new();
@@ -82,7 +82,7 @@ public partial class ProductCatalogWindow : Window
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
         new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id,cart).Show();
-        this.Hide();
+        this.Close();
     }
     /// <summary>
     /// A function that show all the product
@@ -91,24 +91,20 @@ public partial class ProductCatalogWindow : Window
     {
         CategorySelector.SelectedItem = null;
     }
-
-
-    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
-
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
         new Cart.CartWindow(bl, this,cart).Show();
-        this.Hide();
+        this.Close();
     }
 
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
+        cart.Items.Clear();
+        cart = new();
         new MainWindow().Show();
         this.Close();
     }
+    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }
 
 

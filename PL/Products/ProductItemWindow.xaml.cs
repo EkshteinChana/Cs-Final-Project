@@ -17,7 +17,6 @@ namespace PL.Products;
 public partial class ProductItemWindow : Window
 {
     private IBl bl;
-    Window sourcWindow;
     BO.eCategory? catagory;
     PO.Cart cart;
     PO.ProductItem currentProd;
@@ -108,7 +107,6 @@ public partial class ProductItemWindow : Window
         {
             InitializeComponent();
             bl = Ibl;
-            sourcWindow = w;
             catagory = ctgry;
             cart = crt;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
@@ -135,7 +133,7 @@ public partial class ProductItemWindow : Window
     /// </summary>
     private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
     {
-        sourcWindow.Show();
+        new ProductCatalogWindow(bl, cart).Show();
         this.Close();
     }
     /// <summary>
@@ -153,7 +151,8 @@ public partial class ProductItemWindow : Window
             MessageBox.Show("The deletion was successful");
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
-            sourcWindow.Show();
+            new ProductCatalogWindow(bl, cart).Show();
+            //sourcWindow.Show();
             this.Close();
         }
         catch (InvalidValue exc)
@@ -191,7 +190,7 @@ public partial class ProductItemWindow : Window
             MessageBox.Show("The product has been successfully added");
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
-            sourcWindow.Show();
+            new ProductCatalogWindow(bl, cart).Show();
             this.Close();
         }
         catch (InvalidValue exc)
