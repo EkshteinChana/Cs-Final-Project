@@ -84,6 +84,10 @@ public partial class OrderWindow : Window
     {
         try
         {
+            if (cl != null)
+            {
+                AdminCb.IsChecked = true;
+            }
             InitializeComponent();
             bl = Ibl;
             currentOrderList = cl;
@@ -102,6 +106,10 @@ public partial class OrderWindow : Window
                 if (po.ShipDate == DateTime.MinValue)
                 {
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
+                    if (cl == null)
+                    {
+                        ChangeVisibity.IsChecked = true;
+                    }
                 }
                 ItemsList.DataContext = po.Items;
                 StatusSelector.ItemsSource = Statusoptions;

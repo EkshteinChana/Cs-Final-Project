@@ -29,21 +29,24 @@
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="NameTxtBx" Text="{Binding Path=CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                     HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" 
-                    Margin="0,0,0,5" MinWidth="100"  Grid.ColumnSpan="3"/>
+                    Margin="0,0,0,5" MinWidth="100"  Grid.ColumnSpan="3"
+                     IsEnabled="{Binding ElementName=AdminCb,Path=IsChecked}"/>
             
             <Label Grid.Row="3" Name="CustomEmailLbl" Content="Customer email:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="CustomEmailTxtBx" Text="{Binding Path=CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
                     HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
-                    Margin="0,0,0,5"  Grid.ColumnSpan="3"/>
+                    Margin="0,0,0,5"  Grid.ColumnSpan="3"
+                     IsEnabled="{Binding ElementName=AdminCb,Path=IsChecked}"/>
             
             <Label Grid.Row="4" Name="CustomAddressLbl" Content="Customer address:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="CustomAddressTxtBx" Text="{Binding Path=CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                     HorizontalAlignment="Center"  Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
-                    Margin="0,0,0,5" Grid.ColumnSpan="3"/>
+                    Margin="0,0,0,5" Grid.ColumnSpan="3"
+                    IsEnabled="{Binding ElementName=AdminCb,Path=IsChecked}"/>
             
             <Label Grid.Row="5" Name="OrderDateLbl" Content="Order date:"
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -58,7 +61,7 @@
             <ComboBox Name="StatusSelector"                      
                 SelectionChanged="StatusSelector_SelectionChanged" Grid.Row="6" 
                 Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100" 
-                SelectedItem="{Binding Path=status ,Mode=OneWay }"
+                SelectedItem="{Binding Path=status ,Mode=OneWay }" IsEnabled="{Binding ElementName=AdminCb,Path=IsChecked}"
             />
             <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False" >
                 <ListView.View>
@@ -71,7 +74,7 @@
                         <GridViewColumn Header="Change amount">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate x:Name="updatItmTxtBx">
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ElementName=ChangeVisibity,Path=IsChecked}" >
                                         <TextBox  Text="{Binding AmountUpdated,
                                                  Mode=OneWayToSource}" MinWidth="25">
                                         </TextBox>
@@ -83,10 +86,11 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Delete" Width="50">
+                        <GridViewColumn Header="Delete" Width="50" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button
+                                        IsEnabled="{Binding ElementName=ChangeVisibity,Path=IsChecked}"
                                         Name="DeletItmBtn"
                                         Content ="❌"
                                         Click="DeletItmBtn_Click" Foreground="#FF1B1919"  
@@ -104,6 +108,8 @@
             </ListView>
             <Button Name="UpdateOrderBtn" Content="Update" HorizontalAlignment="Center" Grid.Row="8" Click="UpdateOrdeBtn_Click" Width="78" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         </Grid>
+        <CheckBox Name="ChangeVisibity"  Visibility="Hidden" IsChecked="False"/>
+        <CheckBox Name="AdminCb" Visibility="Hidden" IsChecked="False"/>
     </Grid>
 </Window>
 

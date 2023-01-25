@@ -94,26 +94,17 @@ public partial class ProductWindow : Window
             sourcWindow = w;
             catagory = ctgry;
             currentProductList = cl;
-            //bool ShowUDBtns = true, ShowAdBtn = true;
-            if (id != null)
-            {
+            if (id != null)//update and delete
+            {               
                 BO.Product bP = bl.Product.ReadProdManager((int)id);
                 currentProd = convertBoProdToPoProd(bP);
-                //ShowAdBtn = false;
-                AddProductBtn.Visibility = Visibility.Hidden;
                 TitelEnterDetailsLbl.Content = "Change the product details for updating";
             }
             else//add
             {
                 TitelEnterDetailsLbl.Content = "Enter the product details";
-                //ShowUDBtns = false;
-                IdLbl.Visibility = Visibility.Hidden;
-                IDLbl.Visibility = Visibility.Hidden;
-                UpdateProductBtn.Visibility = Visibility.Hidden;
-                DeleteProductBtn.Visibility = Visibility.Hidden;
             }
             DataContext = currentProd;
-            //DataContext = new { ShowUDBtns , ShowAdBtn };
         }
         catch (InvalidValue exc)
         {
