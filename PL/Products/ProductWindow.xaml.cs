@@ -18,6 +18,7 @@ public partial class ProductWindow : Window
     Window sourcWindow;
     BO.eCategory? catagory;
     private ObservableCollection<PO.ProductForList?> currentProductList;
+    PO.Product currentProd=new();
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -28,7 +29,7 @@ public partial class ProductWindow : Window
             Name = bP.Name,
             Price = bP.Price,
             Id = bP.Id,
-            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+            Category = (BO.eCategory?)bP.Category
         };
         return p;
     }
@@ -59,9 +60,25 @@ public partial class ProductWindow : Window
             Name = bP.Name,
             Price = bP.Price,
             InStock = bP.InStock,
-            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+            Category = (BO.eCategory?)bP.Category
         };
         return p;
+    }
+
+    /// <summary>
+    /// A private help function to convert PO.Product entity to BO.Product entity.
+    /// </summary>
+    private BO.Product convertPoProdToBoProd(PO.Product p)
+    {
+        BO.Product bP = new()
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Price = p.Price,
+            InStock = p.InStock,
+            Category = (BO.eCategory?)p.Category
+        };
+        return bP;
     }
 
     /// <summary>
@@ -81,9 +98,7 @@ public partial class ProductWindow : Window
             if (id != null)
             {
                 BO.Product bP = bl.Product.ReadProdManager((int)id);
-                PO.Product p = convertBoProdToPoProd(bP);
-                DataContext = p;
-                CategorySelector.SelectedItem = p.Category;
+                currentProd = convertBoProdToPoProd(bP);
                 //ShowAdBtn = false;
                 AddProductBtn.Visibility = Visibility.Hidden;
                 TitelEnterDetailsLbl.Content = "Change the product details for updating";
@@ -97,6 +112,7 @@ public partial class ProductWindow : Window
                 UpdateProductBtn.Visibility = Visibility.Hidden;
                 DeleteProductBtn.Visibility = Visibility.Hidden;
             }
+            DataContext = currentProd;
             //DataContext = new { ShowUDBtns , ShowAdBtn };
         }
         catch (InvalidValue exc)
@@ -120,13 +136,7 @@ public partial class ProductWindow : Window
     {
         try
         {
-            BO.Product prd = new()
-            {
-                Name = NameTxtBx.Text,
-                Price = Convert.ToDouble(PriceTxtBx.Text),
-                InStock = Convert.ToInt32(InStockTxtBx.Text),
-                Category = (BO.eCategory)CategorySelector.SelectedItem
-            };
+            BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.CreateProd(prd);
             MessageBox.Show("The addition was made successfully");
             UpdateCrrntPrdLst();
@@ -150,14 +160,7 @@ public partial class ProductWindow : Window
     {
         try
         {
-            BO.Product prd = new()
-            {
-                Id = Convert.ToInt32(IDLbl.Content),
-                Name = NameTxtBx.Text,
-                Price = Convert.ToDouble(PriceTxtBx.Text),
-                InStock = Convert.ToInt32(InStockTxtBx.Text),
-                Category = (BO.eCategory)CategorySelector.SelectedItem
-            };
+            BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.UpdateProd(prd);
             MessageBox.Show("The update was successful");
             UpdateCrrntPrdLst();
@@ -185,8 +188,7 @@ public partial class ProductWindow : Window
     {
         try
         {
-            int id = Convert.ToInt32(IDLbl.Content);
-            bl.Product.DeleteProd(id);
+            bl.Product.DeleteProd(currentProd.Id);
             MessageBox.Show("The deletion was successful");
             UpdateCrrntPrdLst();
             sourcWindow.Show();

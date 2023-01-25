@@ -23,7 +23,7 @@ public partial class ProductCatalogWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
-    PO.Cart cart;
+    PO.Cart cart=new();
 
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -91,6 +91,9 @@ public partial class ProductCatalogWindow : Window
     {
         CategorySelector.SelectedItem = null;
     }
+    /// <summary>
+    /// A function that opens the CartWindow for watching he cart.
+    /// </summary>
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
         new Cart.CartWindow(bl, this, cart).Show();
