@@ -42,8 +42,8 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl,PO.Cart c=null)
-    {        
+    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null)
+    {
         InitializeComponent();
         cart = c ?? new PO.Cart();
         bl = Ibl;
@@ -81,7 +81,7 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id,cart).Show();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart).Show();
         this.Close();
     }
     /// <summary>
@@ -93,7 +93,7 @@ public partial class ProductCatalogWindow : Window
     }
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
-        new Cart.CartWindow(bl, this,cart).Show();
+        new Cart.CartWindow(bl, this, cart).Show();
         this.Close();
     }
 
@@ -106,7 +106,3 @@ public partial class ProductCatalogWindow : Window
     }
     private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }
-
-
-
-

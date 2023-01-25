@@ -135,7 +135,7 @@ public partial class CartWindow : Window
     /// </summary>
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
     {
-        new PL.Products.ProductCatalogWindow(bl,cart).Show();
+        new PL.Products.ProductCatalogWindow(bl, cart).Show();
         this.Close();
     }
     /// <summary>
@@ -149,7 +149,7 @@ public partial class CartWindow : Window
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, ID, amount);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
-            DataContext= cart;///???
+            DataContext = cart;///???
         }
         catch (InvalidValue exc)
         {
@@ -210,5 +210,3 @@ public partial class CartWindow : Window
 
     }
 }
-
-
