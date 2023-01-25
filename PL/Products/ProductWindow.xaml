@@ -54,7 +54,8 @@
             <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Top" 
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Center" 
-                      Margin="0,0,0,5" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"/>
+                      Margin="0,0,0,5" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"
+                       Text="{Binding Path=Category,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
             <Label Grid.Row="5" Name="InStockLbl" Content="amount in stock:" HorizontalAlignment="Center" VerticalAlignment="Top"
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="InStockTxtBx" HorizontalAlignment="Center" 

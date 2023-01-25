@@ -20,12 +20,12 @@
             <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding Items}" Margin="10,31,10,52" Grid.Row="1" FontSize="20" SelectionChanged="OrderItemListview_SelectionChanged">
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
-                        <GridViewColumn DisplayMemberBinding="{Binding ProductId }" Header="Product Id" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Price }" Header="Price" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Amount }" Header="Amount" />
-                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice }" Header="TotalPrice" />
+                        <GridViewColumn DisplayMemberBinding="{ Binding Id,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="ID" />
+                        <GridViewColumn DisplayMemberBinding="{Binding ProductId,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Product Id" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Name,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Header="Name" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Price" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Amount,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Amount" />
+                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="TotalPrice" />
                         <GridViewColumn Header="Increase">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate >
@@ -52,7 +52,7 @@
             </ListView>
             <StackPanel HorizontalAlignment="Center" Name="TotalPrice" Orientation="Horizontal" Grid.Row="2">
                 <Label Name="TotalPriceLbl" Content="TotalPrice:" FontWeight="Bold"/>
-                <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,Mode=TwoWay}" />
+                <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
             </StackPanel>
             <Button Name="EmptyCart" Content="Empty Cart" HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center"  Height="41" Width="175" Margin="0,0,590,0" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="EmptyCart_Click" />

@@ -24,7 +24,7 @@ namespace PL.PO
             get { return (double)GetValue(priceProperty); }
             set { SetValue(priceProperty, value); }
         }
-        public BO.eCategory Category {
+        public BO.eCategory? Category {
             get { return (BO.eCategory)GetValue(categoryProperty); }
             set { SetValue(categoryProperty, value); }
         }             
