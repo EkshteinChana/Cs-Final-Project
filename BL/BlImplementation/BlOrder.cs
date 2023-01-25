@@ -142,6 +142,8 @@ internal class BlOrder : BlApi.IOrder
                     DO.OrderItem tmpItmInOrd = (DO.OrderItem)itmInOrd;
                     Dal.orderItem.Delete(tmpItmInOrd.Id);
 
+                    
+
                     break;
                 case BO.eUpdateOrder.changeAmount:
                     if (itmInOrd.Equals(default(DO.OrderItem)) || itmInOrd == null)

@@ -132,13 +132,6 @@ public partial class OrderWindow : Window
             {
                 bl.Order.UpdateOrdDelivery(po.Id);
             }
-            ////if the client entered
-            po.Items.Select(itm => { 
-                if(itm.UpdateStatus == PO.eUpdateOrder.delete) {
-                    bl.Order.UpdateOrd(po.Id, itm.ProductId, 0, BO.eUpdateOrder.delete);
-                }
-                return itm;
-            }).ToList();    
             updateCrrnOrdLst();
             MessageBox.Show("The update was successful ✔");
             sourcWindow.Show();
@@ -150,6 +143,7 @@ public partial class OrderWindow : Window
         }
     }
 
+    //if the customer updatethe items list
     private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
     {
         sourcWindow.Show();
@@ -170,16 +164,58 @@ public partial class OrderWindow : Window
     private void DeletItmBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
-        if (MessageBox.Show("",
-                                "Delete?",
+        if (MessageBox.Show($"Are you sure you want to delete the item {CurrntOitm.Name} from the order?",
+                                $"Delete {CurrntOitm.Name}",
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
         {
-            CurrntOitm.UpdateStatus = PO.eUpdateOrder.delete;
-            CurrntOitm.Amount = 0;
+            try
+            {
+                bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
+                po.Items.Remove(CurrntOitm);              
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
+        }
+    }
+
+    private void updatItmBtn_Click(object sender, RoutedEventArgs e)
+    {
+        PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
+        if (MessageBox.Show($"Are you sure you want to update the amount of {CurrntOitm.Name}?",
+                                $"update amount of {CurrntOitm.Name}",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+            try
+            {
+                
+                if (CurrntOitm.AmountUpdated != CurrntOitm.Amount)
+                {
+                    if (CurrntOitm.AmountUpdated == 0)
+                    {
+                        bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
+                        po.Items.Remove(CurrntOitm);
+                    }
+                    else
+                    {
+                        bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, CurrntOitm.AmountUpdated, BO.eUpdateOrder.changeAmount);
+                    }                    
+                }
+                
+                CurrntOitm.Amount = CurrntOitm.AmountUpdated;
+                CurrntOitm.AmountUpdated = 0;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
         }
     }
 }
+
 
 
 

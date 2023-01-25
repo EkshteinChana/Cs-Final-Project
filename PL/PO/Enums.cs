@@ -26,7 +26,6 @@ public enum eUpdateOrder
 {
     add,
     delete,
-    changeAmount,
-    noChanges
+    changeAmount
 }
 

@@ -23,7 +23,7 @@ public class OrderItem: DependencyObject
     public static readonly DependencyProperty priceProperty = DependencyProperty.Register("Price", typeof(double), typeof(OrderItem), new UIPropertyMetadata(0.0));
     public static readonly DependencyProperty amountProperty = DependencyProperty.Register("Amount", typeof(int), typeof(OrderItem), new UIPropertyMetadata(0));
     public static readonly DependencyProperty totalPriceProperty = DependencyProperty.Register("TotalPrice", typeof(double), typeof(OrderItem), new UIPropertyMetadata(0.0));
-    public static readonly DependencyProperty updateStatusProperty = DependencyProperty.Register("UpdateStatus", typeof(PO.eUpdateOrder), typeof(OrderItem), new UIPropertyMetadata(PO.eUpdateOrder.noChanges));
+    public static readonly DependencyProperty amountUpdatedProperty = DependencyProperty.Register("AmountUpdated", typeof(int), typeof(OrderItem), new UIPropertyMetadata(0));
     public int Id//OrderItem ID
     {
         get { return (int)GetValue(idProperty); }
@@ -55,10 +55,15 @@ public class OrderItem: DependencyObject
         set { SetValue(totalPriceProperty, value); }
     }
 
-    public PO.eUpdateOrder UpdateStatus {
-        get { return (PO.eUpdateOrder)GetValue(updateStatusProperty); }
-        set { SetValue(updateStatusProperty, value); }
+    /// <summary>
+    /// An auxiliary variable to allow the customer to update the quantity of an item in the order
+    /// </summary>
+    public int AmountUpdated
+    {
+        get { return (int)GetValue(amountUpdatedProperty); }
+        set { SetValue(amountUpdatedProperty, value); }
     }
+
     public override string ToString() => $@"
             ID: {Id}
             name: {Name}

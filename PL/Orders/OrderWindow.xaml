@@ -70,14 +70,20 @@
                         <GridViewColumn DisplayMemberBinding="{ Binding TotalPrice }" Header="Total price"/>
                         <GridViewColumn Header="Change amount">
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Name="updatAmountItmTxtBx" 
-                                             Text="{Binding Amount , Mode=OneWayToSource ,
-                                        UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <DataTemplate x:Name="updatItmTxtBx">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox  Text="{Binding AmountUpdated,
+                                                 Mode=OneWayToSource}" MinWidth="25">
+                                        </TextBox>
+                                        <Button Click="updatItmBtn_Click" Content="✔" 
+                                                MinWidth="20"
+                                                Foreground="#FF2C7DC7" Background="#FFD4DAE0">
+                                        </Button>
+                                    </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn >
+                        <GridViewColumn Header="Delete" Width="50">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button
