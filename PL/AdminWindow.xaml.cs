@@ -24,6 +24,9 @@ public partial class AdminWindow : Window
         new ProductListWindow(bl).Show();
         Close();
     }
+    /// <summary>
+    /// A function that opens the OrderListWindow.
+    /// </summary>
     private void ShowOrdersButton_Click(Object sender, RoutedEventArgs e) {
         new PL.Orders.OrderListWindow(bl).Show();
         this.Close();

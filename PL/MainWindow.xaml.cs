@@ -13,6 +13,7 @@ namespace PL;
 public partial class MainWindow : Window
 {
     private BlApi.IBl bl = BlApi.Factory.Get();
+
     /// <summary>
     /// Constractor of MainWindow.
     /// </summary>
@@ -30,7 +31,6 @@ public partial class MainWindow : Window
         Close();
     }
 
-
     /// <summary>
     /// A function that opens the ProductCatalogWindow.
     /// </summary>
@@ -40,6 +40,9 @@ public partial class MainWindow : Window
         Close();
     }
 
+    /// <summary>
+    /// A function that opens the OrderTrackingWindow.
+    /// </summary>
     private void TrackBtn_Click(object sender, RoutedEventArgs e)
     {
         try

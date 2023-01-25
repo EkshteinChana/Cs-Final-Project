@@ -32,6 +32,7 @@ public partial class ProductWindow : Window
         };
         return p;
     }
+
     /// <summary>
     /// A private help function for updating the currentProductList.
     /// </summary>
@@ -62,7 +63,6 @@ public partial class ProductWindow : Window
         };
         return p;
     }
-
 
     /// <summary>
     /// Constractor of ProductWindow for add, delete or update an a product.

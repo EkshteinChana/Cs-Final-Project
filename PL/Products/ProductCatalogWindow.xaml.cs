@@ -96,7 +96,9 @@ public partial class ProductCatalogWindow : Window
         new Cart.CartWindow(bl, this, cart).Show();
         this.Close();
     }
-
+    /// <summary>
+    /// A function for returning to the ProductCatalogWindow.
+    /// </summary>
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         cart.Items.Clear();
