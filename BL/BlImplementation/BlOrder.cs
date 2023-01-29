@@ -140,10 +140,7 @@ internal class BlOrder : BlApi.IOrder
                         throw new IllegalAction("Deletion of a product that does not exist in the order.");
                     }
                     DO.OrderItem tmpItmInOrd = (DO.OrderItem)itmInOrd;
-                    Dal.orderItem.Delete(tmpItmInOrd.Id);
-
-                    
-
+                    Dal.orderItem.Delete(tmpItmInOrd.Id);                   
                     break;
                 case BO.eUpdateOrder.changeAmount:
                     if (itmInOrd.Equals(default(DO.OrderItem)) || itmInOrd == null)

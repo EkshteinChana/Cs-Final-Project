@@ -16,6 +16,7 @@ namespace PL.Orders;
 public partial class OrderListWindow : Window
 {
     private IBl bl;
+    
     private ObservableCollection<PO.OrderForList?> currentOrderList { get; set; }//the list of the products 
     private PO.OrderForList convertBoOrdLstToPoOrdLst(BO.OrderForList bO)
     {
@@ -62,6 +63,12 @@ public partial class OrderListWindow : Window
     private void OrdersListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
+    }
+
+    private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
+    {
+        new PL.AdminWindow(bl).Show();
+        Close();
     }
 }
 

@@ -83,12 +83,12 @@ public partial class OrderWindow : Window
     public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl = null)
     {
         try
-        {
+        {           
+            InitializeComponent();
             if (cl != null)
             {
-                AdminCb.IsChecked = true;
+                AdminUse.IsChecked = true;
             }
-            InitializeComponent();
             bl = Ibl;
             currentOrderList = cl;
             sourcWindow = w;
@@ -108,7 +108,7 @@ public partial class OrderWindow : Window
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
                     if (cl == null)
                     {
-                        ChangeVisibity.IsChecked = true;
+                        customerUse.IsChecked = true;
                     }
                 }
                 ItemsList.DataContext = po.Items;
@@ -126,8 +126,8 @@ public partial class OrderWindow : Window
     {
         try
         {
-            ////if the admin enter 
-            if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status)
+            ////if the admin enter  
+            if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status && currentOrderList != null )
             {
                 MessageBox.Show("No changes have been entered");
                 return;
@@ -221,6 +221,13 @@ public partial class OrderWindow : Window
                 MessageBox.Show(err.Message + " ❌");
             }
         }
+    }
+
+    private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
+    {
+        new PL.Products.ProductCatalogWindow(bl).Show();
+        Hide();
+
     }
 }
 

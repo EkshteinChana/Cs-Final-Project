@@ -6,16 +6,12 @@
         xmlns:local="clr-namespace:PL.Orders"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="640" Width="800">
+    
     <Grid Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="85*"/>
-            <RowDefinition Name="try" Height="452*"/>
-            <RowDefinition Height="87*"/>
-        </Grid.RowDefinitions>
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="0*"/>
+                <RowDefinition Height="0"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -24,7 +20,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
         </Grid>
-        <ListView x:Name="OrdersListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}"  MouseDoubleClick="OrdersListview_MouseDoubleClick" Margin="50,31,50,52" Grid.Row="1" FontSize="20" SelectionChanged="OrdersListview_SelectionChanged">
+        <Label Content="Order list" HorizontalAlignment="Left"  FontSize="20" FontWeight="Bold" Background="#FFFDFDFD" Foreground="#FF328FA2"></Label>
+        <Button Name="ReturnBack" Content="Back" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ReturnBackBtn_Click" Height="29" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Width="63" FontSize="22"/>
+        <ListView x:Name="OrdersListview" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding}"  MouseDoubleClick="OrdersListview_MouseDoubleClick" Margin="50,50,50,52" Grid.Row="1" FontSize="20" SelectionChanged="OrdersListview_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID" />
