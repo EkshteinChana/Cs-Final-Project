@@ -19,6 +19,7 @@ public partial class OrderWindow : Window
     ObservableCollection<PO.OrderForList?>? currentOrderList;
     Window sourcWindow;
     PO.Order po;
+    System.Windows.Data.IValueConverter BoolToVisibleConvert;
     private PO.Order convertBoOrdToPoOrd(BO.Order bo)
     {
         if (bo.DeliveryDate == null) { bo.DeliveryDate = DateTime.MinValue; }
@@ -89,6 +90,7 @@ public partial class OrderWindow : Window
             {
                 AdminUse.IsChecked = true;
             }
+            BoolToVisibleConvert = new BooleanToVisibilityConverter();
             bl = Ibl;
             currentOrderList = cl;
             sourcWindow = w;
@@ -108,7 +110,8 @@ public partial class OrderWindow : Window
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
                     if (cl == null)
                     {
-                        customerUse.IsChecked = true;
+
+                        //customerUse.IsChecked = true;
                     }
                 }
                 ItemsList.DataContext = po.Items;
@@ -223,8 +226,11 @@ public partial class OrderWindow : Window
         }
     }
 
+    
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {
+
+        
         new PL.Products.ProductCatalogWindow(bl).Show();
         Hide();
 
