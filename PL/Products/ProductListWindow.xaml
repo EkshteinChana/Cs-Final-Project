@@ -27,6 +27,9 @@
             <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="70,33,0,0" VerticalAlignment="Top" Height="52" Width="120" FontWeight="Bold" FontSize="24"/>
             <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
               BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+            <Button x:Name="BackToAdminWindow" Content="Back" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Height="41" Width="120" FontWeight="Bold" FontSize="16"
+          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="BackToAdminWindow_Click"/>
         </Grid>
         <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
             <ListView.View>

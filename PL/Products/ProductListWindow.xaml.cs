@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BlApi;
 
-
 namespace PL;
 
 /// <summary>
@@ -96,5 +95,12 @@ public partial class ProductListWindow : Window
     {
 
     }
-
+    /// <summary>
+    /// A function for returning to the AdminWindow.
+    /// </summary>
+    private void BackToAdminWindow_Click(object sender, RoutedEventArgs e)
+    {
+        new AdminWindow(bl).Show();
+        Close();
+    }
 }

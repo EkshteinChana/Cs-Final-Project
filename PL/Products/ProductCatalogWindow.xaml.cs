@@ -100,7 +100,7 @@ public partial class ProductCatalogWindow : Window
         this.Close();
     }
     /// <summary>
-    /// A function for returning to the ProductCatalogWindow.
+    /// A function for returning to the mainWindow.
     /// </summary>
     private void Exit_Click(object sender, RoutedEventArgs e)
     {

@@ -31,4 +31,12 @@ public partial class AdminWindow : Window
         new PL.Orders.OrderListWindow(bl).Show();
         this.Close();
     }
+    /// <summary>
+    /// A function for returning to the mainWindow.
+    /// </summary>
+    private void Exit_Click(object sender, RoutedEventArgs e)
+    {
+        new MainWindow().Show();
+        this.Close();
+    }
 }
