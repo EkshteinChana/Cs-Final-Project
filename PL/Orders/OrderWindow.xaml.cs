@@ -224,21 +224,15 @@ public partial class OrderWindow : Window
             }
         }
     }
-
-    
+ 
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {       
         new PL.Products.ProductCatalogWindow(bl).Show();
         Hide();
     }
 
-    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-    }
-
-    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-    }
+    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e){}
+    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e){}
 }
 
 
