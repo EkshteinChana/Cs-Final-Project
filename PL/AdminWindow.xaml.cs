@@ -10,10 +10,13 @@ namespace PL;
 public partial class AdminWindow : Window
 {
     BlApi.IBl bl;
+    /// <summary>
+    /// Constractor of AdminWindow.
+    /// </summary>
     public AdminWindow(BlApi.IBl Ibl)
     {
         InitializeComponent();
-        this.bl = Ibl;
+        bl = Ibl;
     }
 
     /// <summary>
@@ -29,7 +32,7 @@ public partial class AdminWindow : Window
     /// </summary>
     private void ShowOrdersButton_Click(Object sender, RoutedEventArgs e) {
         new PL.Orders.OrderListWindow(bl).Show();
-        this.Close();
+        Close();
     }
     /// <summary>
     /// A function for returning to the mainWindow.
@@ -37,6 +40,6 @@ public partial class AdminWindow : Window
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         new MainWindow().Show();
-        this.Close();
+        Close();
     }
 }

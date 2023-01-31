@@ -20,6 +20,9 @@ public partial class OrderWindow : Window
     Window sourcWindow;
     PO.Order po;
     System.Windows.Data.IValueConverter BoolToVisibleConvert;
+    /// <summary>
+    /// A private help function to convert BO.Order entity to PO.Order entity.
+    /// </summary>
     private PO.Order convertBoOrdToPoOrd(BO.Order bo)
     {
         if (bo.DeliveryDate == null) { bo.DeliveryDate = DateTime.MinValue; }
@@ -55,6 +58,9 @@ public partial class OrderWindow : Window
         }).ToList();
         return po;
     }
+    /// <summary>
+    /// A private help function to convert BO.OrderForList entity to PO.OrderForList entity.
+    /// </summary>
     private PO.OrderForList convertBoOrdLstToPoOrdLst(BO.OrderForList bO)
     {
         PO.OrderForList po = new()
@@ -69,6 +75,9 @@ public partial class OrderWindow : Window
         else { po.status = PO.eOrderStatus.Sent; }
         return po;
     }
+    /// <summary>
+    /// A private help function for updating the current order list.
+    /// </summary>
     private void updateCrrnOrdLst()
     {
         currentOrderList.Clear();
@@ -80,7 +89,9 @@ public partial class OrderWindow : Window
             return bO;
         }).ToList();
     }
-
+    /// <summary>
+    /// constractor of OrderWindow for watching and updating a order.
+    /// </summary>
     public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl = null)
     {
         try
@@ -124,7 +135,6 @@ public partial class OrderWindow : Window
         }
     }
 
-
     private void UpdateOrdeBtn_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -159,17 +169,6 @@ public partial class OrderWindow : Window
     {
         sourcWindow.Show();
         Close();
-    }
-
-    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-
-    }
-
-    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
     }
 
     private void DeletItmBtn_Click(object sender, RoutedEventArgs e)
@@ -228,12 +227,17 @@ public partial class OrderWindow : Window
 
     
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
-    {
-
-        
+    {       
         new PL.Products.ProductCatalogWindow(bl).Show();
         Hide();
+    }
 
+    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+    }
+
+    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
     }
 }
 

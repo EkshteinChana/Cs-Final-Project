@@ -90,11 +90,6 @@ public partial class ProductListWindow : Window
     {
         CategorySelector.SelectedItem = null;
     }
-
-    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
     /// <summary>
     /// A function for returning to the AdminWindow.
     /// </summary>
@@ -102,5 +97,10 @@ public partial class ProductListWindow : Window
     {
         new AdminWindow(bl).Show();
         Close();
+    }
+
+    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
     }
 }

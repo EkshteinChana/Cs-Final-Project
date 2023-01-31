@@ -67,7 +67,7 @@ public partial class OrderTrackingWindow : Window
     private void ReturnToMainWindowBtn_Click(object sender, RoutedEventArgs e)
     {
         new MainWindow().Show();
-        this.Close();
+        Close();
     }
     /// <summary>
     /// A function that opens the OrderWindow for watching the details of the current order.
@@ -75,7 +75,7 @@ public partial class OrderTrackingWindow : Window
     private void OrderDetailsBtn_Click(object sender, RoutedEventArgs e)
     {
         new OrderWindow(bl, this, ot.Id).Show();
-        this.Hide();
+        Hide();
     }
 }
 

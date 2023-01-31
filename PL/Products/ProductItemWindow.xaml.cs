@@ -110,7 +110,7 @@ public partial class ProductItemWindow : Window
             catagory = ctgry;
             cart = crt;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
-            BO.ProductItem bP = bl.Product.ReadProdCustomer((int)id, bCrt);
+            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
             DataContext = currentProd;
         }
@@ -152,7 +152,6 @@ public partial class ProductItemWindow : Window
             //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
             //currentProd = convertBoProdItmToPoProdItm(bP);
             new ProductCatalogWindow(bl, cart).Show();
-            //sourcWindow.Show();
             this.Close();
         }
         catch (InvalidValue exc)
