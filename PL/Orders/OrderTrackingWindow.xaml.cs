@@ -75,19 +75,8 @@ public partial class OrderTrackingWindow : Window
     /// A function that opens the OrderWindow for watching the details of the current order.
     /// </summary>
     private void OrderDetailsBtn_Click(object sender, RoutedEventArgs e)
-    {
-        BO.Order bo = bl.Order.ReadOrd(orderId);
-        //po = convertBoOrdToPoOrd(bo);
-        PO.Cart cart = new()
-        {
-            CustomerName = bo.CustomerName,
-            CustomerEmail= bo.CustomerEmail,    
-            CustomerAddress= bo.CustomerAddress,    
-            TotalPrice= bo.TotalPrice
-        };   
-
-        new Cart.CartWindow(bl, this, cart);
-        //new OrderWindow(bl, this, ot.Id).Show();
+    {       
+        new OrderWindow(bl, this, ot.Id).Show();
         Hide();
     }
 }

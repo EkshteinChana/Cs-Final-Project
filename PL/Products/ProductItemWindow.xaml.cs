@@ -17,9 +17,12 @@ namespace PL.Products;
 public partial class ProductItemWindow : Window
 {
     private IBl bl;
-    BO.eCategory? catagory;
-    PO.Cart cart;
-    PO.ProductItem currentProd;
+    private BO.eCategory? catagory;
+    private PO.Cart cart;
+    private PO.ProductItem currentProd;
+    private int? orderId;
+    private Window sourceWindow;
+    bool isConfirmed = false;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -101,18 +104,23 @@ public partial class ProductItemWindow : Window
     /// <summary>
     /// Constractor of ProductItemWindow for watching a productItem.
     /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt)
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt = null, int? ordId = null)
     {
         try
         {
             InitializeComponent();
             bl = Ibl;
+            isConfirmed = orderId != null;
+            sourceWindow= w;    
             catagory = ctgry;
             cart = crt;
+            orderId = ordId;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
-            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
+            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);            
             currentProd = convertBoProdItmToPoProdItm(bP);
-            DataContext = currentProd;
+            var ob = new { currentProd, isConfirmed };
+            DataContext = ob;
+
         }
         catch (InvalidValue exc)
         {
@@ -136,6 +144,7 @@ public partial class ProductItemWindow : Window
         new ProductCatalogWindow(bl, cart).Show();
         Close();
     }
+
     /// <summary>
     /// A function to decrease the amount of a product in the cart by 1.
     /// </summary>
@@ -149,10 +158,8 @@ public partial class ProductItemWindow : Window
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             MessageBox.Show("The deletion was successful");
-            //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
-            //currentProd = convertBoProdItmToPoProdItm(bP);
             new ProductCatalogWindow(bl, cart).Show();
-            this.Close();
+            Close();
         }
         catch (InvalidValue exc)
         {
@@ -175,6 +182,7 @@ public partial class ProductItemWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
+
     /// <summary>
     /// A function to increase the amount of a product in the cart by 1.
     /// </summary>
@@ -187,10 +195,8 @@ public partial class ProductItemWindow : Window
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             MessageBox.Show("The product has been successfully added");
-            //BO.ProductItem bP = bl.Product.ReadProdCustomer((int)currentProd.Id, bCrt);
-            //currentProd = convertBoProdItmToPoProdItm(bP);
-            new ProductCatalogWindow(bl, cart).Show();
-            this.Close();
+            new ProductCatalogWindow(bl, cart).Show();           
+            Close();
         }
         catch (InvalidValue exc)
         {
@@ -209,4 +215,29 @@ public partial class ProductItemWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
+
+    private void AddMeBtn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            bl.Order.UpdateOrd(orderId ?? -1, currentProd.Id, 1, BO.eUpdateOrder.add);
+            MessageBox.Show("The product has been successfully added");
+            sourceWindow.Show();
+        }
+        catch (IllegalAction exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (DataError dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+        }
+        catch(Exception exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+    }
+
+    //add item to an exist order
+    //BO.Order BlApi.IOrder.UpdateOrd(int oId, int pId, int amount, BO.eUpdateOrder action) // (Bonus)
 }

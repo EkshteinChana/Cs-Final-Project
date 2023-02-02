@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
         Title="ProductCatalogWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="CartBtnStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExitBtn,Path=Content}" Value="Back">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -25,9 +34,11 @@
             <Label Grid.Column="0" Content="Category:" HorizontalAlignment="Left" Margin="70,33,0,0" VerticalAlignment="Top" Height="52" Width="120" FontWeight="Bold" FontSize="24"/>
             <Button Name="DisplayAllProductsButton" Content="Show all products" HorizontalAlignment="Center" Height="23" Grid.Column="1" VerticalAlignment="Top" Width="152" Click="DisplayAllProductsButton_Click" Margin="0,9,0,0" FontWeight="Bold" FontSize="16"
               BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
-            <Button Name="CartBtn" Content="Cart 🛒" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <Button Name="CartBtn" Content="Cart 🛒" Grid.Column="2" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
                     Width="80" Height="30" FontWeight="Bold" FontSize="16"
-                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="CartBtn_Click" >
+                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"
+                    Click="CartBtn_Click" Style="{StaticResource CartBtnStyle}">
                 <!--<Control.Template>
                     <DataTemplate>
                         <TextBlock Text="Cart 🛒"/>
@@ -36,7 +47,7 @@
 
                 </Control.Template>-->
             </Button>
-            <Button Name="Exit" Grid.Column="3" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <Button Name="ExitBtn" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center"
                     Width="80" Height="30" FontWeight="Bold" FontSize="16"
                     BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="Exit_Click"  />
         </Grid>

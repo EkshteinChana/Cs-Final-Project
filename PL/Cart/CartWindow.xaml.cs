@@ -135,7 +135,7 @@ public partial class CartWindow : Window
     /// </summary>
     private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
     {
-        new PL.Products.ProductCatalogWindow(bl, cart).Show();
+        new PL.Products.ProductCatalogWindow(bl,cart).Show();
         this.Close();
     }
     /// <summary>

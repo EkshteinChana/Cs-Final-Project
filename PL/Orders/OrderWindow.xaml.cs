@@ -226,15 +226,7 @@ public partial class OrderWindow : Window
  
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {
-        PO.Cart cart = new()
-        {
-            CustomerName = po.CustomerName,
-            CustomerEmail = po.CustomerEmail,
-            CustomerAddress = po.CustomerAddress,
-            TotalPrice = po.TotalPrice,
-            Items = po.Items
-        };
-        new PL.Products.ProductCatalogWindow(bl, cart, this).Show();
+        new PL.Products.ProductCatalogWindow(bl, null, this, po.Id ).Show();
         Hide();
     }
 

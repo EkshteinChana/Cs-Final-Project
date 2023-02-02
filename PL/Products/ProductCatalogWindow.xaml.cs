@@ -23,9 +23,9 @@ public partial class ProductCatalogWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
-    PO.Cart cart=new();
-    Window srcW;
-    System.Windows.Data.IValueConverter BoolToVisibleConvert;
+    private PO.Cart cart=new();
+    private Window srcW;
+    private int? OrderId;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -43,14 +43,22 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null , Window sourcW = null)
+    public ProductCatalogWindow(IBl Ibl,  PO.Cart c = null, Window sourcW = null, int? orderId = null )
     {
         InitializeComponent();
         cart = c ?? new PO.Cart();
-        srcW = sourcW;  
+        srcW = sourcW; 
+        OrderId= orderId;   
+        if(srcW!= null)//Enter from OrderTracking
+        {
+            ExitBtn.Content = "Back";
+        }
+        else 
+        {
+            ExitBtn.Content = "Exit";
+        }
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
-        BoolToVisibleConvert = new BooleanToVisibilityConverter();
         currentProductList = new();
         bProds.Select(bP =>
         {
@@ -84,8 +92,8 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart).Show();
-        this.Close();
+        new ProductItemWindow(bl ,this ,(BO.eCategory?)CategorySelector.SelectedItem , p.Id, cart, OrderId).Show();
+        Close();
     }
     /// <summary>
     /// A function that show all the product
@@ -95,7 +103,8 @@ public partial class ProductCatalogWindow : Window
         CategorySelector.SelectedItem = null;
     }
     /// <summary>
-    /// A function that opens the CartWindow for watching he cart.
+    /// A function that opens the CartWindow for watching he cart, 
+    /// the function is not possible if the user enterd in order to add an item for his exist order.
     /// </summary>
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
@@ -103,7 +112,7 @@ public partial class ProductCatalogWindow : Window
         this.Close();
     }
     /// <summary>
-    /// A function for returning to the mainWindow.
+    /// A function for returning to the mainWindow or to the orderWindow.
     /// </summary>
     private void Exit_Click(object sender, RoutedEventArgs e)
     {

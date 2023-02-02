@@ -18,7 +18,6 @@
             <GradientStop Color="#FF66CCD3" Offset="0.189"/>
         </LinearGradientBrush>
         <local:EnumOrdForLstConverter x:Key="EnumOrdForLstConverter"/>
-        <local:EnumOrdConverter x:Key="EnumOrdConverter"/>
     </Application.Resources>
 </Application>
 
