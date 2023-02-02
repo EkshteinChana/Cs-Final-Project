@@ -17,6 +17,7 @@ public partial class ProductListWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products 
+    System.Windows.Data.IValueConverter BoolToVisibleConvert;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -40,6 +41,7 @@ public partial class ProductListWindow : Window
         InitializeComponent();
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
+        BoolToVisibleConvert = new BooleanToVisibilityConverter();
         currentProductList = new();
         bProds.Select(bP =>
         {

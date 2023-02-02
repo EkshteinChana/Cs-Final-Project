@@ -24,7 +24,8 @@ public partial class ProductCatalogWindow : Window
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
     PO.Cart cart=new();
-
+    Window srcW;
+    System.Windows.Data.IValueConverter BoolToVisibleConvert;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -42,12 +43,14 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null)
+    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null , Window sourcW = null)
     {
         InitializeComponent();
         cart = c ?? new PO.Cart();
+        srcW = sourcW;  
         bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
+        BoolToVisibleConvert = new BooleanToVisibilityConverter();
         currentProductList = new();
         bProds.Select(bP =>
         {
@@ -106,8 +109,15 @@ public partial class ProductCatalogWindow : Window
     {
         cart.Items.Clear();
         cart = new();
-        new MainWindow().Show();
-        this.Close();
+        if(srcW != null)
+        {
+            srcW.Show();
+        }
+        else
+        {
+            new MainWindow().Show();
+        }      
+        Close();
     }
     private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }

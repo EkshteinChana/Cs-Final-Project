@@ -134,7 +134,7 @@ public partial class ProductItemWindow : Window
     private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
     {
         new ProductCatalogWindow(bl, cart).Show();
-        this.Close();
+        Close();
     }
     /// <summary>
     /// A function to decrease the amount of a product in the cart by 1.

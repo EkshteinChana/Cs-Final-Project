@@ -19,7 +19,7 @@ public partial class OrderWindow : Window
     ObservableCollection<PO.OrderForList?>? currentOrderList;
     Window sourcWindow;
     PO.Order po;
-    System.Windows.Data.IValueConverter BoolToVisibleConvert;
+    
     /// <summary>
     /// A private help function to convert BO.Order entity to PO.Order entity.
     /// </summary>
@@ -101,7 +101,6 @@ public partial class OrderWindow : Window
             {
                 AdminUse.IsChecked = true;
             }
-            BoolToVisibleConvert = new BooleanToVisibilityConverter();
             bl = Ibl;
             currentOrderList = cl;
             sourcWindow = w;
@@ -122,7 +121,7 @@ public partial class OrderWindow : Window
                     if (cl == null)
                     {
 
-                        //customerUse.IsChecked = true;
+                        customerUse.IsChecked = true;
                     }
                 }
                 ItemsList.DataContext = po.Items;
@@ -226,8 +225,16 @@ public partial class OrderWindow : Window
     }
  
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
-    {       
-        new PL.Products.ProductCatalogWindow(bl).Show();
+    {
+        PO.Cart cart = new()
+        {
+            CustomerName = po.CustomerName,
+            CustomerEmail = po.CustomerEmail,
+            CustomerAddress = po.CustomerAddress,
+            TotalPrice = po.TotalPrice,
+            Items = po.Items
+        };
+        new PL.Products.ProductCatalogWindow(bl, cart, this).Show();
         Hide();
     }
 
@@ -239,4 +246,3 @@ public partial class OrderWindow : Window
 
 
 
-//int. Parse(textBox1. Text);

@@ -23,6 +23,7 @@ public partial class OrderTrackingWindow : Window
 {
     private IBl bl;
     private PO.OrderTracking ot;
+    private int orderId;
     /// <summary>
     /// A private help function to convert Bo.OrderTracking entity to PO.OrderEntity entity.
     /// </summary>
@@ -43,6 +44,7 @@ public partial class OrderTrackingWindow : Window
     {
         bl = Ibl;
         try {
+            orderId = Id;
             BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
             InitializeComponent();
             ot = convertBoOrdTrckToPoOrdTrck(bOt);
@@ -74,7 +76,18 @@ public partial class OrderTrackingWindow : Window
     /// </summary>
     private void OrderDetailsBtn_Click(object sender, RoutedEventArgs e)
     {
-        new OrderWindow(bl, this, ot.Id).Show();
+        BO.Order bo = bl.Order.ReadOrd(orderId);
+        //po = convertBoOrdToPoOrd(bo);
+        PO.Cart cart = new()
+        {
+            CustomerName = bo.CustomerName,
+            CustomerEmail= bo.CustomerEmail,    
+            CustomerAddress= bo.CustomerAddress,    
+            TotalPrice= bo.TotalPrice
+        };   
+
+        new Cart.CartWindow(bl, this, cart);
+        //new OrderWindow(bl, this, ot.Id).Show();
         Hide();
     }
 }
