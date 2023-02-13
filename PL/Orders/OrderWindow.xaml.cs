@@ -182,7 +182,7 @@ public partial class OrderWindow : Window
             try
             {
                 bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
-                po.Items.Remove(CurrntOitm);              
+                po.Items.Remove(CurrntOitm);
             }
             catch(Exception err)
             {
@@ -212,6 +212,8 @@ public partial class OrderWindow : Window
                     else
                     {
                         bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, CurrntOitm.AmountUpdated, BO.eUpdateOrder.changeAmount);
+                        BO.Order bo = bl.Order.ReadOrd(po.Id);
+                        po = convertBoOrdToPoOrd(bo);
                     }                    
                 }
                 

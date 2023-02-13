@@ -22,7 +22,6 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TextBlock Text="{Binding isConfirmed}">blabla</TextBlock>
         <Grid Margin="10,44,10,44">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

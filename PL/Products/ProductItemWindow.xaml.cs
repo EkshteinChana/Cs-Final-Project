@@ -110,17 +110,16 @@ public partial class ProductItemWindow : Window
         {
             InitializeComponent();
             bl = Ibl;
+            orderId = ordId;
             isConfirmed = orderId != null;
-            sourceWindow= w;    
+            sourceWindow = w;
             catagory = ctgry;
             cart = crt;
-            orderId = ordId;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
-            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);            
+            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
             var ob = new { currentProd, isConfirmed };
             DataContext = ob;
-
         }
         catch (InvalidValue exc)
         {
@@ -141,7 +140,12 @@ public partial class ProductItemWindow : Window
     /// </summary>
     private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
     {
-        new ProductCatalogWindow(bl, cart).Show();
+        if (orderId != null)
+        {
+            sourceWindow.Show();
+        }
+        else
+            new ProductCatalogWindow(bl, cart).Show();
         Close();
     }
 
@@ -195,7 +199,7 @@ public partial class ProductItemWindow : Window
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
             MessageBox.Show("The product has been successfully added");
-            new ProductCatalogWindow(bl, cart).Show();           
+            new ProductCatalogWindow(bl, cart).Show();
             Close();
         }
         catch (InvalidValue exc)
@@ -223,6 +227,7 @@ public partial class ProductItemWindow : Window
             bl.Order.UpdateOrd(orderId ?? -1, currentProd.Id, 1, BO.eUpdateOrder.add);
             MessageBox.Show("The product has been successfully added");
             sourceWindow.Show();
+            Close();
         }
         catch (IllegalAction exc)
         {
@@ -232,7 +237,7 @@ public partial class ProductItemWindow : Window
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
-        catch(Exception exc)
+        catch (Exception exc)
         {
             MessageBox.Show(exc.Message);
         }

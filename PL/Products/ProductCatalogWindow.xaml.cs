@@ -23,7 +23,7 @@ public partial class ProductCatalogWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
-    private PO.Cart cart=new();
+    private PO.Cart cart = new();
     private Window srcW;
     private int? OrderId;
     /// <summary>
@@ -43,17 +43,17 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl,  PO.Cart c = null, Window sourcW = null, int? orderId = null )
+    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null, Window sourcW = null, int? orderId = null)
     {
         InitializeComponent();
         cart = c ?? new PO.Cart();
-        srcW = sourcW; 
-        OrderId= orderId;   
-        if(srcW!= null)//Enter from OrderTracking
+        srcW = sourcW;
+        OrderId = orderId;
+        if (srcW != null)//Enter from OrderTracking
         {
             ExitBtn.Content = "Back";
         }
-        else 
+        else
         {
             ExitBtn.Content = "Exit";
         }
@@ -92,8 +92,13 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl ,this ,(BO.eCategory?)CategorySelector.SelectedItem , p.Id, cart, OrderId).Show();
-        Close();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart, OrderId).Show();
+        if (OrderId != null)
+        {
+            Hide();
+        }
+        else
+            Close();
     }
     /// <summary>
     /// A function that show all the product
@@ -118,14 +123,14 @@ public partial class ProductCatalogWindow : Window
     {
         cart.Items.Clear();
         cart = new();
-        if(srcW != null)
+        if (srcW != null)
         {
             srcW.Show();
         }
         else
         {
             new MainWindow().Show();
-        }      
+        }
         Close();
     }
     private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
