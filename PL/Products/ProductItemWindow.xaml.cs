@@ -23,6 +23,7 @@ public partial class ProductItemWindow : Window
     private int? orderId;
     private Window sourceWindow;
     bool isConfirmed = false;
+    Action? action;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -104,7 +105,7 @@ public partial class ProductItemWindow : Window
     /// <summary>
     /// Constractor of ProductItemWindow for watching a productItem.
     /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt = null, int? ordId = null)
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt = null, int? ordId = null, Action? actn = null)
     {
         try
         {
@@ -115,6 +116,7 @@ public partial class ProductItemWindow : Window
             sourceWindow = w;
             catagory = ctgry;
             cart = crt;
+            action =actn;
             BO.Cart bCrt = convertPoCartToBoCart(cart);
             BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
             currentProd = convertBoProdItmToPoProdItm(bP);
@@ -225,6 +227,7 @@ public partial class ProductItemWindow : Window
         try
         {
             bl.Order.UpdateOrd(orderId ?? -1, currentProd.Id, 1, BO.eUpdateOrder.add);
+            action?.Invoke();
             MessageBox.Show("The product has been successfully added");
             sourceWindow.Show();
             Close();

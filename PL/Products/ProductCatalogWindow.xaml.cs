@@ -26,6 +26,8 @@ public partial class ProductCatalogWindow : Window
     private PO.Cart cart = new();
     private Window srcW;
     private int? OrderId;
+    //private Action<PO.Order, Func<BO.Order, PO.Order>>? action;
+    private Action? action;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -43,12 +45,13 @@ public partial class ProductCatalogWindow : Window
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
-    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null, Window sourcW = null, int? orderId = null)
+    public ProductCatalogWindow(IBl Ibl, PO.Cart c = null, Window sourcW = null, int? orderId = null, Action? actn=null)
     {
         InitializeComponent();
         cart = c ?? new PO.Cart();
         srcW = sourcW;
         OrderId = orderId;
+        action= actn;
         if (srcW != null)//Enter from OrderTracking
         {
             ExitBtn.Content = "Back";
@@ -92,7 +95,7 @@ public partial class ProductCatalogWindow : Window
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart, OrderId).Show();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart, OrderId,action).Show();
         if (OrderId != null)
         {
             Hide();

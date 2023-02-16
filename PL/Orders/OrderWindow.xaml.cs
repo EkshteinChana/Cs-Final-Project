@@ -42,6 +42,7 @@ public partial class OrderWindow : Window
         if (bo.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
         else if (bo.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
         else { po.status = PO.eOrderStatus.Sent; }
+        po.Items.Clear();
         bo.Items.Select(boi =>
         {
             PO.OrderItem poi = new()
@@ -89,6 +90,7 @@ public partial class OrderWindow : Window
             return bO;
         }).ToList();
     }
+    
     /// <summary>
     /// constractor of OrderWindow for watching and updating a order.
     /// </summary>
@@ -229,10 +231,23 @@ public partial class OrderWindow : Window
  
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {
-        new PL.Products.ProductCatalogWindow(bl, null, this, po.Id ).Show();
+        //new PL.Products.ProductCatalogWindow(bl, null, this, po.Id , updateCrrnOrd).Show();
+        new PL.Products.ProductCatalogWindow(bl, null, this, po.Id, updatee).Show();   
         Hide();
     }
-
+    /// <summary>
+    /// A private help function for updating the current order.
+    /// </summary>
+    private void updatee()
+    {
+        BO.Order bo = bl.Order.ReadOrd(po.Id);
+        po = convertBoOrdToPoOrd(bo);
+    }
+    //private void updateCrrnOrd(PO.Order po,Func<BO.Order,PO.Order> convertBoOrdToPoOrd)
+    //{
+    //    BO.Order bo = bl.Order.ReadOrd(po.Id);
+    //    po = convertBoOrdToPoOrd(bo);
+    //}
     private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e){}
     private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e){}
 }
