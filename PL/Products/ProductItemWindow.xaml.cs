@@ -245,7 +245,4 @@ public partial class ProductItemWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
-
-    //add item to an exist order
-    //BO.Order BlApi.IOrder.UpdateOrd(int oId, int pId, int amount, BO.eUpdateOrder action) // (Bonus)
 }

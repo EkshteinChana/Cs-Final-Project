@@ -205,8 +205,5 @@ public partial class CartWindow : Window
         cart = new();
         DataContext = cart;
     }
-    private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
+    private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e){}
 }

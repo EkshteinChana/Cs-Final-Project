@@ -33,8 +33,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Name="AddOrderButton" Content="Add new order" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Height="41" Width="175" Margin="590,0,0,0" FontWeight="Bold" FontSize="16"
-          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
     </Grid>
 </Window>
 

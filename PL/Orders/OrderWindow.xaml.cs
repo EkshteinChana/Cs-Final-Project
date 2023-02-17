@@ -103,7 +103,6 @@ public partial class OrderWindow : Window
             {
                 AdminUse.IsChecked = true;
             }
-            //bool AdminUse = cl != null;
             bl = Ibl;
             currentOrderList = cl;
             sourcWindow = w;
@@ -121,7 +120,6 @@ public partial class OrderWindow : Window
                 if (po.ShipDate == DateTime.MinValue)
                 {
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
-                    //bool customerUse = cl == null;
                     if (cl == null)
                     {
                         customerUse.IsChecked = true;
