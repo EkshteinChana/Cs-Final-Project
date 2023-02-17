@@ -136,7 +136,9 @@ public partial class OrderWindow : Window
             MessageBox.Show(e.Message);
         }
     }
-
+    /// <summary>
+    /// a function that updates the dates that regards to the order
+    /// </summary>
     private void UpdateOrdeBtn_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -167,12 +169,9 @@ public partial class OrderWindow : Window
     }
 
     //if the customer updatethe items list
-    private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
-    {
-        sourcWindow.Show();
-        Close();
-    }
-
+    /// <summary>
+    /// a function for deleting an item from the order.
+    /// </summary>
     private void DeletItmBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
@@ -192,7 +191,9 @@ public partial class OrderWindow : Window
             }
         }
     }
-
+    /// <summary>
+    /// a function for updating the amount of an item in the order.
+    /// </summary>
     private void updatItmBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
@@ -228,10 +229,11 @@ public partial class OrderWindow : Window
             }
         }
     }
- 
+    /// <summary>
+    /// a function for adding an item to the order.
+    /// </summary>
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {
-        //new PL.Products.ProductCatalogWindow(bl, null, this, po.Id , updateCrrnOrd).Show();
         new PL.Products.ProductCatalogWindow(bl, null, this, po.Id, updatee).Show();   
         Hide();
     }
@@ -243,11 +245,14 @@ public partial class OrderWindow : Window
         BO.Order bo = bl.Order.ReadOrd(po.Id);
         po = convertBoOrdToPoOrd(bo);
     }
-    //private void updateCrrnOrd(PO.Order po,Func<BO.Order,PO.Order> convertBoOrdToPoOrd)
-    //{
-    //    BO.Order bo = bl.Order.ReadOrd(po.Id);
-    //    po = convertBoOrdToPoOrd(bo);
-    //}
+    /// <summary>
+    /// A function for returning to the source Window.
+    /// </summary>
+    private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
+    {
+        sourcWindow.Show();
+        Close();
+    }
     private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e){}
     private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e){}
 }

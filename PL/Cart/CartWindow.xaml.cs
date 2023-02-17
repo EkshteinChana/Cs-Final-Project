@@ -149,7 +149,7 @@ public partial class CartWindow : Window
             bCrt = bl.Cart.UpdateAmountOfProd(bCrt, ID, amount);
             cart.Items.Clear();
             cart = convertBoCartToPoCart(bCrt);
-            DataContext = cart;///???
+            DataContext = cart;
         }
         catch (InvalidValue exc)
         {
@@ -203,7 +203,7 @@ public partial class CartWindow : Window
     {
         cart.Items.Clear();
         cart = new();
-        DataContext = cart;///???
+        DataContext = cart;
     }
     private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

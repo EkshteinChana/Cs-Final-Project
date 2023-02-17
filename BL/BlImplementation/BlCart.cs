@@ -180,25 +180,6 @@ internal class BlCart : ICart
 
         if (cart.Items != null)
         {
-            //foreach (BO.OrderItem item in cart.Items)
-            //{
-            //    if (item.Amount < 1)
-            //    {
-            //        throw new InvalidValue($"amount of product: {item.ProductId}");
-            //    }
-            //    try
-            //    {
-            //        DO.Product dP = dalList.product.Read(item.ProductId);
-            //        if (dP.InStock < item.Amount)
-            //        {
-            //            throw new OutOfStock(dP.Id, dP.InStock);
-            //        }
-            //    }
-            //    catch (IdNotExistException exc)
-            //    {
-            //        throw new InvalidValue($"ID of product ID: {item.ProductId}");
-            //    }
-            //}
             cart.Items.Select(item =>
             {
                 if (item?.Amount < 1)

@@ -53,7 +53,7 @@ internal class BlOrder : BlApi.IOrder
             bO.TotalPrice += bItm.TotalPrice;
             bItemsList.Add(bItm);
         }
-        bO.Items = bItemsList;
+        bO.Items = bItemsList.OrderBy(x => x.Id);
         return bO;
     }
 

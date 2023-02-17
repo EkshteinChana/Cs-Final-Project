@@ -26,7 +26,6 @@ public partial class ProductCatalogWindow : Window
     private PO.Cart cart = new();
     private Window srcW;
     private int? OrderId;
-    //private Action<PO.Order, Func<BO.Order, PO.Order>>? action;
     private Action? action;
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.

@@ -16,7 +16,7 @@ public class DataSource
     {
         private static int s_maxOrderItemId = 1;
         public static int MaxOrderItemId { get { return s_maxOrderItemId++; } }
- 
+
         private static int s_maxOrderId = 1;
         public static int MaxOrderId { get { return s_maxOrderId++; } }
     }
@@ -41,7 +41,7 @@ public class DataSource
     private static void CreateProductList()
     {
         // Temp help array 
-        (string?, eCategory?, double)[] prodNameCategoryPrice = 
+        (string?, eCategory?, double)[] prodNameCategoryPrice =
            {("Magnet siddur", eCategory.Siddur,52.5 ),
             ("Artistic Shabbat box", eCategory.Shabbat,200),
             ("pendant model siddur", eCategory.Siddur,60),
@@ -101,13 +101,13 @@ public class DataSource
             Order tmpOrd = new Order();
             tmpOrd.Id = Config.MaxOrderId;
             Random rnd = new Random();
-            int idx = rnd.Next(0,5);  // Rand who will be the customer of the current order
+            int idx = rnd.Next(0, 5);  // Rand who will be the customer of the current order
             (tmpOrd.CustomerName, tmpOrd.CustomerEmail, tmpOrd.CustomerAddress) = CustomerDetails[idx];
             rnd = new Random();
             int numDays = rnd.Next(20, 30);
             TimeSpan daysBefore = TimeSpan.FromDays(numDays);
             tmpOrd.OrderDate = DateTime.Now - daysBefore;
-            if (i%10<8)  // 80% have ship date
+            if (i % 10 < 8)  // 80% have ship date
             {
                 numDays = rnd.Next(1, 5);
                 TimeSpan daysUntillShip = TimeSpan.FromDays(numDays);
@@ -142,7 +142,7 @@ public class DataSource
             OrderItem tmpOrdItem = new OrderItem();
             Random rnd = new Random();
             int sumDifProducts = rnd.Next(1, 5); // the sum of the different typs products in the order
-            for(int j=0;j< sumDifProducts; j++)
+            for (int j = 0; j < sumDifProducts; j++)
             {
                 tmpOrdItem.Id = Config.MaxOrderItemId;
                 tmpOrdItem.OrderId = OrderList[i].Id;
@@ -150,20 +150,22 @@ public class DataSource
                 int pIdx;
                 do
                 {
-                    exist = false;
-                    pIdx = rnd.Next(0,ProductList.Count);  // pIdx is the location in the Products array
-                    int pBarcode = ProductList[pIdx].Id; 
-                        for (int k = 0; k < j ; k++)
+                    exist = false;                    
+                    pIdx = rnd.Next(0, ProductList.Count);  // pIdx is the location in the Products array
+                    if (ProductList[pIdx].InStock == 0)
+                        exist = true;
+                    int pBarcode = ProductList[pIdx].Id;
+                    for (int k = 0; k < j; k++)
+                    {
+                        if (OrderItemList[OrderItemList.Count - k - 1].ProductId == pBarcode)
                         {
-                            if(OrderItemList[OrderItemList.Count - k - 1 ].ProductId == pBarcode)
-                            {
-                                exist = true;
-                            }
+                            exist = true;
                         }
-                    } while (exist);
+                    }
+                } while (exist);
                 tmpOrdItem.ProductId = ProductList[pIdx].Id;
-                int amountOfProduct= rnd.Next(1, 10);
-                if(amountOfProduct<= ProductList[pIdx].InStock)
+                int amountOfProduct = rnd.Next(1, 10);
+                if (amountOfProduct <= ProductList[pIdx].InStock)
                 {
                     amount = amountOfProduct; // The amount of each product
                 }
@@ -173,11 +175,11 @@ public class DataSource
                 }
                 Product product = ProductList[pIdx];
                 product.InStock -= amount;
-                ProductList[pIdx]=product;
+                ProductList[pIdx] = product;
                 tmpOrdItem.Price = ProductList[pIdx].Price;
-                tmpOrdItem.Amount = amount; 
-                OrderItemList.Add(tmpOrdItem);                
-            }                 
+                tmpOrdItem.Amount = amount;
+                OrderItemList.Add(tmpOrdItem);
+            }
         }
     }
 }
