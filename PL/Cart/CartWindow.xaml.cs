@@ -110,7 +110,7 @@ public partial class CartWindow : Window
             MessageBox.Show("The order has been sent successfully");
             cart.Items.Clear();
             cart = new();
-            DataContext = cart;///???
+            DataContext = cart;
         }
         catch (OutOfStock exc)
         {

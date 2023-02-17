@@ -41,7 +41,7 @@ internal class Product : IProduct
     /// </summary>
     public int Create(DO.Product prod)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement>? products = root?.Elements("Product").ToList();
         XElement? tmpProduct = products?.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value?.ToString()) == prod.Id)?.FirstOrDefault();
         if (tmpProduct != null)
@@ -50,7 +50,7 @@ internal class Product : IProduct
         }
         XElement el = convertFromDoProductToXmlProduct(prod);
         root?.Add(el);
-        root?.Save("..\\..\\..\\..\\xml\\product.xml");
+        root?.Save(@"..\xml\product.xml");
         return prod.Id;
     }
 
@@ -59,7 +59,7 @@ internal class Product : IProduct
     /// </summary>
     public void Delete(int id)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement> products = root.Elements("Product").ToList();
         XElement tmpProduct = products?.Where(prd => Convert.ToInt32(prd?.Element("Id")?.Value?.ToString()) == id).FirstOrDefault();
         if (tmpProduct == null)
@@ -67,7 +67,7 @@ internal class Product : IProduct
             throw new IdNotExistException("product");
         }
         tmpProduct.Remove();
-        root?.Save("..\\..\\..\\..\\xml\\product.xml");
+        root?.Save(@"..\xml\product.xml");
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ internal class Product : IProduct
     /// </summary>
     public DO.Product Read(int id)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement> products = root.Elements("Product").ToList();
         XElement productXml = products?.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value?.ToString()) == id).FirstOrDefault();
         if (productXml == null)
@@ -90,7 +90,7 @@ internal class Product : IProduct
     /// </summary>
     public IEnumerable<DO.Product> Read(Func<DO.Product, bool>? func = null)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement>? xmlProducts = root?.Elements("Product").ToList();
        var productList = from xmlProd in xmlProducts
                           select new DO.Product
@@ -109,7 +109,7 @@ internal class Product : IProduct
     /// </summary>
     public DO.Product ReadSingle(Func<DO.Product, bool> func)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement>? xmlProducts = root?.Elements("Product").ToList();
         var productList = from xmlProd in xmlProducts
                           select new DO.Product
@@ -133,7 +133,7 @@ internal class Product : IProduct
     /// </summary>
     public void Update(DO.Product product)
     {
-        XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\product.xml").Root;
+        XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
         List<XElement>? xmlProducts = root?.Elements("Product").ToList();
         XElement? xmlProduct = xmlProducts?.Where(prd => Convert.ToInt32(prd.Element("Id")?.Value?.ToString()) == product.Id).FirstOrDefault();
         if (xmlProduct == null)
@@ -143,7 +143,7 @@ internal class Product : IProduct
         xmlProduct.Remove();
         XElement el = convertFromDoProductToXmlProduct(product);
         root?.Add(el);
-        root?.Save("..\\..\\..\\..\\xml\\product.xml");
+        root?.Save(@"..\xml\product.xml");
     }
 }
 

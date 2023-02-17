@@ -87,12 +87,12 @@ internal class BlCart : ICart
             try
             {
                 //for xml
-                //XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
-                //dOrder.Id = Convert.ToInt32(root.Element("MaxOrderId").Value.ToString());
-                //root.Element("MaxOrderId").Value = Convert.ToString(dOrder.Id + 1);
-                //root?.Save("..\\..\\..\\..\\xml\\config.xml");
+                XElement? root = XDocument.Load(@"..\xml\config.xml").Root;
+                dOrder.Id = Convert.ToInt32(root.Element("MaxOrderId").Value.ToString());
+                root.Element("MaxOrderId").Value = Convert.ToString(dOrder.Id + 1);
+                root?.Save(@"..\xml\config.xml");
                 //for list
-                dOrder.Id = DataSource.Config.MaxOrderId;
+                //dOrder.Id = DataSource.Config.MaxOrderId;
                 orderId = dalList.order.Create(dOrder);
             }
             catch (IdAlreadyExistsException)
@@ -118,15 +118,13 @@ internal class BlCart : ICart
                     tryId = false;
                     try
                     {
-                        ///////////////////////////////////////////
                         //for xml
-                        ///////////////////////////////////////////
-                        //XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
-                        //dOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
-                        //root.Element("MaxOrderItemId").Value = Convert.ToString(dOrderItem.Id + 1);
-                        //root?.Save("..\\..\\..\\..\\xml\\config.xml");
+                        XElement? root = XDocument.Load(@"..\xml\config.xml").Root;
+                        dOrderItem.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
+                        root.Element("MaxOrderItemId").Value = Convert.ToString(dOrderItem.Id + 1);
+                        root?.Save(@"..\xml\config.xml");
                         //for list
-                        dOrderItem.Id = DataSource.Config.MaxOrderItemId;
+                        //dOrderItem.Id = DataSource.Config.MaxOrderItemId;
                         dalList.orderItem.Create(dOrderItem);
                     }
                     catch (IdAlreadyExistsException)

@@ -22,7 +22,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order> ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -32,7 +32,7 @@ internal class Order : IOrder
             throw new IdAlreadyExistsException();
         }
         ordLst.Add(order);
-        StreamWriter orderswrite = new StreamWriter("..\\..\\..\\..\\xml\\order.xml");
+        StreamWriter orderswrite = new StreamWriter(@"..\xml\order.xml");
         ser.Serialize(orderswrite, ordLst);
         orderswrite.Close();
         return order.Id;
@@ -46,7 +46,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -56,7 +56,7 @@ internal class Order : IOrder
             throw new IdNotExistException("order");
         }
         ordLst?.Remove(tmpOrder);
-        StreamWriter orderswrite = new StreamWriter("..\\..\\..\\..\\xml\\order.xml");
+        StreamWriter orderswrite = new StreamWriter(@"..\xml\order.xml");
         ser.Serialize(orderswrite, ordLst);
         orderswrite.Close();
     }
@@ -68,7 +68,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -88,7 +88,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -103,7 +103,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -123,7 +123,7 @@ internal class Order : IOrder
         XmlRootAttribute xRoot = new XmlRootAttribute();
         xRoot.ElementName = "Orders";
         xRoot.IsNullable = true;
-        StreamReader ordersRead = new StreamReader("..\\..\\..\\..\\xml\\order.xml");
+        StreamReader ordersRead = new StreamReader(@"..\xml\order.xml");
         XmlSerializer ser = new(typeof(List<DO.Order>), xRoot);
         List<DO.Order>? ordLst = (List<DO.Order>?)ser.Deserialize(ordersRead);
         ordersRead.Close();
@@ -134,7 +134,7 @@ internal class Order : IOrder
         }
         ordLst.Remove(originalOrder);
         ordLst.Add(order);
-        StreamWriter orderswrite = new StreamWriter("..\\..\\..\\..\\xml\\order.xml");
+        StreamWriter orderswrite = new StreamWriter(@"..\xml\order.xml");
         ser.Serialize(orderswrite, ordLst);
         orderswrite.Close();
     }

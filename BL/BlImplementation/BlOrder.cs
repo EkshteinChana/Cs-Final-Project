@@ -122,12 +122,12 @@ internal class BlOrder : BlApi.IOrder
                     }
                     DO.OrderItem newItm = new();
                     //for xml
-                    //XElement? root = XDocument.Load("..\\..\\..\\..\\xml\\config.xml").Root;
-                    //newItm.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
-                    //root.Element("MaxOrderItemId").Value = Convert.ToString(newItm.Id + 1);
-                    //root?.Save("..\\..\\..\\..\\xml\\config.xml");
+                    XElement? root = XDocument.Load(@"..\xml\config.xml").Root;
+                    newItm.Id = Convert.ToInt32(root.Element("MaxOrderItemId").Value.ToString());
+                    root.Element("MaxOrderItemId").Value = Convert.ToString(newItm.Id + 1);
+                    root?.Save(@"..\xml\config.xml");
                     //for list
-                    newItm.Id = DataSource.Config.MaxOrderItemId;
+                    //newItm.Id = DataSource.Config.MaxOrderItemId;
                     newItm.OrderId = oId;
                     newItm.ProductId = pId;
                     newItm.Price = Dal.product.Read(pId).Price;
