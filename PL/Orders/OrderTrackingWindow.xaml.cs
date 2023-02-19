@@ -50,11 +50,11 @@ public partial class OrderTrackingWindow : Window
             ot = convertBoOrdTrckToPoOrdTrck(bOt);
             DataContext = ot;
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {          
             throw exc;
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             throw dataError;
         }

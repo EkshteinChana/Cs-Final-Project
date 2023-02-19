@@ -123,11 +123,11 @@ public partial class ProductItemWindow : Window
             var ob = new { currentProd, isConfirmed };
             DataContext = ob;
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -167,19 +167,19 @@ public partial class ProductItemWindow : Window
             new ProductCatalogWindow(bl, cart).Show();
             Close();
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (OutOfStock exc)
+        catch (OutOfStockException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (ItemNotExist exc)
+        catch (ItemNotExistException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -204,15 +204,15 @@ public partial class ProductItemWindow : Window
             new ProductCatalogWindow(bl, cart).Show();
             Close();
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (OutOfStock exc)
+        catch (OutOfStockException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -232,11 +232,11 @@ public partial class ProductItemWindow : Window
             sourceWindow.Show();
             Close();
         }
-        catch (IllegalAction exc)
+        catch (IllegalActionException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }

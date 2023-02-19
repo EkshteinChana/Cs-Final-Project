@@ -112,15 +112,15 @@ public partial class CartWindow : Window
             cart = new();
             DataContext = cart;
         }
-        catch (OutOfStock exc)
+        catch (OutOfStockException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -151,19 +151,19 @@ public partial class CartWindow : Window
             cart = convertBoCartToPoCart(bCrt);
             DataContext = cart;
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (OutOfStock exc)
+        catch (OutOfStockException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (ItemNotExist exc)
+        catch (ItemNotExistException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }

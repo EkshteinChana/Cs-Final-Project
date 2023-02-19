@@ -15,7 +15,7 @@ internal class BlCart : ICart
         {
             if (id < 1)
             {
-                throw new InvalidValue("ID");
+                throw new InvalidValueException("ID");
             }
             bool exist = false;
             int inStock;
@@ -28,7 +28,7 @@ internal class BlCart : ICart
                          exist = true;
                          if (dP.InStock <= 0)
                          {
-                             throw new OutOfStock(dP.Id, 0);
+                             throw new OutOfStockException(dP.Id, 0);
                          }
                          i.Amount += 1;
                          i.TotalPrice += i.Price;
@@ -42,7 +42,7 @@ internal class BlCart : ICart
             //The product is not in the shopping cart
             if (dP.InStock <= 0)
             {
-                throw new OutOfStock(dP.Id, 0);
+                throw new OutOfStockException(dP.Id, 0);
             }
             BO.OrderItem oI = new BO.OrderItem()
             {
@@ -63,7 +63,7 @@ internal class BlCart : ICart
         }
         catch (IdNotExistException exc)
         {
-            throw new DataError(exc, "Data Error: ");
+            throw new DataErrorException(exc, "Data Error: ");
         }
     }
 
@@ -143,14 +143,14 @@ internal class BlCart : ICart
                     DO.Product dP = dalList.product.Read(item.ProductId);
                     if (dP.InStock < item.Amount)
                     {
-                        throw new OutOfStock(dP.Id, dP.InStock);
+                        throw new OutOfStockException(dP.Id, dP.InStock);
                     }
                     dP.InStock -= item.Amount;
                     dalList.product.Update(dP);
                 }
                 catch (IdNotExistException exc)
                 {
-                    throw new DataError(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
+                    throw new DataErrorException(exc, $"invalid ID of product ID: {item.ProductId} ,Data Error: ");
                 }
                 return item;
             }).ToList();
@@ -165,15 +165,15 @@ internal class BlCart : ICart
     {
         if (string.IsNullOrEmpty(customerName))
         {
-            throw new InvalidValue("customer name");
+            throw new InvalidValueException("customer name");
         }
         if (!(checkEmailValidation(customerEmail)))
         {
-            throw new InvalidValue("customer email");
+            throw new InvalidValueException("customer email");
         }
         if (string.IsNullOrEmpty(customerAddress))
         {
-            throw new InvalidValue("customer address");
+            throw new InvalidValueException("customer address");
         }
 
         if (cart.Items != null)
@@ -182,19 +182,19 @@ internal class BlCart : ICart
             {
                 if (item?.Amount < 1)
                 {
-                    throw new InvalidValue($"amount of product: {item.ProductId}");
+                    throw new InvalidValueException($"amount of product: {item.ProductId}");
                 }
                 try
                 {
                     DO.Product dP = dalList.product.Read(item.ProductId);
                     if (dP.InStock < item.Amount)
                     {
-                        throw new OutOfStock(dP.Id, dP.InStock);
+                        throw new OutOfStockException(dP.Id, dP.InStock);
                     }
                 }
                 catch (IdNotExistException exc)
                 {
-                    throw new InvalidValue($"ID of product ID: {item.ProductId}");
+                    throw new InvalidValueException($"ID of product ID: {item.ProductId}");
                 }
                 return item;
             }).ToList();
@@ -232,11 +232,11 @@ internal class BlCart : ICart
         {
             if (id < 1)
             {
-                throw new InvalidValue("ID");
+                throw new InvalidValueException("ID");
             }
             if (amount < 0)
             {
-                throw new InvalidValue("amount");
+                throw new InvalidValueException("amount");
             }
             int remove = -1;
             bool exist = false;
@@ -250,7 +250,7 @@ internal class BlCart : ICart
                         DO.Product dP = dalList.product.Read(id);
                         if (dP.InStock - amount < 0)
                         {
-                            throw new OutOfStock(dP.Id, dP.InStock);
+                            throw new OutOfStockException(dP.Id, dP.InStock);
                         }
                         cart.TotalPrice += i.Price * (amount - i.Amount);
                         i.Amount = amount;
@@ -278,13 +278,13 @@ internal class BlCart : ICart
             }
             if (exist == false)//The product is not in the shopping cart
             {
-                throw new ItemNotExist();
+                throw new ItemNotExistException();
             }
             return cart;
         }
         catch (IdNotExistException exc)
         {
-            throw new DataError(exc, "Data Error: ");
+            throw new DataErrorException(exc, "Data Error: ");
         }
     }
 }

@@ -295,7 +295,7 @@ void Menue(string type)
         || (type == "cart" && (choice < 97 || choice > 99))
         || (type == "order" && (choice < 97 || choice > 103))
         )
-        throw new IllegalAction("Illegal Action");
+        throw new IllegalActionException("Illegal Action");
     var res = Actions[choice];
     res();
 }
@@ -329,23 +329,23 @@ void main()
                     break;
             }
         }
-        catch (BlApi.DataError err)
+        catch (BlApi.DataErrorException err)
         {
             Console.WriteLine(err.Message + " " + err.InnerException.Message +"\n");
         }
-        catch (BlApi.InvalidValue err)
+        catch (BlApi.InvalidValueException err)
         {
             Console.WriteLine(err.Message + "\n");
         }
-        catch (BlApi.OutOfStock err)
+        catch (BlApi.OutOfStockException err)
         {
             Console.WriteLine(err.Message + "\n");
         }
-        catch (BlApi.ItemNotExist err)
+        catch (BlApi.ItemNotExistException err)
         {
             Console.WriteLine(err.Message + "\n");
         }
-        catch (BlApi.IllegalAction err)
+        catch (BlApi.IllegalActionException err)
         {
             Console.WriteLine(err.Message + "\n");
         }

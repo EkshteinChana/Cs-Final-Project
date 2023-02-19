@@ -19,7 +19,10 @@ public partial class OrderWindow : Window
     ObservableCollection<PO.OrderForList?>? currentOrderList;
     Window sourcWindow;
     PO.Order po;
-    
+    Tuple<bool, bool, PO.Order> data;
+    Tuple<ObservableCollection<PO.OrderItem?>, bool> dataItems;
+    bool adminUse = false;
+    bool customerChange = false;
     /// <summary>
     /// A private help function to convert BO.Order entity to PO.Order entity.
     /// </summary>
@@ -90,19 +93,16 @@ public partial class OrderWindow : Window
             return bO;
         }).ToList();
     }
-    
+
     /// <summary>
     /// constractor of OrderWindow for watching and updating a order.
     /// </summary>
     public OrderWindow(IBl Ibl, Window w, int id, ObservableCollection<PO.OrderForList?> cl = null)
     {
         try
-        {           
+        {
             InitializeComponent();
-            if (cl != null)
-            {
-                AdminUse.IsChecked = true;
-            }
+            adminUse = cl != null;
             bl = Ibl;
             currentOrderList = cl;
             sourcWindow = w;
@@ -110,7 +110,6 @@ public partial class OrderWindow : Window
             {
                 BO.Order bo = bl.Order.ReadOrd(id);
                 po = convertBoOrdToPoOrd(bo);
-                orderDetails.DataContext = po;
                 List<PO.eOrderStatus> Statusoptions = new();
                 Statusoptions.Add(PO.eOrderStatus.provided);
                 if (po.DeliveryDate == DateTime.MinValue)
@@ -120,14 +119,22 @@ public partial class OrderWindow : Window
                 if (po.ShipDate == DateTime.MinValue)
                 {
                     Statusoptions.Add(PO.eOrderStatus.confirmed);
-                    if (cl == null)
-                    {
-                        customerUse.IsChecked = true;
-                    }
+                    customerChange = cl == null;
                 }
-                ItemsList.DataContext = po.Items;
+                data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
+                orderDetails.DataContext = data;
+                dataItems = new Tuple<ObservableCollection<PO.OrderItem?>, bool>(po.Items, customerChange);
+                ItemsList.DataContext = dataItems;
                 StatusSelector.ItemsSource = Statusoptions;
             }
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message + " ❌");
+        }
+        catch (DataErrorException dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
         }
         catch (Exception e)
         {
@@ -142,7 +149,7 @@ public partial class OrderWindow : Window
         try
         {
             ////if the admin enter  
-            if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status && currentOrderList != null )
+            if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status && currentOrderList != null)
             {
                 MessageBox.Show("No changes have been entered");
                 return;
@@ -159,6 +166,18 @@ public partial class OrderWindow : Window
             MessageBox.Show("The update was successful ✔");
             sourcWindow.Show();
             Close();
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message + " ❌");
+        }
+        catch (IllegalActionException err)
+        {
+            MessageBox.Show(err.Message + " ❌");
+        }
+        catch (DataErrorException dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
         }
         catch (Exception err)
         {
@@ -180,10 +199,26 @@ public partial class OrderWindow : Window
         {
             try
             {
-                bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
+                bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0, BO.eUpdateOrder.delete);
                 po.Items.Remove(CurrntOitm);
+                BO.Order bo = bl.Order.ReadOrd(po.Id);
+                po = convertBoOrdToPoOrd(bo);
+                data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
+                orderDetails.DataContext = data;
             }
-            catch(Exception err)
+            catch (InvalidValueException err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
+            catch (IllegalActionException err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
+            catch (DataErrorException dataError)
+            {
+                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+            }
+            catch (Exception err)
             {
                 MessageBox.Show(err.Message + " ❌");
             }
@@ -202,24 +237,38 @@ public partial class OrderWindow : Window
         {
             try
             {
-                
+
                 if (CurrntOitm.AmountUpdated != CurrntOitm.Amount)
                 {
                     if (CurrntOitm.AmountUpdated == 0)
                     {
-                        bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
-                        po.Items.Remove(CurrntOitm);
+                        bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0, BO.eUpdateOrder.delete);
+                        po.Items.Remove(CurrntOitm);                       
                     }
                     else
                     {
                         bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, CurrntOitm.AmountUpdated, BO.eUpdateOrder.changeAmount);
-                        BO.Order bo = bl.Order.ReadOrd(po.Id);
-                        po = convertBoOrdToPoOrd(bo);
-                    }                    
+                    }
+                    BO.Order bo = bl.Order.ReadOrd(po.Id);
+                    po = convertBoOrdToPoOrd(bo);
+                    data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
+                    orderDetails.DataContext = data;
                 }
-                
+
                 CurrntOitm.Amount = CurrntOitm.AmountUpdated;
                 CurrntOitm.AmountUpdated = 0;
+            }
+            catch (InvalidValueException err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
+            catch (IllegalActionException err)
+            {
+                MessageBox.Show(err.Message + " ❌");
+            }
+            catch (DataErrorException dataError)
+            {
+                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
             }
             catch (Exception err)
             {
@@ -232,16 +281,33 @@ public partial class OrderWindow : Window
     /// </summary>
     private void AddOrdItmBtn_Click(object sender, RoutedEventArgs e)
     {
-        new PL.Products.ProductCatalogWindow(bl, null, this, po.Id, updatee).Show();   
+        new PL.Products.ProductCatalogWindow(bl, null, this, po.Id, UpdateSpecificOrder).Show();
         Hide();
     }
     /// <summary>
     /// A private help function for updating the current order.
     /// </summary>
-    private void updatee()
+    private void UpdateSpecificOrder()
     {
-        BO.Order bo = bl.Order.ReadOrd(po.Id);
-        po = convertBoOrdToPoOrd(bo);
+        try
+        {
+            BO.Order bo = bl.Order.ReadOrd(po.Id);
+            po = convertBoOrdToPoOrd(bo);
+            data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
+            orderDetails.DataContext = data;
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message + " ❌");
+        }
+        catch (DataErrorException dataError)
+        {
+            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message + " ❌");
+        }
     }
     /// <summary>
     /// A function for returning to the source Window.
@@ -251,8 +317,8 @@ public partial class OrderWindow : Window
         sourcWindow.Show();
         Close();
     }
-    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e){}
-    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e){}
+    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }
 
 

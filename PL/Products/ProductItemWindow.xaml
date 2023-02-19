@@ -20,6 +20,13 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type Label}" x:Key="LabelCartStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=isConfirmed}" Value="true">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid Margin="10,44,10,44">
@@ -47,8 +54,9 @@
             <Label Name="CategoryContentLbl" Content="{Binding Path=currentProd.Category}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="8" Name="InStockLbl" Content="in stock:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="InStockContentLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.ColumnSpan="3" Content="{Binding Path=currentProd.InStock}"/>
-            <Label Grid.Row="10" Name="AmountLbl" Content="Amount in Cart:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="AmountContentLbl" Content="{Binding Path=currentProd.Amount}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="11"  Grid.ColumnSpan="3"/>
+            <Label Grid.Row="10" Name="AmountLbl" Content="Amount in Cart:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold" Style="{StaticResource LabelCartStyle}"/>
+            <Label Name="AmountContentLbl" Content="{Binding Path=currentProd.Amount}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="11"  Grid.ColumnSpan="3" Style="{StaticResource LabelCartStyle}"/>
+            
         </Grid>
         <Button Name="ShowProductListBtn" Content="Show product list" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowProductListBtn_Click" Height="28" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         <Grid Name="AddProdGrid" VerticalAlignment="Bottom" Margin="0,0,0,20">

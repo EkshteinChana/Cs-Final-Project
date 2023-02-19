@@ -17,53 +17,61 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Name="TitelEnterDetailsLbl" Content="{Binding  Path=Id,Mode=TwoWay}" 
+            <TextBlock Grid.Row="1" Name="IdLbl" Text="Id:" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Margin="0,0,20,0" FontWeight="Bold" FontSize="14"/>
+            <TextBlock Name="TitelEnterDetailsLbl" Text="{Binding Path=Item3.Id, Mode=TwoWay}" 
                    HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" 
-                   Margin="8,0,0,0" FontWeight="Bold" FontSize="14"/>
-            
+                   Margin="20,0,0,0" FontWeight="Bold" FontSize="14"/>
+
             <Label Grid.Row="2" Name="CustomNameLbl" Content="Customer name:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="NameTxtBx" Text="{Binding Path=CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBlock Name="NameTxtBx" Text="{Binding Path=Item3.CustomerName,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                     HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom" 
-                    Margin="0,0,0,5" MinWidth="100"  Grid.ColumnSpan="3"
-                     IsEnabled="{Binding ElementName=AdminUse,Path=IsChecked}"/>
-            
+                    Margin="0,0,0,5" MinWidth="100"  Grid.ColumnSpan="3"/>
+
             <Label Grid.Row="3" Name="CustomEmailLbl" Content="Customer email:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="CustomEmailTxtBx" Text="{Binding Path=CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBlock Name="CustomEmailTxtBx" Text="{Binding Path=Item3.CustomerEmail,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
                     HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
-                    Margin="0,0,0,5"  Grid.ColumnSpan="3"
-                     IsEnabled="{Binding ElementName=AdminUse,Path=IsChecked}"/>
-            
+                    Margin="0,0,0,5"  Grid.ColumnSpan="3"/>
+
             <Label Grid.Row="4" Name="CustomAddressLbl" Content="Customer address:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBox Name="CustomAddressTxtBx" Text="{Binding Path=CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBlock Name="CustomAddressTxtBx" Text="{Binding Path=Item3.CustomerAddress,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                     HorizontalAlignment="Center"  Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
-                    Margin="0,0,0,5" Grid.ColumnSpan="3"
-                    IsEnabled="{Binding ElementName=AdminUse,Path=IsChecked}"/>
-            
+                    Margin="0,0,0,5" Grid.ColumnSpan="3"/>
+
             <Label Grid.Row="5" Name="OrderDateLbl" Content="Order date:"
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <Label Name="OrderDateTxtBx" Content="{Binding Path=OrderDate}" 
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <Label Name="OrderDateTxtBx" Content="{Binding Path=Item3.OrderDate}" 
                    HorizontalAlignment="Center" Grid.Row="5"  VerticalAlignment="Bottom" 
-                   Margin="0,0,0,5" MinWidth="100" Grid.ColumnSpan="3"/>
-            
+                   Margin="0,0,0,0" MinWidth="100" Grid.ColumnSpan="3"/>
+
             <Label Grid.Row="6" Name="StatusLbl" Content="Status:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <ComboBox Name="StatusSelector"                      
                 SelectionChanged="StatusSelector_SelectionChanged" Grid.Row="6" 
                 Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,5" MinWidth="100" 
-                SelectedItem="{Binding Path=status ,Mode=OneWay }" IsEnabled="{Binding ElementName=AdminUse,Path=IsChecked}"
-            />
-            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="7"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False" >
+                SelectedItem="{Binding Path=Item3.status ,Mode=OneWay }" IsEnabled="{Binding Path=Item1}"/>
+
+            <Label Grid.Row="7" Name="TotalPrice" Content="Total price:" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
+            <TextBlock Name="TotalPriceTxtBx" Text="{Binding Path=Item3.TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                    HorizontalAlignment="Center"  Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
+                    Margin="0,0,0,5" Grid.ColumnSpan="3"/>
+            
+            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Item1}" Grid.Row="8"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
@@ -74,7 +82,7 @@
                         <GridViewColumn Header="Change amount">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ElementName=customerUse,Path=IsChecked}" >
+                                    <StackPanel  x:Name="AmountApdate" Orientation="Horizontal" IsEnabled="{Binding ElementName=AddOrdItmBtn,Path=IsEnabled}">
                                         <TextBox  Text="{Binding AmountUpdated,
                                                  Mode=OneWayToSource}" MinWidth="25">
                                         </TextBox>
@@ -90,7 +98,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button
-                                        IsEnabled="{Binding ElementName=customerUse,Path=IsChecked}"
+                                        IsEnabled="{Binding ElementName=AddOrdItmBtn,Path=IsEnabled}"
                                         Name="DeletItmBtn"
                                         Content ="❌"
                                         Click="DeletItmBtn_Click" Foreground="#FF1B1919"  
@@ -106,17 +114,15 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Name="UpdateOrderBtn" IsEnabled="{Binding ElementName=AdminUse, Path=IsChecked}" 
-                    Content="Update status" Click="UpdateOrdeBtn_Click" Grid.Row="8"
+            <Button Name="UpdateOrderBtn" IsEnabled="{Binding Path=Item1}" 
+                    Content="Update status" Click="UpdateOrdeBtn_Click" Grid.Row="9"
                     Margin="0,0,300,0"  Width="90" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" 
                     Background="{StaticResource btnBackground}"/>
-            <Button Name="AddOrdItmBtn" IsEnabled="{Binding ElementName=customerUse, Path=IsChecked}" 
-                    Content="Add new item"  Click="AddOrdItmBtn_Click" Grid.Row="8" 
+            <Button Name="AddOrdItmBtn" IsEnabled="{Binding Path=Item2}" 
+                    Content="Add new item"  Click="AddOrdItmBtn_Click" Grid.Row="9" 
                     Margin="300,0,0,0" Width="90" FontWeight="Bold" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"
             />
         </Grid>
-        <CheckBox Name="customerUse"  Visibility="Collapsed" IsChecked="False"/>
-        <CheckBox Name="AdminUse" Visibility="Collapsed" IsChecked="False"/>
     </Grid>
 </Window>
 

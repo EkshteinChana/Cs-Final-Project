@@ -61,7 +61,7 @@ internal class BlOrder : BlApi.IOrder
     {
         if (orderId < 0)
         {
-            throw new InvalidValue("ID");
+            throw new InvalidValueException("ID");
         }
         try
         {
@@ -70,7 +70,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 
@@ -102,11 +102,11 @@ internal class BlOrder : BlApi.IOrder
             DO.Order dOrd = Dal.order.Read(oId);
             if (dOrd.OrderDate == null)
             {
-                throw new IllegalAction("The customer has not completed the order.");
+                throw new IllegalActionException("The customer has not completed the order.");
             }
             if (dOrd.ShipDate != null)
             {
-                throw new IllegalAction("The order has already been sent.");
+                throw new IllegalActionException("The order has already been sent.");
             }
 
             IEnumerable<DO.OrderItem> orderItems = Dal.orderItem.Read();
@@ -118,7 +118,7 @@ internal class BlOrder : BlApi.IOrder
                 case BO.eUpdateOrder.add:
                     if (!itmInOrd.Equals(default(DO.OrderItem)))
                     {
-                        throw new IllegalAction("Adding a product that already exists in the order.");
+                        throw new IllegalActionException("Adding a product that already exists in the order.");
                     }
                     DO.OrderItem newItm = new();
                     //for xml
@@ -137,7 +137,7 @@ internal class BlOrder : BlApi.IOrder
                 case BO.eUpdateOrder.delete:
                     if (itmInOrd.Equals(default(DO.OrderItem)) || itmInOrd == null)
                     {
-                        throw new IllegalAction("Deletion of a product that does not exist in the order.");
+                        throw new IllegalActionException("Deletion of a product that does not exist in the order.");
                     }
                     DO.OrderItem tmpItmInOrd = (DO.OrderItem)itmInOrd;
                     Dal.orderItem.Delete(tmpItmInOrd.Id);                   
@@ -145,7 +145,7 @@ internal class BlOrder : BlApi.IOrder
                 case BO.eUpdateOrder.changeAmount:
                     if (itmInOrd.Equals(default(DO.OrderItem)) || itmInOrd == null)
                     {
-                        throw new IllegalAction("Updating the quantity of an item that does not exist in the order");
+                        throw new IllegalActionException("Updating the quantity of an item that does not exist in the order");
                     }
                     DO.OrderItem tmpItmInOrd1 = (DO.OrderItem)itmInOrd;
                     tmpItmInOrd1.Amount = amount;
@@ -156,11 +156,11 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
         catch (IdAlreadyExistsException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 
@@ -168,18 +168,18 @@ internal class BlOrder : BlApi.IOrder
     {
         if (oId < 0)
         {
-            throw new InvalidValue("ID");
+            throw new InvalidValueException("ID");
         }
         try
         {
             DO.Order dOrder = Dal.order.Read(oId);
             if (dOrder.DeliveryDate != null)
             {
-                throw new IllegalAction("The order has already been delivered.");
+                throw new IllegalActionException("The order has already been delivered.");
             }
             if (dOrder.ShipDate == null)
             {
-                throw new IllegalAction("The order has not been sent yet.");
+                throw new IllegalActionException("The order has not been sent yet.");
             }
             dOrder.DeliveryDate = DateTime.Now;
             Dal.order.Update(dOrder);
@@ -187,7 +187,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 
@@ -195,14 +195,14 @@ internal class BlOrder : BlApi.IOrder
     {
         if (oId < 0)
         {
-            throw new InvalidValue("ID");
+            throw new InvalidValueException("ID");
         }
         try
         {
             DO.Order dOrder = Dal.order.Read(oId);
             if (dOrder.ShipDate != null)
             {
-                throw new IllegalAction("The order has already been sent.");
+                throw new IllegalActionException("The order has already been sent.");
             }
             dOrder.ShipDate = DateTime.Now;
             Dal.order.Update(dOrder);
@@ -210,7 +210,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 
@@ -218,7 +218,7 @@ internal class BlOrder : BlApi.IOrder
     {
         if (orderId < 0)
         {
-            throw new InvalidValue("ID");
+            throw new InvalidValueException("ID");
         }
         DO.Order order=new();
         try
@@ -244,7 +244,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 

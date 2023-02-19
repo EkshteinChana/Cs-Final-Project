@@ -106,11 +106,11 @@ public partial class ProductWindow : Window
             }
             DataContext = currentProd;
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -134,7 +134,7 @@ public partial class ProductWindow : Window
             sourcWindow.Show();
             this.Close();
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
@@ -158,11 +158,11 @@ public partial class ProductWindow : Window
             sourcWindow.Show();
             this.Close();
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
@@ -185,11 +185,11 @@ public partial class ProductWindow : Window
             sourcWindow.Show();
             this.Close();
         }
-        catch (IllegalAction exc)
+        catch (IllegalActionException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }

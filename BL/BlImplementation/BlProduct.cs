@@ -16,23 +16,23 @@ internal class BlProduct : BlApi.IProduct
     {
         if (prod.Id < 1)
         {
-            throw new InvalidValue("ID");
+            throw new InvalidValueException("ID");
         }
         if (string.IsNullOrEmpty(prod.Name))
         {
-            throw new InvalidValue("name");
+            throw new InvalidValueException("name");
         }
         if (prod.Price < 0)
         {
-            throw new InvalidValue("price");
+            throw new InvalidValueException("price");
         }
         if (((int?)prod.Category < 0) || ((int?)prod.Category > 4))
         {
-            throw new InvalidValue("category");
+            throw new InvalidValueException("category");
         }
         if (prod.InStock < 0)
         {
-            throw new InvalidValue("amount in stock");
+            throw new InvalidValueException("amount in stock");
         }
     }
 
@@ -101,7 +101,7 @@ internal class BlProduct : BlApi.IProduct
         DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
         if (!ordWithProd.Equals(default(DO.OrderItem)))
         {
-            throw new IllegalAction("It is not possible to delete an existing product in an order");
+            throw new IllegalActionException("It is not possible to delete an existing product in an order");
         }
         try
         {
@@ -109,7 +109,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
     /// <summary>
@@ -122,7 +122,7 @@ internal class BlProduct : BlApi.IProduct
         {
             if (Id < 1)
             {
-                throw new InvalidValue("ID");
+                throw new InvalidValueException("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.ProductItem bP = new();
@@ -142,7 +142,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExistException exc)
         {
-            throw new DataError(exc, "Data Error: ");
+            throw new DataErrorException(exc, "Data Error: ");
         }
     }
 
@@ -156,7 +156,7 @@ internal class BlProduct : BlApi.IProduct
         {
             if (Id < 1)
             {
-                throw new InvalidValue("ID");
+                throw new InvalidValueException("ID");
             }
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
@@ -166,7 +166,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExistException exc)
         {
-            throw new DataError(exc, "Data Error: ");
+            throw new DataErrorException(exc, "Data Error: ");
         }
     }
 
@@ -231,7 +231,7 @@ internal class BlProduct : BlApi.IProduct
         }
         catch (IdNotExistException err)
         {
-            throw new DataError(err, "Data Error: ");
+            throw new DataErrorException(err, "Data Error: ");
         }
     }
 

@@ -51,11 +51,11 @@ public partial class MainWindow : Window
             new OrderTrackingWindow(bl, oId, this).Show();
             this.Close();
         }
-        catch (InvalidValue exc)
+        catch (InvalidValueException exc)
         {
             MessageBox.Show(exc.Message);
         }
-        catch (DataError dataError)
+        catch (DataErrorException dataError)
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
