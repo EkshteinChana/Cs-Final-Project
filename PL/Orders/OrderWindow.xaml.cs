@@ -20,7 +20,6 @@ public partial class OrderWindow : Window
     Window sourcWindow;
     PO.Order po;
     Tuple<bool, bool, PO.Order> data;
-    Tuple<ObservableCollection<PO.OrderItem?>, bool> dataItems;
     bool adminUse = false;
     bool customerChange = false;
     /// <summary>
@@ -123,8 +122,7 @@ public partial class OrderWindow : Window
                 }
                 data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
                 orderDetails.DataContext = data;
-                dataItems = new Tuple<ObservableCollection<PO.OrderItem?>, bool>(po.Items, customerChange);
-                ItemsList.DataContext = dataItems;
+                ItemsList.DataContext = po.Items;
                 StatusSelector.ItemsSource = Statusoptions;
             }
         }

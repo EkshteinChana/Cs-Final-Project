@@ -71,7 +71,7 @@
                     HorizontalAlignment="Center"  Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
                     Margin="0,0,0,5" Grid.ColumnSpan="3"/>
             
-            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Item1}" Grid.Row="8"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False">
+            <ListView x:Name="ItemsList"  d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding}" Grid.Row="8"  FontSize="15" SelectionChanged="ItemsList_SelectionChanged" Cursor="" IsSynchronizedWithCurrentItem="False">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />

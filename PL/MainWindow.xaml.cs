@@ -64,4 +64,9 @@ public partial class MainWindow : Window
             MessageBox.Show(exc.Message);
         }
     }
+
+    private void Simulator_Click(object sender, RoutedEventArgs e)
+    {
+        new Simulation().Show();
+    }
 }
