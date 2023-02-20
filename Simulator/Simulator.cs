@@ -15,8 +15,10 @@ internal static class Simulator
 {
     private static BlApi.IBl bl = BlApi.Factory.Get();
     private static Order currentOrder;
+    private static bool continuing=true;
     public static void Run()
     {
+        while(continuing)
         new Thread(() =>
         {
             try
@@ -26,17 +28,17 @@ internal static class Simulator
                 {
                     throw new Exception("No orders to update");
                 }
-                Order ord = bl.Order.ReadOrd((int)id);
+                currentOrder = bl.Order.ReadOrd((int)id);
                 Random rnd = new Random();
                 int seconds = rnd.Next(1000, 5000);
                 Thread.Sleep(seconds);
-                if (ord.status == eOrderStatus.confirmed)
+                if (currentOrder.status == eOrderStatus.confirmed)
                 {
-                    bl.Order.UpdateOrdShipping(ord.Id);
+                    bl.Order.UpdateOrdShipping(currentOrder.Id);
                 }
                 else
                 {
-                    bl.Order.UpdateOrdDelivery(ord.Id);
+                    bl.Order.UpdateOrdDelivery(currentOrder.Id);
                 }
             }
             catch (InvalidValueException err)
@@ -57,7 +59,7 @@ internal static class Simulator
     }
     public static void Stop()
     {
-
+        continuing=false;
     }
 
 
