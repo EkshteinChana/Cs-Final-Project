@@ -41,4 +41,9 @@ public interface IOrder
     /// </summary>
     /// <returns>TrackOrder(a logical entity)</returns>
     public BO.OrderTracking TrackOrder(int orderId);
+    /// <summary>
+    /// A function to get order whose latest status change is the oldest. 
+    /// </summary>
+    /// <returns>order Id</returns>
+    public int? GetOldestOrder();
 }

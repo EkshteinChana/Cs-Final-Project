@@ -7,6 +7,33 @@
         mc:Ignorable="d"
         Title="Simulation" Height="450" Width="800">
     <Grid>
-        <Button Name="finishSimulator" Content="Finish Simulator" HorizontalAlignment="Center" VerticalAlignment="Center" Height="65" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Name="finishSimulator" Content="Finish Simulator"  Height="65" Width="200" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Margin="0,10"/>
+            <TextBlock Name="ClockTxt" Background="{StaticResource btnBackground}" Margin="0,10"
+                       FontWeight="Bold" FontSize="20"/>
+            <Grid Margin="0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Current Order:" Grid.Row="0" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="CurrentOrderId" Grid.Row="0" Grid.Column="1"></TextBlock>
+                <TextBlock Text="Previous Status:" Grid.Row="1" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="PreviousStatus" Grid.Row="1" Grid.Column="1"></TextBlock>
+                <TextBlock Text="Next Status:" Grid.Row="2" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="NextStatus" Grid.Row="2" Grid.Column="1"></TextBlock>
+                <TextBlock Text="Process start time:" Grid.Row="3" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="ProcessStart" Grid.Row="3" Grid.Column="1"></TextBlock>
+                <TextBlock Text="Estimated time to complete:" Grid.Row="4" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="EstimatedTime" Grid.Row="4" Grid.Column="1"></TextBlock>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

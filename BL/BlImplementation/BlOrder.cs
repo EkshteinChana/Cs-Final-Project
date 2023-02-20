@@ -78,7 +78,7 @@ internal class BlOrder : BlApi.IOrder
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
         List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
-        var enumerator = dOrders.OrderBy(dO=>dO.Id).GetEnumerator();   
+        var enumerator = dOrders.OrderBy(dO => dO.Id).GetEnumerator();
         while (enumerator.MoveNext())
         {
             BO.Order bO = convertDToB(enumerator.Current);
@@ -140,7 +140,7 @@ internal class BlOrder : BlApi.IOrder
                         throw new IllegalActionException("Deletion of a product that does not exist in the order.");
                     }
                     DO.OrderItem tmpItmInOrd = (DO.OrderItem)itmInOrd;
-                    Dal.orderItem.Delete(tmpItmInOrd.Id);                   
+                    Dal.orderItem.Delete(tmpItmInOrd.Id);
                     break;
                 case BO.eUpdateOrder.changeAmount:
                     if (itmInOrd.Equals(default(DO.OrderItem)) || itmInOrd == null)
@@ -220,7 +220,7 @@ internal class BlOrder : BlApi.IOrder
         {
             throw new InvalidValueException("ID");
         }
-        DO.Order order=new();
+        DO.Order order = new();
         try
         {
             order = Dal.order.Read(orderId);
@@ -248,6 +248,37 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    public int? GetOldestOrder()
+    {
+        DateTime? oldestDate = DateTime.MaxValue;
+        int id = 0;
+        IEnumerable<DO.Order> dOrders = Dal.order.Read();
+        List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
+
+        var enumerator = dOrders.OrderBy(dO => dO.Id).GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            if (enumerator.Current.ShipDate == null)
+            {
+                if (enumerator.Current.OrderDate < oldestDate)
+                {
+                    oldestDate = enumerator.Current.OrderDate;
+                    id = enumerator.Current.Id;
+                }
+            }
+            else if (enumerator.Current.DeliveryDate == null)
+            {
+                if (enumerator.Current.ShipDate < oldestDate)
+                {
+                    oldestDate = enumerator.Current.ShipDate;
+                    id = enumerator.Current.Id;
+                }
+            }
+        }
+        if (oldestDate != DateTime.MaxValue)
+            return id;
+        return null;
+    }
 }
 
 
