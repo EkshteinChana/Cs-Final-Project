@@ -8,7 +8,7 @@
         Title="Simulation" Height="450" Width="800">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Name="finishSimulator" Content="Finish Simulator"  Height="65" Width="200" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Margin="0,10"/>
+            <Button Name="finishSimulator" Content="Finish Simulator"  Height="65" Width="200" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Margin="0,10" Click="finishSimulator_Click" />
             <TextBlock Name="ClockTxt" Background="{StaticResource btnBackground}" Margin="0,10"
                        FontWeight="Bold" FontSize="20"/>
             <Grid Margin="0,10">
@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Current Order:" Grid.Row="0" Grid.Column="0"></TextBlock>
-                <TextBlock x:Name="CurrentOrderId" Grid.Row="0" Grid.Column="1"></TextBlock>
+                <TextBlock x:Name="CurrentOrderId" Text="{Binding order.Id}" Grid.Row="0" Grid.Column="1"></TextBlock>
                 <TextBlock Text="Previous Status:" Grid.Row="1" Grid.Column="0"></TextBlock>
                 <TextBlock x:Name="PreviousStatus" Grid.Row="1" Grid.Column="1"></TextBlock>
                 <TextBlock Text="Next Status:" Grid.Row="2" Grid.Column="0"></TextBlock>

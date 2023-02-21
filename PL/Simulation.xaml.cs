@@ -15,7 +15,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using BO;
+using PL.PO;
+using Simulator;
 namespace PL;
 
 /// <summary>
@@ -23,27 +25,15 @@ namespace PL;
 /// </summary>
 public partial class Simulation : Window
 {
-    BlApi.IBl bl;
-    private Stopwatch stopWatch;
+    //private Stopwatch stopWatch;
     //private bool isTimerRun;
-    BackgroundWorker timerworker;
-
+    //BackgroundWorker timerworker;
     BackgroundWorker worker;
-    public Simulation(BlApi.IBl Ibl)
+    public Simulation()
     {
-        bl=Ibl;
-
         InitializeComponent();
         Loaded += ToolWindow_Loaded;
-        stopWatch = new Stopwatch();
-        timerworker = new BackgroundWorker();
-        timerworker.DoWork += Worker_DoWork;
-        timerworker.ProgressChanged += Worker_ProgressChanged;
-        timerworker.WorkerReportsProgress = true;
-
-
-
-
+        //stopWatch = new Stopwatch();     
         worker = new BackgroundWorker();
         worker.DoWork += Worker_DoWork;
         worker.ProgressChanged += Worker_ProgressChanged;
@@ -51,13 +41,11 @@ public partial class Simulation : Window
         worker.WorkerReportsProgress = true;
         worker.WorkerSupportsCancellation = true;
 
-
-        stopWatch.Restart();
-        timerworker.RunWorkerAsync();
-        string timerText = DateTime.Now.ToString();
+        worker.RunWorkerAsync();
+        string clockText = DateTime.Now.ToString();
+        ClockTxt.Text = clockText;
+        //stopWatch.Restart();
         //timerText = timerText.Substring(0, 8);
-        ClockTxt.Text = timerText;
-        this.bl = bl;
     }
 
 
@@ -80,19 +68,34 @@ public partial class Simulation : Window
 
     private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-        string timerText = DateTime.Now.ToString();
+
+        string clockText = DateTime.Now.ToString();
+        ClockTxt.Text = clockText;
         //string timerText = stopWatch.Elapsed.ToString();
         //timerText = timerText.Substring(0, 8);
-        ClockTxt.Text = timerText;
     }
     private void Worker_DoWork(object sender, DoWorkEventArgs e)
     {
+        Simulator.Simulator.ProgressChange += changeOrder;
+        Simulator.Simulator.Run();
         while (true)
         {
-            timerworker.ReportProgress(1);
+            worker.ReportProgress(1);
             Thread.Sleep(1000);
         }
     }
 
+    private void changeOrder(object sender, EventArgs e)
+    {
+        if (!(e is Details))
+            return;
+        Details details = (Details)e;
+        DataContext = details;
+    }
     private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) { }
+
+    private void finishSimulator_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

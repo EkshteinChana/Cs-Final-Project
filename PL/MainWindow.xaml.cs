@@ -67,6 +67,6 @@ public partial class MainWindow : Window
 
     private void Simulator_Click(object sender, RoutedEventArgs e)
     {
-        new Simulation(bl).Show();
+        new Simulation().Show();
     }
 }
