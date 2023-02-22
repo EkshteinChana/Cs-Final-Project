@@ -1,5 +1,7 @@
 ﻿
 using BO;
+using System.Runtime.CompilerServices;
+
 namespace BlApi;
 /// <summary>
 /// Interfaces for actions regarding to main logical entity-Order
@@ -10,18 +12,21 @@ public interface IOrder
     /// A function to read the list of orders for manager screen
     /// </summary>
     /// <returns>An IEnumerable of OrderForList</returns>
+    [MethodImpl(MethodImplOptions.Synchronized)] 
     public IEnumerable<OrderForList?> ReadOrdsManager();
     /// <summary>
     /// A function to read the details of an order
     /// for manager screen and customer screen
     /// </summary>
     /// <returns>Order(a logical entity)</returns>
+    [MethodImpl(MethodImplOptions.Synchronized)] 
     public Order ReadOrd(int orderId);
     /// <summary>
     /// A function to update the shipping date
     /// (for Order Management Screen of a Manager )
     /// </summary>
     /// <returns>Order(a logical entity)</returns>
+    [MethodImpl(MethodImplOptions.Synchronized)] 
     public Order UpdateOrdShipping(int orderId);
     /// <summary>
     /// A function to update the delivery date 

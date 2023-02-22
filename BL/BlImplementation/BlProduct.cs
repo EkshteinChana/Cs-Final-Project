@@ -1,14 +1,12 @@
 ﻿using DalApi;
 using BlApi;
 using Dal;
-
-
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     private IDal Dal = DalApi.Factory.Get() ?? throw new Exception("Can not get BlImplementation.BL");
-    //private IDal Dal = DalXml.Instance;
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>
@@ -67,6 +65,7 @@ internal class BlProduct : BlApi.IProduct
     /// A function that receives product data, checks its integrity 
     /// and sends a request to the data layer to add such a product.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int CreateProd(BO.Product prod)
     {
         int id = 0;
@@ -95,6 +94,7 @@ internal class BlProduct : BlApi.IProduct
     /// A function that receives a product ID, checks that it does not exist in orders 
     /// and sends a request to the data layer to delete it from the list
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteProd(int Id)
     {
         IEnumerable<DO.OrderItem> orderItemsList = Dal.orderItem.Read();
@@ -116,6 +116,7 @@ internal class BlProduct : BlApi.IProduct
     /// A function that returns an entity to display product data for a customer screen 
     /// by referring to the data layer using an ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.ProductItem ReadProdCustomer(int Id, BO.Cart cart)
     {
         try
@@ -150,6 +151,7 @@ internal class BlProduct : BlApi.IProduct
     /// A function that returns an entity to display product data for the manager screen 
     /// by referring to the data layer using an ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Product ReadProdManager(int Id)
     {
         try
@@ -173,6 +175,7 @@ internal class BlProduct : BlApi.IProduct
     /// <summary>
     /// A function to read the list of products
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<BO.ProductForList> ReadProdsList(BO.eCategory? category=null)
     {
         List<BO.ProductForList> bProdsList = new();
@@ -194,33 +197,11 @@ internal class BlProduct : BlApi.IProduct
         return bProdsList;
     }
 
-    ///// <summary>
-    ///// A function to read a list of products by specific category
-    ///// </summary>
-    //public IEnumerable<BO.ProductForList?> ReadProdsByCategory(BO.eCategory? category)
-    //{
-    //    List<BO.ProductForList> bProdsList = new();
-    //    List<DO.Product> dProds = new();
-    //    if (category == null)
-    //    {
-    //        dProds = Dal.product.Read().ToList();
-    //    }
-    //    else
-    //    {
-    //        DO.eCategory ctgry = (DO.eCategory)category;
-    //        dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
-    //    }        
-    //    dProds.Select(dP => {
-    //        BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
-    //        bProdsList.Add(bP);  
-    //        return dProds; } ).ToList();
-    //    return bProdsList;
-    //}
-
     /// <summary>
     /// A function that receives product data, checks their integrity
     ///and sends a request to the data layer to update the product with such an ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void UpdateProd(BO.Product prod)
     {
         checkProdValues(prod);

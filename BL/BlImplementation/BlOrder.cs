@@ -2,11 +2,16 @@
 using DalApi;
 using Dal;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
     private IDal? Dal = DalApi.Factory.Get();
+
+    /// <summary>
+    /// A private function to discover the status of the order.
+    /// </summary>
     private BO.eOrderStatus checkStatus(DO.Order dO)
     {
         if (dO.DeliveryDate != null)
@@ -23,6 +28,9 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    /// <summary>
+    /// A private function to convert DO.Order to BO.Order.
+    /// </summary>
     private BO.Order convertDToB(DO.Order dO)
     {
         BO.Order bO = new();
@@ -57,6 +65,7 @@ internal class BlOrder : BlApi.IOrder
         return bO;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.ReadOrd(int orderId)
     {
         if (orderId < 0)
@@ -74,6 +83,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     IEnumerable<BO.OrderForList> BlApi.IOrder.ReadOrdsManager()
     {
         IEnumerable<DO.Order> dOrders = Dal.order.Read();
@@ -94,7 +104,7 @@ internal class BlOrder : BlApi.IOrder
         return orderList;
     }
 
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrd(int oId, int pId, int amount, BO.eUpdateOrder action) // (Bonus)
     {
         try
@@ -164,6 +174,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
     {
         if (oId < 0)
@@ -191,6 +202,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrdShipping(int oId)
     {
         if (oId < 0)
@@ -214,6 +226,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.OrderTracking TrackOrder(int orderId)
     {
         if (orderId < 0)
@@ -248,6 +261,7 @@ internal class BlOrder : BlApi.IOrder
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int? GetOldestOrder()
     {
         DateTime? oldestDate = DateTime.MaxValue;

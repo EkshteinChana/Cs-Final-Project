@@ -1,6 +1,7 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 /// <summary>
@@ -39,6 +40,7 @@ internal class Product : IProduct
     /// <summary>
     /// A function to add a new product to the Xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Create(DO.Product prod)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
@@ -57,6 +59,7 @@ internal class Product : IProduct
     /// <summary>
     /// A function to delete a product from the xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
@@ -73,6 +76,7 @@ internal class Product : IProduct
     /// <summary>
     ///  A function to get the information about specific product in the xml database by ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Product Read(int id)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
@@ -88,6 +92,7 @@ internal class Product : IProduct
     /// <summary>
     ///  A function to get the information about all the products in the xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<DO.Product> Read(Func<DO.Product, bool>? func = null)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
@@ -107,6 +112,7 @@ internal class Product : IProduct
     /// <summary>
     /// A function to get a specific product from the xml database by a function.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Product ReadSingle(Func<DO.Product, bool> func)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;
@@ -131,6 +137,7 @@ internal class Product : IProduct
     /// <summary>
     ///  A function to update a specific product in the xml database. 
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(DO.Product product)
     {
         XElement? root = XDocument.Load(@"..\xml\product.xml").Root;

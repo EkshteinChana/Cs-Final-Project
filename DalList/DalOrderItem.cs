@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 /// <summary>
@@ -10,6 +11,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to add to the database a new item to an existing order.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Create(OrderItem orderItem)
     {
         OrderItem tmpOrderItem = DataSource.OrderItemList.Where(ordItem => ordItem.Id == orderItem.Id).FirstOrDefault();
@@ -24,6 +26,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to delete from the database an item from an existing order.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
@@ -36,6 +39,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to get from the database an item from an existing order by the item ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public OrderItem Read(int id)
     {
         OrderItem orderItem = DataSource.OrderItemList.Where(orderItem => orderItem.Id == id).FirstOrDefault();
@@ -49,6 +53,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to get from the database all the items that ordered,and from all the orders.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     IEnumerable<OrderItem> ICrud<OrderItem>.Read(Func<OrderItem, bool> func)
     {
         IEnumerable<OrderItem> tmpOrderItemList = DataSource.OrderItemList;
@@ -66,6 +71,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to update a specific item in an specific order.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(OrderItem orderItem)
     {
         OrderItem originalOrderItem = DataSource.OrderItemList.Where(originalOrderItem => originalOrderItem.Id == orderItem.Id).FirstOrDefault();
@@ -80,6 +86,7 @@ public class DalOrderItem : IOrderItem
     /// <summary>
     /// A function to get a specific orderItem from the xml database by a function.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public OrderItem ReadSingle(Func<OrderItem, bool> func)
     {
         OrderItem orderItm = DataSource.OrderItemList.Where(func).FirstOrDefault();

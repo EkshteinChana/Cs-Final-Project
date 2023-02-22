@@ -4,11 +4,14 @@ using Dal;
 using System.Xml.Linq;
 using BO;
 using DO;
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 internal class BlCart : ICart
 {
     private IDal dalList = DalApi.Factory.Get();
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Cart CreateProdInCart(BO.Cart cart, int id)
     {
         try
@@ -67,6 +70,7 @@ internal class BlCart : ICart
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void MakeOrder(BO.Cart cart, string customerName, string customerEmail, string customerAddress)
     {
         checkDataMakeOrder(cart, customerName, customerEmail, customerAddress);
@@ -157,7 +161,6 @@ internal class BlCart : ICart
         }
     }
 
-
     /// <summary>
     /// A private help function to check the correctness of the customer's details and the shopping cart.
     /// </summary>
@@ -200,6 +203,7 @@ internal class BlCart : ICart
             }).ToList();
         }
     }
+
     /// <summary>
     /// A private help function to check the correctness of the customer's email.
     /// </summary>
@@ -226,6 +230,7 @@ internal class BlCart : ICart
         }
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Cart UpdateAmountOfProd(BO.Cart cart, int id, int amount)
     {
         try

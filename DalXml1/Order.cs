@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Dal;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 
 /// <summary>
@@ -17,6 +18,7 @@ internal class Order : IOrder
     /// <summary>
     /// A function to add a new oder to the xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Create(DO.Order order)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -41,6 +43,7 @@ internal class Order : IOrder
     /// <summary>
     /// A function to delete an oder from the xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -63,6 +66,7 @@ internal class Order : IOrder
     /// <summary>
     /// A function to get the information about specific oder from the xml database by ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Order Read(int id)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -83,6 +87,7 @@ internal class Order : IOrder
     /// <summary> 
     ///A function to get the information about all the orders in the database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<DO.Order> Read(Func<DO.Order, bool>? func = null)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -98,6 +103,7 @@ internal class Order : IOrder
     /// <summary>
     /// A function to get a specific order from the xml database by a function.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Order ReadSingle(Func<DO.Order, bool> func)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -118,6 +124,7 @@ internal class Order : IOrder
     /// <summary> 
     ///A function to get the information about all the orders in the xml database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(DO.Order order)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();

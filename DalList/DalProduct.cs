@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 /// <summary>
@@ -10,6 +11,7 @@ public class DalProduct : IProduct
     /// <summary>
     /// A function to add a new product to the database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Create(Product product)
     {
         Product tmpProduct = DataSource.ProductList.Where(prod => prod.Id == product.Id).FirstOrDefault();
@@ -23,6 +25,7 @@ public class DalProduct : IProduct
     /// <summary>
     /// A function to delete a product from the database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
@@ -35,6 +38,7 @@ public class DalProduct : IProduct
     /// <summary>
     ///  A function to get the information about specific product in the database by ID.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Product Read(int id)
     {
         Product product = DataSource.ProductList.Where(product => product.Id == id).FirstOrDefault();
@@ -47,6 +51,7 @@ public class DalProduct : IProduct
     /// <summary>
     ///  A function to get the information about all the products in the database.
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     IEnumerable<Product> ICrud<Product>.Read(Func<Product, bool> func)
     {
         List<Product> tmpProductList = DataSource.ProductList;
@@ -55,6 +60,7 @@ public class DalProduct : IProduct
     /// <summary>
     ///  A function to update a specific product in the database. 
     /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Product product)
     {
         Product originalProduct = DataSource.ProductList.Where(originalProduct => originalProduct.Id == product.Id).FirstOrDefault();
@@ -66,6 +72,7 @@ public class DalProduct : IProduct
         DataSource.ProductList.Add(product);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     Product ICrud<Product>.ReadSingle(Func<Product, bool> func)
     {
         Product prod = DataSource.ProductList.Where(func).FirstOrDefault();
