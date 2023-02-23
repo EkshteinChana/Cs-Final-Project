@@ -80,7 +80,10 @@ internal class BlProduct : BlApi.IProduct
             {
                 Random rnd = new Random();
                 newProd.Id = rnd.Next(100000, 1000000);
-                id = Dal.product.Create(newProd);
+                lock (Dal)
+                {
+                    id = Dal.product.Create(newProd);
+                }
             }
             catch (IdAlreadyExistsException)
             {
@@ -97,19 +100,24 @@ internal class BlProduct : BlApi.IProduct
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteProd(int Id)
     {
-        IEnumerable<DO.OrderItem> orderItemsList = Dal.orderItem.Read();
-        DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
-        if (!ordWithProd.Equals(default(DO.OrderItem)))
+        lock (Dal)
         {
-            throw new IllegalActionException("It is not possible to delete an existing product in an order");
-        }
-        try
-        {
-            Dal.product.Delete(Id);
-        }
-        catch (IdNotExistException err)
-        {
-            throw new DataErrorException(err, "Data Error: ");
+            IEnumerable<DO.OrderItem> orderItemsList = Dal.orderItem.Read();
+
+            DO.OrderItem ordWithProd = orderItemsList.Where(o => o.ProductId == Id).FirstOrDefault();
+            if (!ordWithProd.Equals(default(DO.OrderItem)))
+            {
+                throw new IllegalActionException("It is not possible to delete an existing product in an order");
+            }
+            try
+            {
+                Dal.product.Delete(Id);
+            }
+        
+            catch (IdNotExistException err)
+            {
+                throw new DataErrorException(err, "Data Error: ");
+            }
         }
     }
     /// <summary>
@@ -125,21 +133,26 @@ internal class BlProduct : BlApi.IProduct
             {
                 throw new InvalidValueException("ID");
             }
-            DO.Product dP = Dal.product.Read(Id);
-            BO.ProductItem bP = new();
-            bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP, dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
-            bP.Category = (BO.eCategory?)dP.Category;
-            bP.InStock = (dP.InStock > 0) ? true : false;
-            bool exist = false;
-            if (cart!=null && cart.Items!= null)
+            lock (Dal)
             {
-                cart.Items.Where(i => i?.ProductId == bP.Id).Select(i => { exist = true; bP.Amount = i.Amount; return i; }).ToList();
+                    DO.Product dP = Dal.product.Read(Id);
+            
+                BO.ProductItem bP = new();
+                bP.GetType().GetProperties().Where(bPr => bPr.Name != "InStock" && bPr.Name != "Category").Select(bPr => { bPr.SetValue(bP, dP.GetType().GetProperty(bPr.Name)?.GetValue(dP)); return bPr; }).ToList();
+                bP.Category = (BO.eCategory?)dP.Category;
+                bP.InStock = (dP.InStock > 0) ? true : false;
+            
+                bool exist = false;
+                if (cart!=null && cart.Items!= null)
+                {
+                    cart.Items.Where(i => i?.ProductId == bP.Id).Select(i => { exist = true; bP.Amount = i.Amount; return i; }).ToList();
+                }
+                if (exist == false)
+                {
+                    bP.Amount = 0;
+                }
+                return bP;
             }
-            if (exist == false)
-            {
-                bP.Amount = 0;
-            }
-            return bP;
         }
         catch (IdNotExistException exc)
         {
@@ -160,11 +173,13 @@ internal class BlProduct : BlApi.IProduct
             {
                 throw new InvalidValueException("ID");
             }
+            lock (Dal) { 
             DO.Product dP = Dal.product.Read(Id);
             BO.Product bP = new BO.Product();
             bP.GetType().GetProperties().Where(prop => prop.Name != "Category").Select(prop => { prop.SetValue(bP, dP.GetType().GetProperty(prop.Name)?.GetValue(dP)); return prop; }).ToList();
-            bP.Category = (BO.eCategory?)dP.Category;
+            bP.Category = (BO.eCategory?)dP.Category;       
             return bP;
+            }
         }
         catch (IdNotExistException exc)
         {
@@ -182,12 +197,18 @@ internal class BlProduct : BlApi.IProduct
         List<DO.Product> dProds = new();
         if (category == null)
         {
-            dProds = Dal.product.Read().ToList();
+            lock (Dal)
+            {
+                dProds = Dal.product.Read().ToList();
+            }
         }
         else
         {
             DO.eCategory ctgry = (DO.eCategory)category;
-            dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
+            lock (Dal)
+            {
+                dProds = Dal.product.Read((DO.Product p) => p.Category == ctgry).ToList();
+            }
         }
         dProds.OrderBy(dP => dP.Name).Select(dP => {
             BO.ProductForList bP = convertDoProdToBoProdForLst(dP);
@@ -208,7 +229,10 @@ internal class BlProduct : BlApi.IProduct
         DO.Product newProd = convertBoProdToDoProd(prod);
         try
         {
-            Dal.product.Update(newProd);
+            lock (Dal)
+            {
+                Dal.product.Update(newProd);
+            }
         }
         catch (IdNotExistException err)
         {

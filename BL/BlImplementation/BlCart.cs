@@ -22,8 +22,10 @@ internal class BlCart : ICart
             }
             bool exist = false;
             int inStock;
-            DO.Product dP = dal.product.Read(id);
-
+            lock (dal)
+            {
+                DO.Product dP = dal.product.Read(id);
+            
             if (cart.Items.Count !=0)
                 cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
                      .Select(i =>
@@ -63,6 +65,7 @@ internal class BlCart : ICart
             cart.Items.Add(oI);
             cart.TotalPrice += dP.Price;
             return cart;
+            }
         }
         catch (IdNotExistException exc)
         {
@@ -97,7 +100,9 @@ internal class BlCart : ICart
                 root?.Save(@"..\xml\config.xml");
                 //for list
                 //dOrder.Id = DataSource.Config.MaxOrderId;
-                orderId = dal.order.Create(dOrder);
+                lock (dal) { 
+                    orderId = dal.order.Create(dOrder);
+                }
             }
             catch (IdAlreadyExistsException)
             {
@@ -128,8 +133,11 @@ internal class BlCart : ICart
                         root.Element("MaxOrderItemId").Value = Convert.ToString(dOrderItem.Id + 1);
                         root?.Save(@"..\xml\config.xml");
                         //for list
-                        //dOrderItem.Id = DataSource.Config.MaxOrderItemId;
-                        dal.orderItem.Create(dOrderItem);
+                        //dOrderItem.Id = DataSource.Config.MaxOrderItemId
+                        lock (dal)
+                        {
+                            dal.orderItem.Create(dOrderItem);
+                        }   
                     }
                     catch (IdAlreadyExistsException)
                     {
@@ -150,7 +158,10 @@ internal class BlCart : ICart
                         throw new OutOfStockException(dP.Id, dP.InStock);
                     }
                     dP.InStock -= item.Amount;
-                    dal.product.Update(dP);
+                    lock (dal)
+                    {
+                        dal.product.Update(dP);
+                    }
                 }
                 catch (IdNotExistException exc)
                 {
@@ -189,10 +200,13 @@ internal class BlCart : ICart
                 }
                 try
                 {
-                    DO.Product dP = dal.product.Read(item.ProductId);
-                    if (dP.InStock < item.Amount)
+                    lock (dal)
                     {
-                        throw new OutOfStockException(dP.Id, dP.InStock);
+                        DO.Product dP = dal.product.Read(item.ProductId);
+                        if (dP.InStock < item.Amount)
+                        {
+                            throw new OutOfStockException(dP.Id, dP.InStock);
+                        }
                     }
                 }
                 catch (IdNotExistException exc)
@@ -252,14 +266,17 @@ internal class BlCart : ICart
                     exist = true;//The product is in the shopping cart
                     if (i.Amount < amount)//Update in case the amount of the product increased
                     {
-                        DO.Product dP = dal.product.Read(id);
-                        if (dP.InStock - amount < 0)
+                        lock (dal)
                         {
-                            throw new OutOfStockException(dP.Id, dP.InStock);
+                            DO.Product dP = dal.product.Read(id);
+                            if (dP.InStock - amount < 0)
+                            {
+                                throw new OutOfStockException(dP.Id, dP.InStock);
+                            }
+                            cart.TotalPrice += i.Price * (amount - i.Amount);
+                            i.Amount = amount;
+                            i.TotalPrice = (i.Price) * amount;
                         }
-                        cart.TotalPrice += i.Price * (amount - i.Amount);
-                        i.Amount = amount;
-                        i.TotalPrice = (i.Price) * amount;
                     }
                     else if (amount < i.Amount)//Update in case the amount of the product decreased
                     {
