@@ -19,6 +19,9 @@ public static class Simulator
     public static event EventHandler StopSimulator;
     public static event EventHandler ProgressChange;
 
+    /// <summary>
+    /// A function that update statuses of orders and call the ProgressChange event for each updating.
+    /// </summary>
     private static void ChangeStatuses()
     {
         while (continuing)
@@ -62,18 +65,57 @@ public static class Simulator
             }
         }
     }
+
+    /// <summary>
+    /// A function that start the thread.
+    /// </summary>
     public static void Run()
     {
         Thread changeStatuses = new Thread(ChangeStatuses);
         changeStatuses.Start();
     }
+
+    /// <summary>
+    /// A function that stop the thread and call the StopSimulator event.
+    /// </summary>
     public static void Stop()
     {
         continuing = false;
-        if(StopSimulator!=null) 
-            StopSimulator(null,EventArgs.Empty);
+        if (StopSimulator != null)
+            StopSimulator(null, EventArgs.Empty);
     }
-
+    /// <summary>
+    /// Registration function for StopSimulator event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void registerStopEvent(EventHandler func)
+    {
+        StopSimulator += func;
+    }
+    /// <summary>
+    /// Unregistration function for StopSimulator event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void unregisterStopEvent(EventHandler func)
+    {
+        StopSimulator -= func;
+    }
+    /// <summary>
+    /// Registration function for ProgressChange event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void registerChangeEvent(EventHandler func)
+    {
+        ProgressChange += func;
+    }
+    /// <summary>
+    /// Unregistration function for ProgressChange event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void unregisterChangeEvent(EventHandler func)
+    {
+            ProgressChange -= func;
+    }
 
 }
 
@@ -84,11 +126,14 @@ public class Details : EventArgs
     public eOrderStatus PreviousStatus;
     public eOrderStatus NextStatus;
     public int EstimatedTime;
+    /// <summary>
+    /// constractor of Details Class.
+    /// </summary>
     public Details(int i, eOrderStatus PStatus, eOrderStatus NStatus, int Time)
     {
         id = i;
         PreviousStatus = PStatus;
-        NextStatus = NStatus;        
+        NextStatus = NStatus;
         EstimatedTime = Time;
     }
 }

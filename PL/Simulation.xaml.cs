@@ -27,10 +27,12 @@ namespace PL;
 public partial class Simulation : Window
 {
     private Stopwatch stopWatch;
-    private bool isTimerRun=true;
     BackgroundWorker worker;
     bool stopByUser = false;
-    Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt;
+
+    /// <summary>
+    /// constractor of Simulation Window.
+    /// </summary>
     public Simulation()
     {
         InitializeComponent();
@@ -58,8 +60,6 @@ public partial class Simulation : Window
     private const int GWL_STYLE = -16;
     private const int WS_SYSMENU = 0x80000;
 
-    //public event PropertyChangedEventHandler? PropertyChanged;
-
     [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
     private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
     [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -71,24 +71,20 @@ public partial class Simulation : Window
         SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
     }
 
-    private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-    {
-        string clockText = DateTime.Now.ToString();
-        ClockTxt.Text = clockText;
-
-        string timerText = stopWatch.Elapsed.ToString();
-        timerText = timerText.Substring(0, 8);
-        this.timerTextBlock.Text = timerText;
-    }
+    /// <summary>
+    /// A function that is called when the background starts and do the things that need to happen at that time.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Worker_DoWork(object sender, DoWorkEventArgs e)
     {
         try
         {
-            Simulator.Simulator.ProgressChange += changeOrder;
-            Simulator.Simulator.StopSimulator += finishSimulator;
+            Simulator.Simulator.registerChangeEvent(changeOrder);
+            Simulator.Simulator.registerStopEvent(finishSimulator);
             Simulator.Simulator.Run();
 
-            while (true)
+            while (!worker.CancellationPending)
             {
                 worker.ReportProgress(1);
                 Thread.Sleep(1000);
@@ -108,44 +104,74 @@ public partial class Simulation : Window
         }
     }
 
+    /// <summary>
+    /// A function that is called when there is change in the background.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="er"></param>
+    private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs er)
+    {
+        //Update Order
+        if (er.ProgressPercentage==2)
+        {
+            Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt = (Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>) er.UserState;           
+            DataContext = dataCntxt;
+            stopWatch.Restart();
+        }
+        //Update clock and timer
+        string clockText = DateTime.Now.ToString();
+        ClockTxt.Text = clockText;
+
+        string timerText = stopWatch.Elapsed.ToString();
+        timerText = timerText.Substring(0, 8);
+        this.timerTextBlock.Text = timerText;
+    }
+
+    /// <summary>
+    /// A function that is called when the background finishes and do the things that need to happen at that time.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        Simulator.Simulator.unregisterChangeEvent(changeOrder);
+        Simulator.Simulator.unregisterStopEvent(finishSimulator);
+        stopWatch.Stop();
+        string msg = stopByUser == true ? "Bye Bye" : "There are no orders to update";
+        MessageBox.Show(msg);
+        Close();
+    }
+
+    /// <summary>
+    /// A function that is called when there is event of ProgressChange, the function receved the details whose sent to the event
+    /// and the function send them to the Worker_ProgressChanged.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void changeOrder(object sender, EventArgs e)
     {
-        if (!CheckAccess())
-        {
-            Dispatcher.BeginInvoke(changeOrder, sender, e);
-        }
-        else
-        {
-            if (!(e is Details))
-                return;
-            Details details = e as Details;
-            dataCntxt = new Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>(details.id, details.PreviousStatus, details.NextStatus, DateTime.Now, details.EstimatedTime);
-            DataContext = dataCntxt;
-            
-            stopWatch.Restart();
-            string timerText = stopWatch.Elapsed.ToString();
-            timerText = timerText.Substring(0, 8);
-            this.timerTextBlock.Text = timerText;
-        }
+        if (!(e is Details))
+            return;
+        Details? details = e as Details;
+        Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> orderDetails = new(details.id, details.PreviousStatus, details.NextStatus, DateTime.Now, details.EstimatedTime);
+        worker.ReportProgress(2, orderDetails);      
     }
 
+   /// <summary>
+   /// A function that is called when there is event of StopSimulator.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void finishSimulator(object sender, EventArgs e)
     {
-        if (!CheckAccess())
-        {
-            Dispatcher.BeginInvoke(finishSimulator, sender, e);
-        }
-        else
-        {
-            stopWatch.Stop();
-            isTimerRun = false;
-            string msg = stopByUser == true ? "Bye Bye" : "There are no orders to update";
-            MessageBox.Show(msg);
-            this.Close();
-        }
+        worker.CancelAsync();
     }
-    private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) { }
 
+    /// <summary>
+    /// A function for finish Simulator that called by user click.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void finishSimulator_Click(object sender, RoutedEventArgs e)
     {
         stopByUser = true;
