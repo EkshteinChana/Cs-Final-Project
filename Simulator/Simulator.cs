@@ -30,6 +30,7 @@ public static class Simulator
                 if (id == null)
                 {
                     Stop();
+                    break;
                 }
                 Order crrntOrder = bl.Order.ReadOrd((int)id);
                 Random rnd = new Random();
