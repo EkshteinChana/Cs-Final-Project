@@ -448,4 +448,11 @@
     <Price>169</Price>
     <Amount>1</Amount>
   </OrderItem>
+  <OrderItem>
+    <Id>78</Id>
+    <ProductId>307174</ProductId>
+    <OrderId>39</OrderId>
+    <Price>144</Price>
+    <Amount>1</Amount>
+  </OrderItem>
 </OrderItems>

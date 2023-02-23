@@ -29,13 +29,6 @@
     <Category>Shabbat</Category>
   </Product>
   <Product>
-    <Id>307174</Id>
-    <Name>An artistic matchbox for Shabbos</Name>
-    <Price>144</Price>
-    <InStock>331</InStock>
-    <Category>Shabbat</Category>
-  </Product>
-  <Product>
     <Id>552899</Id>
     <Name>Sukkah decoration</Name>
     <Price>149</Price>
@@ -61,6 +54,13 @@
     <Name>Artistic Shabbat box</Name>
     <Price>169</Price>
     <InStock>298</InStock>
+    <Category>Shabbat</Category>
+  </Product>
+  <Product>
+    <Id>307174</Id>
+    <Name>An artistic matchbox for Shabbos</Name>
+    <Price>144</Price>
+    <InStock>330</InStock>
     <Category>Shabbat</Category>
   </Product>
 </Products>
