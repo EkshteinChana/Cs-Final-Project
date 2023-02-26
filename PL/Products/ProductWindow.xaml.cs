@@ -128,9 +128,9 @@ public partial class ProductWindow : Window
         {
             MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
         }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (Exception err) 
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
         }
     }
 
@@ -153,13 +153,13 @@ public partial class ProductWindow : Window
         {
             MessageBox.Show(exc.Message);
         }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (InvalidValueException err) 
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
         }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (Exception err) 
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
         }
     }
 
@@ -173,26 +173,27 @@ public partial class ProductWindow : Window
             checkTypeInput();
             BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.UpdateProd(prd);
-            MessageBox.Show("The update was successful");
+            MessageBox.Show("The update was successful", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             UpdateCrrntPrdLst();
             sourcWindow.Show();
             this.Close();
         }
-        catch (InValidInputTypeException exc)
+        catch (InValidInputTypeException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (InvalidValueException err) 
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error); 
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
+        catch (Exception err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+
         }
     }
 
