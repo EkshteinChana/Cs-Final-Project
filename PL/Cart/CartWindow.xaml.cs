@@ -109,6 +109,7 @@ public partial class CartWindow : Window
             bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
             MessageBox.Show("The order has been sent successfully");
             cart.Items.Clear();
+
             cart = new();
             DataContext = cart;
         }

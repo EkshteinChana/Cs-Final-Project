@@ -128,15 +128,15 @@ public partial class OrderWindow : Window
         }
         catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+            MessageBox.Show(err.Message + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception e)
+        catch (Exception err)
         {
-            MessageBox.Show(e.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
     /// <summary>
@@ -149,7 +149,7 @@ public partial class OrderWindow : Window
             ////if the admin enter  
             if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status && currentOrderList != null)
             {
-                MessageBox.Show("No changes have been entered");
+                MessageBox.Show("No changes have been entered", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (po.status < PO.eOrderStatus.Sent)
@@ -161,25 +161,25 @@ public partial class OrderWindow : Window
                 bl.Order.UpdateOrdDelivery(po.Id);
             }
             updateCrrnOrdLst();
-            MessageBox.Show("The update was successful ✔");
+            MessageBox.Show("The update was successful", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             sourcWindow.Show();
             Close();
         }
         catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (IllegalActionException err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message , "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -206,19 +206,19 @@ public partial class OrderWindow : Window
             }
             catch (InvalidValueException err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (IllegalActionException err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (DataErrorException dataError)
+            catch (DataErrorException err)
             {
-                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+                MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
@@ -258,19 +258,19 @@ public partial class OrderWindow : Window
             }
             catch (InvalidValueException err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (IllegalActionException err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (DataErrorException dataError)
+            catch (DataErrorException err)
             {
-                MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+                MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message + " ❌");
+                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
@@ -296,15 +296,15 @@ public partial class OrderWindow : Window
         }
         catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error    );
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message + " ❌");
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception err)
         {
-            MessageBox.Show(err.Message + " ❌");
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error); ;
         }
     }
     /// <summary>

@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Products>
   <Product>
-    <Id>886698</Id>
-    <Name>pendant model siddur</Name>
-    <Price>60</Price>
-    <InStock>250</InStock>
-    <Category>Siddur</Category>
-  </Product>
-  <Product>
     <Id>527567</Id>
     <Name>tehillim model Pearls</Name>
     <Price>70</Price>
@@ -36,13 +29,6 @@
     <Category>Chaggim</Category>
   </Product>
   <Product>
-    <Id>113587</Id>
-    <Name>Mizmor L'todah</Name>
-    <Price>23</Price>
-    <InStock>385</InStock>
-    <Category>Others</Category>
-  </Product>
-  <Product>
     <Id>475059</Id>
     <Name>Artistic status of Passover Haggadot</Name>
     <Price>300</Price>
@@ -57,10 +43,31 @@
     <Category>Shabbat</Category>
   </Product>
   <Product>
+    <Id>113587</Id>
+    <Name>Mizmor L'todah</Name>
+    <Price>35.5</Price>
+    <InStock>385</InStock>
+    <Category>Others</Category>
+  </Product>
+  <Product>
+    <Id>418608</Id>
+    <Name>tryit</Name>
+    <Price>40</Price>
+    <InStock>0</InStock>
+    <Category>Others</Category>
+  </Product>
+  <Product>
     <Id>307174</Id>
     <Name>An artistic matchbox for Shabbos</Name>
     <Price>144</Price>
-    <InStock>330</InStock>
+    <InStock>329</InStock>
     <Category>Shabbat</Category>
+  </Product>
+  <Product>
+    <Id>886698</Id>
+    <Name>pendant model siddur</Name>
+    <Price>60</Price>
+    <InStock>249</InStock>
+    <Category>Siddur</Category>
   </Product>
 </Products>
