@@ -57,7 +57,8 @@
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="PriceTxtBx" Text="{Binding Path=Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
                      HorizontalAlignment="Center" Margin="0,0,0,5" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom"
-                     MinWidth="100" Grid.ColumnSpan="3"/>
+                     MinWidth="100" Grid.ColumnSpan="3">
+            </TextBox>
             <Label Grid.Row="4" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Top" 
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <ComboBox Name="CategorySelector" Grid.Row="4" HorizontalAlignment="Center" 

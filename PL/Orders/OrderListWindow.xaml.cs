@@ -15,7 +15,7 @@ namespace PL.Orders;
 /// </summary>
 public partial class OrderListWindow : Window
 {
-    private IBl bl;   
+    private IBl bl;
     private ObservableCollection<PO.OrderForList?> currentOrderList { get; set; }//the list of the orders 
     /// <summary>
     /// A private help function to convert BO.OrderForList entity to PO.OrderForList entity.
@@ -27,11 +27,11 @@ public partial class OrderListWindow : Window
             Id = bO.Id,
             CustomerName = bO.CustomerName,
             AmountOfItems = bO.AmountOfItems,
-            TotalPrice = bO.TotalPrice 
+            TotalPrice = bO.TotalPrice
         };
-        if(bO.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
-        else if(bO.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
-        else { po.status=PO.eOrderStatus.Sent; }
+        if (bO.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
+        else if (bO.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
+        else { po.status = PO.eOrderStatus.Sent; }
         return po;
     }
     /// <summary>
@@ -50,6 +50,7 @@ public partial class OrderListWindow : Window
             return bO;
         }).ToList();
         OrdersListview.DataContext = currentOrderList;
+        Simulator.Simulator.registerChangeStatusEvent(refreshStatus);
     }
     /// <summary>
     /// A function that opens the OrderWindow for watching and updating the selected order.
@@ -66,10 +67,41 @@ public partial class OrderListWindow : Window
     private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
     {
         new PL.AdminWindow(bl).Show();
+        Simulator.Simulator.unregisterChangeStatusEvent(refreshStatus);
         Close();
     }
-
-    private void OrdersListview_SelectionChanged(object sender, SelectionChangedEventArgs e){}
+    /// <summary>
+    /// A function that update a order in the screan if its status changed in the simulator. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void refreshStatus(object sender, EventArgs e)
+    {
+        if (!CheckAccess())
+        {
+            Dispatcher.BeginInvoke(refreshStatus, sender, e);
+        }
+        else
+        {
+            //int? oId = (e as Simulator.Num)?.id ?? null;
+            //PO.OrderForList order = currentOrderList.Where(order => order.Id == oId).FirstOrDefault();
+            //if (order == null || order.Equals(default(PO.OrderForList)))
+            //{
+            //    return;
+            //}
+            IEnumerable<BO.OrderForList?> bOrds = bl.Order.ReadOrdsManager();
+            currentOrderList = new();
+            bOrds?.Select(bO =>
+            {
+                PO.OrderForList o = convertBoOrdLstToPoOrdLst(bO);
+                currentOrderList.Add(o);
+                return bO;
+            }).ToList();
+            OrdersListview.DataContext = currentOrderList;
+            //order.status = (PO.eOrderStatus)((int)order.status + 1);
+        }
+    }
+    private void OrdersListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }
 
 

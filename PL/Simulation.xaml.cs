@@ -29,6 +29,7 @@ public partial class Simulation : Window
     private Stopwatch stopWatch;
     BackgroundWorker worker;
     bool stopByUser = false;
+    bool stopByError = false;
 
     /// <summary>
     /// constractor of Simulation Window.
@@ -90,15 +91,30 @@ public partial class Simulation : Window
                 Thread.Sleep(1000);
             }
         }
+        catch (IllegalActionException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            stopByError = true;
+            Simulator.Simulator.Stop();
+        }
         catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            stopByError = true;
+            Simulator.Simulator.Stop();
         }
         catch (DataErrorException err)
         {
             MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            stopByError = true;
+            Simulator.Simulator.Stop();
         }
-        catch (Exception err) { MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            stopByError = true;
+            Simulator.Simulator.Stop();
+        }
     }
 
     /// <summary>
@@ -109,9 +125,9 @@ public partial class Simulation : Window
     private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs er)
     {
         //Update Order
-        if (er.ProgressPercentage==2)
+        if (er.ProgressPercentage == 2)
         {
-            Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt = (Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>) er.UserState;           
+            Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt = (Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>)er.UserState;
             DataContext = dataCntxt;
             stopWatch.Restart();
         }
@@ -134,7 +150,7 @@ public partial class Simulation : Window
         Simulator.Simulator.unregisterChangeEvent(changeOrder);
         Simulator.Simulator.unregisterStopEvent(finishSimulator);
         stopWatch.Stop();
-        string msg = stopByUser == true ? "Bye Bye" : "There are no orders to update";
+        string msg = stopByUser == true ? "Bye Bye" : stopByError == true ? "Stop By Error" : "There are no orders to update";
         MessageBox.Show(msg);
         Close();
     }
@@ -151,14 +167,14 @@ public partial class Simulation : Window
             return;
         Details? details = e as Details;
         Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> orderDetails = new(details.id, details.PreviousStatus, details.NextStatus, DateTime.Now, details.EstimatedTime);
-        worker.ReportProgress(2, orderDetails);      
+        worker.ReportProgress(2, orderDetails);
     }
 
-   /// <summary>
-   /// A function that is called when there is event of StopSimulator.
-   /// </summary>
-   /// <param name="sender"></param>
-   /// <param name="e"></param>
+    /// <summary>
+    /// A function that is called when there is event of StopSimulator.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void finishSimulator(object sender, EventArgs e)
     {
         worker.CancelAsync();

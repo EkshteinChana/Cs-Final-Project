@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using BlApi;
 using BlImplementation;
 using BO;
+using System.Windows;
+using Xceed.Wpf.Toolkit;
 
 namespace Simulator;
 
@@ -38,22 +40,28 @@ public static class Simulator
                 }
                 Order crrntOrder = bl.Order.ReadOrd((int)id);
                 Random rnd = new Random();
-                int seconds = rnd.Next(1, 6);
+                int seconds = rnd.Next(3, 9);
                 Details details = new Details(crrntOrder.Id, (eOrderStatus)crrntOrder.status, (eOrderStatus)((int)crrntOrder.status + 1), seconds);
                 if (ProgressChange != null)
                     ProgressChange(null, details);
                 Thread.Sleep(seconds * 1000);
                 if (crrntOrder.status == eOrderStatus.confirmed)
                 {
-                    bl.Order.UpdateOrdShipping(crrntOrder.Id);
+                    if (crrntOrder.ShipDate == null || crrntOrder.ShipDate == DateTime.MinValue)
+                        bl.Order.UpdateOrdShipping(crrntOrder.Id);
                 }
                 else
                 {
-                    bl.Order.UpdateOrdDelivery(crrntOrder.Id);
+                    if (crrntOrder.DeliveryDate == null || crrntOrder.DeliveryDate == DateTime.MinValue)
+                        bl.Order.UpdateOrdDelivery(crrntOrder.Id);
                 }
                 Num idOrder = new Num(crrntOrder.Id);
                 if (StatusChange != null)
                     StatusChange(null, idOrder);
+            }
+            catch (IllegalActionException err)
+            {
+                throw err;
             }
             catch (InvalidValueException err)
             {
@@ -165,6 +173,6 @@ public class Num : EventArgs
     /// </summary>
     public Num(int i)
     {
-        id = i;        
+        id = i;
     }
 }

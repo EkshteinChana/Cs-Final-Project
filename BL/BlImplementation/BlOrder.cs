@@ -67,7 +67,7 @@ internal class BlOrder : BlApi.IOrder
     [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.ReadOrd(int orderId)
     {
-        
+
         if (orderId < 0)
         {
             throw new InvalidValueException("ID");
@@ -84,7 +84,7 @@ internal class BlOrder : BlApi.IOrder
         {
             throw new DataErrorException(err, "Data Error: ");
         }
-        
+
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -111,7 +111,7 @@ internal class BlOrder : BlApi.IOrder
             }
             return orderList;
         }
-}
+    }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrd(int oId, int pId, int amount, BO.eUpdateOrder action) // (Bonus)
@@ -184,13 +184,12 @@ internal class BlOrder : BlApi.IOrder
         {
             throw new DataErrorException(err, "Data Error: ");
         }
-        
+
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrdDelivery(int oId)
     {
-        
         if (oId < 0)
         {
             throw new InvalidValueException("ID");
@@ -218,36 +217,35 @@ internal class BlOrder : BlApi.IOrder
         {
             throw new DataErrorException(err, "Data Error: ");
         }
-        
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.UpdateOrdShipping(int oId)
     {
-        
-            if (oId < 0)
+
+        if (oId < 0)
+        {
+            throw new InvalidValueException("ID");
+        }
+        try
+        {
+            lock (Dal)
             {
-                throw new InvalidValueException("ID");
-            }
-            try
-            {
-                lock (Dal)
+                DO.Order dOrder = Dal.order.Read(oId);
+                if (dOrder.ShipDate != null)
                 {
-                    DO.Order dOrder = Dal.order.Read(oId);
-                    if (dOrder.ShipDate != null)
-                    {
-                        throw new IllegalActionException("The order has already been sent.");
-                    }
-                    dOrder.ShipDate = DateTime.Now;
-                    Dal.order.Update(dOrder);
-                    return convertDToB(dOrder);
+                    throw new IllegalActionException("The order has already been sent.");
                 }
+                dOrder.ShipDate = DateTime.Now;
+                Dal.order.Update(dOrder);
+                return convertDToB(dOrder);
             }
-            catch (IdNotExistException err)
-            {
-                throw new DataErrorException(err, "Data Error: ");
-            }
-        
+        }
+        catch (IdNotExistException err)
+        {
+            throw new DataErrorException(err, "Data Error: ");
+        }
+
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -291,39 +289,38 @@ internal class BlOrder : BlApi.IOrder
     [MethodImpl(MethodImplOptions.Synchronized)]
     public int? GetOldestOrder()
     {
-        
+
         DateTime? oldestDate = DateTime.MaxValue;
         int id = 0;
         lock (Dal)
         {
             IEnumerable<DO.Order> dOrders = Dal.order.Read();
-        
-        List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
-        var enumerator = dOrders.OrderBy(dO => dO.Id).GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            if (enumerator.Current.ShipDate == null)
+
+            List<BO.OrderForList> orderList = new List<BO.OrderForList>(dOrders.Count());
+            var enumerator = dOrders.OrderBy(dO => dO.Id).GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                if (enumerator.Current.OrderDate < oldestDate)
+                if (enumerator.Current.ShipDate == null)
                 {
-                    oldestDate = enumerator.Current.OrderDate;
-                    id = enumerator.Current.Id;
+                    if (enumerator.Current.OrderDate < oldestDate)
+                    {
+                        oldestDate = enumerator.Current.OrderDate;
+                        id = enumerator.Current.Id;
+                    }
+                }
+                else if (enumerator.Current.DeliveryDate == null)
+                {
+                    if (enumerator.Current.ShipDate < oldestDate)
+                    {
+                        oldestDate = enumerator.Current.ShipDate;
+                        id = enumerator.Current.Id;
+                    }
                 }
             }
-            else if (enumerator.Current.DeliveryDate == null)
-            {
-                if (enumerator.Current.ShipDate < oldestDate)
-                {
-                    oldestDate = enumerator.Current.ShipDate;
-                    id = enumerator.Current.Id;
-                }
-            }
-        }
         }
         if (oldestDate != DateTime.MaxValue)
             return id;
         return null;
-       
     }
 }
 

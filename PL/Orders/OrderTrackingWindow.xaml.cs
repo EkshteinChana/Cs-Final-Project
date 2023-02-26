@@ -63,6 +63,7 @@ public partial class OrderTrackingWindow : Window
         Simulator.Simulator.unregisterChangeStatusEvent(refreshStatus);
         Close();
     }
+
     /// <summary>
     /// A function that opens the OrderWindow for watching the details of the current order.
     /// </summary>
@@ -71,6 +72,12 @@ public partial class OrderTrackingWindow : Window
         new OrderWindow(bl, this, ot.Id).Show();
         Hide();
     }
+
+    /// <summary>
+    /// A function that update the order in the screan if its status changed in the simulator. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void refreshStatus(object sender, EventArgs e)
     {
 

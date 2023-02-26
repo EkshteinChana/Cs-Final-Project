@@ -124,6 +124,7 @@ public partial class OrderWindow : Window
                 orderDetails.DataContext = data;
                 ItemsList.DataContext = po.Items;
                 StatusSelector.ItemsSource = Statusoptions;
+                Simulator.Simulator.registerChangeStatusEvent(refreshStatus);
             }
         }
         catch (InvalidValueException err)
@@ -163,6 +164,7 @@ public partial class OrderWindow : Window
             updateCrrnOrdLst();
             MessageBox.Show("The update was successful", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             sourcWindow.Show();
+            Simulator.Simulator.unregisterChangeStatusEvent(refreshStatus);
             Close();
         }
         catch (InvalidValueException err)
@@ -277,7 +279,7 @@ public partial class OrderWindow : Window
         catch (Exception err)
         {
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-        }      
+        }
     }
     /// <summary>
     /// a function for adding an item to the order.
@@ -318,8 +320,59 @@ public partial class OrderWindow : Window
     private void ReturnBackBtn_Click(object sender, RoutedEventArgs e)
     {
         sourcWindow.Show();
+        Simulator.Simulator.unregisterChangeStatusEvent(refreshStatus);
         Close();
     }
+
+    /// <summary>
+    /// A private function that update the order in the screan if its status changed in the simulator. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void refreshStatus(object sender, EventArgs e)
+    {
+
+        if (!CheckAccess())
+        {
+            Dispatcher.BeginInvoke(refreshStatus, sender, e);
+        }
+        else
+        {
+            int? oId = (e as Simulator.Num)?.id ?? null;
+            if (oId == po.Id)
+            {
+                try
+                {
+                    BO.Order bo = bl.Order.ReadOrd(po.Id);
+                    po = convertBoOrdToPoOrd(bo);
+                    List<PO.eOrderStatus> Statusoptions = new();
+                    Statusoptions.Add(PO.eOrderStatus.provided);
+                    if (po.DeliveryDate == DateTime.MinValue)
+                    {
+                        Statusoptions.Add(PO.eOrderStatus.Sent);
+                    }
+                    customerChange = false;
+                    data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
+                    orderDetails.DataContext = data;
+                    ItemsList.DataContext = po.Items;
+                    StatusSelector.ItemsSource = Statusoptions;
+                }
+                catch (InvalidValueException err)
+                {
+                    MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (DataErrorException err)
+                {
+                    MessageBox.Show(err.Message + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+    }
+
     private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
     private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 }
