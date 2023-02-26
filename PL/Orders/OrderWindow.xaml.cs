@@ -179,7 +179,7 @@ public partial class OrderWindow : Window
         }
         catch (Exception err)
         {
-            MessageBox.Show(err.Message , "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -228,20 +228,22 @@ public partial class OrderWindow : Window
     private void updatItmBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
-        if (MessageBox.Show($"Are you sure you want to update the amount of {CurrntOitm.Name}?",
-                                $"update amount of {CurrntOitm.Name}",
-                                MessageBoxButton.YesNo,
-                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+        //check if the input is correct.
+        try
         {
-            try
+            if (CurrntOitm.AmountUpdated < 0)
+                throw new InValidInputTypeException("amount of item");
+            if (MessageBox.Show($"Are you sure you want to update the amount of {CurrntOitm.Name}?",
+                                    $"update amount of {CurrntOitm.Name}",
+                                    MessageBoxButton.YesNo,
+                                    MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-
                 if (CurrntOitm.AmountUpdated != CurrntOitm.Amount)
                 {
                     if (CurrntOitm.AmountUpdated == 0)
                     {
                         bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0, BO.eUpdateOrder.delete);
-                        po.Items.Remove(CurrntOitm);                       
+                        po.Items.Remove(CurrntOitm);
                     }
                     else
                     {
@@ -252,27 +254,30 @@ public partial class OrderWindow : Window
                     data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
                     orderDetails.DataContext = data;
                 }
-
                 CurrntOitm.Amount = CurrntOitm.AmountUpdated;
                 CurrntOitm.AmountUpdated = 0;
             }
-            catch (InvalidValueException err)
-            {
-                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (IllegalActionException err)
-            {
-                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (DataErrorException err)
-            {
-                MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
+        catch (InValidInputTypeException exc)
+        {
+            MessageBox.Show(exc.Message);
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (IllegalActionException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }      
     }
     /// <summary>
     /// a function for adding an item to the order.
@@ -296,7 +301,7 @@ public partial class OrderWindow : Window
         }
         catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error    );
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (DataErrorException err)
         {

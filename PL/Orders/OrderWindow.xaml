@@ -82,8 +82,8 @@
                         <GridViewColumn Header="Change amount">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel  x:Name="AmountApdate" Orientation="Horizontal" IsEnabled="{Binding ElementName=AddOrdItmBtn,Path=IsEnabled}">
-                                        <TextBox  Text="{Binding AmountUpdated,
+                                    <StackPanel x:Name="AmountApdate" Orientation="Horizontal" IsEnabled="{Binding ElementName=AddOrdItmBtn,Path=IsEnabled}">
+                                        <TextBox x:Name="AmountTxtBx" Text="{Binding AmountUpdated,
                                                  Mode=OneWayToSource}" MinWidth="25">
                                         </TextBox>
                                         <Button Click="updatItmBtn_Click" Content="✔" 
