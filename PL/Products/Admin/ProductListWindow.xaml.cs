@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Intrinsics.Arm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,21 +16,7 @@ public partial class ProductListWindow : Window
 {
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products 
-    /// <summary>
-    /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
-    /// </summary>
-    private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
-    {
-        PO.ProductForList p = new()
-        {
-            Name = bP.Name,
-            Price = bP.Price,
-            Id = bP.Id,
-            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
-        };
-        return p;
-    }
-
+ 
     /// <summary>
     /// constractor of ProductListWindow which imports the list of products.
     /// </summary>
@@ -99,8 +84,19 @@ public partial class ProductListWindow : Window
         Close();
     }
 
-    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    /// <summary>
+    /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+    /// </summary>
+    private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
     {
-
+        PO.ProductForList p = new()
+        {
+            Name = bP.Name,
+            Price = bP.Price,
+            Id = bP.Id,
+            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+        };
+        return p;
     }
+
 }

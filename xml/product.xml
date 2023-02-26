@@ -22,13 +22,6 @@
     <Category>Chaggim</Category>
   </Product>
   <Product>
-    <Id>651301</Id>
-    <Name>Artistic Shabbat box</Name>
-    <Price>169</Price>
-    <InStock>298</InStock>
-    <Category>Shabbat</Category>
-  </Product>
-  <Product>
     <Id>113587</Id>
     <Name>Mizmor L'todah</Name>
     <Price>35.5</Price>
@@ -69,5 +62,12 @@
     <Price>300</Price>
     <InStock>431</InStock>
     <Category>Chaggim</Category>
+  </Product>
+  <Product>
+    <Id>651301</Id>
+    <Name>Artistic Shabbat box</Name>
+    <Price>169</Price>
+    <InStock>299</InStock>
+    <Category>Shabbat</Category>
   </Product>
 </Products>

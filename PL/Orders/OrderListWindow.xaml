@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:PL.Orders"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="640" Width="800">
+    <Window.Resources>
+        <local:EnumOrdForLstConverter x:Key="EnumOrdForLstConverter"/>
+    </Window.Resources>
     
     <Grid Name="MainGrid">
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">

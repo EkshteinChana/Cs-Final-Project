@@ -1,5 +1,4 @@
-﻿
-namespace BO;
+﻿namespace BO;
 
 /// <summary>
 /// A product item entity for the catalog screen of the customer

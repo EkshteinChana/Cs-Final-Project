@@ -1,5 +1,4 @@
-﻿
-namespace BO;
+﻿namespace BO;
 
 /// <summary>
 /// Main logical entity of product 

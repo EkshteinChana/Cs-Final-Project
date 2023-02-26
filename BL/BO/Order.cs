@@ -1,8 +1,4 @@
-﻿
-using BlApi;
-using System.Diagnostics;
-
-namespace BO;
+﻿namespace BO;
 
 /// <summary>
 /// Main logical entity of order 

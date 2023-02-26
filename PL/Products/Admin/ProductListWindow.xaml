@@ -31,9 +31,9 @@
                     Height="41" Width="120" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="BackToAdminWindow_Click"/>
         </Grid>
-        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" SelectionChanged="ProductsListview_SelectionChanged" FontSize="20">
+        <ListView x:Name="ProductsListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding}" Margin="50,31,50,52" Grid.Row="1" MouseDoubleClick="ProductsListview_MouseDoubleClick" FontSize="20">
             <ListView.View>
-                <GridView >
+                <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id }" Header="ID" />
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
                     <GridViewColumn DisplayMemberBinding="{Binding Price }" Header="Price" />

@@ -1,6 +1,5 @@
 ﻿using BlApi;
 using DalApi;
-using Dal;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
 

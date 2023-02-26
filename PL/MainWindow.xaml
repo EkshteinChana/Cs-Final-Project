@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Name="ShowProductsButton" Content="Admin" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AdminEnter_Click" Height="65" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
+        <Button Name="AdminEnterButton" Content="Admin" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AdminEnter_Click" Height="65" Width="113" FontWeight="Bold" FontSize="25" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"/>
         <Button Name="NewOrderBtn" Content="New Order" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="65" Width="113" FontWeight="Bold" FontSize="21" FontFamily="Alex Brush" BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="NewOrderBtn_Click"/>
         <StackPanel Grid.Row="3" Width="113">
             <StackPanel Orientation="Horizontal" Margin="0,8,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">

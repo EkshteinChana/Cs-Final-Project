@@ -1,9 +1,6 @@
 ﻿using BlApi;
 using DalApi;
-using Dal;
 using System.Xml.Linq;
-using BO;
-using DO;
 using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
