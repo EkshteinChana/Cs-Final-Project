@@ -170,12 +170,17 @@ public partial class ProductWindow : Window
     {
         try
         {
+            checkTypeInput();
             BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.UpdateProd(prd);
             MessageBox.Show("The update was successful");
             UpdateCrrntPrdLst();
             sourcWindow.Show();
             this.Close();
+        }
+        catch (InValidInputTypeException exc)
+        {
+            MessageBox.Show(exc.Message);
         }
         catch (InvalidValueException exc)
         {
