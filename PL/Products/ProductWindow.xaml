@@ -67,7 +67,7 @@
                    Margin="0,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <TextBox Name="InStockTxtBx" HorizontalAlignment="Center" 
                      Margin="0,0,0,5" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100" Grid.ColumnSpan="3"
-                     Text="{Binding Path=InStock,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+                     Text="{Binding Path=InStock,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
             <Grid Grid.Row="6" Name="GridButtons">
                 <Button Name="AddProductBtn" Content="click for sending the product details" 
                     HorizontalAlignment="Left" VerticalAlignment="Center" Click="AddProductBtn_Click" 

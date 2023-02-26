@@ -47,9 +47,18 @@ public partial class MainWindow : Window
     {
         try
         {
+            var input = 0;
+            if (!int.TryParse(OrdIdTxtBx.Text, out input))
+            {
+                throw new InValidInputTypeException("Order ID");
+            }
             int oId = Convert.ToInt32(OrdIdTxtBx.Text);
             new OrderTrackingWindow(bl, oId, this).Show();
             this.Close();
+        }
+        catch (InValidInputTypeException exc)
+        {
+            MessageBox.Show(exc.Message);
         }
         catch (InvalidValueException exc)
         {
