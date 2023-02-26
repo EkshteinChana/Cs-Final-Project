@@ -18,6 +18,7 @@ public static class Simulator
     private static bool continuing = true;
     public static event EventHandler StopSimulator;
     public static event EventHandler ProgressChange;
+    public static event EventHandler StatusChange;
 
     /// <summary>
     /// A function that update statuses of orders and call the ProgressChange event for each updating.
@@ -50,6 +51,9 @@ public static class Simulator
                 {
                     bl.Order.UpdateOrdDelivery(crrntOrder.Id);
                 }
+                Num idOrder = new Num(crrntOrder.Id);
+                if (StatusChange != null)
+                    StatusChange(null, idOrder);
             }
             catch (InvalidValueException err)
             {
@@ -114,9 +118,24 @@ public static class Simulator
     /// <param name="func"></param>
     public static void unregisterChangeEvent(EventHandler func)
     {
-            ProgressChange -= func;
+        ProgressChange -= func;
     }
-
+    /// <summary>
+    /// Registration function for StatusChange event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void registerChangeStatusEvent(EventHandler func)
+    {
+        StatusChange += func;
+    }
+    /// <summary>
+    /// Unregistration function for StatusChange event.
+    /// </summary>
+    /// <param name="func"></param>
+    public static void unregisterChangeStatusEvent(EventHandler func)
+    {
+        StatusChange -= func;
+    }
 }
 
 
@@ -135,5 +154,17 @@ public class Details : EventArgs
         PreviousStatus = PStatus;
         NextStatus = NStatus;
         EstimatedTime = Time;
+    }
+}
+
+public class Num : EventArgs
+{
+    public int id;
+    /// <summary>
+    /// constractor of Num Class.
+    /// </summary>
+    public Num(int i)
+    {
+        id = i;        
     }
 }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -49,6 +51,7 @@ public partial class OrderTrackingWindow : Window
             InitializeComponent();
             ot = convertBoOrdTrckToPoOrdTrck(bOt);
             DataContext = ot;
+            Simulator.Simulator.registerChangeStatusEvent(refreshStatus);
         }
         catch (InvalidValueException exc)
         {          
@@ -69,6 +72,7 @@ public partial class OrderTrackingWindow : Window
     private void ReturnToMainWindowBtn_Click(object sender, RoutedEventArgs e)
     {
         new MainWindow().Show();
+        Simulator.Simulator.unregisterChangeStatusEvent(refreshStatus);
         Close();
     }
     /// <summary>
@@ -79,5 +83,39 @@ public partial class OrderTrackingWindow : Window
         new OrderWindow(bl, this, ot.Id).Show();
         Hide();
     }
+    private void refreshStatus(object sender, EventArgs e)
+    {
+
+        if (!CheckAccess())
+        {
+            Dispatcher.BeginInvoke(refreshStatus, sender, e);
+        }
+        else
+        {
+            int? oId = (e as Simulator.Num)?.id ?? null;
+            if (oId == orderId)
+            {
+                try
+                {
+                    BO.OrderTracking bOt = bl.Order.TrackOrder(orderId);
+                    ot = convertBoOrdTrckToPoOrdTrck(bOt);
+                    DataContext = ot;
+                }
+                catch (InvalidValueException exc)
+                {
+                    throw exc;
+                }
+                catch (DataErrorException dataError)
+                {
+                    throw dataError;
+                }
+                catch (Exception exc)
+                {
+                    throw exc;
+                }
+            }
+        } 
+    }
+
 }
 
