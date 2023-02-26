@@ -107,27 +107,28 @@ public partial class CartWindow : Window
         {
             BO.Cart bCart = convertPoCartToBoCart(cart);
             bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
+            MessageBox.Show("The order has been sent successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             MessageBox.Show("The order has been sent successfully");
             cart.Items.Clear();
 
             cart = new();
             DataContext = cart;
         }
-        catch (OutOfStockException exc)
+        catch (OutOfStockException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (InvalidValueException exc)
+        catch (InvalidValueException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
+        catch (Exception err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -152,25 +153,25 @@ public partial class CartWindow : Window
             cart = convertBoCartToPoCart(bCrt);
             DataContext = cart;
         }
-        catch (InvalidValueException exc)
+        catch (InvalidValueException err) 
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
         }
-        catch (OutOfStockException exc)
+        catch (OutOfStockException err) 
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
         }
-        catch (ItemNotExistException exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (ItemNotExistException err)
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
+        catch (Exception err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
     /// <summary>

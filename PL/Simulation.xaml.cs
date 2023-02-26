@@ -90,18 +90,15 @@ public partial class Simulation : Window
                 Thread.Sleep(1000);
             }
         }
-        catch (InvalidValueException exc)
+        catch (InvalidValueException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
+        catch (Exception err) { MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   }
     }
 
     /// <summary>

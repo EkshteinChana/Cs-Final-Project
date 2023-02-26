@@ -56,21 +56,20 @@ public partial class MainWindow : Window
             new OrderTrackingWindow(bl, oId, this).Show();
             this.Close();
         }
-        catch (InValidInputTypeException exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (InValidInputTypeException err)
+        { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error); 
         }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
+        catch (InvalidValueException err) { 
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
+        catch (Exception err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

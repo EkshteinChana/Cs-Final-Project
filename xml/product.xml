@@ -8,13 +8,6 @@
     <Category>Tehillim</Category>
   </Product>
   <Product>
-    <Id>226759</Id>
-    <Name>prestigious crystal tehillim</Name>
-    <Price>85</Price>
-    <InStock>402</InStock>
-    <Category>Tehillim</Category>
-  </Product>
-  <Product>
     <Id>753396</Id>
     <Name> Zmiroth Shabbos lace model</Name>
     <Price>16.8</Price>
@@ -26,13 +19,6 @@
     <Name>Sukkah decoration</Name>
     <Price>149</Price>
     <InStock>256</InStock>
-    <Category>Chaggim</Category>
-  </Product>
-  <Product>
-    <Id>475059</Id>
-    <Name>Artistic status of Passover Haggadot</Name>
-    <Price>300</Price>
-    <InStock>432</InStock>
     <Category>Chaggim</Category>
   </Product>
   <Product>
@@ -69,5 +55,19 @@
     <Price>60</Price>
     <InStock>249</InStock>
     <Category>Siddur</Category>
+  </Product>
+  <Product>
+    <Id>226759</Id>
+    <Name>prestigious crystal tehillim</Name>
+    <Price>90</Price>
+    <InStock>402</InStock>
+    <Category>Tehillim</Category>
+  </Product>
+  <Product>
+    <Id>475059</Id>
+    <Name>Artistic status of Passover Haggadot</Name>
+    <Price>300</Price>
+    <InStock>431</InStock>
+    <Category>Chaggim</Category>
   </Product>
 </Products>
