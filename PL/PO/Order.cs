@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-
+using System.Windows;
 
 namespace PL.PO;
 /// <summary>
 /// PO entity of order 
 /// for order detail screens and actions on a order
 /// </summary>
-public class Order { 
+public class Order : DependencyObject
+{
+    public static readonly DependencyProperty itemsProperty = DependencyProperty.Register("Items", typeof(ObservableCollection<PO.OrderItem?>), typeof(Order), new UIPropertyMetadata(new ObservableCollection<PO.OrderItem?>()));
 
     public int Id { get; set; }//orderId
     public string? CustomerName { get; set; }
@@ -19,8 +21,11 @@ public class Order {
     public DateTime? DeliveryDate { get; set; }
     public PO.eOrderStatus status { get; set; }//the status of this order
     public double TotalPrice { get; set; }//the total price of this order
-    public ObservableCollection<PO.OrderItem?> Items { get; set; }
-        //a list of the items in this order 
+    public ObservableCollection<PO.OrderItem?> Items//a list of the items in this order 
+    {
+        get { return (ObservableCollection<PO.OrderItem?>)GetValue(itemsProperty); }
+        set { SetValue(itemsProperty, value); }
+    }
     public override string ToString()
     {
         string ordToString =
@@ -40,9 +45,5 @@ public class Order {
             return itm;
         }).ToList();
         return ordToString;
-    }
-    public Order()
-    {
-        Items = new();
     }
 }

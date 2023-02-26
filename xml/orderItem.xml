@@ -467,13 +467,13 @@
     <ProductId>527567</ProductId>
     <OrderId>35</OrderId>
     <Price>70</Price>
-    <Amount>1</Amount>
+    <Amount>3</Amount>
   </OrderItem>
   <OrderItem>
-    <Id>84</Id>
-    <ProductId>753396</ProductId>
+    <Id>86</Id>
+    <ProductId>552899</ProductId>
     <OrderId>35</OrderId>
-    <Price>16.8</Price>
+    <Price>149</Price>
     <Amount>1</Amount>
   </OrderItem>
 </OrderItems>
