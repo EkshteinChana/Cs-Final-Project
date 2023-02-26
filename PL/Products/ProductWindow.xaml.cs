@@ -18,7 +18,7 @@ public partial class ProductWindow : Window
     Window sourcWindow;
     BO.eCategory? catagory;
     private ObservableCollection<PO.ProductForList?> currentProductList;
-    PO.Product currentProd=new();
+    PO.Product currentProd = new();
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -66,6 +66,19 @@ public partial class ProductWindow : Window
     }
 
     /// <summary>
+    /// A private help function to check if the type of the input is incorrect.
+    /// </summary>
+    private void checkTypeInput()
+    {
+        double inputP = 0;
+        if (!double.TryParse(PriceTxtBx.Text, out inputP))
+            throw new InValidInputTypeException("price");
+        int inputI = 0;
+        if (!int.TryParse(InStockTxtBx.Text, out inputI))
+            throw new InValidInputTypeException("amount in stock");
+    }
+
+    /// <summary>
     /// A private help function to convert PO.Product entity to BO.Product entity.
     /// </summary>
     private BO.Product convertPoProdToBoProd(PO.Product p)
@@ -81,6 +94,7 @@ public partial class ProductWindow : Window
         return bP;
     }
 
+
     /// <summary>
     /// Constractor of ProductWindow for add, delete or update an a product.
     /// </summary>
@@ -95,7 +109,7 @@ public partial class ProductWindow : Window
             catagory = ctgry;
             currentProductList = cl;
             if (id != null)//update and delete
-            {               
+            {
                 BO.Product bP = bl.Product.ReadProdManager((int)id);
                 currentProd = convertBoProdToPoProd(bP);
                 TitelEnterDetailsLbl.Content = "Change the product details for updating";
@@ -127,12 +141,17 @@ public partial class ProductWindow : Window
     {
         try
         {
+            checkTypeInput();
             BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.CreateProd(prd);
             MessageBox.Show("The addition was made successfully");
             UpdateCrrntPrdLst();
             sourcWindow.Show();
             this.Close();
+        }
+        catch (InValidInputTypeException exc)
+        {
+            MessageBox.Show(exc.Message);
         }
         catch (InvalidValueException exc)
         {
@@ -151,12 +170,17 @@ public partial class ProductWindow : Window
     {
         try
         {
+            checkTypeInput();
             BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.UpdateProd(prd);
             MessageBox.Show("The update was successful");
             UpdateCrrntPrdLst();
             sourcWindow.Show();
             this.Close();
+        }
+        catch (InValidInputTypeException exc)
+        {
+            MessageBox.Show(exc.Message);
         }
         catch (InvalidValueException exc)
         {
