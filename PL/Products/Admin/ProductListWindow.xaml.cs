@@ -49,7 +49,6 @@ public partial class ProductListWindow : Window
             currentProductList.Add(p);
             return bP;
         }).ToList();
-        ProductsListview.DataContext = currentProductList;
     }
     /// <summary>
     /// A function that opens the ProductWindow for adding a product.
