@@ -60,21 +60,25 @@ public static class Simulator
                 if (StatusChange != null)
                     StatusChange(null, idOrder);
             }
-            catch (IllegalActionException err)
-            {
-                throw err;
+            catch (IllegalActionException err){
             }
             catch (InvalidValueException err)
             {
-                throw err;
+                MyException excp = new MyException(err);
+                if (Error != null)
+                    Error(null, excp);
             }
-            catch (DataErrorException dataError)
+            catch (DataErrorException err)
             {
-                throw dataError;
+                MyException excp = new MyException(err);
+                if (Error != null)
+                    Error(null, excp);
             }
             catch (Exception err)
             {
-                throw err;
+                MyException excp = new MyException(err);
+                if (Error != null)
+                    Error(null, excp);
             }
         }
     }
@@ -83,7 +87,7 @@ public static class Simulator
     /// A function that start the thread.
     /// </summary>
     public static void Run()
-    {
+    {        
         Thread changeStatuses = new Thread(ChangeStatuses);
         changeStatuses.Start();
     }
@@ -175,5 +179,16 @@ public class Num : EventArgs
     public Num(int i)
     {
         id = i;
+    }
+}
+public class MyException : EventArgs
+{
+    public Exception exc;
+    /// <summary>
+    /// constractor of Num Class.
+    /// </summary>
+    public MyException(Exception err)
+    {
+        exc = err;
     }
 }
