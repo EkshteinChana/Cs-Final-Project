@@ -32,7 +32,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding CustomerName}" Header="Customer name" />
                     <GridViewColumn DisplayMemberBinding="{Binding Converter={StaticResource EnumOrdForLstConverter},ConverterParameter=Status}" Header="Status" />
                     <GridViewColumn DisplayMemberBinding="{Binding AmountOfItems}" Header="Amount of items" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding TotalPrice,StringFormat=${0}}" Header="Total price" />
                 </GridView>
             </ListView.View>
         </ListView>

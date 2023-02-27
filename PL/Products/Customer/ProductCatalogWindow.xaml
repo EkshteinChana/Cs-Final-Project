@@ -56,7 +56,7 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="ID" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price,StringFormat=${0}}" Header="Price" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category" />
                 </GridView>
             </ListView.View>

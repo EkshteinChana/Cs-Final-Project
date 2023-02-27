@@ -67,7 +67,7 @@
             <Label Grid.Row="7" Name="TotalPrice" Content="Total price:" 
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
                    Margin="0,0,0,0" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBlock Name="TotalPriceTxtBx" Text="{Binding Path=Item3.TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+            <TextBlock Name="TotalPriceTxtBx" Text="{Binding Path=Item3.TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay,StringFormat=${0}}"
                     HorizontalAlignment="Center"  Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="100"
                     Margin="0,0,0,5" Grid.ColumnSpan="3"/>
             
@@ -76,9 +76,9 @@
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id }" Header="ID" />
                         <GridViewColumn DisplayMemberBinding="{ Binding Name }" Header="Name" />
-                        <GridViewColumn DisplayMemberBinding="{ Binding Price }" Header="Price" />
+                        <GridViewColumn DisplayMemberBinding="{ Binding Price,StringFormat=${0} }" Header="Price" />
                         <GridViewColumn DisplayMemberBinding="{ Binding Amount }" Header="Amount"/>
-                        <GridViewColumn DisplayMemberBinding="{ Binding TotalPrice }" Header="Total price"/>
+                        <GridViewColumn DisplayMemberBinding="{ Binding TotalPrice ,StringFormat=${0}}" Header="Total price"/>
                         <GridViewColumn Header="Change amount">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

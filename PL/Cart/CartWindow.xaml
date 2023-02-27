@@ -23,7 +23,7 @@
                         <GridViewColumn DisplayMemberBinding="{ Binding Id,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="ID" />
                         <GridViewColumn DisplayMemberBinding="{Binding ProductId,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Product Id" />
                         <GridViewColumn DisplayMemberBinding="{Binding Name,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Header="Name" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Price" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Price,UpdateSourceTrigger=LostFocus, Mode=TwoWay ,StringFormat=${0}}" Header="Price" />
                         <GridViewColumn DisplayMemberBinding="{Binding Amount,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="Amount" />
                         <GridViewColumn DisplayMemberBinding="{Binding TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="TotalPrice" />
                         <GridViewColumn Header="Increase">
@@ -52,7 +52,7 @@
             </ListView>
             <StackPanel HorizontalAlignment="Center" Name="TotalPrice" Orientation="Horizontal" Grid.Row="2">
                 <Label Name="TotalPriceLbl" Content="TotalPrice:" FontWeight="Bold"/>
-                <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
+                <Label Name="TotalPricecontentLbl" Content="{Binding TotalPrice,UpdateSourceTrigger=LostFocus, Mode=TwoWay,StringFormat=${0}}" />
             </StackPanel>
             <Button Name="EmptyCart" Content="Empty Cart" HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center"  Height="41" Width="175" Margin="0,0,590,0" FontWeight="Bold" FontSize="16"
           BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="EmptyCart_Click" />
@@ -72,8 +72,6 @@
                     <TextBox Name="CustomerAddressTxtBx" Text="{Binding CustomerAddress,Mode=TwoWay,UpdateSourceTrigger=LostFocus }" TextWrapping="Wrap" MinWidth="100" />
                 </StackPanel>
             </StackPanel>
-
-
         </Grid>
     </Grid>
 </Window>

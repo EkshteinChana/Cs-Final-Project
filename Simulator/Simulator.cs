@@ -19,6 +19,7 @@ public static class Simulator
     public static event EventHandler StopSimulator;
     public static event EventHandler ProgressChange;
     public static event EventHandler StatusChange;
+    public static event EventHandler Error;
 
     /// <summary>
     /// A function that update statuses of orders and call the ProgressChange event for each updating.
