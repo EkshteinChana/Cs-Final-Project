@@ -36,7 +36,7 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id }" Header="ID" />
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Price }" Header="Price" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Price,StringFormat=${0} }" Header="Price" />
                     <GridViewColumn DisplayMemberBinding="{Binding Category }" Header="Category" />
                 </GridView>
             </ListView.View>

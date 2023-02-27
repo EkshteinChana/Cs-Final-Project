@@ -49,10 +49,7 @@
             <Label Grid.Row="2" Name="NameLbl" Content="name:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="NameContentLbl" Content="{Binding Path=currentProd.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="4" Name="PriceLbl" Content="price:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
-            <TextBlock Name="PriceContentLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"  Grid.ColumnSpan="3">
-                <Run Text="{Binding Path=currentProd.Price}"/>
-                <Run Text="$"/>
-            </TextBlock>
+            <Label Name="PriceContentLbl" Content="{Binding Path=currentProd.Price,StringFormat=${0}}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="6" Name="CategoryLbl" Content="category:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>
             <Label Name="CategoryContentLbl" Content="{Binding Path=currentProd.Category}"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7"  Grid.ColumnSpan="3"/>
             <Label Grid.Row="8" Name="InStockLbl" Content="in stock:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="3" FontWeight="Bold"/>

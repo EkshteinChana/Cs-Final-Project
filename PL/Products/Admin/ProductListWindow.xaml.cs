@@ -49,7 +49,6 @@ public partial class ProductListWindow : Window
             currentProductList.Add(p);
             return bP;
         }).ToList();
-        ProductsListview.DataContext = currentProductList;
     }
     /// <summary>
     /// A function that opens the ProductWindow for adding a product.
@@ -57,7 +56,7 @@ public partial class ProductListWindow : Window
     private void AddProductButton_Click(object sender, RoutedEventArgs e)
     {
         new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, null, currentProductList).Show();
-        this.Hide();
+        Hide();
     }
     /// <summary>
     /// A function that opens the ProductWindow for updating or deleting a product.
@@ -66,7 +65,7 @@ public partial class ProductListWindow : Window
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
         new ProductWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, currentProductList).Show();
-        this.Hide();
+        Hide();
     }
     /// <summary>
     /// A function that show all the product
