@@ -8,62 +8,7 @@ internal class BlOrder : BlApi.IOrder
 {
     private IDal? Dal = DalApi.Factory.Get();
 
-    /// <summary>
-    /// A private function to discover the status of the order.
-    /// </summary>
-    private BO.eOrderStatus checkStatus(DO.Order dO)
-    {
-        if (dO.DeliveryDate != null)
-        {
-            return BO.eOrderStatus.provided;
-        }
-        else if (dO.ShipDate != null)
-        {
-            return BO.eOrderStatus.Sent;
-        }
-        else
-        {
-            return BO.eOrderStatus.confirmed;
-        }
-    }
-
-    /// <summary>
-    /// A private function to convert DO.Order to BO.Order.
-    /// </summary>
-    private BO.Order convertDToB(DO.Order dO)
-    {
-        BO.Order bO = new();
-        bO.GetType().GetProperties().Select(prop =>
-        {
-            prop.SetValue(bO, dO.GetType().GetProperty(prop.Name)?.GetValue(dO));
-            return prop;
-        }).ToList();
-        bO.status = checkStatus(dO);
-        //items and totalPrice:
-        IEnumerable<DO.OrderItem> orderItems = Dal?.orderItem.Read() ?? Enumerable.Empty<DO.OrderItem>();
-        IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
-        items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
-        bO.Items = new List<BO.OrderItem>(items.Count());
-        List<BO.OrderItem?> bItemsList = bO.Items.ToList();
-        bO.TotalPrice = 0;
-        var enumerator = items.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            BO.OrderItem bItm = new();
-            bItm.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
-            {
-                prop.SetValue(bItm, enumerator.Current.GetType().GetProperty(prop.Name)?.GetValue(enumerator.Current));
-                return prop;
-            }).ToList();
-            bItm.Name = (Dal.product.Read(enumerator.Current.ProductId)).Name;
-            bItm.TotalPrice = bItm.Price * bItm.Amount;
-            bO.TotalPrice += bItm.TotalPrice;
-            bItemsList.Add(bItm);
-        }
-        bO.Items = bItemsList.OrderBy(x => x.Id);
-        return bO;
-    }
-
+   
     [MethodImpl(MethodImplOptions.Synchronized)]
     BO.Order BlApi.IOrder.ReadOrd(int orderId)
     {
@@ -322,6 +267,63 @@ internal class BlOrder : BlApi.IOrder
             return id;
         return null;
     }
+
+    /// <summary>
+    /// A private function to discover the status of the order.
+    /// </summary>
+    private BO.eOrderStatus checkStatus(DO.Order dO)
+    {
+        if (dO.DeliveryDate != null)
+        {
+            return BO.eOrderStatus.provided;
+        }
+        else if (dO.ShipDate != null)
+        {
+            return BO.eOrderStatus.Sent;
+        }
+        else
+        {
+            return BO.eOrderStatus.confirmed;
+        }
+    }
+
+    /// <summary>
+    /// A private function to convert DO.Order to BO.Order.
+    /// </summary>
+    private BO.Order convertDToB(DO.Order dO)
+    {
+        BO.Order bO = new();
+        bO.GetType().GetProperties().Select(prop =>
+        {
+            prop.SetValue(bO, dO.GetType().GetProperty(prop.Name)?.GetValue(dO));
+            return prop;
+        }).ToList();
+        bO.status = checkStatus(dO);
+        //items and totalPrice:
+        IEnumerable<DO.OrderItem> orderItems = Dal?.orderItem.Read() ?? Enumerable.Empty<DO.OrderItem>();
+        IEnumerable<DO.OrderItem> items = new List<DO.OrderItem>(orderItems.Count());
+        items = orderItems.Where(ordItm => ordItm.OrderId == bO.Id);
+        bO.Items = new List<BO.OrderItem>(items.Count());
+        List<BO.OrderItem?> bItemsList = bO.Items.ToList();
+        bO.TotalPrice = 0;
+        var enumerator = items.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            BO.OrderItem bItm = new();
+            bItm.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
+            {
+                prop.SetValue(bItm, enumerator.Current.GetType().GetProperty(prop.Name)?.GetValue(enumerator.Current));
+                return prop;
+            }).ToList();
+            bItm.Name = (Dal.product.Read(enumerator.Current.ProductId)).Name;
+            bItm.TotalPrice = bItm.Price * bItm.Amount;
+            bO.TotalPrice += bItm.TotalPrice;
+            bItemsList.Add(bItm);
+        }
+        bO.Items = bItemsList.OrderBy(x => x.Id);
+        return bO;
+    }
+
 }
 
 
