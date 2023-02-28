@@ -1,4 +1,6 @@
-﻿namespace PL.PO;
+﻿using BO;
+
+namespace PL.PO;
 /// <summary>
 /// A PO entity of an item in the order 
 /// (represents a row in the order) 
@@ -13,12 +15,13 @@ public class OrderItem
     public string? Name { get; set; } //product's name
     public double Price { get; set; } //product's price
     public int Amount { get; set; } //Amount of items of a product in the cart/order
-    public double TotalPrice { get; set; } //Total price of an item (according to product price and his quantity at the order/cart)
-
+    //Total price of an item(according to product price and his quantity at the order/cart)
+    public double TotalPrice { get; set; } 
     /// <summary>
     /// An auxiliary variable to allow the customer to update the quantity of an item in the order
     /// </summary>
     public int AmountUpdated { get; set; }
+
     public override string ToString() => $@"
             ID: {Id}
             name: {Name}

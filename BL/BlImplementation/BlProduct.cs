@@ -6,6 +6,7 @@ namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     private IDal Dal = DalApi.Factory.Get() ?? throw new Exception("Can not get BlImplementation.BL");
+
     /// <summary>
     /// A private help function for checking the integrity of the data in the logical layer for adding/updating a product.
     /// </summary>

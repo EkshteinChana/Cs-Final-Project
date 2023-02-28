@@ -1,6 +1,5 @@
 ﻿using BlApi;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -14,33 +13,22 @@ public partial class OrderTrackingWindow : Window
     private IBl bl;
     private PO.OrderTracking ot;
     private int orderId;
-    /// <summary>
-    /// A private help function to convert Bo.OrderTracking entity to PO.OrderEntity entity.
-    /// </summary>
-    private PO.OrderTracking convertBoOrdTrckToPoOrdTrck(BO.OrderTracking bOt)
-    {
-        PO.OrderTracking pOt = new()
-        {
-            Id = bOt.Id,
-            Status = (BO.eOrderStatus ?)bOt.status,
-            OrderStatusByDate = new ObservableCollection<Tuple<DateTime?, BO.eOrderStatus>>(bOt.OrderStatusByDate)
-        };
-        return pOt;
-    }
+
     /// <summary>
     /// constractor of OrderTrackingWindow which imports OrderTracking entity for a specific order
     /// </summary>
-    public OrderTrackingWindow(IBl Ibl, int Id,Window w)
+    public OrderTrackingWindow(IBl Ibl, int Id)
     {
+        InitializeComponent();
         bl = Ibl;
-        try {
+        try
+        {
             orderId = Id;
             BO.OrderTracking bOt = bl.Order.TrackOrder(Id);
-            InitializeComponent();
             ot = convertBoOrdTrckToPoOrdTrck(bOt);
             DataContext = ot;
             Simulator.Simulator.registerChangeStatusEvent(refreshStatus);
-        }
+        }       
         catch (InvalidValueException exc)
         {          
             throw exc;
@@ -54,6 +42,7 @@ public partial class OrderTrackingWindow : Window
             throw exc;
         }
     }
+
     /// <summary>
     /// A function for returning to the ProductCatalogWindow.
     /// </summary>
@@ -76,11 +65,8 @@ public partial class OrderTrackingWindow : Window
     /// <summary>
     /// A function that update the order in the screan if its status changed in the simulator. 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void refreshStatus(object sender, EventArgs e)
     {
-
         if (!CheckAccess())
         {
             Dispatcher.BeginInvoke(refreshStatus, sender, e);
@@ -112,5 +98,18 @@ public partial class OrderTrackingWindow : Window
         } 
     }
 
+    /// <summary>
+    /// A private help function to convert Bo.OrderTracking entity to PO.OrderEntity entity.
+    /// </summary>
+    private PO.OrderTracking convertBoOrdTrckToPoOrdTrck(BO.OrderTracking bOt)
+    {
+        PO.OrderTracking pOt = new()
+        {
+            Id = bOt.Id,
+            Status = (BO.eOrderStatus?)bOt.status,
+            OrderStatusByDate = new ObservableCollection<Tuple<DateTime?, BO.eOrderStatus>>(bOt.OrderStatusByDate)
+        };
+        return pOt;
+    }
 }
 

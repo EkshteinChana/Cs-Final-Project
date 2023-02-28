@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 
 
 namespace PL.Orders;
-
 /// <summary>
 /// Interaction logic for OrderWindow.xaml
 /// </summary>
@@ -22,76 +20,7 @@ public partial class OrderWindow : Window
     Tuple<bool, bool, PO.Order> data;
     bool adminUse = false;
     bool customerChange = false;
-    /// <summary>
-    /// A private help function to convert BO.Order entity to PO.Order entity.
-    /// </summary>
-    private PO.Order convertBoOrdToPoOrd(BO.Order bo)
-    {
-        if (bo.DeliveryDate == null) { bo.DeliveryDate = DateTime.MinValue; }
-        if (bo.ShipDate == null) { bo.ShipDate = DateTime.MinValue; }
-        if (bo.OrderDate == null) { bo.OrderDate = DateTime.MinValue; }
-        PO.Order po = new()
-        {
-            Id = bo.Id,
-            CustomerAddress = bo.CustomerAddress,
-            CustomerEmail = bo.CustomerEmail,
-            CustomerName = bo.CustomerName,
-            DeliveryDate = bo.DeliveryDate,
-            OrderDate = bo.OrderDate,
-            ShipDate = bo.ShipDate,
-            TotalPrice = bo.TotalPrice
-        };
-        if (bo.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
-        else if (bo.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
-        else { po.status = PO.eOrderStatus.Sent; }
-        po.Items.Clear();
-        bo.Items.Select(boi =>
-        {
-            PO.OrderItem poi = new()
-            {
-                Id = boi.Id,
-                ProductId = boi.ProductId,
-                Name = boi.Name,
-                Price = boi.Price,
-                Amount = boi.Amount,
-                TotalPrice = boi.TotalPrice
-            };
-            po.Items.Add(poi);
-            return boi;
-        }).ToList();
-        return po;
-    }
-    /// <summary>
-    /// A private help function to convert BO.OrderForList entity to PO.OrderForList entity.
-    /// </summary>
-    private PO.OrderForList convertBoOrdLstToPoOrdLst(BO.OrderForList bO)
-    {
-        PO.OrderForList po = new()
-        {
-            Id = bO.Id,
-            CustomerName = bO.CustomerName,
-            AmountOfItems = bO.AmountOfItems,
-            TotalPrice = bO.TotalPrice
-        };
-        if (bO.status == BO.eOrderStatus.confirmed) { po.status = PO.eOrderStatus.confirmed; }
-        else if (bO.status == BO.eOrderStatus.provided) { po.status = PO.eOrderStatus.provided; }
-        else { po.status = PO.eOrderStatus.Sent; }
-        return po;
-    }
-    /// <summary>
-    /// A private help function for updating the current order list.
-    /// </summary>
-    private void updateCrrnOrdLst()
-    {
-        currentOrderList.Clear();
-        IEnumerable<BO.OrderForList?> bOrds = bl.Order.ReadOrdsManager();
-        bOrds?.Select(bO =>
-        {
-            PO.OrderForList o = convertBoOrdLstToPoOrdLst(bO);
-            currentOrderList.Add(o);
-            return bO;
-        }).ToList();
-    }
+    ObservableCollection<PO.eOrderStatus> Statusoptions;
 
     /// <summary>
     /// constractor of OrderWindow for watching and updating a order.
@@ -109,7 +38,7 @@ public partial class OrderWindow : Window
             {
                 BO.Order bo = bl.Order.ReadOrd(id);
                 po = convertBoOrdToPoOrd(bo);
-                List<PO.eOrderStatus> Statusoptions = new();
+                Statusoptions = new();
                 Statusoptions.Add(PO.eOrderStatus.provided);
                 if (po.DeliveryDate == DateTime.MinValue)
                 {
@@ -140,14 +69,15 @@ public partial class OrderWindow : Window
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+    //-------------------if the admin enter 
+
     /// <summary>
     /// a function that updates the dates that regards to the order
     /// </summary>
-    private void UpdateOrdeBtn_Click(object sender, RoutedEventArgs e)
+    private void UpdateOrderStatusBtn_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            ////if the admin enter  
             if ((PO.eOrderStatus)StatusSelector.SelectedItem == po.status && currentOrderList != null)
             {
                 MessageBox.Show("No changes have been entered", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -185,11 +115,13 @@ public partial class OrderWindow : Window
         }
     }
 
-    //if the customer updatethe items list
+
+    //------------------- if the customer update the items list
+
     /// <summary>
     /// a function for deleting an item from the order.
     /// </summary>
-    private void DeletItmBtn_Click(object sender, RoutedEventArgs e)
+    private void DeletItmBtn_Click(object sender, RoutedEventArgs e)     
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
         if (MessageBox.Show($"Are you sure you want to delete the item {CurrntOitm.Name} from the order?",
@@ -199,12 +131,9 @@ public partial class OrderWindow : Window
         {
             try
             {
-                bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0, BO.eUpdateOrder.delete);
-                po.Items.Remove(CurrntOitm);
+                bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0 , BO.eUpdateOrder.delete);
                 BO.Order bo = bl.Order.ReadOrd(po.Id);
                 po = convertBoOrdToPoOrd(bo);
-                data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
-                orderDetails.DataContext = data;
             }
             catch (InvalidValueException err)
             {
@@ -230,10 +159,9 @@ public partial class OrderWindow : Window
     private void updatItmBtn_Click(object sender, RoutedEventArgs e)
     {
         PO.OrderItem CurrntOitm = (PO.OrderItem)((Button)sender).DataContext;
-        //check if the input is correct.
         try
-        {
-            if (CurrntOitm.AmountUpdated < 0)
+        {           
+            if (CurrntOitm.AmountUpdated < 0) //check if the input is correct.
                 throw new InValidInputTypeException("amount of item");
             if (MessageBox.Show($"Are you sure you want to update the amount of {CurrntOitm.Name}?",
                                     $"update amount of {CurrntOitm.Name}",
@@ -245,24 +173,20 @@ public partial class OrderWindow : Window
                     if (CurrntOitm.AmountUpdated == 0)
                     {
                         bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, 0, BO.eUpdateOrder.delete);
-                        po.Items.Remove(CurrntOitm);
                     }
                     else
                     {
                         bl.Order.UpdateOrd(po.Id, CurrntOitm.ProductId, CurrntOitm.AmountUpdated, BO.eUpdateOrder.changeAmount);
                     }
                     BO.Order bo = bl.Order.ReadOrd(po.Id);
-                    po = convertBoOrdToPoOrd(bo);
-                    data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
-                    orderDetails.DataContext = data;
+                    po = convertBoOrdToPoOrd(bo);                  
                 }
-                CurrntOitm.Amount = CurrntOitm.AmountUpdated;
                 CurrntOitm.AmountUpdated = 0;
             }
         }
-        catch (InValidInputTypeException exc)
+        catch (InValidInputTypeException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (InvalidValueException err)
         {
@@ -281,6 +205,7 @@ public partial class OrderWindow : Window
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
     /// <summary>
     /// a function for adding an item to the order.
     /// </summary>
@@ -297,9 +222,7 @@ public partial class OrderWindow : Window
         try
         {
             BO.Order bo = bl.Order.ReadOrd(po.Id);
-            po = convertBoOrdToPoOrd(bo);
-            data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
-            orderDetails.DataContext = data;
+            po = convertBoOrdToPoOrd(bo);          
         }
         catch (InvalidValueException err)
         {
@@ -327,11 +250,8 @@ public partial class OrderWindow : Window
     /// <summary>
     /// A private function that update the order in the screan if its status changed in the simulator. 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void refreshStatus(object sender, EventArgs e)
     {
-
         if (!CheckAccess())
         {
             Dispatcher.BeginInvoke(refreshStatus, sender, e);
@@ -343,19 +263,15 @@ public partial class OrderWindow : Window
             {
                 try
                 {
-                    BO.Order bo = bl.Order.ReadOrd(po.Id);
-                    po = convertBoOrdToPoOrd(bo);
-                    List<PO.eOrderStatus> Statusoptions = new();
+                    po = convertBoOrdToPoOrd(bl.Order.ReadOrd(po.Id));
+                    Statusoptions.Clear();
                     Statusoptions.Add(PO.eOrderStatus.provided);
                     if (po.DeliveryDate == DateTime.MinValue)
                     {
                         Statusoptions.Add(PO.eOrderStatus.Sent);
                     }
                     customerChange = false;
-                    data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);
-                    orderDetails.DataContext = data;
-                    ItemsList.DataContext = po.Items;
-                    StatusSelector.ItemsSource = Statusoptions;
+                    data = new Tuple<bool, bool, PO.Order>(adminUse, customerChange, po);          
                 }
                 catch (InvalidValueException err)
                 {
@@ -373,8 +289,72 @@ public partial class OrderWindow : Window
         }
     }
 
-    private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
-    private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+    /// <summary>
+    /// A private help function to convert BO.Order entity to PO.Order entity.
+    /// </summary>
+    private PO.Order convertBoOrdToPoOrd(BO.Order bo)
+    {
+        if (bo.DeliveryDate == null) { bo.DeliveryDate = DateTime.MinValue; }
+        if (bo.ShipDate == null) { bo.ShipDate = DateTime.MinValue; }
+        if (bo.OrderDate == null) { bo.OrderDate = DateTime.MinValue; }
+        PO.Order po = new()
+        {
+            Id = bo.Id,
+            CustomerAddress = bo.CustomerAddress,
+            CustomerEmail = bo.CustomerEmail,
+            CustomerName = bo.CustomerName,
+            DeliveryDate = bo.DeliveryDate,
+            OrderDate = bo.OrderDate,
+            ShipDate = bo.ShipDate,
+            TotalPrice = bo.TotalPrice
+        };
+        po.status = (PO.eOrderStatus)bo.status;
+        po.Items.Clear();
+        bo.Items.Select(boi =>
+        {
+            PO.OrderItem poi = new()
+            {
+                Id = boi.Id,
+                ProductId = boi.ProductId,
+                Name = boi.Name,
+                Price = boi.Price,
+                Amount = boi.Amount,
+                TotalPrice = boi.TotalPrice
+            };
+            po.Items.Add(poi);
+            return boi;
+        }).ToList();
+        return po;
+    }
+    /// <summary>
+    /// A private help function to convert BO.OrderForList entity to PO.OrderForList entity.
+    /// </summary>
+    private PO.OrderForList convertBoOrdLstToPoOrdLst(BO.OrderForList bO)
+    {
+        PO.OrderForList po = new()
+        {
+            Id = bO.Id,
+            CustomerName = bO.CustomerName,
+            AmountOfItems = bO.AmountOfItems,
+            TotalPrice = bO.TotalPrice
+        };
+        po.status = (PO.eOrderStatus)bO.status;
+        return po;
+    }
+    /// <summary>
+    /// A private help function for updating the current order list.
+    /// </summary>
+    private void updateCrrnOrdLst()
+    {
+        currentOrderList.Clear();
+        IEnumerable<BO.OrderForList?> bOrds = bl.Order.ReadOrdsManager();
+        bOrds?.Select(bO =>
+        {
+            PO.OrderForList o = convertBoOrdLstToPoOrdLst(bO);
+            currentOrderList.Add(o);
+            return bO;
+        }).ToList();
+    }
 }
 
 

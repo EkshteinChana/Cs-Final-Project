@@ -53,12 +53,16 @@ public partial class MainWindow : Window
                 throw new InValidInputTypeException("Order ID");
             }
             int oId = Convert.ToInt32(OrdIdTxtBx.Text);
-            new OrderTrackingWindow(bl, oId, this).Show();
+            new OrderTrackingWindow(bl, oId).Show();
             Close();
         }
         catch (InValidInputTypeException err)
         { 
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error); 
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception err)
         {

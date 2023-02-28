@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using BlApi;
-using BlImplementation;
+﻿using BlApi;
 using BO;
-using System.Windows;
-using Xceed.Wpf.Toolkit;
 
 namespace Simulator;
 
@@ -18,21 +7,22 @@ public static class Simulator
 {
     private static BlApi.IBl bl = BlApi.Factory.Get();
     private static bool continuing = true;
+    private static bool alreadyStart = false; 
     public static event EventHandler StopSimulator;
     public static event EventHandler ProgressChange;
     public static event EventHandler StatusChange;
-    public static event EventHandler Error;
+    public static event EventHandler ErrorEvent;
 
     /// <summary>
     /// A function that update statuses of orders and call the ProgressChange event for each updating.
     /// </summary>
     private static void ChangeStatuses()
     {
+        continuing = true;
         while (continuing)
         {
             try
             {
-                continuing = true;
                 int? id = bl.Order.GetOldestOrder();
                 if (id == null)
                 {
@@ -48,37 +38,36 @@ public static class Simulator
                 Thread.Sleep(seconds * 1000);
                 if (crrntOrder.status == eOrderStatus.confirmed)
                 {
-                    if (crrntOrder.ShipDate == null || crrntOrder.ShipDate == DateTime.MinValue)
-                        bl.Order.UpdateOrdShipping(crrntOrder.Id);
+                    bl.Order.UpdateOrdShipping(crrntOrder.Id);
                 }
                 else
                 {
-                    if (crrntOrder.DeliveryDate == null || crrntOrder.DeliveryDate == DateTime.MinValue)
-                        bl.Order.UpdateOrdDelivery(crrntOrder.Id);
+                    bl.Order.UpdateOrdDelivery(crrntOrder.Id);
                 }
                 Num idOrder = new Num(crrntOrder.Id);
                 if (StatusChange != null)
                     StatusChange(null, idOrder);
             }
-            catch (IllegalActionException err){
+            catch (IllegalActionException err)
+            {
             }
             catch (InvalidValueException err)
             {
                 MyException excp = new MyException(err);
-                if (Error != null)
-                    Error(null, excp);
+                if (ErrorEvent != null)
+                    ErrorEvent(null, excp);
             }
             catch (DataErrorException err)
             {
                 MyException excp = new MyException(err);
-                if (Error != null)
-                    Error(null, excp);
+                if (ErrorEvent != null)
+                    ErrorEvent(null, excp);
             }
             catch (Exception err)
             {
                 MyException excp = new MyException(err);
-                if (Error != null)
-                    Error(null, excp);
+                if (ErrorEvent != null)
+                    ErrorEvent(null, excp);
             }
         }
     }
@@ -87,9 +76,18 @@ public static class Simulator
     /// A function that start the thread.
     /// </summary>
     public static void Run()
-    {        
+    {
+        try { 
         Thread changeStatuses = new Thread(ChangeStatuses);
         changeStatuses.Start();
+            alreadyStart= true;
+        }
+        catch (Exception err)
+        {
+            MyException excp = new(err);                  
+            if (ErrorEvent != null)
+                ErrorEvent(null, excp);
+        }
     }
 
     /// <summary>
@@ -101,10 +99,10 @@ public static class Simulator
         if (StopSimulator != null)
             StopSimulator(null, EventArgs.Empty);
     }
+
     /// <summary>
     /// Registration function for StopSimulator event.
     /// </summary>
-    /// <param name="func"></param>
     public static void registerStopEvent(EventHandler func)
     {
         StopSimulator += func;
@@ -112,7 +110,6 @@ public static class Simulator
     /// <summary>
     /// Unregistration function for StopSimulator event.
     /// </summary>
-    /// <param name="func"></param>
     public static void unregisterStopEvent(EventHandler func)
     {
         StopSimulator -= func;
@@ -120,7 +117,6 @@ public static class Simulator
     /// <summary>
     /// Registration function for ProgressChange event.
     /// </summary>
-    /// <param name="func"></param>
     public static void registerChangeEvent(EventHandler func)
     {
         ProgressChange += func;
@@ -128,7 +124,6 @@ public static class Simulator
     /// <summary>
     /// Unregistration function for ProgressChange event.
     /// </summary>
-    /// <param name="func"></param>
     public static void unregisterChangeEvent(EventHandler func)
     {
         ProgressChange -= func;
@@ -136,7 +131,6 @@ public static class Simulator
     /// <summary>
     /// Registration function for StatusChange event.
     /// </summary>
-    /// <param name="func"></param>
     public static void registerChangeStatusEvent(EventHandler func)
     {
         StatusChange += func;
@@ -144,10 +138,23 @@ public static class Simulator
     /// <summary>
     /// Unregistration function for StatusChange event.
     /// </summary>
-    /// <param name="func"></param>
     public static void unregisterChangeStatusEvent(EventHandler func)
     {
         StatusChange -= func;
+    }
+    /// <summary>
+    /// Registration function for StatusChange event.
+    /// </summary>
+    public static void registerErrorEvent(EventHandler func)
+    {
+        ErrorEvent += func;
+    }
+    /// <summary>
+    /// Unregistration function for StatusChange event.
+    /// </summary>
+    public static void unregisterErrorEvent(EventHandler func)
+    {
+        ErrorEvent -= func;
     }
 }
 

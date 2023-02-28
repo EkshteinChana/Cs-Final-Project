@@ -2,20 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BlApi;
-using BlImplementation;
-
 namespace PL.Products;
+
 /// <summary>
 /// Interaction logic for ProductCatalogWindow.xaml
 /// </summary>
@@ -24,23 +16,10 @@ public partial class ProductCatalogWindow : Window
     private IBl bl;
     private ObservableCollection<PO.ProductForList?> currentProductList { get; set; }//the list of the products
     private PO.Cart cart = new();
-    private Window srcW;
+    private Window? srcW;
     private int? OrderId;
     private Action? action;
-    /// <summary>
-    /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
-    /// </summary>
-    private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
-    {
-        PO.ProductForList p = new()
-        {
-            Name = bP.Name,
-            Price = bP.Price,
-            Id = bP.Id,
-            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
-        };
-        return p;
-    }
+
     /// <summary>
     /// constractor of ProductCatalogWindow which imports the list of products.
     /// </summary>
@@ -51,7 +30,8 @@ public partial class ProductCatalogWindow : Window
         srcW = sourcW;
         OrderId = orderId;
         action= actn;
-        if (srcW != null)//Enter from OrderTracking
+        bl = Ibl;
+        if (srcW != null) //Enter from OrderTracking
         {
             ExitBtn.Content = "Back";
         }
@@ -59,7 +39,6 @@ public partial class ProductCatalogWindow : Window
         {
             ExitBtn.Content = "Exit";
         }
-        bl = Ibl;
         IEnumerable<BO.ProductForList?> bProds = bl.Product.ReadProdsList();
         currentProductList = new();
         bProds.Select(bP =>
@@ -88,13 +67,14 @@ public partial class ProductCatalogWindow : Window
         }).ToList();
         ProductsListview.DataContext = currentProductList;
     }
+
     /// <summary>
     /// A function that opens the ProductItemWindow for watching a product.
     /// </summary>
     private void ProductsListview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         PO.ProductForList p = (PO.ProductForList)((ListView)sender).SelectedItem;
-        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart, OrderId,action).Show();
+        new ProductItemWindow(bl, this, (BO.eCategory?)CategorySelector.SelectedItem, p.Id, cart, OrderId , action).Show();
         if (OrderId != null)
         {
             Hide();
@@ -102,6 +82,7 @@ public partial class ProductCatalogWindow : Window
         else
             Close();
     }
+
     /// <summary>
     /// A function that show all the product
     /// </summary>
@@ -109,15 +90,17 @@ public partial class ProductCatalogWindow : Window
     {
         CategorySelector.SelectedItem = null;
     }
+
     /// <summary>
     /// A function that opens the CartWindow for watching he cart, 
     /// the function is not possible if the user enterd in order to add an item for his exist order.
     /// </summary>
     private void CartBtn_Click(object sender, RoutedEventArgs e)
     {
-        new Cart.CartWindow(bl, this, cart).Show();
-        this.Close();
+        new Cart.CartWindow(bl,cart).Show();
+        Close();
     }
+
     /// <summary>
     /// A function for returning to the mainWindow or to the orderWindow.
     /// </summary>
@@ -125,7 +108,7 @@ public partial class ProductCatalogWindow : Window
     {
         cart.Items.Clear();
         cart = new();
-        if (srcW != null)
+        if (srcW != null) // return to the Order details
         {
             srcW.Show();
         }
@@ -135,5 +118,19 @@ public partial class ProductCatalogWindow : Window
         }
         Close();
     }
-    private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+
+    /// <summary>
+    /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
+    /// </summary>
+    private PO.ProductForList convertBoPrdLstToPoPrdLst(BO.ProductForList bP)
+    {
+        PO.ProductForList p = new()
+        {
+            Name = bP.Name,
+            Price = bP.Price,
+            Id = bP.Id,
+            Category = (BO.eCategory?)bP.Category ?? BO.eCategory.Others
+        };
+        return p;
+    }
 }

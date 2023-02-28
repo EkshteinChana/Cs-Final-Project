@@ -15,9 +15,10 @@
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
             <Button x:Name="ReturnToCatalogBtn" Content="Back" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Height="41" Width="175" FontWeight="Bold" FontSize="16"
-          BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}" Click="ReturnToCatalogBtn_Click" />
-            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding Items}" Margin="10,31,10,52" Grid.Row="1" FontSize="20" SelectionChanged="OrderItemListview_SelectionChanged">
+                    Height="41" Width="175" FontWeight="Bold" FontSize="16" 
+                    BorderBrush="{StaticResource btnBrdrBrush}" Background="{StaticResource btnBackground}"
+                    Click="ReturnToCatalogBtn_Click" />
+            <ListView x:Name="OrderItemListview" d:ItemsSource="{d:SampleData ItemCount=1}" ItemsSource="{Binding Items}" Margin="10,31,10,52" Grid.Row="1" FontSize="20">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn DisplayMemberBinding="{ Binding Id,UpdateSourceTrigger=LostFocus, Mode=TwoWay }" Header="ID" />

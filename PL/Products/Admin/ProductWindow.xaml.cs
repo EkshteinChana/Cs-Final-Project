@@ -67,18 +67,22 @@ public partial class ProductWindow : Window
             checkTypeInput();
             BO.Product prd = convertPoProdToBoProd(currentProd);
             bl.Product.CreateProd(prd);
-            MessageBox.Show("The addition was made successfully");
+            MessageBox.Show("The addition was made successfully", "Is added", MessageBoxButton.OK, MessageBoxImage.Information);
             UpdateCrrntPrdLst();
             sourcWindow.Show();
-            this.Close();
+            Close();
         }
-        catch (InValidInputTypeException exc)
+        catch (InValidInputTypeException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (InvalidValueException err) 
         { 
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception err) 
         { 
@@ -99,7 +103,7 @@ public partial class ProductWindow : Window
             MessageBox.Show("The update was successful", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             UpdateCrrntPrdLst();
             sourcWindow.Show();
-            this.Close();
+            Close();
         }
         catch (InValidInputTypeException err)
         {
@@ -128,22 +132,22 @@ public partial class ProductWindow : Window
         try
         {
             bl.Product.DeleteProd(currentProd.Id);
-            MessageBox.Show("The deletion was successful");
+            MessageBox.Show("The deletion was successful", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             UpdateCrrntPrdLst();
             sourcWindow.Show();
-            this.Close();
+            Close();
         }
-        catch (IllegalActionException exc)
+        catch (IllegalActionException err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (DataErrorException dataError)
+        catch (DataErrorException err)
         {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception exc)
+        catch (Exception err)
         {
-            MessageBox.Show(exc.Message);
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -153,7 +157,7 @@ public partial class ProductWindow : Window
     private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
     {
         sourcWindow.Show();
-        this.Close();
+        Close();
     }
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
@@ -202,19 +206,6 @@ public partial class ProductWindow : Window
     }
 
     /// <summary>
-    /// A private help function to check if the type of the input is incorrect.
-    /// </summary>
-    private void checkTypeInput()
-    {
-        double inputP = 0;
-        if (!double.TryParse(PriceTxtBx.Text, out inputP))
-            throw new InValidInputTypeException("price");
-        int inputI = 0;
-        if (!int.TryParse(InStockTxtBx.Text, out inputI))
-            throw new InValidInputTypeException("amount in stock");
-    }
-
-    /// <summary>
     /// A private help function to convert PO.Product entity to BO.Product entity.
     /// </summary>
     private BO.Product convertPoProdToBoProd(PO.Product p)
@@ -228,6 +219,19 @@ public partial class ProductWindow : Window
             Category = (BO.eCategory?)p.Category
         };
         return bP;
+    }
+
+    /// <summary>
+    /// A private help function to check if the type of the input is incorrect.
+    /// </summary>
+    private void checkTypeInput()
+    {
+        double inputP = 0;
+        if (!double.TryParse(PriceTxtBx.Text, out inputP))
+            throw new InValidInputTypeException("price");
+        int inputI = 0;
+        if (!int.TryParse(InStockTxtBx.Text, out inputI))
+            throw new InValidInputTypeException("amount in stock");
     }
 }
 

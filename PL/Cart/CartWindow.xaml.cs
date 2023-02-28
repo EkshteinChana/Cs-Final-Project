@@ -1,21 +1,8 @@
 ﻿using BlApi;
-using BlImplementation;
-using PL;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 
 namespace PL.Cart;
@@ -26,6 +13,92 @@ public partial class CartWindow : Window
 {
     private IBl bl;
     PO.Cart cart;
+
+    /// <summary>
+    /// constractor of CartWindow which imports the list of the orderItems in the cart.
+    /// </summary>
+    public CartWindow(IBl Ibl, PO.Cart c)
+    {
+        InitializeComponent();
+        bl = Ibl;
+        cart = c;
+        DataContext = cart;
+    }
+
+    /// <summary>
+    /// A function for order confirmation (in the PL layer).
+    /// </summary>
+    private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            BO.Cart bCart = convertPoCartToBoCart(cart);
+            bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
+            MessageBox.Show("The order has been sent successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            cart.Items.Clear();
+            cart = new();
+            DataContext = cart;
+        }
+        catch (OutOfStockException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
+    /// A function for returning to the ProductCatalogWindow.
+    /// </summary>
+    private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
+    {
+        new Products.ProductCatalogWindow(bl,cart).Show();
+        Close();
+    }
+   
+    /// <summary>
+    /// A function to increase the amount of a product in the cart by 1.
+    /// </summary>
+    private void IncreaseBtn_Click(object sender, RoutedEventArgs e)
+    {
+        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
+        UpdateAmount(currentOI.ProductId, currentOI.Amount + 1);
+    }
+    /// <summary>
+    /// A function to decrease the amount of a product in the cart by 1.
+    /// </summary>
+    private void DecreaseBtn_Click(object sender, RoutedEventArgs e)
+    {
+        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
+        UpdateAmount(currentOI.ProductId, currentOI.Amount - 1);
+    }
+    /// <summary>
+    /// A function to delete a product from the cart.
+    /// </summary>
+    private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+    {
+        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
+        UpdateAmount(currentOI.ProductId, 0);
+    }
+    /// <summary>
+    /// A function emptying a cart.
+    /// </summary>
+    private void EmptyCart_Click(object sender, RoutedEventArgs e)
+    {
+        cart.Items.Clear();
+        cart = new();
+        DataContext = cart;
+    }
     /// <summary>
     /// A private help function to convert PO.Cart entity to BO.Cart entity.
     /// </summary>
@@ -88,61 +161,9 @@ public partial class CartWindow : Window
         return pCrt;
     }
     /// <summary>
-    /// constractor of CartWindow which imports the list of the orderItems in the cart.
-    /// </summary>
-    public CartWindow(IBl Ibl, Window w, PO.Cart c)
-    {
-        InitializeComponent();
-        bl = Ibl;
-        cart = c;
-        DataContext = cart;
-    }
-
-    /// <summary>
-    /// A function for order confirmation (in the PL layer).
-    /// </summary>
-    private void MakeOrderBtn_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            BO.Cart bCart = convertPoCartToBoCart(cart);
-            bl.Cart.MakeOrder(bCart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
-            MessageBox.Show("The order has been sent successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            MessageBox.Show("The order has been sent successfully");
-            cart.Items.Clear();
-
-            cart = new();
-            DataContext = cart;
-        }
-        catch (OutOfStockException err)
-        {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        catch (InvalidValueException err)
-        {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        catch (DataErrorException err)
-        {
-            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        catch (Exception err)
-        {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
-
-    /// <summary>
-    /// A function for returning to the ProductCatalogWindow.
-    /// </summary>
-    private void ReturnToCatalogBtn_Click(object sender, RoutedEventArgs e)
-    {
-        new PL.Products.ProductCatalogWindow(bl,cart).Show();
-        this.Close();
-    }
-    /// <summary>
     /// A private help function for updating amount of orderItem in the cart.
     /// </summary>
+   
     private void UpdateAmount(int ID, int amount)
     {
         try
@@ -153,17 +174,17 @@ public partial class CartWindow : Window
             cart = convertBoCartToPoCart(bCrt);
             DataContext = cart;
         }
-        catch (InvalidValueException err) 
+        catch (InvalidValueException err)
         {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (OutOfStockException err) 
+        catch (OutOfStockException err)
         {
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);   
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (ItemNotExistException err)
-        { 
-            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);  
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (DataErrorException err)
         {
@@ -174,38 +195,4 @@ public partial class CartWindow : Window
             MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
-    /// <summary>
-    /// A function to increase the amount of a product in the cart by 1.
-    /// </summary>
-    private void IncreaseBtn_Click(object sender, RoutedEventArgs e)
-    {
-        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
-        UpdateAmount(currentOI.ProductId, currentOI.Amount + 1);
-    }
-    /// <summary>
-    /// A function to decrease the amount of a product in the cart by 1.
-    /// </summary>
-    private void DecreaseBtn_Click(object sender, RoutedEventArgs e)
-    {
-        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
-        UpdateAmount(currentOI.ProductId, currentOI.Amount - 1);
-    }
-    /// <summary>
-    /// A function to delete a product from the cart.
-    /// </summary>
-    private void DeleteBtn_Click(object sender, RoutedEventArgs e)
-    {
-        PO.OrderItem currentOI = (PO.OrderItem)((Button)sender).DataContext;
-        UpdateAmount(currentOI.ProductId, 0);
-    }
-    /// <summary>
-    /// A function emptying a cart.
-    /// </summary>
-    private void EmptyCart_Click(object sender, RoutedEventArgs e)
-    {
-        cart.Items.Clear();
-        cart = new();
-        DataContext = cart;
-    }
-    private void OrderItemListview_SelectionChanged(object sender, SelectionChangedEventArgs e){}
 }

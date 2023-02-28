@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Xml.Linq;
 using BlApi;
-using BlImplementation;
-using BO;
-using DalApi;
-using DO;
-
 namespace PL.Products;
 /// <summary>
 /// Interaction logic for ProductItemWindow.xaml
@@ -24,6 +16,154 @@ public partial class ProductItemWindow : Window
     private Window sourceWindow;
     bool isConfirmed = false;
     Action? action;
+
+    /// <summary>
+    /// Constractor of ProductItemWindow for watching a productItem.
+    /// </summary>
+    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt = null, int? ordId = null, Action? actn = null)
+    {
+        try
+        {
+            InitializeComponent();
+            bl = Ibl;
+            orderId = ordId;
+            isConfirmed = orderId != null;
+            sourceWindow = w;
+            catagory = ctgry;
+            cart = crt;
+            action = actn;
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
+            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
+            currentProd = convertBoProdItmToPoProdItm(bP);
+            var ob = new { currentProd, isConfirmed };
+            DataContext = ob;
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
+    /// A function that opens the ProductCatalogWindow.
+    /// </summary>
+    private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (orderId != null) // When the order is confirmed
+        {
+            sourceWindow.Show();
+        }
+        else
+            new ProductCatalogWindow(bl, cart).Show();
+        Close();
+    }
+
+    /// <summary>
+    /// A function to decrease the amount of a product in the cart by 1.
+    /// </summary>
+    private void decreaseBy1Btn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
+            int amount = Convert.ToInt32(AmountContentLbl.Content);
+            bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
+            cart.Items.Clear();
+            cart = convertBoCartToPoCart(bCrt);
+            MessageBox.Show("The product quantity has been successfully reduced", "is decreased", MessageBoxButton.OK, MessageBoxImage.Information);
+            new ProductCatalogWindow(bl, cart).Show();
+            Close();
+        }
+        
+        catch (OutOfStockException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (ItemNotExistException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+    }
+
+    /// <summary>
+    /// A function to increase the amount of a product in the cart by 1.
+    /// </summary>
+    private void increaseBy1Btn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            BO.Cart bCrt = convertPoCartToBoCart(cart);
+            bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
+            cart.Items.Clear();
+            cart = convertBoCartToPoCart(bCrt);
+            MessageBox.Show("The product has been successfully added", "is added", MessageBoxButton.OK, MessageBoxImage.Information);
+            new ProductCatalogWindow(bl, cart).Show();
+            Close();
+        }
+        catch (OutOfStockException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (InvalidValueException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void AddMeBtn_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            bl.Order.UpdateOrd(orderId ?? -1, currentProd.Id, 1 , BO.eUpdateOrder.add);
+            action?.Invoke();
+            MessageBox.Show("The product has been successfully added", "is added", MessageBoxButton.OK, MessageBoxImage.Information);
+            sourceWindow.Show();
+            Close();
+        }
+        catch(IllegalActionException err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (DataErrorException err)
+        {
+            MessageBox.Show(err.Message + " " + err?.InnerException?.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception err)
+        {
+            MessageBox.Show(err.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+        
+    }
     /// <summary>
     /// A private help function to convert BO.ProductForList entity to PO.ProductForList entity.
     /// </summary>
@@ -102,147 +242,4 @@ public partial class ProductItemWindow : Window
         return pCrt;
     }
 
-    /// <summary>
-    /// Constractor of ProductItemWindow for watching a productItem.
-    /// </summary>
-    public ProductItemWindow(IBl? Ibl, Window? w, BO.eCategory? ctgry, int? id, PO.Cart crt = null, int? ordId = null, Action? actn = null)
-    {
-        try
-        {
-            InitializeComponent();
-            bl = Ibl;
-            orderId = ordId;
-            isConfirmed = orderId != null;
-            sourceWindow = w;
-            catagory = ctgry;
-            cart = crt;
-            action =actn;
-            BO.Cart bCrt = convertPoCartToBoCart(cart);
-            BO.ProductItem bP = bl?.Product.ReadProdCustomer((int)id, bCrt);
-            currentProd = convertBoProdItmToPoProdItm(bP);
-            var ob = new { currentProd, isConfirmed };
-            DataContext = ob;
-        }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (DataErrorException dataError)
-        {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
-        }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-    }
-
-    /// <summary>
-    /// A function that opens the ProductCatalogWindow.
-    /// </summary>
-    private void ShowProductListBtn_Click(object sender, RoutedEventArgs e)
-    {
-        if (orderId != null)
-        {
-            sourceWindow.Show();
-        }
-        else
-            new ProductCatalogWindow(bl, cart).Show();
-        Close();
-    }
-
-    /// <summary>
-    /// A function to decrease the amount of a product in the cart by 1.
-    /// </summary>
-    private void decreaseBy1Btn_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            BO.Cart bCrt = convertPoCartToBoCart(cart);
-            int amount = Convert.ToInt32(AmountContentLbl.Content);
-            bCrt = bl.Cart.UpdateAmountOfProd(bCrt, currentProd.Id, amount - 1);
-            cart.Items.Clear();
-            cart = convertBoCartToPoCart(bCrt);
-            MessageBox.Show("The deletion was successful");
-            new ProductCatalogWindow(bl, cart).Show();
-            Close();
-        }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (OutOfStockException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (ItemNotExistException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (DataErrorException dataError)
-        {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
-        }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-    }
-
-    /// <summary>
-    /// A function to increase the amount of a product in the cart by 1.
-    /// </summary>
-    private void increaseBy1Btn_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            BO.Cart bCrt = convertPoCartToBoCart(cart);
-            bCrt = bl.Cart.CreateProdInCart(bCrt, currentProd.Id);
-            cart.Items.Clear();
-            cart = convertBoCartToPoCart(bCrt);
-            MessageBox.Show("The product has been successfully added");
-            new ProductCatalogWindow(bl, cart).Show();
-            Close();
-        }
-        catch (InvalidValueException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (OutOfStockException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (DataErrorException dataError)
-        {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
-        }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-    }
-
-    private void AddMeBtn_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            bl.Order.UpdateOrd(orderId ?? -1, currentProd.Id, 1, BO.eUpdateOrder.add);
-            action?.Invoke();
-            MessageBox.Show("The product has been successfully added");
-            sourceWindow.Show();
-            Close();
-        }
-        catch (IllegalActionException exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-        catch (DataErrorException dataError)
-        {
-            MessageBox.Show(dataError.Message + " " + dataError?.InnerException?.Message);
-        }
-        catch (Exception exc)
-        {
-            MessageBox.Show(exc.Message);
-        }
-    }
 }

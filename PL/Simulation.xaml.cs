@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using BO;
-using PL.PO;
 using Simulator;
 using BlApi;
+using System.Windows.Interop;
+
 namespace PL;
 
 /// <summary>
@@ -75,14 +63,13 @@ public partial class Simulation : Window
     /// <summary>
     /// A function that is called when the background starts and do the things that need to happen at that time.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void Worker_DoWork(object sender, DoWorkEventArgs e)
     {
         try
         {
             Simulator.Simulator.registerChangeEvent(changeOrder);
             Simulator.Simulator.registerStopEvent(finishSimulator);
+            Simulator.Simulator.registerErrorEvent(errorCalled);
             Simulator.Simulator.Run();
 
             while (!worker.CancellationPending)
@@ -120,38 +107,48 @@ public partial class Simulation : Window
     /// <summary>
     /// A function that is called when there is change in the background.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="er"></param>
     private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs er)
     {
-        //Update Order
-        if (er.ProgressPercentage == 2)
+        if (er.ProgressPercentage == 3)//error 
         {
-            Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt = (Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>)er.UserState;
-            DataContext = dataCntxt;
-            stopWatch.Restart();
+            Exception? err = er.UserState as Exception;
+            if (err != null)
+            {
+                stopByError = true;
+                MessageBox.Show(err.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Simulator.Simulator.Stop();
+            }
         }
-        //Update clock and timer
-        string clockText = DateTime.Now.ToString();
-        ClockTxt.Text = clockText;
+        //Update Order
+        else
+        {
+            if (er.ProgressPercentage == 2)
+            {
+                Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int> dataCntxt = (Tuple<int, BO.eOrderStatus, BO.eOrderStatus, DateTime, int>)er.UserState;
+                DataContext = dataCntxt;
+                stopWatch.Restart();
+            }
+            //Update clock and timer
+            string clockText = DateTime.Now.ToString();
+            ClockTxt.Text = clockText;
 
-        string timerText = stopWatch.Elapsed.ToString();
-        timerText = timerText.Substring(0, 8);
-        this.timerTextBlock.Text = timerText;
+            string timerText = stopWatch.Elapsed.ToString();
+            timerText = timerText.Substring(0, 8);
+            timerTextBlock.Text = timerText;
+        }
     }
 
     /// <summary>
     /// A function that is called when the background finishes and do the things that need to happen at that time.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
         Simulator.Simulator.unregisterChangeEvent(changeOrder);
         Simulator.Simulator.unregisterStopEvent(finishSimulator);
+        Simulator.Simulator.unregisterErrorEvent(errorCalled);
         stopWatch.Stop();
         string msg = stopByUser == true ? "Bye Bye" : stopByError == true ? "Stop By Error" : "There are no orders to update";
-        MessageBox.Show(msg);
+        MessageBox.Show(msg, "Simulator", MessageBoxButton.OK, MessageBoxImage.Information);
         Close();
     }
 
@@ -159,8 +156,6 @@ public partial class Simulation : Window
     /// A function that is called when there is event of ProgressChange, the function receved the details whose sent to the event
     /// and the function send them to the Worker_ProgressChanged.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void changeOrder(object sender, EventArgs e)
     {
         if (!(e is Details))
@@ -171,10 +166,19 @@ public partial class Simulation : Window
     }
 
     /// <summary>
+    /// A function that is called when there is event of Error
+    /// </summary>
+    private void errorCalled(object sender, EventArgs e)
+    {
+        if (!(e is MyException))
+            return;
+        MyException? myExc = e as MyException;
+        worker.ReportProgress(3, myExc.exc);
+    }
+
+    /// <summary>
     /// A function that is called when there is event of StopSimulator.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void finishSimulator(object sender, EventArgs e)
     {
         worker.CancelAsync();
@@ -183,8 +187,6 @@ public partial class Simulation : Window
     /// <summary>
     /// A function for finish Simulator that called by user click.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void finishSimulator_Click(object sender, RoutedEventArgs e)
     {
         stopByUser = true;

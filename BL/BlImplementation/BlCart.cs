@@ -22,47 +22,112 @@ internal class BlCart : ICart
             lock (dal)
             {
                 DO.Product dP = dal.product.Read(id);
-            
-            if (cart.Items.Count !=0)
-                cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
-                     .Select(i =>
-                     {
-                         exist = true;
-                         if (dP.InStock <= 0)
+                if (cart.Items.Count != 0)
+                    cart.Items.Where(i => i?.ProductId == id) //The product is already in the shopping cart
+                         .Select(i =>
                          {
-                             throw new OutOfStockException(dP.Id, 0);
-                         }
-                         i.Amount += 1;
-                         i.TotalPrice += i.Price;
-                         cart.TotalPrice += i.Price;
-                         return i;
-                     }).ToList();
-            if (exist == true)
-            {
+                             exist = true;
+                             if (dP.InStock <= 0)
+                             {
+                                 throw new OutOfStockException(dP.Id, 0);
+                             }
+                             i.Amount += 1;
+                             i.TotalPrice += i.Price;
+                             cart.TotalPrice += i.Price;
+                             return i;
+                         }).ToList();
+                if (exist == true)
+                {
+                    return cart;
+                }
+                //The product is not in the shopping cart
+                if (dP.InStock <= 0)
+                {
+                    throw new OutOfStockException(dP.Id, 0);
+                }
+                BO.OrderItem oI = new BO.OrderItem()
+                {
+                    Id = Config.MaxCartOrderItemId,
+                    ProductId = dP.Id,
+                    Price = dP.Price,
+                    Name = dP.Name,
+                    Amount = 1,
+                    TotalPrice = dP.Price
+                };
+                if (cart.Items == null)
+                {
+                    cart.Items = new List<BO.OrderItem?>();
+                }
+                cart.Items.Add(oI);
+                cart.TotalPrice += dP.Price;
                 return cart;
             }
-            //The product is not in the shopping cart
-            if (dP.InStock <= 0)
+        }
+        catch (IdNotExistException exc)
+        {
+            throw new DataErrorException(exc, "Data Error: ");
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public BO.Cart UpdateAmountOfProd(BO.Cart cart, int id, int amount)
+    {
+        try
+        {
+            if (id < 1)
             {
-                throw new OutOfStockException(dP.Id, 0);
+                throw new InvalidValueException("ID");
             }
-            BO.OrderItem oI = new BO.OrderItem()
+            if (amount < 0)
             {
-                Id = Config.MaxCartOrderItemId,
-                ProductId = dP.Id,
-                Price = dP.Price,
-                Name = dP.Name,
-                Amount = 1,
-                TotalPrice = dP.Price
-            };
-            if (cart.Items == null)
-            {
-                cart.Items = new List<BO.OrderItem?>();
+                throw new InvalidValueException("amount");
             }
-            cart.Items.Add(oI);
-            cart.TotalPrice += dP.Price;
+            int idRemove = -1; //Product index in the cart to deleting
+            bool exist = false; //The product exists in the cart
+            cart.Items.Select(i =>
+            {
+                if (i?.ProductId == id)
+                {
+                    exist = true;//The product is in the shopping cart
+                    if (i.Amount < amount)//Update in case the amount of the product increased
+                    {
+                        lock (dal)
+                        {
+                            DO.Product dP = dal.product.Read(id);
+                            if (dP.InStock - amount < 0)
+                            {
+                                throw new OutOfStockException(dP.Id, dP.InStock);
+                            }
+                            cart.TotalPrice += i.Price * (amount - i.Amount);
+                            i.Amount = amount;
+                            i.TotalPrice = (i.Price) * amount;
+                        }
+                    }
+                    else if (amount < i.Amount)//Update in case the amount of the product decreased
+                    {
+                        cart.TotalPrice -= i.Price * (i.Amount - amount);
+                        if (amount == 0)
+                        {
+                            idRemove = cart.Items.FindIndex(i => i.ProductId == id);
+                        }
+                        else
+                        {
+                            i.Amount = amount;
+                            i.TotalPrice = (i.Price) * amount;
+                        }
+                    }
+                }
+                return 0;
+            }).ToList();
+            if (idRemove != -1)
+            {
+                cart.Items.RemoveAt(idRemove);
+            }
+            if (exist == false)//The product is not in the shopping cart
+            {
+                throw new ItemNotExistException();
+            }
             return cart;
-            }
         }
         catch (IdNotExistException exc)
         {
@@ -97,7 +162,8 @@ internal class BlCart : ICart
                 root?.Save(@"..\xml\config.xml");
                 //for list
                 //dOrder.Id = DataSource.Config.MaxOrderId;
-                lock (dal) { 
+                lock (dal)
+                {
                     orderId = dal.order.Create(dOrder);
                 }
             }
@@ -111,6 +177,7 @@ internal class BlCart : ICart
             cart.Items.Select(item =>
             { //Building order item objects in the data layer based on items ordered in the shopping cart
                 object tmpdOrderItem = new DO.OrderItem();
+                //convert BO to DO 
                 tmpdOrderItem.GetType().GetProperties().Where(prop => prop.Name != "OrderId").Select(prop =>
                     {
                         prop.SetValue(tmpdOrderItem, item?.GetType()?.GetProperty(prop.Name)?.GetValue(item));
@@ -134,7 +201,7 @@ internal class BlCart : ICart
                         lock (dal)
                         {
                             dal.orderItem.Create(dOrderItem);
-                        }   
+                        }
                     }
                     catch (IdAlreadyExistsException)
                     {
@@ -169,6 +236,7 @@ internal class BlCart : ICart
         }
     }
 
+    
     /// <summary>
     /// A private help function to check the correctness of the customer's details and the shopping cart.
     /// </summary>
@@ -241,70 +309,6 @@ internal class BlCart : ICart
         }
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
-    public BO.Cart UpdateAmountOfProd(BO.Cart cart, int id, int amount)
-    {
-        try
-        {
-            if (id < 1)
-            {
-                throw new InvalidValueException("ID");
-            }
-            if (amount < 0)
-            {
-                throw new InvalidValueException("amount");
-            }
-            int remove = -1;
-            bool exist = false;
-            cart.Items.Select(i =>
-            {
-                if (i?.ProductId == id)
-                {
-                    exist = true;//The product is in the shopping cart
-                    if (i.Amount < amount)//Update in case the amount of the product increased
-                    {
-                        lock (dal)
-                        {
-                            DO.Product dP = dal.product.Read(id);
-                            if (dP.InStock - amount < 0)
-                            {
-                                throw new OutOfStockException(dP.Id, dP.InStock);
-                            }
-                            cart.TotalPrice += i.Price * (amount - i.Amount);
-                            i.Amount = amount;
-                            i.TotalPrice = (i.Price) * amount;
-                        }
-                    }
-                    else if (amount < i.Amount)//Update in case the amount of the product decreased
-                    {
-                        cart.TotalPrice -= i.Price * (i.Amount - amount);
-                        if (amount == 0)
-                        {
-                            remove = cart.Items.FindIndex(i => i.ProductId == id);
-                        }
-                        else
-                        {
-                            i.Amount = amount;
-                            i.TotalPrice = (i.Price) * amount;
-                        }
-                    }
-                }
-                return 0;
-            }).ToList();
-            if (remove != -1)
-            {
-                cart.Items.RemoveAt(cart.Items.FindIndex(i=> i.ProductId == id));
-            }
-            if (exist == false)//The product is not in the shopping cart
-            {
-                throw new ItemNotExistException();
-            }
-            return cart;
-        }
-        catch (IdNotExistException exc)
-        {
-            throw new DataErrorException(exc, "Data Error: ");
-        }
-    }
+    
 }
 

@@ -33,7 +33,7 @@
                 <TextBlock x:Name="NextStatus" Text="{Binding Item3}" Grid.Row="2" Grid.Column="1"></TextBlock>
                 <TextBlock Text="Process start time:" Grid.Row="3" Grid.Column="0"></TextBlock>
                 <TextBlock x:Name="ProcessStart" Text="{Binding Item4}" Grid.Row="3" Grid.Column="1"></TextBlock>
-                <TextBlock Text="Estimated time to complete:" Grid.Row="4" Grid.Column="0"></TextBlock>
+                <TextBlock Text="Estimated time to complete in seconds:" Grid.Row="4" Grid.Column="0"></TextBlock>
                 <TextBlock x:Name="EstimatedTime" Text="{Binding Item5}" Grid.Row="4" Grid.Column="1"></TextBlock>
             </Grid>
         </StackPanel>

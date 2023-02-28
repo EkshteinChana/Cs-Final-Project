@@ -7,6 +7,7 @@ public class DataErrorException : Exception
 {
     public DataErrorException(Exception inner,string m) : base(m, inner) { }
 }
+
 /// <summary>
 /// Exception for invalid values
 /// </summary>
@@ -16,6 +17,7 @@ public class InvalidValueException : Exception
     public InvalidValueException(string m) { msg = m;}
     public override string Message => $"Invalid {msg}";
 }
+
 /// <summary>
 /// Exception in case the desired amount is not in stock
 /// </summary>
