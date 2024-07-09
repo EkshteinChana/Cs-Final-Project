@@ -1,10 +1,10 @@
-### Store System:
+# Store System:
 
-# Development of a window application for managing a store. Customer and employee interface.
+### Development of a window application for managing a store. Customer and employee interface.
 
-# Project structure: 3 Tier architecture.
+### Project structure: 3 Tier architecture.
 
-# The project includes:
+## The project includes:
 
 1. Object Oriented Programming.
 
